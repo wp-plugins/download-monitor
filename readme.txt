@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: jolley_small
-Author URI: http://blue-anvil.com
+Author URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Plugin URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Tags: downloads, monitor, hits, download monitor, tracking, admin, count, counter
