@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: jolley_small
-Author URI: http://blue-anvil.com
+Author URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Plugin URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Tags: downloads, monitor, hits, download monitor, tracking, admin, count, counter
@@ -67,7 +67,6 @@ Admin hits are not counted, log out and try!
 == Screenshots ==
 
 1. Wordpress 2.3 admin screenshot
-the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
 2. Wordpress 2.5 admin screenshot
 
 == Usage ==
