@@ -67,7 +67,6 @@ Admin hits are not counted, log out and try!
 == Screenshots ==
 
 1. Wordpress 2.3 admin screenshot
-the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
 2. Wordpress 2.5 admin screenshot
 
 == Usage ==
