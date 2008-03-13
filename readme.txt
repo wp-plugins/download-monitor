@@ -6,7 +6,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: downloads, monitor, hits, download monitor, tracking, admin, count, counter
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.0
+Stable tag: 2.0.1
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 

@@ -4,7 +4,7 @@
 	// set table name	
 	$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 	$id=$_GET['id'];
-	if (isset($id) && is_numeric($id)) {
+	if (isset($id)) {
 		// set table name	
 		$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 		
