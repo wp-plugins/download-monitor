@@ -26,8 +26,8 @@ Description: Manage downloads on your site, view and show hits, and output in po
 
 
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/wp-download_monitor/"; 	//FIXED: 2 - get_settings depreciated
-$allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 									//FIXED: 1.6 - Added to store extentions
-$max_upload_size = 1024*1024; 														//FIXED: 1.6 - Added to store max_upload_size
+$allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 							//FIXED: 1.6 - Added to store extentions
+$max_upload_size = 10485760; //10mb													
 
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
 
@@ -262,16 +262,16 @@ function wp_dlm_ins($data) {
 									// Regular download link WITH filesize
 									//echo "-Link output-";
 									if (!empty($d->dlversion)) 				
-										$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).'</a>';
-									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).'</a>';									
+										$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size($d->filename).'</a>';
+									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size($d->filename).'</a>';			
 									$patts[] = "[download#" . $d->id . "#size]";
 									$subs[] = $link;
 								break;
 								case (7) :
 									// No hit counter + filesize
 									if (!empty($d->dlversion)) 
-									$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).')</a>';
-									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).')</a>';
+									$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size($d->filename).')</a>';
+									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size($d->filename).')</a>';
 									$patts[] = "[download#" . $d->id . "#size#nohits]";
 									$subs[] = $link;
 								break;
@@ -286,16 +286,22 @@ add_filter('the_content', 'wp_dlm_ins',1,1);
 add_filter('the_excerpt', 'wp_dlm_ins',1,1);
 
 // Formats file size
-function wp_dlm_get_size($size) {
-$bytes = array('B','KB','MB','GB','TB');
-  foreach($bytes as $val) {
-   if($size > 1024){
-    $size = $size / 1024;
-   }else{
-    break;
-   }
-  }
-  return round($size, 2)." ".$val;
+function wp_dlm_get_size($path) {
+	$path = str_replace(get_bloginfo('wpurl'),"./",$path);
+	if (file_exists($path)) {
+		$size = filesize($path);
+		if ($size) {
+		$bytes = array('bytes','KB','MB','GB','TB');
+		  foreach($bytes as $val) {
+		   if($size > 1024){
+			$size = $size / 1024;
+		   }else{
+			break;
+		   }
+		  }
+		  return round($size, 2)." ".$val;
+		}
+	}
 }
 	
 
@@ -349,6 +355,8 @@ function wp_dlm_admin()
 										//attempt to upload file
 										if ( empty($errors ) ) {
 
+													global $max_upload_size;
+													
 													$max_size = $max_upload_size; // the max. size for uploading
 														
 													$my_upload = new wp_dlm_file_upload;
@@ -418,6 +426,7 @@ function wp_dlm_admin()
 							if (!empty( $_POST['add_n'] ))
 							{
 									//ADD DOWNLOAD FORM	
+									global $max_upload_size;
 									$max_size = $max_upload_size; // the max. size for uploading
 
 								?>
@@ -539,14 +548,13 @@ function wp_dlm_admin()
 						if (empty( $_POST['dlfilename'] )) $errors.='<div class="error">'.__('Required field: <strong>File URL</strong> omitted',"wp-download_monitor").'</div>';						
 						if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;						
 						if (!is_numeric($_POST['dlhits'] )) $errors.='<div class="error">'.__('Invalid <strong>hits</strong> entered',"wp-download_monitor").'</div>';
-
 							
 						if (empty($errors)) {
-							
 								if (!empty($_FILES['upload']['tmp_name'])) {
-										
 										//user is replacing the file	
-										$max_size = 1024*1024; // the max. size for uploading
+										global $max_upload_size;
+										
+										$max_size = $max_upload_size; // the max. size for uploading
 											
 										$my_upload = new wp_dlm_file_upload;
 
@@ -586,10 +594,7 @@ function wp_dlm_admin()
 										$d = $wpdb->get_row($query_update_file);
 										$show=true;
 										echo '<div id="message" class="updated fade"><p><strong>'.__('Download edited Successfully',"wp-download_monitor").' - '.$info.'</strong></p></div>';
-
-								
 								} else {
-										
 										//not replacing file
 										$query_update = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s' WHERE id=%s;",
 											$wpdb->escape( $wp_dlm_db ),
@@ -601,12 +606,8 @@ function wp_dlm_admin()
 										$d = $wpdb->get_row($query_update);
 										$show=true;
 										echo '<div id="message" class="updated fade"><p><strong>'.__('Download edited Successfully',"wp-download_monitor").'</strong></p></div>';
-
 								}
-								
-						
 						} 
-						
 						if (!empty($errors)) {
 							echo $errors;
 							$title = $_POST['title'];
