@@ -29,7 +29,7 @@ $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/wp-download_monitor/";
 $allowed_extentions = array(".zip",".pdf",".mp3"); 									//FIXED: 1.6 - Added to store extentions
 $max_upload_size = 1024*1024; 														//FIXED: 1.6 - Added to store max_upload_size
 
-$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table - now lowercase for compatibility
+$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
 
 load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/wp-download_monitor/');
 																					
@@ -38,7 +38,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/wp-download_mo
 ################################################################################
 function wp_dlm_menu() { 	
 // Add submenus to the manage menu:
-	 add_management_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 6, __('Downloads','wp-download_monitor'), 'wp_dlm_admin');
+	 add_management_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 6,'Downloads', 'wp_dlm_admin');
 }
 add_action('admin_menu', 'wp_dlm_menu');
 
@@ -418,7 +418,7 @@ function wp_dlm_admin()
 												<th scope="row"><strong><?php _e('Select a file...',"wp-download_monitor"); ?></strong></th> 
 												<td>
 													<input type="file" name="upload" style="width:320px;" /><br />
-													<p>Max. filesize = <?php echo $max_size; ?> bytes.</p>
+													<p><?php _e('Max. filesize = ',"wp-download_monitor"); ?><?php echo $max_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>.</p>
 												</td>												
                                         </tr>
                                         <tr valign="top">												
@@ -854,9 +854,9 @@ function wp_dlm_admin()
                             <th scope="col"><?php _e('Custom URL',"wp-download_monitor"); ?>:</th>
                             <td><?php echo get_bloginfo('wpurl'); ?>/<input type="text" name="url" value="<?php echo $downloadurl; ?>" />            
                             <select name="type" style="width:150px;padding:2px !important;cursor:pointer;">
-                                    <option<?php if ($downloadtype=="ID") echo ' selected="selected" '; ?>><?php _e('ID',"wp-download_monitor"); ?></option>
-                                    <option<?php if ($downloadtype=="Title") echo ' selected="selected" '; ?>><?php _e('Title',"wp-download_monitor"); ?></option>
-                                    <option<?php if ($downloadtype=="Filename") echo ' selected="selected" '; ?>><?php _e('Filename',"wp-download_monitor"); ?></option>
+                                    <option<?php if ($downloadtype=="ID") echo ' selected="selected" '; ?> value="ID"><?php _e('ID',"wp-download_monitor"); ?></option>
+                                    <option<?php if ($downloadtype=="Title") echo ' selected="selected" '; ?> value="Title"><?php _e('Title',"wp-download_monitor"); ?></option>
+                                    <option<?php if ($downloadtype=="Filename") echo ' selected="selected" '; ?> value="Filename"><?php _e('Filename',"wp-download_monitor"); ?></option>
                             </select></td>
                         </tr>
                     </table>
@@ -1234,7 +1234,7 @@ class wp_dlm_file_upload {
 	function error_text($err_num) {
 
 		// start http errors
-		$error[0] = __('File',"wp-download_monitor").": <b>".$this->the_file."</b> successfully uploaded!";
+		$error[0] = __('File',"wp-download_monitor").": <b>".$this->the_file."</b> ".__('successfully uploaded!',"wp-download_monitor");
 		$error[1] = __("The uploaded file exceeds the max. upload filesize directive in the server configuration.","wp-download_monitor");
 		$error[2] = __("The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the html form.","wp-download_monitor");
 		$error[3] = __("The uploaded file was only partially uploaded","wp-download_monitor");
