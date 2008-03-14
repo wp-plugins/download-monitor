@@ -6,7 +6,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: downloads, monitor, hits, download monitor, tracking, admin, count, counter
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -64,6 +64,10 @@ It uses the same database; nothing in the database has changed. After your made 
 
 Admin hits are not counted, log out and try!
 
+= Can I upload files other than .zip and .rar? =
+
+Open the plugin file (wp-download_monitor.php) in a text/html editor. Near the top is a list of allowed extensions, just add yours in.
+
 == Screenshots ==
 
 1. Wordpress 2.3 admin screenshot
@@ -78,10 +82,16 @@ To show download links, use the following tags:
    3. URL only - [download#id#url]
    4. Hits only - [download#id#hits]
    5. Link with image - [download#id#image]
+   6. New - Link/hits/filesize - [download#id#size]
+   7. New - Link/filesize - [download#id#size#nohits]
    
 There are a few other template tags to use in your wordpress templates. Replace '$no' with the amount of downloads to show.
 
    1. Most downloaded - <?php wp_dlm_show_downloads(1,$no); ?>
    2. Most recent - <?php wp_dlm_show_downloads(2,$no); ?>
    3. Random - <?php wp_dlm_show_downloads(3,$no); ?>
+   
+Show all downloads:
+
+	Simply add the tag [#show_downloads] to a page.
 
