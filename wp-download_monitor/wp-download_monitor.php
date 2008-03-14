@@ -936,6 +936,8 @@ function wp_dlm_admin()
                     <li><strong>Most recent</strong> - <code>&lt;?php wp_dlm_show_downloads(2,$no); ?&gt;</code></li>
                     <li><strong>Random</strong> - <code>&lt;?php wp_dlm_show_downloads(3,$no); ?&gt;</code></li>
                 </ol>		',"wp-download_monitor"); ?>
+                <h4><?php _e('Show all downloads',"wp-download_monitor"); ?></h4>
+                <?php _e('<p>Simply add the tag <code>[#show_downloads]</code> to a page.</p>',"wp-download_monitor"); ?>
                 
             </div>
         </div>
@@ -1061,6 +1063,57 @@ function wp_dlm_show_downloads($mode,$no) {
 	}	
 	return;
 }
+function wp_dlm_all() {
+	//shows full download list
+	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db;
+	
+	$query = sprintf("SELECT * FROM %s ORDER BY postDate DESC;",
+			$wpdb->escape( $wp_dlm_db ));
+
+	if (!empty($query)) {
+	
+		$url = get_option('wp_dlm_url');
+		$downloadurl = get_bloginfo('wpurl').'/'.$url;	
+		if (empty($url)) $downloadurl = $wp_dlm_root.'download.php?id=';
+	
+		$dl = $wpdb->get_results($query);
+		
+		$downloadtype = get_option('wp_dlm_type');		
+	
+		if (!empty($dl)) {
+			$retval = '<ul class="downloadList">';
+			foreach($dl as $d) {
+				$date = date("jS F Y", strtotime($d->postDate));
+				switch ($downloadtype) {
+					case ("Title") :
+							$downloadlink = $d->title;
+					break;
+					case ("Filename") :
+							$downloadlink = $d->filename;
+							$links = explode("/",$downloadlink);
+							$downloadlink = end($links);
+					break;
+					default :
+							$downloadlink = $d->id;
+					break;
+				}
+				$retval .= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__('Version',"wp-download_monitor").' '.$d->dlversion.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.$date.'" >'.$d->title.' ('.$d->hits.')</a></li>';
+			}
+			$retval .='</ul>';
+		}
+	}	
+	return $retval;
+}
+################################################################################
+// SHOW ALL DOWNLOADS TAG
+################################################################################
+function wp_dlm_ins_all($data) {
+	//echo "-Test 1-";
+	if (substr_count($data,"[#show_downloads]")) {
+		return str_replace("[#show_downloads]",wp_dlm_all(), $data);
+	} else return $data;
+} 
+add_filter('the_content', 'wp_dlm_ins_all',1,1); 
 
 /*
 Easy PHP Upload - version 2.31
