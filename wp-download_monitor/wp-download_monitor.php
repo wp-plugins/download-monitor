@@ -54,6 +54,7 @@ function wp_dlm_head() {
 		// Include JQUERY where needed
 		if( strpos($_SERVER['REQUEST_URI'], 'post.php')
 		|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
+		|| $_GET['page']="Downloads"
 		|| strstr($_SERVER['PHP_SELF'], 'post-new.php') )
 		{
 			echo '<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>';
