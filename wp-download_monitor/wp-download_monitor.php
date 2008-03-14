@@ -870,8 +870,8 @@ function wp_dlm_admin()
                 <h4><?php _e('Adding a download',"wp-download_monitor"); ?></h4>
                 <?php _e('<p>Add a download by clicking the \'Add new Download\' or \'Add Existing Download\' button. You will then be shown the \'Add Download\' form. On this form:</p>
                 <ol>
-                    <li><strong>Either</strong> choose to upload your file from your hard disk (max 10MB) by using the \'Upload file\' input</br>
-                    <strong>OR</strong> enter the url of an already existing file in the \'Download URL\' input (e.g <code>http://www.blue-anvil.com/download.zip</code>).</li>
+                    <li>If using the <strong>\'add new download\'</strong> form, choose to upload your file from your hard disk by using the \'Select a file\' input</br>
+                    or if using the <strong>\'add existing download\'</strong> form enter the url of an already existing file in the \'URL\' input (e.g <code>http://www.blue-anvil.com/download.zip</code>).</li>
                     <li>Add a <strong>Title</strong> for your download, and optionally a <strong>version</strong>. This name will be used when displaying the download link.</li>
                 </ol>',"wp-download_monitor"); ?>
                 
