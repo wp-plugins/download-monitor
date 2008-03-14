@@ -51,7 +51,13 @@ function wp_dlm_head() {
 	// Provide css based on wordpress version. Version 2.3.3 and below:
 	if ($wp_db_version <= 6124) {
 		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/wp-download_monitor/css/wp-download_monitor.css" />';
-		echo '<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>';
+		// Include JQUERY where needed
+		if( strpos($_SERVER['REQUEST_URI'], 'post.php')
+		|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
+		|| strstr($_SERVER['PHP_SELF'], 'post-new.php') )
+		{
+			echo '<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>';
+		}
 	} else {
 		// 2.5 + with new interface
 		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/wp-download_monitor/css/wp-download_monitor25.css" />';
