@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.1 B20080313
+Version: v2.0.2 B20080314
 Author: <a href="http://www.blue-anvil.com/">Mike Jolley</a>
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -26,7 +26,7 @@ Description: Manage downloads on your site, view and show hits, and output in po
 
 
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/wp-download_monitor/"; 	//FIXED: 2 - get_settings depreciated
-$allowed_extentions = array(".zip",".pdf",".mp3"); 									//FIXED: 1.6 - Added to store extentions
+$allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 									//FIXED: 1.6 - Added to store extentions
 $max_upload_size = 1024*1024; 														//FIXED: 1.6 - Added to store max_upload_size
 
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
@@ -216,7 +216,7 @@ function wp_dlm_ins($data) {
 								break;
 						}
 						
-						for ( $i = 1; $i <= 5; $i += 1) {
+						for ( $i = 1; $i <= 7; $i += 1) {
 						
 							switch ($i) {
 								case (1) :
@@ -258,6 +258,23 @@ function wp_dlm_ins($data) {
 									$patts[] = "[download#" . $d->id . "#image]";
 									$subs[] = $link;
 								break;
+								case (6) :
+									// Regular download link WITH filesize
+									//echo "-Link output-";
+									if (!empty($d->dlversion)) 				
+										$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).'</a>';
+									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).'</a>';									
+									$patts[] = "[download#" . $d->id . "#size]";
+									$subs[] = $link;
+								break;
+								case (7) :
+									// No hit counter + filesize
+									if (!empty($d->dlversion)) 
+									$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).')</a>';
+									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size(filesize($downloadurl.$downloadlink)).')</a>';
+									$patts[] = "[download#" . $d->id . "#size#nohits]";
+									$subs[] = $link;
+								break;
 							}
 						}
 					} return str_replace($patts, $subs, $data);
@@ -267,6 +284,19 @@ function wp_dlm_ins($data) {
 } 
 add_filter('the_content', 'wp_dlm_ins',1,1); 
 add_filter('the_excerpt', 'wp_dlm_ins',1,1);
+
+// Formats file size
+function wp_dlm_get_size($size) {
+$bytes = array('B','KB','MB','GB','TB');
+  foreach($bytes as $val) {
+   if($size > 1024){
+    $size = $size / 1024;
+   }else{
+    break;
+   }
+  }
+  return round($size, 2)." ".$val;
+}
 	
 
 ################################################################################
@@ -888,6 +918,8 @@ function wp_dlm_admin()
                     <p style="display:block;text-align:center;margin-bottom:12px;" class="dlstat">Downloaded a total of 10 times</p>
                     To help style the text/image from this output, the image is wrapped in an anchor with class <code>dlimg</code>, and the stats below <code>dlstat</code>.
                     </li>
+					<li><strong>Link/hits/filesize</strong> - <code>[download#id#size]</code> <strong>Output example:</strong> <code><a href="download.php?id=1" title="Version 1 downloaded 10 times">Download title (10) - 2MB</a></code></li>
+					<li><strong>Link/filesize</strong> - <code>[download#id#size#nohits]</code> <strong>Output example:</strong> <code><a href="download.php?id=1" title="Version 1 downloaded 10 times">Download title (2MB)</a></code></li>
                 </ol>',"wp-download_monitor"); ?>
                 
                 <h4><?php _e('Additional template tags',"wp-download_monitor"); ?></h4>
