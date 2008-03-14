@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.2 B20080314
+Version: v2.0.3 B20080315
 Author: <a href="http://www.blue-anvil.com/">Mike Jolley</a>
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -54,7 +54,7 @@ function wp_dlm_head() {
 		// Include JQUERY where needed
 		if( strpos($_SERVER['REQUEST_URI'], 'post.php')
 		|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
-		|| $_GET['page']="Downloads"
+		|| $_GET['page']=="Downloads"
 		|| strstr($_SERVER['PHP_SELF'], 'post-new.php') )
 		{
 			echo '<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>';

@@ -6,7 +6,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: downloads, monitor, hits, download monitor, tracking, admin, count, counter
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -25,7 +25,7 @@ Features
     * Image display mode (show a link like the download link image on this page!)
     * Admin page for uploading/linking to downloads, and specifying information (title and version).
     * Records download hits.
-    * Does not count downloads by wordpress admin users.
+    * Does **not** count downloads by wordpress admin users.
     * Template tags for showing popular, recent, and random downloads in your web site's sidebar.
     * Post tags for outputting download links e.g [download#id]
     * Drop-down menu in non-rich text wordpress editor for adding links.
@@ -75,7 +75,7 @@ Open the plugin file (wp-download_monitor.php) in a text/html editor. Near the t
 
 == Usage ==
 
-To show download links, use the following tags:
+To **show download links**, use the following tags:
 
    1. Link/hits - [download#id]
    2. Link w/o hits - [download#id#nohits]
@@ -85,13 +85,13 @@ To show download links, use the following tags:
    6. New - Link/hits/filesize - [download#id#size]
    7. New - Link/filesize - [download#id#size#nohits]
    
-There are a few other template tags to use in your wordpress templates. Replace '$no' with the amount of downloads to show.
+There are a few other **template tags** to use in your wordpress templates. Replace '$no' with the amount of downloads to show.
 
-   1. Most downloaded - <?php wp_dlm_show_downloads(1,$no); ?>
-   2. Most recent - <?php wp_dlm_show_downloads(2,$no); ?>
-   3. Random - <?php wp_dlm_show_downloads(3,$no); ?>
+   1. Most downloaded - `<?php wp_dlm_show_downloads(1,$no); ?>`
+   2. Most recent - `<?php wp_dlm_show_downloads(2,$no); ?>`
+   3. Random - `<?php wp_dlm_show_downloads(3,$no); ?>`
    
-Show all downloads:
+**Show all downloads:**
 
 	Simply add the tag [#show_downloads] to a page.
 
