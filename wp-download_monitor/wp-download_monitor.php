@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.3 B20080315
+Version: v2.0.4 B20080325
 Author: <a href="http://www.blue-anvil.com/">Mike Jolley</a>
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -26,12 +26,26 @@ Description: Manage downloads on your site, view and show hits, and output in po
 
 
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/wp-download_monitor/"; 	//FIXED: 2 - get_settings depreciated
-$allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 							//FIXED: 1.6 - Added to store extentions
-$max_upload_size = 10485760; //10mb													
+$max_upload_size = 10485760; //10mb
+
+// $allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 
+// Get extensions
+$allowed_e = get_option('wp_dlm_extensions');
+if (empty(	$allowed_e	)) 	{
+	wp_dlm_init();
+	$allowed_e = get_option('wp_dlm_extensions');
+}
+// Put into array
+$allowed_extentions = explode(",",$allowed_e);
 
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
 
 load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/wp-download_monitor/');
+
+################################################################################
+// ACTIVATION
+################################################################################
+register_activation_hook( __FILE__, 'wp_dlm_init' );
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
@@ -74,6 +88,9 @@ function wp_dlm_init() {
 
 	add_option('wp_dlm_url', '', 'URL for download', 'no');	
 	add_option('wp_dlm_url', 'ID', 'wp_dlm_type', 'no');
+	
+	// Added options for extensions
+	add_option('wp_dlm_extensions', '.zip,.pdf,.mp3",.rar', '', 'no');
 	
  	global $wp_dlm_db,$wpdb;
 	
@@ -319,8 +336,6 @@ function wp_dlm_admin()
 {
 	//set globals
 	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db;
-	// create database		 
-	wp_dlm_init();
 
 	// turn off magic quotes
 	wp_dlm_magic();
@@ -719,7 +734,12 @@ function wp_dlm_admin()
 						$wpdb->escape( $_GET['id'] ));
 					$wpdb->query($query_delete);
 					echo '<div id="message" class="updated fade"><p><strong>'.__('Download deleted Successfully',"wp-download_monitor").'</strong></p></div>';
-					wp_dlm_init();
+					// Truncate table if empty
+					global $wp_dlm_db;
+					$q=$wpdb->get_results("select * from $wp_dlm_db;");
+					if ( empty( $q ) ) {
+						$wpdb->query("TRUNCATE table $wp_dlm_db");
+					}
 					$show=true;
 				break;
 				case "cancelled" :
@@ -752,6 +772,14 @@ function wp_dlm_admin()
 						<p>replacing "download/" with your previous custom url.</p>',"wp-download_monitor");
 					echo '</div>';
 					}
+					$show=true;
+				break;
+				case "saveex" :
+					$allowed = $_POST['extensions'];
+					update_option('wp_dlm_extensions', trim($allowed));	
+					echo '<div id="message"class="updated fade">';	
+						_e('<p>Allowed extensions updated</p>',"wp-download_monitor");			
+						echo '</div>';
 					$show=true;
 				break;
 		}
@@ -878,6 +906,22 @@ function wp_dlm_admin()
         </div>			
     </div>
     <div id="poststuff" class="dlm">
+        <div class="postbox close-me dlmbox">
+            <h3><?php _e('Allowed extensions',"wp-download_monitor"); ?></h3>
+            <div class="inside">
+            	<?php _e('<p>You can set the allowed uploaded file extensions here by entering a list of extensions separated by commas, e.g. <code>.zip,.rar</code></p>',"wp-download_monitor"); ?>
+                
+                <form action="?page=Downloads&amp;action=saveex" method="post">
+                    <table class="niceblue">
+                        <tr>
+                            <th scope="col"><?php _e('Extensions',"wp-download_monitor"); ?>:</th>
+                            <td><input type="text" value="<?php echo implode(",",$allowed_extentions); ?>" name="extensions" /></td>
+                        </tr>
+                    </table>
+                    <p class="submit"><input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" /></p>
+                </form>
+            </div>
+        </div>
         <div class="postbox close-me dlmbox">
             <h3><?php _e('Custom Download URL',"wp-download_monitor"); ?></h3>
             <div class="inside">

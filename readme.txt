@@ -3,10 +3,10 @@ Contributors: jolley_small
 Author URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Plugin URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
-Tags: downloads, monitor, hits, download monitor, tracking, admin, count, counter
+Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -66,7 +66,7 @@ Admin hits are not counted, log out and try!
 
 = Can I upload files other than .zip and .rar? =
 
-Open the plugin file (wp-download_monitor.php) in a text/html editor. Near the top is a list of allowed extensions, just add yours in.
+The admin interface now allows you to change extensions.
 
 == Screenshots ==
 
