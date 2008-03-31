@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.4 B20080325
+Version: v2.0.5 B20080331
 Author: <a href="http://www.blue-anvil.com/">Mike Jolley</a>
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -96,8 +96,14 @@ function wp_dlm_init() {
 	
     $wp_dlm_db_exists = false; 
 	// Check table exists
-	$res = mysql_query("show table status like '$wp_dlm_db'");
-	if ($res) $wp_dlm_db_exists = mysql_num_rows($res) == 1;
+	$tables = $wpdb->get_results("show tables;");
+	foreach ( $tables as $table )
+	{
+		foreach ( $table as $value )
+		{
+		  if ( $value == $wp_dlm_db ) $wp_dlm_db_exists = true;
+		}
+	}
 	
     if ( !$wp_dlm_db_exists )
     { 
@@ -150,8 +156,14 @@ function wp_dlm_ins_button() {
 	{
 		$wp_dlm_db_exists = false; 
 		// Check table exists
-		$res = mysql_query("show table status like '$wp_dlm_db'");
-		if ($res) $wp_dlm_db_exists = mysql_num_rows($res) == 1;
+		$tables = $wpdb->get_results("show tables;");
+		foreach ( $tables as $table )
+		{
+			foreach ( $table as $value )
+			{
+			  if ( $value == $wp_dlm_db ) $wp_dlm_db_exists = true;
+			}
+		}
 	
 		if ($wp_dlm_db_exists==true) {
       	
@@ -203,8 +215,14 @@ function wp_dlm_ins($data) {
 		$wp_dlm_db_exists = false;
           	
 		// Check table exists
-		$res = mysql_query("show table status like '$wp_dlm_db'");
-		if ($res) $wp_dlm_db_exists = mysql_num_rows($res) == 1;
+		$tables = $wpdb->get_results("show tables;");
+		foreach ( $tables as $table )
+		{
+			foreach ( $table as $value )
+			{
+			  if ( $value == $wp_dlm_db ) $wp_dlm_db_exists = true;
+			}
+		}
 
 		if ($wp_dlm_db_exists==true) {
 			//echo "-Table exists-";
@@ -751,7 +769,7 @@ function wp_dlm_admin()
 					update_option('wp_dlm_type', $_POST['type']);
 					if (!empty($url)) {
 						echo '<div id="message"class="updated fade">';	
-						_e('<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options -> Permalinks) for 
+						_e('<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for 
 						the changes to occur in your blog.</p>
 						<p>If your .htaccess file cannot be written to by WordPress, add the following to your 
 					.htaccess file above the "# BEGIN WordPress" line:</p>
@@ -762,7 +780,7 @@ function wp_dlm_admin()
 						echo '</div>';
 					} else {
 					echo '<div id="message"class="updated fade">';				
-						_e('<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options -> Permalinks) for 
+						_e('<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for 
 						the changes to occur in your blog.</p>
 						<p>If your .htaccess file cannot be written to by WordPress, remove the following from your 
 					.htaccess file if it exists above the "# BEGIN WordPress" line:</p>
