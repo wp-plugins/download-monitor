@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.5 B20080331
+Version: v2.0.6 B20080402
 Author: <a href="http://www.blue-anvil.com/">Mike Jolley</a>
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -24,7 +24,6 @@ Description: Manage downloads on your site, view and show hits, and output in po
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/wp-download_monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
@@ -41,11 +40,6 @@ $allowed_extentions = explode(",",$allowed_e);
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
 
 load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/wp-download_monitor/');
-
-################################################################################
-// ACTIVATION
-################################################################################
-register_activation_hook( __FILE__, 'wp_dlm_init' );
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
@@ -77,6 +71,9 @@ function wp_dlm_head() {
 		// 2.5 + with new interface
 		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/wp-download_monitor/css/wp-download_monitor25.css" />';
 	}
+	if ($_GET['activate'] && $_GET['activate']==true) {
+		wp_dlm_init();
+	}
 }
 add_action('admin_head', 'wp_dlm_head');
 
@@ -93,40 +90,35 @@ function wp_dlm_init() {
 	add_option('wp_dlm_extensions', '.zip,.pdf,.mp3",.rar', '', 'no');
 	
  	global $wp_dlm_db,$wpdb;
-	
-    $wp_dlm_db_exists = false; 
-	// Check table exists
-	$tables = $wpdb->get_results("show tables;");
-	foreach ( $tables as $table )
-	{
-		foreach ( $table as $value )
-		{
-		  if ( $value == $wp_dlm_db ) $wp_dlm_db_exists = true;
-		}
-	}
-	
-    if ( !$wp_dlm_db_exists )
-    { 
-		$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db." (				
-				`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
-				`title`   	VARCHAR (200) NOT NULL ,
-				`filename`  LONGTEXT  NOT NULL ,
-				`dlversion` VARCHAR (200) NOT NULL ,
-				`postDate`  DATETIME  NOT NULL ,
-				`hits`   	INT UNSIGNED NOT NULL ,
-				`user`   	VARCHAR (200) NOT NULL ,
-				PRIMARY KEY ( `id` )
-				)";
-        $result = $wpdb->query($sql);
-		if (!empty($result)) { 
-				echo '<div id="message" class="updated fade"><p><strong>';
-				_e('Tables created successfully','wp-download_monitor');
-				echo '</strong></p></div>'."\n";
-		}
-      }   
+
+	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db." (				
+			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+			`title`   	VARCHAR (200) NOT NULL ,
+			`filename`  LONGTEXT  NOT NULL ,
+			`dlversion` VARCHAR (200) NOT NULL ,
+			`postDate`  DATETIME  NOT NULL ,
+			`hits`   	INT UNSIGNED NOT NULL ,
+			`user`   	VARCHAR (200) NOT NULL ,
+			PRIMARY KEY ( `id` )
+			)";
+	$result = $wpdb->query($sql);
 	$q=$wpdb->get_results("select * from $wp_dlm_db;");
 	if ( empty( $q ) ) {
 		$wpdb->query("TRUNCATE table $wp_dlm_db");
+	} else {
+		// Check for old plugin url's and convert to new path
+		foreach($q as $download) {
+			$thisfile = $download->filename;
+			$newpath = str_replace("/wp-downloadMonitor/","/wp-download_monitor/",$thisfile);
+			if ($newpath!=$thisfile) {
+				// update download 
+				$query_update = sprintf("UPDATE %s SET filename='%s' WHERE id=%s;",
+					$wpdb->escape( $wp_dlm_db ),
+					$wpdb->escape( $newpath ),
+					$wpdb->escape( $download->id ));				
+				$d = $wpdb->get_row($query_update);
+			}
+		}		
 	}
   return;
 }
@@ -1406,5 +1398,77 @@ class wp_dlm_file_upload {
 
 		return $error[$err_num];
 	}
+}
+
+################################################################################
+// Dashboard widget - Based on "Dashboard: Draft Posts" by http://www.viper007bond.com/
+################################################################################
+// Only for wordpress 2.5 and above!
+if ($wp_db_version > 6124) {
+	class wp_dlm_dash {
+	
+		// Class initialization
+		function wp_dlm_dash() {
+			// Add to dashboard
+			add_action( 'wp_dashboard_setup', array(&$this, 'register_widget') );
+			add_filter( 'wp_dashboard_widgets', array(&$this, 'add_widget') );
+		}
+		// Register the widget for dashboard use
+		function register_widget() {
+			wp_register_sidebar_widget( 'download_monitor_dash', __( 'Downloads', 'wp-download_monitor' ), array(&$this, 'widget'), array( 'all_link' => 'edit.php?page=Downloads' ) );
+		}
+		// Insert into dashboard
+		function add_widget( $widgets ) {
+			global $wp_registered_widgets;
+			if ( !isset($wp_registered_widgets['download_monitor_dash']) ) return $widgets;
+			array_splice( $widgets, 2, 0, 'download_monitor_dash' );
+			return $widgets;
+		}
+		// Output the widget
+		function widget( $args ) {
+			extract( $args, EXTR_SKIP );
+			echo $before_widget;
+			echo $before_title;
+			echo $widget_name;
+			echo $after_title;
+			
+			global $wp_dlm_db,$wpdb;
+			
+			echo "<h4>Most Recent</h4>";
+			$query = sprintf("SELECT * FROM %s ORDER BY postDate DESC LIMIT 3;",
+			$wpdb->escape( $wp_dlm_db ));
+			
+			if (!empty($query)) {
+				$dl = $wpdb->get_results($query);
+				echo '<ul>';
+				if (!empty($dl)){
+					foreach($dl as $d) {
+						$date = date("jS M Y", strtotime($d->postDate));
+						echo '<li><strong>'.$d->title.'</strong> <em>'.__('Downloaded', 'wp-download_monitor' ).' <strong>'.$d->hits.'</strong> '.__('times since', 'wp-download_monitor' ).' '.$date.'</em></li>';
+					}
+				} else echo "<li>No downloads found</li>";
+				echo '</ul>';
+			}
+			
+			echo "<h4>Most Popular</h4>";
+			$query = sprintf("SELECT * FROM %s ORDER BY hits DESC LIMIT 3;",
+			$wpdb->escape( $wp_dlm_db ));
+			
+			if (!empty($query)) {
+				$dl = $wpdb->get_results($query);
+				echo '<ul>';
+				if (!empty($dl)){
+					foreach($dl as $d) {
+						$date = date("jS M Y", strtotime($d->postDate));
+						echo '<li><strong>'.$d->title.'</strong> <em>'.__('Downloaded', 'wp-download_monitor' ).' <strong>'.$d->hits.'</strong> '.__('times since', 'wp-download_monitor' ).' '.$date.'</em></li>';
+					}
+				} else echo "<li>No downloads found</li>";
+				echo '</ul>';
+			}
+	
+			echo $after_widget;
+		}
+	}
+	add_action( 'plugins_loaded', create_function( '', 'global $wp_dlm_dash; $wp_dlm_dash = new wp_dlm_dash();' ) );
 }
 ?>
