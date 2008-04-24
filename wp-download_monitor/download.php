@@ -4,12 +4,28 @@
 	// set table name	
 	$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 	$id=$_GET['id'];
-	if (isset($id)) {
+	//type of link
+	$downloadtype = get_option('wp_dlm_type');	
+	// Check passed data is safe
+	$go=false;
+	switch ($downloadtype) {
+		case ("Title") :
+			$id=urldecode($id);
+			$go=true;
+		break;
+		case ("Filename") :
+			//nothing
+			$go=true;
+		break;
+		default :
+			if (is_numeric($id) && $id>0) $go=true;
+		break;
+	}	
+	if (isset($id) && $go==true) {
 		// set table name	
 		$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 		
-		//type of link
-		$downloadtype = get_option('wp_dlm_type');	
+		
 		switch ($downloadtype) {
 					case ("Title") :
 							// select a download
@@ -29,7 +45,7 @@
 								mysql_real_escape_string( $wp_dlm_db ),
 								mysql_real_escape_string( $id ));
 					break;
-				}	
+		}	
 
 		$d = $wpdb->get_row($query_select_1);
 		if (!empty($d)) {

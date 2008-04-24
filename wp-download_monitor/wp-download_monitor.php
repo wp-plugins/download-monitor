@@ -2,8 +2,8 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.6 B20080402
-Author: <a href="http://www.blue-anvil.com/">Mike Jolley</a>
+Version: v2.0.7 B20080424
+Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
 
@@ -153,7 +153,7 @@ function wp_dlm_ins_button() {
 		{
 			foreach ( $table as $value )
 			{
-			  if ( $value == $wp_dlm_db ) $wp_dlm_db_exists = true;
+			  if ( strtolower($value) ==  strtolower($wp_dlm_db) ) $wp_dlm_db_exists = true;
 			}
 		}
 	
@@ -199,9 +199,9 @@ add_filter('admin_head', 'wp_dlm_ins_button');
 // INSERT LINK INTO POSTS
 ################################################################################
 function wp_dlm_ins($data) {
-	//echo "-Test 1-";
+
 	if (substr_count($data,"[download#")) {
-		//echo "-Test 2-";
+
       	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db;
 		
 		$wp_dlm_db_exists = false;
@@ -212,7 +212,7 @@ function wp_dlm_ins($data) {
 		{
 			foreach ( $table as $value )
 			{
-			  if ( $value == $wp_dlm_db ) $wp_dlm_db_exists = true;
+			  if ( strtolower($value) ==  strtolower($wp_dlm_db) ) $wp_dlm_db_exists = true;
 			}
 		}
 
@@ -238,7 +238,7 @@ function wp_dlm_ins($data) {
 					
 						switch ($downloadtype) {
 								case ("Title") :
-										$downloadlink = $d->title;
+										$downloadlink = urlencode($d->title);
 								break;
 								case ("Filename") :
 										$downloadlink = $d->filename;
