@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.7 B20080424
+Version: v2.0.8 B20080425
 Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -97,7 +97,7 @@ function wp_dlm_init() {
 			`filename`  LONGTEXT  NOT NULL ,
 			`dlversion` VARCHAR (200) NOT NULL ,
 			`postDate`  DATETIME  NOT NULL ,
-			`hits`   	INT UNSIGNED NOT NULL ,
+			`hits`   	INT (12) UNSIGNED NOT NULL ,
 			`user`   	VARCHAR (200) NOT NULL ,
 			PRIMARY KEY ( `id` )
 			)";
@@ -118,7 +118,20 @@ function wp_dlm_init() {
 					$wpdb->escape( $download->id ));				
 				$d = $wpdb->get_row($query_update);
 			}
-		}		
+		}
+		// do the same for new dir
+		foreach($q as $download) {
+			$thisfile = $download->filename;
+			$newpath = str_replace("plugins/wp-download_monitor/user_uploads/","uploads/",$thisfile);
+			if ($newpath!=$thisfile) {
+				// update download 
+				$query_update = sprintf("UPDATE %s SET filename='%s' WHERE id=%s;",
+					$wpdb->escape( $wp_dlm_db ),
+					$wpdb->escape( $newpath ),
+					$wpdb->escape( $download->id ));				
+				$d = $wpdb->get_row($query_update);
+			}
+		}
 	}
   return;
 }
@@ -393,7 +406,7 @@ function wp_dlm_admin()
 														
 													$my_upload = new wp_dlm_file_upload;
 
-													$my_upload->upload_dir = "../wp-content/plugins/wp-download_monitor/user_uploads/"; // "files" is the folder for the uploaded files (you have to create this folder)
+													$my_upload->upload_dir = "../wp-content/uploads/"; // the folder for the uploaded files (you may have to create this folder)
 													
 													$my_upload->extensions = $allowed_extentions; // specify the allowed extensions here
 													$my_upload->max_length_filename = 100; // change this value to fit your field length in your database (standard 100)
@@ -412,7 +425,7 @@ function wp_dlm_admin()
 													} 
 													else $errors = '<div class="error">'.$my_upload->show_error_string().'</div>';
 													
-													$filename = $wp_dlm_root."user_uploads/".$my_upload->file_copy;
+													$filename = get_bloginfo('wpurl')."/wp-content/uploads/".$my_upload->file_copy;
 													
 										}										
 									} 
@@ -590,7 +603,7 @@ function wp_dlm_admin()
 											
 										$my_upload = new wp_dlm_file_upload;
 
-										$my_upload->upload_dir = "../wp-content/plugins/wp-download_monitor/user_uploads/"; // "files" is the folder for the uploaded files (you have to create this folder)
+										$my_upload->upload_dir = "../wp-content/uploads/"; // "files" is the folder for the uploaded files (you have to create this folder)
 									
 										$my_upload->extensions = $allowed_extentions; // specify the allowed extensions here
 										$my_upload->max_length_filename = 100; // change this value to fit your field length in your database (standard 100)
@@ -608,7 +621,7 @@ function wp_dlm_admin()
 										} 
 										else $errors.= '<div class="error">'.$my_upload->show_error_string().'</div>';
 										
-										$filename = $wp_dlm_root."user_uploads/".$my_upload->file_copy;
+										$filename = get_bloginfo('wpurl')."/wp-content/uploads/".$my_upload->file_copy;
 										
 
 										// update download & file
@@ -730,13 +743,13 @@ function wp_dlm_admin()
 					//load values
 					$d = $wpdb->get_row($query_select_1);
 					$file = $d->filename;
-					if ( strstr ( $d->filename, "/wp-content/plugins/wp-download_monitor/user_uploads/" ) ) {
+					if ( strstr ( $d->filename, "/wp-content/uploads/" ) ) {
 						
-						$path = $wp_dlm_root."user_uploads/";
+						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace( $path , "" , $d->filename);
-						if(is_file('../wp-content/plugins/wp-download_monitor/user_uploads/'.$file)){
-								chmod('../wp-content/plugins/wp-download_monitor/user_uploads/'.$file, 0777);  
-								unlink('../wp-content/plugins/wp-download_monitor/user_uploads/'.$file);
+						if(is_file('../wp-content/uploads/'.$file)){
+								chmod('../wp-content/uploads/'.$file, 0777);  
+								unlink('../wp-content/uploads/'.$file);
 						 }					    
 					}
 					$query_delete = sprintf("DELETE FROM %s WHERE id=%s;",
@@ -863,7 +876,7 @@ function wp_dlm_admin()
 					foreach ( $download as $d ) {
 						$date = date("jS M Y", strtotime($d->postDate));
 						
-						$path = $wp_dlm_root."user_uploads/";
+						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace($path, "", $d->filename);
 						$links = explode("/",$file);
 						$file = end($links);
