@@ -6,7 +6,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.0.6
+Stable tag: 2.0.8
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -33,30 +33,34 @@ Features
 	
 == Installation ==
 
-First time installation instructions
+= First time installation instructions =
 
 Installation is fast and easy. The following steps will guide get you started:
 
    1. Unpack the *.zip file and extract the /wp-download-monitor/ folder and the files.
    2. Using an FTP program, upload the /wp-download-monitor/ folder to your WordPress plugins directory (Example: /wp-content/plugins).
-   3. In the directory, /wp-download-monitor/, using FTP or your server admin panel,
-      change the permission of the user_uploads directory to 777, or you will not be able to upload files.
+   3. In the wp-content directory, using FTP or your server admin panel,
+      you may need to change the permission or create the uploads directory to 777, or you will not be able to upload files.
    4. Open your WordPress Admin panel and go to the Plugins page (link on the
       top menu). Locate the "Wordpress Download Monitor" plugin and
       click on the "Activate" link.
    5. Once activated, go to the Manage > Downloads.
    6. That's it, you're done. You can now add downloads.
 
-Upgrade instructions
+= Upgrade instructions from v1.5/1.6 =
 
 Already using download monitor? This release has a new folder/file name so:
 
-   1. upload the new files to the plugin directory (due not put in old download monitor folder)
+   1. upload the new files to the plugin directory (do not put in old download monitor folder)
    2. Copy the contents of the old user_uploads folder into the new via ftp (and don't forget to set the permissions of the folder to 777)
    3. de-activate the old version
    4. Activate the new and your done.
 
 It uses the same database; nothing in the database has changed. After your made sure its working you can remove the old download monitor plugin directory.
+
+= Upgrade instructions from v2.0.6 =
+
+Due to the new wordpress update system, the upload directory can no longer be within the plugin folder; wordpress deletes it. Therefore the plugin directory is now the uploads folder in the wp-content folder. ENSURE YOU MOVE DOWNLOADS HERE BEFORE UPGRADING! The plugin will convert the urls to the new directory on activation.
 
 == Frequently Asked Questions ==
 
