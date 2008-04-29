@@ -6,7 +6,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.0.8
+Stable tag: 2.0.9
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -37,8 +37,8 @@ Features
 
 Installation is fast and easy. The following steps will guide get you started:
 
-   1. Unpack the *.zip file and extract the /wp-download-monitor/ folder and the files.
-   2. Using an FTP program, upload the /wp-download-monitor/ folder to your WordPress plugins directory (Example: /wp-content/plugins).
+   1. Unpack the *.zip file and extract the /download-monitor/ folder and the files.
+   2. Using an FTP program, upload the /download-monitor/ folder to your WordPress plugins directory (Example: /wp-content/plugins).
    3. In the wp-content directory, using FTP or your server admin panel,
       you may need to change the permission or create the uploads directory to 777, or you will not be able to upload files.
    4. Open your WordPress Admin panel and go to the Plugins page (link on the
