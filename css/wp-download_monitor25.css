@@ -1,0 +1,12 @@
+.widefat thead th a {
+	color:#d7d7d7 !important;
+	text-decoration:underline;
+}
+.error
+{
+	padding:12px;
+}
+.wrap.alternate {
+	margin-bottom:1.5em;
+	padding:0 0 0 8px;
+}
