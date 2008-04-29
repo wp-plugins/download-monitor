@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.8 B20080425
+Version: v2.0.9 B20080429
 Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -24,7 +24,8 @@ Description: Manage downloads on your site, view and show hits, and output in po
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-$wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/wp-download_monitor/"; 	//FIXED: 2 - get_settings depreciated
+$dlm_build="B20080429";
+$wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
 // $allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 
@@ -39,7 +40,33 @@ $allowed_extentions = explode(",",$allowed_e);
 
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
 
-load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/wp-download_monitor/');
+load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/');
+
+################################################################################
+// HANDLE UPDATES
+################################################################################
+
+function wp_dlm_update() {
+
+	global $dlm_build;
+
+	add_option('wp_dlm_build', $dlm_build, 'Version of DLM plugin', 'no');
+
+	if ( get_option('wp_dlm_build') != $dlm_build ) {
+	
+		// Init again
+		wp_dlm_init();
+
+		// Show update message
+		echo '<div id="message"class="updated fade">';				
+		_e('<p>The plugin has recently been updated - You may need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for the changes to occur in your blog.</p></div>',"wp-download_monitor");
+			
+		// Update the build
+		update_option('wp_dlm_build', $dlm_build);
+		
+	}
+	
+}
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
@@ -58,7 +85,7 @@ function wp_dlm_head() {
 	global $wp_db_version;
 	// Provide css based on wordpress version. Version 2.3.3 and below:
 	if ($wp_db_version <= 6124) {
-		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/wp-download_monitor/css/wp-download_monitor.css" />';
+		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/download-monitor/css/wp-download_monitor.css" />';
 		// Include JQUERY where needed
 		if( strpos($_SERVER['REQUEST_URI'], 'post.php')
 		|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
@@ -69,7 +96,7 @@ function wp_dlm_head() {
 		}
 	} else {
 		// 2.5 + with new interface
-		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/wp-download_monitor/css/wp-download_monitor25.css" />';
+		echo '<link rel="stylesheet" type="text/css" href="../wp-content/plugins/download-monitor/css/wp-download_monitor25.css" />';
 	}
 	if ($_GET['activate'] && $_GET['activate']==true) {
 		wp_dlm_init();
@@ -109,7 +136,7 @@ function wp_dlm_init() {
 		// Check for old plugin url's and convert to new path
 		foreach($q as $download) {
 			$thisfile = $download->filename;
-			$newpath = str_replace("/wp-downloadMonitor/","/wp-download_monitor/",$thisfile);
+			$newpath = str_replace("/wp-downloadMonitor/","/download-monitor/",$thisfile);
 			if ($newpath!=$thisfile) {
 				// update download 
 				$query_update = sprintf("UPDATE %s SET filename='%s' WHERE id=%s;",
@@ -123,11 +150,20 @@ function wp_dlm_init() {
 		foreach($q as $download) {
 			$thisfile = $download->filename;
 			$newpath = str_replace("plugins/wp-download_monitor/user_uploads/","uploads/",$thisfile);
+			$newpath2 = str_replace("plugins/download-monitor/user_uploads/","uploads/",$thisfile);
 			if ($newpath!=$thisfile) {
 				// update download 
 				$query_update = sprintf("UPDATE %s SET filename='%s' WHERE id=%s;",
 					$wpdb->escape( $wp_dlm_db ),
 					$wpdb->escape( $newpath ),
+					$wpdb->escape( $download->id ));				
+				$d = $wpdb->get_row($query_update);
+			}
+			if ($newpath2!=$thisfile) {
+				// update download 
+				$query_update = sprintf("UPDATE %s SET filename='%s' WHERE id=%s;",
+					$wpdb->escape( $wp_dlm_db ),
+					$wpdb->escape( $newpath2 ),
 					$wpdb->escape( $download->id ));				
 				$d = $wpdb->get_row($query_update);
 			}
@@ -298,9 +334,9 @@ function wp_dlm_ins($data) {
 								case (5) :	
 									// Image link
 									if (!empty($d->dlversion)) 				
-										$link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'"><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/wp-download_monitor/img/download.gif" alt="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'" /></a>
+										$link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'"><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/download-monitor/img/download.gif" alt="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'" /></a>
 									<p class="dlstat">'.__("Downloaded a total of","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'</p>';
-									else $link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.'"><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/wp-download_monitor/img/download.gif" alt="'.__("Download","wp-download_monitor").' '.$d->title.'" /></a>
+									else $link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.'"><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/download-monitor/img/download.gif" alt="'.__("Download","wp-download_monitor").' '.$d->title.'" /></a>
 									<p class="dlstat">'.__("Downloaded a total of","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'</p>';
 									$patts[] = "[download#" . $d->id . "#image]";
 									$subs[] = $link;
@@ -362,6 +398,8 @@ function wp_dlm_admin()
 
 	// turn off magic quotes
 	wp_dlm_magic();
+	
+	wp_dlm_update();
 	
 	// DEFINE QUERIES
 	
@@ -780,7 +818,7 @@ function wp_dlm_admin()
 					.htaccess file above the "# BEGIN WordPress" line:</p>
 						<p>Options +FollowSymLinks<br/>
 						RewriteEngine on<br/>
-						RewriteRule ^download/(.*) wp-content/plugins/wp-download_monitor/download.php?id=$1 [L]</p>
+						RewriteRule ^download/(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
 						<p>replacing "download/" with your custom url.</p>',"wp-download_monitor");			
 						echo '</div>';
 					} else {
@@ -791,7 +829,7 @@ function wp_dlm_admin()
 					.htaccess file if it exists above the "# BEGIN WordPress" line:</p>
 						<p>Options +FollowSymLinks<br/>
 						RewriteEngine on<br/>
-						RewriteRule ^download/(.*) wp-content/plugins/wp-download_monitor/download.php?id=$1 [L]</p>
+						RewriteRule ^download/(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
 						<p>replacing "download/" with your previous custom url.</p>',"wp-download_monitor");
 					echo '</div>';
 					}
@@ -888,7 +926,7 @@ function wp_dlm_admin()
 						<td>'.$date.'</td>
 						<td>'.$d->user.'</td>
 						<td style="text-align:center">'.$d->hits.'</td>
-						<td><a href="?page=Downloads&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/wp-download_monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=Downloads&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/wp-download_monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
+						<td><a href="?page=Downloads&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/download-monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=Downloads&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
 						
 					}
 					echo '</tbody>';
@@ -950,7 +988,7 @@ function wp_dlm_admin()
             <div class="inside">
             	<?php _e('<p>Set the url of the downloads, e.g. <code>download/</code>. In this example a download link would look like this: 
                         <code>http://yoursite.com/download/2</code>.</p>
-                        <p>Leave this option blank to use the default download path (<code>wp-content/plugins/wp-download_monitor/download.php?id=</code>)</p>
+                        <p>Leave this option blank to use the default download path (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>
                         <p>You can also choose how to link to the download in it\'s url, e.g. selecting "filename" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>.</p>',"wp-download_monitor"); ?>
                 
                 <form action="?page=Downloads&amp;action=saveurl" method="post">
@@ -989,7 +1027,7 @@ function wp_dlm_admin()
                     <li><strong>URL only</strong> - <code>[download#id#url]</code> <strong>Output example:</strong> <code>download.php?id=1</code></li>
                     <li><strong>Hits only</strong> - <code>[download#id#hits]</code> <strong>Output example:</strong> <code>10</code></li>
                     <li><strong>Image with download link and hits</strong> - <code>[download#id#image]</code> <strong>Output example:</strong><br />
-                    <a style="display:block;text-align:center;margin:0.5em;" class="dlimg" href="#" title="Download the File"><img src="../wp-content/plugins/wp-download_monitor/img/download.gif" alt="Download the File" /></a>
+                    <a style="display:block;text-align:center;margin:0.5em;" class="dlimg" href="#" title="Download the File"><img src="../wp-content/plugins/download-monitor/img/download.gif" alt="Download the File" /></a>
                     <p style="display:block;text-align:center;margin-bottom:12px;" class="dlstat">Downloaded a total of 10 times</p>
                     To help style the text/image from this output, the image is wrapped in an anchor with class <code>dlimg</code>, and the stats below <code>dlstat</code>.
                     </li>
@@ -1050,7 +1088,7 @@ function wp_dlm_rewrite($rewrite) {
 		$rule = ('
 Options +FollowSymLinks
 RewriteEngine on
-RewriteRule ^'.$url.'(.*) wp-content/plugins/wp-download_monitor/download.php?id=$1 [L]
+RewriteRule ^'.$url.'(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]
 ');
 		return $rule.$rewrite;	
 }
