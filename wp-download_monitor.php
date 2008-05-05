@@ -28,7 +28,6 @@ $dlm_build="B20080429";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
-// $allowed_extentions = array(".zip",".pdf",".mp3",".rar"); 
 // Get extensions
 $allowed_e = get_option('wp_dlm_extensions');
 if (empty(	$allowed_e	)) 	{
@@ -837,7 +836,18 @@ function wp_dlm_admin()
 				break;
 				case "saveex" :
 					$allowed = $_POST['extensions'];
-					update_option('wp_dlm_extensions', trim($allowed));	
+					$allowed_a=array();
+					$allow = array();
+					$allowed_a=explode(",",$allowed);
+					foreach ($allowed_a as $a) {
+						$a = trim($a);
+						$allow[] = $a;
+					}
+					$allowed = implode(",",$allow);
+					update_option('wp_dlm_extensions', $allowed);	
+					// Get extensions
+					$allowed_e = get_option('wp_dlm_extensions');
+					$allowed_extentions = explode(",",$allowed_e);
 					echo '<div id="message"class="updated fade">';	
 						_e('<p>Allowed extensions updated</p>',"wp-download_monitor");			
 						echo '</div>';
@@ -860,8 +870,8 @@ function wp_dlm_admin()
         <form action="?page=Downloads&amp;action=add" method="post" id="wp_dlm_add" name="add_download"> 		
             <div class="tablenav">
                 <div style="float: left;">
-                    <input type="submit" class="button" name="add_n" value="<?php _e('Add New Download',"wp-download_monitor"); ?>" />
-                    <input type="submit" class="button" name="add_e" value="<?php _e('Add Existing Download',"wp-download_monitor"); ?>" />
+                    <input type="submit" class="button-secondary" name="add_n" value="<?php _e('Add New Download',"wp-download_monitor"); ?>" />
+                    <input type="submit" class="button-secondary" name="add_e" value="<?php _e('Add Existing Download',"wp-download_monitor"); ?>" />
                 </div> 
                 <br style="clear: both;"/>
             </div>
@@ -933,7 +943,6 @@ function wp_dlm_admin()
 				} else echo '<tr><th colspan="8">'.__('No downloads added yet.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
 		?>			
 		</table>
-        <br style="clear: both;"/>
         <div class="tablenav">
         	<div style="float:left">
 				<?php
