@@ -1494,7 +1494,7 @@ if ($wp_db_version > 6124) {
 			
 			global $wp_dlm_db,$wpdb;
 			
-			echo "<h4>Most Recent</h4>";
+			echo "<h4>".__('Most Recent',"wp-download_monitor")."</h4>";
 			$query = sprintf("SELECT * FROM %s ORDER BY postDate DESC LIMIT 3;",
 			$wpdb->escape( $wp_dlm_db ));
 			
@@ -1506,11 +1506,11 @@ if ($wp_db_version > 6124) {
 						$date = date("jS M Y", strtotime($d->postDate));
 						echo '<li><strong>'.$d->title.'</strong> <em>'.__('Downloaded', 'wp-download_monitor' ).' <strong>'.$d->hits.'</strong> '.__('times since', 'wp-download_monitor' ).' '.$date.'</em></li>';
 					}
-				} else echo "<li>No downloads found</li>";
+				} else echo "<li>".__('No downloads found',"wp-download_monitor")."</li>";
 				echo '</ul>';
 			}
 			
-			echo "<h4>Most Popular</h4>";
+			echo "<h4>".__('Most Popular',"wp-download_monitor")."</h4>";
 			$query = sprintf("SELECT * FROM %s ORDER BY hits DESC LIMIT 3;",
 			$wpdb->escape( $wp_dlm_db ));
 			
@@ -1522,7 +1522,7 @@ if ($wp_db_version > 6124) {
 						$date = date("jS M Y", strtotime($d->postDate));
 						echo '<li><strong>'.$d->title.'</strong> <em>'.__('Downloaded', 'wp-download_monitor' ).' <strong>'.$d->hits.'</strong> '.__('times since', 'wp-download_monitor' ).' '.$date.'</em></li>';
 					}
-				} else echo "<li>No downloads found</li>";
+				} else echo "<li>".__('No downloads found',"wp-download_monitor")."</li>";
 				echo '</ul>';
 			}
 	
