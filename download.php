@@ -35,7 +35,8 @@
 					break;
 					case ("Filename") :
 							// select a download
-							$query_select_1 = sprintf("SELECT * FROM %s WHERE filename LIKE '%s' LIMIT 1;",
+							//$query_select_1 = sprintf("SELECT * FROM %s WHERE filename LIKE '%s' LIMIT 1;",
+							$query_select_1 = sprintf("SELECT * FROM %s WHERE filename LIKE '%s' ORDER BY LENGTH(filename) ASC LIMIT 1;",
 								mysql_real_escape_string( $wp_dlm_db ),
 								mysql_real_escape_string( "%".$id ));
 					break;
@@ -49,12 +50,19 @@
 
 		$d = $wpdb->get_row($query_select_1);
 		if (!empty($d)) {
-		
+				
 				// FIXED:1.6 - Admin downloads don't count
 				if (isset($user_ID)) {
 					$user_info = get_userdata($user_ID);
 					$level = $user_info->user_level;
 				}
+				
+				// Check permissions
+				if ($d->members && ($level==0 || !isset($user_ID))) {
+					echo "You must be logged in to download this file";
+					exit();
+				}
+				
 				if ($level!=10) {
 					$hits = $d->hits;
 					$hits++;

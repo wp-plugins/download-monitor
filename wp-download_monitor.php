@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.0.9 B20080429
+Version: v2.1.0 B20080615
 Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -24,7 +24,7 @@ Description: Manage downloads on your site, view and show hits, and output in po
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-$dlm_build="B20080429";
+$dlm_build="B20080615";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
@@ -38,6 +38,7 @@ if (empty(	$allowed_e	)) 	{
 $allowed_extentions = explode(",",$allowed_e);
 
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";											//FIXED: 2 - Defining db table
+$wp_dlm_db_cats = $table_prefix."DLM_CATS";	
 
 load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/');
 
@@ -89,7 +90,8 @@ function wp_dlm_head() {
 		if( strpos($_SERVER['REQUEST_URI'], 'post.php')
 		|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
 		|| $_GET['page']=="Downloads"
-		|| strstr($_SERVER['PHP_SELF'], 'post-new.php') )
+		|| strstr($_SERVER['PHP_SELF'], 'post-new.php')
+		|| strstr($_SERVER['PHP_SELF'], 'page.php') )
 		{
 			echo '<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>';
 		}
@@ -114,8 +116,8 @@ function wp_dlm_init() {
 	
 	// Added options for extensions
 	add_option('wp_dlm_extensions', '.zip,.pdf,.mp3",.rar', '', 'no');
-	
- 	global $wp_dlm_db,$wpdb;
+		
+ 	global $wp_dlm_db,$wp_dlm_db_cats,$wpdb;
 
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db." (				
 			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
@@ -128,6 +130,19 @@ function wp_dlm_init() {
 			PRIMARY KEY ( `id` )
 			)";
 	$result = $wpdb->query($sql);
+	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_cats." (				
+			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
+			`name`   	LONGTEXT  NOT NULL ,
+			`parent`  	INT (12) UNSIGNED NOT NULL,
+			PRIMARY KEY ( `id` )
+			)";
+	$result = $wpdb->query($sql);
+	// ADD ROW FOR MEMBER ONLY DOWNLOADS
+	$sql = "ALTER TABLE ".$wp_dlm_db." ADD `members` INT (1) NULL;";
+	$result = @$wpdb->query($sql);
+	// ADD ROW FOR CATEGORY
+	$sql = "ALTER TABLE ".$wp_dlm_db." ADD `category_id` INT (12) NULL;";
+	$result = @$wpdb->query($sql);
 	$q=$wpdb->get_results("select * from $wp_dlm_db;");
 	if ( empty( $q ) ) {
 		$wpdb->query("TRUNCATE table $wp_dlm_db");
@@ -192,6 +207,7 @@ function wp_dlm_ins_button() {
   	
   	if( strpos($_SERVER['REQUEST_URI'], 'post.php')
 	|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
+	|| strstr($_SERVER['PHP_SELF'], 'page.php')
 	|| strstr($_SERVER['PHP_SELF'], 'post-new.php') )
 	{
 		$wp_dlm_db_exists = false; 
@@ -393,7 +409,7 @@ function wp_dlm_get_size($path) {
 function wp_dlm_admin()
 {
 	//set globals
-	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db;
+	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db,$wp_dlm_db_cats;
 
 	// turn off magic quotes
 	wp_dlm_magic();
@@ -427,6 +443,7 @@ function wp_dlm_admin()
 									$dlhits = htmlspecialchars(trim($_POST['dlhits']));
 									$postDate = $_POST['postDate'];
 									$user = $_POST['user'];
+									$members = (isset($_POST['memberonly'])) ? 1 : 0;
 									
 									//validate fields
 									if (empty( $_POST['title'] )) $errors.=__('<div class="error">Required field: <strong>Title</strong> omitted</div>',"wp-download_monitor");
@@ -481,14 +498,15 @@ function wp_dlm_admin()
 												$wpdb->query($query_del);
 										} 
 										
-										$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user) VALUES ('%s','%s','%s','%s','%s','%s')",
+										$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members) VALUES ('%s','%s','%s','%s','%s','%s','%s')",
 										$wpdb->escape( $wp_dlm_db ),
 										$wpdb->escape( $_POST['title'] ),
 										$wpdb->escape( $filename ),
 										mysql_real_escape_string( $_POST['dlversion'] ),
 										$wpdb->escape( $_POST['postDate'] ),
 										mysql_real_escape_string( $_POST['dlhits'] ),
-										$wpdb->escape( $_POST['user'] ));										
+										$wpdb->escape( $_POST['user'] ),
+										$wpdb->escape( $members ));										
 											
 										$result = $wpdb->query($query_add);
 										if ($result) {
@@ -517,19 +535,19 @@ function wp_dlm_admin()
 								<form enctype="multipart/form-data" action="?page=Downloads&amp;action=add&amp;method=upload" method="post" id="wp_dlm_add" name="add_download"> 
                                     <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $max_size; ?>" />
                                     <table class="optiontable niceblue"> 
-                                        <tr valign="top">
+                                        <tr valign="middle">
                                             <th scope="row"><strong><?php _e('Title (required)',"wp-download_monitor"); ?>: </strong></th> 
                                             <td>
                                                 <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $title; ?>" name="title" id="dltitle" maxlength="200" />												
                                             </td> 
                                         </tr>
-                                        <tr valign="top">
+                                        <tr valign="middle">
                                             <th scope="row"><strong><?php _e('Version',"wp-download_monitor"); ?>: </strong></th> 
                                             <td>
                                                 <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $dlversion; ?>" name="dlversion" id="dlversion" />
                                             </td> 
                                         </tr>
-                                        <tr valign="top">
+                                        <tr valign="middle">
                                             <th scope="row"><strong><?php _e('Starting hits',"wp-download_monitor");?>: </strong></th> 
                                             <td>
                                                 <input type="text" style="width:100px;" class="cleardefault" value="<?php if ($dlhits>0) echo $dlhits; else echo 0; ?>" name="dlhits" id="dlhits" maxlength="50" />
@@ -548,6 +566,12 @@ function wp_dlm_admin()
                                             <?php _e('<p>Replacing the file will <strong>delete all current stats</strong> 
                                             for the currently uploaded file. If you wish to keep existing stats, go to the
                                             files Edit page instead and re-upload there.</p>',"wp-download_monitor"); ?>
+                                            </td>
+                                        </tr>  
+                                        <tr valign="top">												
+                                            <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
+                                            <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br />
+                                            <?php _e('<p>If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.</p>',"wp-download_monitor"); ?>
                                             </td>
                                         </tr>  
                                     </table>
@@ -597,6 +621,12 @@ function wp_dlm_admin()
                                                 <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $filename; ?>" name="filename" id="filename" />
                                             </td> 
                                         </tr>
+                                        <tr valign="top">												
+                                            <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
+                                            <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br />
+                                            <?php _e('<p>If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.</p>',"wp-download_monitor"); ?>
+                                            </td>
+                                        </tr>  
                                     </table>
 									<p class="submit"><input type="submit" class="btn" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save',"wp-download_monitor"); ?>" /></p>
 									<input type="hidden" name="postDate" value="<?php echo date("Y-m-d H:i:s") ;?>" />
@@ -630,6 +660,7 @@ function wp_dlm_admin()
 						if (empty( $_POST['dlfilename'] )) $errors.='<div class="error">'.__('Required field: <strong>File URL</strong> omitted',"wp-download_monitor").'</div>';						
 						if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;						
 						if (!is_numeric($_POST['dlhits'] )) $errors.='<div class="error">'.__('Invalid <strong>hits</strong> entered',"wp-download_monitor").'</div>';
+						$members = (isset($_POST['memberonly'])) ? 1 : 0;
 							
 						if (empty($errors)) {
 								if (!empty($_FILES['upload']['tmp_name'])) {
@@ -659,10 +690,9 @@ function wp_dlm_admin()
 										else $errors.= '<div class="error">'.$my_upload->show_error_string().'</div>';
 										
 										$filename = get_bloginfo('wpurl')."/wp-content/uploads/".$my_upload->file_copy;
-										
 
 										// update download & file
-										$query_update_file = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s', postDate='%s', user='%s' WHERE id=%s;",
+										$query_update_file = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s', postDate='%s', user='%s',members='%s' WHERE id=%s;",
 											$wpdb->escape( $wp_dlm_db ),
 											$wpdb->escape( $_POST['title'] ),
 											mysql_real_escape_string( $_POST['dlversion'] ),
@@ -670,6 +700,7 @@ function wp_dlm_admin()
 											$wpdb->escape( $filename ),
 											$wpdb->escape( $_POST['postDate'] ),
 											$wpdb->escape( $_POST['user'] ),
+											$wpdb->escape( $members ),
 											$wpdb->escape( $_GET['id'] ));
 		
 										//replacing file
@@ -678,12 +709,13 @@ function wp_dlm_admin()
 										echo '<div id="message" class="updated fade"><p><strong>'.__('Download edited Successfully',"wp-download_monitor").' - '.$info.'</strong></p></div>';
 								} else {
 										//not replacing file
-										$query_update = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s' WHERE id=%s;",
+										$query_update = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s',members='%s' WHERE id=%s;",
 											$wpdb->escape( $wp_dlm_db ),
 											$wpdb->escape( $_POST['title'] ),
 											mysql_real_escape_string( $_POST['dlversion'] ),
 											mysql_real_escape_string( $_POST['dlhits'] ),
 											$wpdb->escape( $_POST['dlfilename'] ),
+											$wpdb->escape( $members ),
 											$wpdb->escape( $_GET['id'] ));
 										$d = $wpdb->get_row($query_update);
 										$show=true;
@@ -696,6 +728,7 @@ function wp_dlm_admin()
 							$dlversion = $_POST['dlversion'];
 							$dlhits = $_POST['dlhits'];
 							$dlfilename =$_POST['dlfilename'];
+							$members = (isset($_POST['memberonly'])) ? 1 : 0;
 						}
 					}
 					else 
@@ -707,6 +740,7 @@ function wp_dlm_admin()
 						$dlhits = $d->hits;
 						$dlfilename = $d->filename;
 						if (empty( $dlhits )) $dlhits = 0;
+						$members = $d->members;
 					}	
 
 					if ($show==false) {
@@ -734,6 +768,12 @@ function wp_dlm_admin()
 													<input type="text" style="width:100px;" class="cleardefault" value="<?php echo $dlhits; ?>" name="dlhits" id="dlhits" maxlength="50" />
 												</td> 
 											</tr>
+                                            <tr valign="top">												
+                                                <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
+                                                <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br />
+                                                <?php _e('<p>If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.</p>',"wp-download_monitor"); ?>
+                                                </td>
+                                            </tr> 
 											<tr valign="top">
 												<th scope="row"><strong><?php _e('File URL (required)',"wp-download_monitor"); ?>: </strong></th> 
 												<td>
@@ -853,6 +893,70 @@ function wp_dlm_admin()
 						echo '</div>';
 					$show=true;
 				break;
+				case "categories" :
+					$name = $_POST['cat_name'];
+					if (!empty($name)) {
+						$parent = $_POST['cat_parent'];
+						if (!$parent) $parent=0;
+						$query_ins = sprintf("INSERT INTO %s (name, parent) VALUES ('%s','%s')",
+							$wpdb->escape( $wp_dlm_db_cats ),
+							$wpdb->escape( $name ),
+							$wpdb->escape( $parent ));
+						$wpdb->query($query_ins);
+						echo '<div id="message" class="updated fade"><p><strong>'.__('Category added',"wp-download_monitor").'</strong></p></div>';
+						$ins_cat=true;
+					}
+					$show=true;
+				break;
+				case "deletecat" :
+					$id = $_GET['id'];
+					// Get 'em
+					$delete_cats=array();
+					$delete_cats[]=$id;
+					// Sub cats
+					function dlm_get_cats($delete_cats) {
+						global $wpdb, $wp_dlm_db_cats;
+						$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+							$wpdb->escape( $wp_dlm_db_cats ),
+							$wpdb->escape( implode(",",$delete_cats) ));
+						$res = $wpdb->get_results($query);
+						$b=sizeof($delete_cats);
+						if ($res) {
+							foreach($res as $r) {
+								if (!in_array($r->id,$delete_cats)) $delete_cats[]=$r->id;
+							}
+						}
+						$a=sizeof($delete_cats);
+						while ($b!=$a) {
+							$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+								$wpdb->escape( $wp_dlm_db_cats ),
+								$wpdb->escape( implode(",",$delete_cats) ));
+							$res = $wpdb->get_results($query);
+							$b=sizeof($delete_cats);
+							if ($res) {
+								foreach($res as $r) {
+									if (!in_array($r->id,$delete_cats)) $delete_cats[]=$r->id;
+								}
+							}
+							$a=sizeof($delete_cats);
+						} 
+						return $delete_cats;
+					}
+					$delete_cats = dlm_get_cats($delete_cats);
+					// Delete
+					$query_delete = sprintf("DELETE FROM %s WHERE id IN (%s);",
+						$wpdb->escape( $wp_dlm_db_cats ),
+						$wpdb->escape( implode(",",$delete_cats) ));
+					$wpdb->query($query_delete);
+					// Remove from downloads
+					$query_update = sprintf("UPDATE %s SET category_id='N/A' WHERE category_id IN (%s);",
+						$wpdb->escape( $wp_dlm_db ),
+						$wpdb->escape( implode(",",$delete_cats) ));		
+					$d = $wpdb->get_row($query_update);
+					echo '<div id="message" class="updated fade"><p><strong>'.__('Category deleted Successfully',"wp-download_monitor").'</strong></p></div>';
+					$ins_cat=true;
+					$show=true;
+				break;
 		}
 	}
 	//show downloads page
@@ -883,9 +987,10 @@ function wp_dlm_admin()
 				<th scope="col" style="text-align:center"><a href="?page=Downloads&amp;sort=id"><?php _e('ID',"wp-download_monitor"); ?></a></th>
 				<th scope="col"><a href="?page=Downloads&amp;sort=title"><?php _e('Title',"wp-download_monitor"); ?></a></th>
 				<th scope="col"><a href="?page=Downloads&amp;sort=filename"><?php _e('File',"wp-download_monitor"); ?></a></th>
+                <th scope="col" style="text-align:center"><?php _e('Category',"wp-download_monitor"); ?></th>
 				<th scope="col" style="text-align:center"><?php _e('Version',"wp-download_monitor"); ?></th>
-				<th scope="col"><a href="?page=Downloads&amp;sort=postDate"><?php _e('Posted on',"wp-download_monitor"); ?></a></th>
-				<th scope="col"><?php _e('Posted by',"wp-download_monitor"); ?></th>
+                <th scope="col" style="text-align:center"><?php _e('Members only',"wp-download_monitor"); ?></th>
+				<th scope="col"><a href="?page=Downloads&amp;sort=postDate"><?php _e('Posted',"wp-download_monitor"); ?></a></th>
 				<th scope="col" style="text-align:center"><?php _e('Hits',"wp-download_monitor"); ?></th>
 				<th scope="col"><?php _e('Action',"wp-download_monitor"); ?></th>
 				</tr>
@@ -932,15 +1037,18 @@ function wp_dlm_admin()
 						echo '<td style="text-align:center">'.$d->id.'</td>
 						<td>'.$d->title.'</td>
 						<td>'.$file.'</td>
+						<td style="text-align:center">N/A</td>
 						<td style="text-align:center">'.$d->dlversion.'</td>
-						<td>'.$date.'</td>
-						<td>'.$d->user.'</td>
+						<td style="text-align:center">';
+						if ($d->members) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
+						echo '</td>
+						<td>'.$date.' by '.$d->user.'</td>
 						<td style="text-align:center">'.$d->hits.'</td>
 						<td><a href="?page=Downloads&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/download-monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=Downloads&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
 						
 					}
 					echo '</tbody>';
-				} else echo '<tr><th colspan="8">'.__('No downloads added yet.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
+				} else echo '<tr><th colspan="10">'.__('No downloads added yet.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
 		?>			
 		</table>
         <div class="tablenav">
@@ -976,6 +1084,94 @@ function wp_dlm_admin()
         </div>			
     </div>
     <div id="poststuff" class="dlm">
+        <div class="postbox <?php if (!$ins_cat) echo 'close-me';?> dlmbox">
+            <h3><?php _e('Download Categories',"wp-download_monitor"); ?></h3>
+            <div class="inside">
+            	<?php _e('<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see instructions box below). Please note, deleting a category also deletes it\'s child categories.</p>',"wp-download_monitor"); ?>
+                
+                <form action="?page=Downloads&amp;action=categories" method="post">
+                    <table class="widefat"> 
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align:center"><?php _e('ID',"wp-download_monitor"); ?></th>
+                                <th scope="col">Name</th>
+                                <th scope="col" style="text-align:center"><?php _e('Action',"wp-download_monitor"); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody id="the-list">
+                        	<?php
+								function get_children_cats($parent,$chain) {
+									global $wp_dlm_db_cats,$wpdb;
+									$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
+										$wpdb->escape( $wp_dlm_db_cats ),
+										$wpdb->escape( $parent ));	
+									$scats = $wpdb->get_results($sql);
+									if (!empty($scats)) {
+										foreach ( $scats as $c ) {
+											echo '<tr><td style="text-align:center">'.$c->id.'</td><td>'.$chain.''.$c->name.'</td><td style="text-align:center"><a href="?page=Downloads&amp;action=deletecat&amp;id='.$c->id.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
+											get_children_cats($c->id, "$chain$c->name &mdash; ");
+										}
+									}
+									return;
+								}
+								
+								$query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+									$wpdb->escape( $wp_dlm_db_cats ));	
+								$cats = $wpdb->get_results($query_select_cats);
+			
+								if (!empty($cats)) {
+									foreach ( $cats as $c ) {
+										echo '<tr><td style="text-align:center">'.$c->id.'</td><td>'.$c->name.'</td><td style="text-align:center"><a href="?page=Downloads&amp;action=deletecat&amp;id='.$c->id.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
+										get_children_cats($c->id, "$c->name &mdash; ");
+									}
+								} else {
+									echo '<tr><td colspan="3">No categories exist</td></tr>';
+								}
+							?>
+                        </tbody>
+                    </table>
+                	<h4>Add Category</h4>
+                    <table class="niceblue">
+                        <tr>
+                            <th scope="col"><?php _e('Name',"wp-download_monitor"); ?>:</th>
+                            <td><input type="text" name="cat_name" /></td>
+                        </tr>
+                        <tr>
+                            <th scope="col"><?php _e('Parent',"wp-download_monitor"); ?>:</th>
+                            <td><select name="cat_parent">
+                            	<option value="">None</option>
+                                <?php
+									function get_option_children_cats($parent,$chain) {
+										global $wp_dlm_db_cats,$wpdb;
+										$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
+											$wpdb->escape( $wp_dlm_db_cats ),
+											$wpdb->escape( $parent ));	
+										$scats = $wpdb->get_results($sql);
+										if (!empty($scats)) {
+											foreach ( $scats as $c ) {
+												echo '<option value="'.$c->id.'">'.$chain.$c->name.'</option>';
+												get_option_children_cats($c->id, "$chain$c->name &mdash; ");
+											}
+										}
+										return;
+									}
+									if (!empty($cats)) {
+										foreach ( $cats as $c ) {
+											echo '<option value="'.$c->id.'">'.$c->name.'</option>';
+											get_option_children_cats($c->id, "$c->name &mdash; ");
+										}
+									} 
+								?>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">&nbsp;</th>
+                            <td><input type="submit" value="<?php _e('Add',"wp-download_monitor"); ?>" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
         <div class="postbox close-me dlmbox">
             <h3><?php _e('Allowed extensions',"wp-download_monitor"); ?></h3>
             <div class="inside">
@@ -1075,7 +1271,8 @@ function wp_dlm_admin()
     <script type="text/javascript">
 		<!--
 		jQuery('.postbox h3').prepend('<a class="togbox">+</a> ');
-		jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); } );
+		//jQuery('.togbox').click( function() { jQuery(jQuery(this).parent().parent().get(0)).toggleClass('closed'); } );
+		jQuery('.postbox h3').click( function() { jQuery(jQuery(this).parent().get(0)).toggleClass('closed'); } );
 		jQuery('.postbox.close-me').each(function(){
 			jQuery(this).addClass("closed");
 		});
@@ -1249,7 +1446,6 @@ ______________________________________________________________________
 available at http://www.finalwebsites.com/snippets.php
 Comments & suggestions: http://www.webdigity.com/index.php/board,73.0.html,ref.olaf
 */
- 
 class wp_dlm_file_upload {
 
     var $the_file;
