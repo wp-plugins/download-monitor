@@ -416,6 +416,24 @@ function wp_dlm_admin()
 	
 	wp_dlm_update();
 	
+	// Function used later to output categories
+	function get_option_children_cats($parent,$chain,$current) {
+		global $wp_dlm_db_cats,$wpdb;
+		$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
+			$wpdb->escape( $wp_dlm_db_cats ),
+			$wpdb->escape( $parent ));	
+		$scats = $wpdb->get_results($sql);
+		if (!empty($scats)) {
+			foreach ( $scats as $c ) {
+				echo '<option ';
+				if ($current==$c->id) echo 'selected="selected"';
+				echo 'value="'.$c->id.'">'.$c->id.' - '.$chain.$c->name.'</option>';
+				get_option_children_cats($c->id, "$chain$c->name &mdash; ",$current);
+			}
+		}
+		return;
+	}
+	
 	// DEFINE QUERIES
 	
 	// select all downloads
@@ -444,6 +462,7 @@ function wp_dlm_admin()
 									$postDate = $_POST['postDate'];
 									$user = $_POST['user'];
 									$members = (isset($_POST['memberonly'])) ? 1 : 0;
+									$download_cat = $_POST['download_cat'];
 									
 									//validate fields
 									if (empty( $_POST['title'] )) $errors.=__('<div class="error">Required field: <strong>Title</strong> omitted</div>',"wp-download_monitor");
@@ -498,7 +517,7 @@ function wp_dlm_admin()
 												$wpdb->query($query_del);
 										} 
 										
-										$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members) VALUES ('%s','%s','%s','%s','%s','%s','%s')",
+										$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members,category_id) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')",
 										$wpdb->escape( $wp_dlm_db ),
 										$wpdb->escape( $_POST['title'] ),
 										$wpdb->escape( $filename ),
@@ -506,7 +525,8 @@ function wp_dlm_admin()
 										$wpdb->escape( $_POST['postDate'] ),
 										mysql_real_escape_string( $_POST['dlhits'] ),
 										$wpdb->escape( $_POST['user'] ),
-										$wpdb->escape( $members ));										
+										$wpdb->escape( $members ),
+										$wpdb->escape($download_cat));										
 											
 										$result = $wpdb->query($query_add);
 										if ($result) {
@@ -532,7 +552,7 @@ function wp_dlm_admin()
 								?>
 								<div class="wrap">
 								<h2><?php _e('Add Download','wp-download_monitor'); ?></h2>
-								<form enctype="multipart/form-data" action="?page=Downloads&amp;action=add&amp;method=upload" method="post" id="wp_dlm_add" name="add_download"> 
+								<form enctype="multipart/form-data" action="?page=Downloads&amp;action=add&amp;method=upload" method="post" id="wp_dlm_add" name="add_download" class="form-table"> 
                                     <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $max_size; ?>" />
                                     <table class="optiontable niceblue"> 
                                         <tr valign="middle">
@@ -555,25 +575,39 @@ function wp_dlm_admin()
                                         </tr>
 										<tr valign="top">
 												<th scope="row"><strong><?php _e('Select a file...',"wp-download_monitor"); ?></strong></th> 
-												<td>
-													<input type="file" name="upload" style="width:320px;" /><br />
-													<p><?php _e('Max. filesize = ',"wp-download_monitor"); ?><?php echo $max_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>.</p>
-												</td>												
+												<td><input type="file" name="upload" style="width:320px;" /><br /><?php _e('Max. filesize = ',"wp-download_monitor"); ?><?php echo $max_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>.</td>												
                                         </tr>
                                         <tr valign="top">												
                                             <th scope="row"><strong><?php _e('Replace File?',"wp-download_monitor"); ?></strong></th> 
-                                            <td><input type="checkbox" name="replace" value="y" /><br />
-                                            <?php _e('<p>Replacing the file will <strong>delete all current stats</strong> 
+                                            <td><input type="checkbox" name="replace" value="y" /><br /><?php _e('Replacing the file will <strong>delete all current stats</strong> 
                                             for the currently uploaded file. If you wish to keep existing stats, go to the
-                                            files Edit page instead and re-upload there.</p>',"wp-download_monitor"); ?>
-                                            </td>
+                                            files Edit page instead and re-upload there.',"wp-download_monitor"); ?></td>
+                                        </tr>  
+                                        <tr valign="top">												
+                                            <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
+                                            <td>
+                                            <select name="download_cat">
+                                            	<option value="">N/A</option>
+												<?php
+                                                    $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+                                                        $wpdb->escape( $wp_dlm_db_cats ));	
+                                                    $cats = $wpdb->get_results($query_select_cats);
+													
+                                                    if (!empty($cats)) {
+                                                        foreach ( $cats as $c ) {
+                                                            echo '<option ';
+															if ($_POST['download_cat']==$c->id) echo 'selected="selected"';
+															echo 'value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+                                                            get_option_children_cats($c->id, "$c->name &mdash; ", $_POST['download_cat']);
+                                                        }
+                                                    } 
+                                                ?>
+                                            </select><br /><?php _e('Categories are optional and allow you to group and organise simular downloads.',"wp-download_monitor"); ?></td>
                                         </tr>  
                                         <tr valign="top">												
                                             <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                                            <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br />
-                                            <?php _e('<p>If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.</p>',"wp-download_monitor"); ?>
-                                            </td>
-                                        </tr>  
+                                            <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br /><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></td>
+                                        </tr>
                                     </table>
 
                                     <p class="submit"><input type="submit" class="btn" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Upload &amp; save',"wp-download_monitor"); ?>" /></p>
@@ -594,7 +628,7 @@ function wp_dlm_admin()
 								?>
 								<div class="wrap">
 								<h2><?php _e('Add Download',"wp-download_monitor"); ?></h2>
-								<form action="?page=Downloads&amp;action=add&amp;method=url" method="post" id="wp_dlm_add" name="add_download"> 
+								<form action="?page=Downloads&amp;action=add&amp;method=url" method="post" id="wp_dlm_add" name="add_download" class="form-table"> 
 
                                     <table class="optiontable niceblue">
                                         <tr valign="top">
@@ -622,10 +656,29 @@ function wp_dlm_admin()
                                             </td> 
                                         </tr>
                                         <tr valign="top">												
+                                            <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
+                                            <td>
+                                            <select name="download_cat">
+                                            	<option value="">N/A</option>
+												<?php
+                                                    $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+                                                        $wpdb->escape( $wp_dlm_db_cats ));	
+                                                    $cats = $wpdb->get_results($query_select_cats);
+													
+                                                    if (!empty($cats)) {
+                                                        foreach ( $cats as $c ) {
+                                                            echo '<option ';
+															if ($_POST['download_cat']==$c->id) echo 'selected="selected"';
+															echo 'value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+                                                            get_option_children_cats($c->id, "$c->name &mdash; ", $_POST['download_cat']);
+                                                        }
+                                                    } 
+                                                ?>
+                                            </select><br /><?php _e('Categories are optional and allow you to group and organise simular downloads.',"wp-download_monitor"); ?></td>
+                                        </tr>  
+                                        <tr valign="top">												
                                             <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                                            <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br />
-                                            <?php _e('<p>If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.</p>',"wp-download_monitor"); ?>
-                                            </td>
+                                            <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br /><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></td>
                                         </tr>  
                                     </table>
 									<p class="submit"><input type="submit" class="btn" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save',"wp-download_monitor"); ?>" /></p>
@@ -692,7 +745,7 @@ function wp_dlm_admin()
 										$filename = get_bloginfo('wpurl')."/wp-content/uploads/".$my_upload->file_copy;
 
 										// update download & file
-										$query_update_file = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s', postDate='%s', user='%s',members='%s' WHERE id=%s;",
+										$query_update_file = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s', postDate='%s', user='%s',members='%s',category_id='%s' WHERE id=%s;",
 											$wpdb->escape( $wp_dlm_db ),
 											$wpdb->escape( $_POST['title'] ),
 											mysql_real_escape_string( $_POST['dlversion'] ),
@@ -701,6 +754,7 @@ function wp_dlm_admin()
 											$wpdb->escape( $_POST['postDate'] ),
 											$wpdb->escape( $_POST['user'] ),
 											$wpdb->escape( $members ),
+											$wpdb->escape( $_POST['download_cat'] ),
 											$wpdb->escape( $_GET['id'] ));
 		
 										//replacing file
@@ -709,13 +763,14 @@ function wp_dlm_admin()
 										echo '<div id="message" class="updated fade"><p><strong>'.__('Download edited Successfully',"wp-download_monitor").' - '.$info.'</strong></p></div>';
 								} else {
 										//not replacing file
-										$query_update = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s',members='%s' WHERE id=%s;",
+										$query_update = sprintf("UPDATE %s SET title='%s', dlversion='%s', hits='%s', filename='%s',members='%s',category_id='%s' WHERE id=%s;",
 											$wpdb->escape( $wp_dlm_db ),
 											$wpdb->escape( $_POST['title'] ),
 											mysql_real_escape_string( $_POST['dlversion'] ),
 											mysql_real_escape_string( $_POST['dlhits'] ),
 											$wpdb->escape( $_POST['dlfilename'] ),
 											$wpdb->escape( $members ),
+											$wpdb->escape( $_POST['download_cat'] ),
 											$wpdb->escape( $_GET['id'] ));
 										$d = $wpdb->get_row($query_update);
 										$show=true;
@@ -729,6 +784,7 @@ function wp_dlm_admin()
 							$dlhits = $_POST['dlhits'];
 							$dlfilename =$_POST['dlfilename'];
 							$members = (isset($_POST['memberonly'])) ? 1 : 0;
+							$download_cat = $_POST['download_cat'];
 						}
 					}
 					else 
@@ -741,13 +797,14 @@ function wp_dlm_admin()
 						$dlfilename = $d->filename;
 						if (empty( $dlhits )) $dlhits = 0;
 						$members = $d->members;
+						$download_cat = $d->category_id;
 					}	
 
 					if ($show==false) {
 					?>
 								<div class="wrap">
 								<h2><?php _e('Edit Download Information',"wp-download_monitor"); ?></h2>
-								<form enctype="multipart/form-data" action="?page=Downloads&amp;action=edit&amp;id=<?php echo $_GET['id']; ?>" method="post" id="wp_dlm_add" name="edit_download"> 
+								<form enctype="multipart/form-data" action="?page=Downloads&amp;action=edit&amp;id=<?php echo $_GET['id']; ?>" method="post" id="wp_dlm_add" name="edit_download" class="form-table"> 
 
 										<table class="optiontable niceblue">                     
 											<tr valign="top">
@@ -768,17 +825,35 @@ function wp_dlm_admin()
 													<input type="text" style="width:100px;" class="cleardefault" value="<?php echo $dlhits; ?>" name="dlhits" id="dlhits" maxlength="50" />
 												</td> 
 											</tr>
+                                        <tr valign="top">												
+                                            <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
+                                            <td>
+                                            <select name="download_cat">
+                                            	<option value="">N/A</option>
+												<?php
+                                                    $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+                                                        $wpdb->escape( $wp_dlm_db_cats ));	
+                                                    $cats = $wpdb->get_results($query_select_cats);
+													
+                                                    if (!empty($cats)) {
+                                                        foreach ( $cats as $c ) {
+                                                            echo '<option ';
+															if ($download_cat==$c->id) echo 'selected="selected"';
+															echo 'value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+                                                            get_option_children_cats($c->id, "$c->name &mdash; ", $download_cat);
+                                                        }
+                                                    } 
+                                                ?>
+                                            </select><br /><?php _e('Categories are optional and allow you to group and organise simular downloads.',"wp-download_monitor"); ?></td>
+                                        </tr>  
                                             <tr valign="top">												
                                                 <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                                                <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br />
-                                                <?php _e('<p>If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.</p>',"wp-download_monitor"); ?>
-                                                </td>
+                                                <td><input type="checkbox" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /><br /><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></td>
                                             </tr> 
 											<tr valign="top">
 												<th scope="row"><strong><?php _e('File URL (required)',"wp-download_monitor"); ?>: </strong></th> 
 												<td>
-													<input type="text" style="width:320px;" class="cleardefault" value="<?php echo $dlfilename; ?>" name="dlfilename" id="dlfilename" />
-													<p><?php _e('Note: changes to the file url will only work if not uploading a new file below.',"wp-download_monitor"); ?></p>
+													<input type="text" style="width:320px;" class="cleardefault" value="<?php echo $dlfilename; ?>" name="dlfilename" id="dlfilename" /><br /><?php _e('Note: changes to the file url will only work if not uploading a new file below.',"wp-download_monitor"); ?>
 												</td> 
 											</tr>
 										</table>
@@ -793,9 +868,7 @@ function wp_dlm_admin()
 											<tr valign="top">
 												<th scope="row"><strong><?php _e('Select a file...',"wp-download_monitor"); ?></strong></th> 
 												<td>
-													<input type="file" name="upload" style="width:320px;" /><br />
-                                                    <p><?php _e('Max. filesize = ',"wp-download_monitor"); ?><?php echo $max_upload_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>.</p>
-												</td>												
+													<input type="file" name="upload" style="width:320px;" /><br /><?php _e('Max. filesize = ',"wp-download_monitor"); ?><?php echo $max_upload_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>.</td>												
 											</tr>
 										</table>
 									<input type="hidden" name="sort" value="<?php echo $_GET['sort']; ?>" />
@@ -1037,7 +1110,17 @@ function wp_dlm_admin()
 						echo '<td style="text-align:center">'.$d->id.'</td>
 						<td>'.$d->title.'</td>
 						<td>'.$file.'</td>
-						<td style="text-align:center">N/A</td>
+						<td style="text-align:center">';
+						if ($d->category_id=="" || $d->category_id==0) echo "N/A"; else {
+							$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
+							$chain = $c->name;
+							while ($c->parent>0) {
+								$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$c->parent." LIMIT 1;");
+								$chain = $c->name.' &mdash; '.$chain;
+							}
+							echo $d->category_id." - ".$chain;
+						}						
+						echo '</td>
 						<td style="text-align:center">'.$d->dlversion.'</td>
 						<td style="text-align:center">';
 						if ($d->members) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
@@ -1141,24 +1224,10 @@ function wp_dlm_admin()
                             <td><select name="cat_parent">
                             	<option value="">None</option>
                                 <?php
-									function get_option_children_cats($parent,$chain) {
-										global $wp_dlm_db_cats,$wpdb;
-										$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
-											$wpdb->escape( $wp_dlm_db_cats ),
-											$wpdb->escape( $parent ));	
-										$scats = $wpdb->get_results($sql);
-										if (!empty($scats)) {
-											foreach ( $scats as $c ) {
-												echo '<option value="'.$c->id.'">'.$chain.$c->name.'</option>';
-												get_option_children_cats($c->id, "$chain$c->name &mdash; ");
-											}
-										}
-										return;
-									}
 									if (!empty($cats)) {
 										foreach ( $cats as $c ) {
-											echo '<option value="'.$c->id.'">'.$c->name.'</option>';
-											get_option_children_cats($c->id, "$c->name &mdash; ");
+											echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+											get_option_children_cats($c->id, "$c->name &mdash; ", 0);
 										}
 									} 
 								?>
