@@ -115,7 +115,7 @@ function wp_dlm_init() {
 	add_option('wp_dlm_url', 'ID', 'wp_dlm_type', 'no');
 	
 	// Added options for extensions
-	add_option('wp_dlm_extensions', '.zip,.pdf,.mp3",.rar', '', 'no');
+	add_option('wp_dlm_extensions', '.zip,.pdf,.mp3,.rar', '', 'no');
 		
  	global $wp_dlm_db,$wp_dlm_db_cats,$wpdb;
 
@@ -203,7 +203,7 @@ function wp_dlm_magic() {
 ################################################################################
 function wp_dlm_ins_button() {
 	//set globals
-	global $table_prefix,$wpdb,$wp_dlm_db;
+	global $table_prefix,$wpdb,$wp_dlm_db,$wp_dlm_db_cats;
   	
   	if( strpos($_SERVER['REQUEST_URI'], 'post.php')
 	|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
@@ -228,12 +228,33 @@ function wp_dlm_ins_button() {
 			$wpdb->escape($wp_dlm_db));
       	
       		$downloads = $wpdb->get_results($query_select);
+			
+			$js .= '<optgroup label="'.__("Show","wp-download_monitor").'">';
+			$js .= '<option value=\"s\">'.__('All Downloads','wp-download_monitor').'</option>';
+			$js .= '<option value=\"a\">'.__('Downloads and categories','wp-download_monitor').'</option>';
+			$js .= '</optgroup>';
       	
       		if (!empty($downloads)) {
-      				
+      			
+				$js .= '<optgroup label="'.__("Downloads","wp-download_monitor").'">';
 				foreach( $downloads as $d )
 				{
-					$js .= '<option value=\"'.$d->id.'\">'.$d->id.' - '.$d->title.'</option>';
+					$js .= '<option value=\"d'.$d->id.'\">'.$d->id.' - '.$d->title.'</option>';
+				}
+				$js .= '</optgroup>';
+				
+				// select all cats
+				$query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+					$wpdb->escape( $wp_dlm_db_cats ));	
+				$cats = $wpdb->get_results($query_select_cats);
+				
+				if (!empty($cats)) {
+					$js .= '<optgroup label="'.__("Categories","wp-download_monitor").'">';
+					foreach ( $cats as $c ) {
+						$js .= '<option value=\"'.$c->id.'\">'.$c->id.' - '.$c->name.'</option>';
+						$js .= addslashes(get_option_children_cats($c->id, "$c->name &mdash; ", 0));
+					}
+					$js .= '</optgroup>';
 				}
           	
 				?>
@@ -244,8 +265,17 @@ function wp_dlm_ins_button() {
 						});
 						function wpdlmins(ele) {
 							try{
-							if( ele != undefined && ele.value != '')
-								edInsertContent(edCanvas, '[download#'+ ele.value +']');
+								if( ele != undefined && ele.value != '') {
+									if (ele.value.substring(0,1)=='d') {
+										edInsertContent(edCanvas, '[download#'+ ele.value.substring(1) +']');
+									} else if (ele.value.substring(0,1)=='s') {
+										edInsertContent(edCanvas, '[#show_downloads]');
+									} else if (ele.value.substring(0,1)=='a') {
+										edInsertContent(edCanvas, '[#advanced_downloads]');
+									} else {
+										edInsertContent(edCanvas, '[download_cat#'+ ele.value +']');
+									}
+								}
 							}catch (excpt) { alert(excpt); }
 							ele.selectedIndex = 0; // reset menu
 							return false;
@@ -319,7 +349,6 @@ function wp_dlm_ins($data) {
 							switch ($i) {
 								case (1) :
 									// Regular download link
-									//echo "-Link output-";
 									if (!empty($d->dlversion)) 				
 										$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
 									else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';									
@@ -382,6 +411,113 @@ function wp_dlm_ins($data) {
 } 
 add_filter('the_content', 'wp_dlm_ins',1,1); 
 add_filter('the_excerpt', 'wp_dlm_ins',1,1);
+################################################################################
+// CATEGORIES - INSERT LINK INTO POSTS
+################################################################################
+function wp_dlm_ins_cats($data) {
+
+	if (substr_count($data,"[download_cat#")) {
+
+      	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db,$wp_dlm_db_cats;
+		
+		$wp_dlm_db_exists = false;
+          	
+		// Check table exists
+		$tables = $wpdb->get_results("show tables;");
+		foreach ( $tables as $table )
+		{
+			foreach ( $table as $value )
+			{
+			  if ( strtolower($value) ==  strtolower($wp_dlm_db) ) $wp_dlm_db_exists = true;
+			}
+		}
+
+		if ($wp_dlm_db_exists==true) {
+			$url = get_option('wp_dlm_url');
+			$downloadurl = get_bloginfo('wpurl').'/'.$url;	
+			if (empty($url)) $downloadurl = $wp_dlm_root.'download.php?id=';
+			$downloadtype = get_option('wp_dlm_type');
+
+			// select all cats
+            $query_select = sprintf("SELECT * FROM %s ORDER BY id;",
+            	$wpdb->escape($wp_dlm_db_cats));
+                	
+            $cats = $wpdb->get_results($query_select);	
+                
+				if (!empty($cats)) {
+				
+					$patts = array();
+					$subs = array();	
+					
+					foreach($cats as $c) {
+					
+						// Get downloads for cat and put in ul
+						$links = '<ul>';
+						// Get list of cats and sub cats
+						$the_cats = array();
+						$the_cats[] = $c->id;
+						$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+							$wpdb->escape( $wp_dlm_db_cats ),
+							$wpdb->escape( implode(",",$the_cats) ));
+						$res = $wpdb->get_results($query);
+						$b=sizeof($the_cats);
+						if ($res) {
+							foreach($res as $r) {
+								if (!in_array($r->id,$the_cats)) $the_cats[]=$r->id;
+							}
+						}
+						$a=sizeof($the_cats);
+						while ($b!=$a) {
+							$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+								$wpdb->escape( $wp_dlm_db_cats ),
+								$wpdb->escape( implode(",",$the_cats) ));
+							$res = $wpdb->get_results($query);
+							$b=sizeof($the_cats);
+							if ($res) {
+								foreach($res as $r) {
+									if (!in_array($r->id,$the_cats)) $the_cats[]=$r->id;
+								}
+							}
+							$a=sizeof($the_cats);
+						} 
+						$query = sprintf("SELECT * FROM %s WHERE `category_id` IN (%s) ORDER BY `title`;",
+							$wpdb->escape( $wp_dlm_db ),
+							$wpdb->escape( implode(",",$the_cats) ));
+						// Now grab downloads
+						$downloads = $wpdb->get_results($query);	
+						if (!empty($downloads)) {
+							foreach($downloads as $d) {
+								switch ($downloadtype) {
+									case ("Title") :
+											$downloadlink = urlencode($d->title);
+									break;
+									case ("Filename") :
+											$downloadlink = $d->filename;
+											$link = explode("/",$downloadlink);
+											$downloadlink = end($link);
+									break;
+									default :
+											$downloadlink = $d->id;
+									break;
+								}
+								if (!empty($d->dlversion)) 				
+									$links.= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';
+								else $links.= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';									
+								
+							}
+						} else {
+							$links .= '<li>No Downloads Found</li>';
+						}
+						$links .= '</ul>';
+						$patts[] = "[download_cat#" . $c->id . "]";
+						$subs[] = $links;
+					} return str_replace($patts, $subs, $data);
+				}else return $data;
+		} else return $data;
+	} else return $data;
+} 
+add_filter('the_content', 'wp_dlm_ins_cats',1,1); 
+add_filter('the_excerpt', 'wp_dlm_ins_cats',1,1);
 
 // Formats file size
 function wp_dlm_get_size($path) {
@@ -402,7 +538,25 @@ function wp_dlm_get_size($path) {
 	}
 }
 	
-
+// Function used later to output categories
+function get_option_children_cats($parent,$chain,$current,$showid=1) {
+	global $wp_dlm_db_cats,$wpdb;
+	$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
+		$wpdb->escape( $wp_dlm_db_cats ),
+		$wpdb->escape( $parent ));	
+	$scats = $wpdb->get_results($sql);
+	if (!empty($scats)) {
+		foreach ( $scats as $c ) {
+			$string.= '<option ';
+			if ($current==$c->id) $string.= 'selected="selected"';
+			$string.= 'value="'.$c->id.'">';
+			if ($showid==1) $string.= $c->id.' - ';
+			$string.= $chain.$c->name.'</option>';
+			$string.= get_option_children_cats($c->id, "$chain$c->name &mdash; ",$current);
+		}
+	}
+	return $string;
+}
 ################################################################################
 // ADMIN PAGE
 ################################################################################
@@ -415,24 +569,6 @@ function wp_dlm_admin()
 	wp_dlm_magic();
 	
 	wp_dlm_update();
-	
-	// Function used later to output categories
-	function get_option_children_cats($parent,$chain,$current) {
-		global $wp_dlm_db_cats,$wpdb;
-		$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
-			$wpdb->escape( $wp_dlm_db_cats ),
-			$wpdb->escape( $parent ));	
-		$scats = $wpdb->get_results($sql);
-		if (!empty($scats)) {
-			foreach ( $scats as $c ) {
-				echo '<option ';
-				if ($current==$c->id) echo 'selected="selected"';
-				echo 'value="'.$c->id.'">'.$c->id.' - '.$chain.$c->name.'</option>';
-				get_option_children_cats($c->id, "$chain$c->name &mdash; ",$current);
-			}
-		}
-		return;
-	}
 	
 	// DEFINE QUERIES
 	
@@ -598,7 +734,7 @@ function wp_dlm_admin()
                                                             echo '<option ';
 															if ($_POST['download_cat']==$c->id) echo 'selected="selected"';
 															echo 'value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
-                                                            get_option_children_cats($c->id, "$c->name &mdash; ", $_POST['download_cat']);
+                                                            echo get_option_children_cats($c->id, "$c->name &mdash; ", $_POST['download_cat']);
                                                         }
                                                     } 
                                                 ?>
@@ -670,7 +806,7 @@ function wp_dlm_admin()
                                                             echo '<option ';
 															if ($_POST['download_cat']==$c->id) echo 'selected="selected"';
 															echo 'value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
-                                                            get_option_children_cats($c->id, "$c->name &mdash; ", $_POST['download_cat']);
+                                                            echo get_option_children_cats($c->id, "$c->name &mdash; ", $_POST['download_cat']);
                                                         }
                                                     } 
                                                 ?>
@@ -840,7 +976,7 @@ function wp_dlm_admin()
                                                             echo '<option ';
 															if ($download_cat==$c->id) echo 'selected="selected"';
 															echo 'value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
-                                                            get_option_children_cats($c->id, "$c->name &mdash; ", $download_cat);
+                                                            echo get_option_children_cats($c->id, "$c->name &mdash; ", $download_cat);
                                                         }
                                                     } 
                                                 ?>
@@ -1227,7 +1363,7 @@ function wp_dlm_admin()
 									if (!empty($cats)) {
 										foreach ( $cats as $c ) {
 											echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
-											get_option_children_cats($c->id, "$c->name &mdash; ", 0);
+											echo get_option_children_cats($c->id, "$c->name &mdash; ", 0);
 										}
 									} 
 								?>
@@ -1318,11 +1454,14 @@ function wp_dlm_admin()
                 </ol>		',"wp-download_monitor"); ?>
                 <h4><?php _e('Show all downloads',"wp-download_monitor"); ?></h4>
                 <?php _e('<p>Simply add the tag <code>[#show_downloads]</code> to a page.</p>',"wp-download_monitor"); ?>
-                
+                <h4><?php _e('Show download page with category selector',"wp-download_monitor"); ?></h4>
+                <?php _e('<p>Add the tag <code>[#advanced_downloads]</code> to a page.</p>',"wp-download_monitor"); ?>
+                <h4><?php _e('Show a single category as a list',"wp-download_monitor"); ?></h4>
+                <?php _e('<p>Use <code>[download_cat#id]</code> replacing id with the id of the category.</p>',"wp-download_monitor"); ?>
             </div>
         </div>
         <div class="postbox close-me dlmbox">
-            <h3><?php _e('About this plugin',"wp-download_monitor"); ?></h3>
+            <h3><?php _e('About this plugin - please donate!',"wp-download_monitor"); ?></h3>
             <div class="inside">
             	<?php _e('<p>The Wordpress Download monitor plugin was created by <a href="http://blue-anvil.com/">Mike Jolley</a>. The development
                 of this plugin took a lot of time and effort, therefore donations are very welcome, and encouraged 
@@ -1445,7 +1584,7 @@ function wp_dlm_show_downloads($mode,$no) {
 	return;
 }
 function wp_dlm_all() {
-	//shows full download list
+	
 	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db;
 	
 	$query = sprintf("SELECT * FROM %s ORDER BY postDate DESC;",
@@ -1485,14 +1624,114 @@ function wp_dlm_all() {
 	}	
 	return $retval;
 }
+// Shows Top downloads by default
+// Dropdown to select a category of downloads or view all
+function wp_dlm_advanced() {
+	global $table_prefix,$wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db,$wp_dlm_db_cats;
+	// Get post data
+	$showing = (int) $_POST['show_downloads'];
+	if ($showing==0 || $showing=="") {
+		// Most popular by default
+		$query = sprintf("SELECT * FROM %s ORDER BY hits DESC LIMIT 10;",
+			$wpdb->escape( $wp_dlm_db ));
+	} else {
+		// Get list of cats and sub cats
+		$the_cats = array();
+		$the_cats[] = $showing;
+		$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+			$wpdb->escape( $wp_dlm_db_cats ),
+			$wpdb->escape( implode(",",$the_cats) ));
+		$res = $wpdb->get_results($query);
+		$b=sizeof($the_cats);
+		if ($res) {
+			foreach($res as $r) {
+				if (!in_array($r->id,$the_cats)) $the_cats[]=$r->id;
+			}
+		}
+		$a=sizeof($the_cats);
+		while ($b!=$a) {
+			$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+				$wpdb->escape( $wp_dlm_db_cats ),
+				$wpdb->escape( implode(",",$the_cats) ));
+			$res = $wpdb->get_results($query);
+			$b=sizeof($the_cats);
+			if ($res) {
+				foreach($res as $r) {
+					if (!in_array($r->id,$the_cats)) $the_cats[]=$r->id;
+				}
+			}
+			$a=sizeof($the_cats);
+		} 
+		$query = sprintf("SELECT * FROM %s WHERE `category_id` IN (%s) ORDER BY `title`;",
+			$wpdb->escape( $wp_dlm_db ),
+			$wpdb->escape( implode(",",$the_cats) ));
+	}
+	// Output selector box
+	$retval = '
+	<div class="download-box"><form method="post" action="#">
+		<select name="show_downloads">
+			<option value="0">'.__('Most Popular Downloads',"wp-download_monitor").'</option>
+			<optgroup label="'.__('Categories',"wp-download_monitor").'">';
+	// Echo categories
+	$query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+		$wpdb->escape( $wp_dlm_db_cats ));	
+	$cats = $wpdb->get_results($query_select_cats);
+	if (!empty($cats)) {
+		foreach ( $cats as $c ) {
+			$retval .= '<option ';
+			if ($showing==$c->id) $retval .= 'selected="selected"';
+			$retval .= 'value="'.$c->id.'">'.$c->name.'</option>';
+			$retval .= get_option_children_cats($c->id, "$c->name &mdash; ", $showing, 0);
+		}
+	} 
+	$retval .= '</optgroup></select> <input type="submit" value="Go" /></form>';
+
+	if (!empty($query)) {
+	
+		$url = get_option('wp_dlm_url');
+		$downloadurl = get_bloginfo('wpurl').'/'.$url;	
+		if (empty($url)) $downloadurl = $wp_dlm_root.'download.php?id=';
+	
+		$dl = $wpdb->get_results($query);
+		
+		$downloadtype = get_option('wp_dlm_type');		
+	
+		if (!empty($dl)) {
+			$retval .= '<ul class="download-list">';
+			foreach($dl as $d) {
+				$date = date("jS F Y", strtotime($d->postDate));
+				switch ($downloadtype) {
+					case ("Title") :
+							$downloadlink = $d->title;
+					break;
+					case ("Filename") :
+							$downloadlink = $d->filename;
+							$links = explode("/",$downloadlink);
+							$downloadlink = end($links);
+					break;
+					default :
+							$downloadlink = $d->id;
+					break;
+				}
+				$retval .= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__('Version',"wp-download_monitor").' '.$d->dlversion.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.$date.'" >'.$d->title.' ('.$d->hits.')</a></li>';
+			}
+			$retval .='</ul>';
+		} else $retval .='<p>'.__('No Downloads Found',"wp-download_monitor").'</p>';
+	}	
+	$retval .= "</div>";
+	return $retval;
+}
 ################################################################################
 // SHOW ALL DOWNLOADS TAG
 ################################################################################
 function wp_dlm_ins_all($data) {
-	//echo "-Test 1-";
 	if (substr_count($data,"[#show_downloads]")) {
-		return str_replace("[#show_downloads]",wp_dlm_all(), $data);
-	} else return $data;
+		$data = str_replace("[#show_downloads]",wp_dlm_all(), $data);
+	} 
+	if (substr_count($data,"[#advanced_downloads]")) {
+		$data = str_replace("[#advanced_downloads]",wp_dlm_advanced(), $data);
+	}
+	return $data;
 } 
 add_filter('the_content', 'wp_dlm_ins_all',1,1); 
 

@@ -16,6 +16,8 @@ Download Monitor is a plugin for uploading and managing downloads, tracking down
 
 Features
 
+    * New - Download Categories
+	* New - Member only downloads
     * New - Localization support
     * Fixed - Sorting and pagination of downloads in admin
     * Support for wordpress 2+ (including 2.5)
@@ -98,4 +100,11 @@ There are a few other **template tags** to use in your wordpress templates. Repl
 **Show all downloads:**
 
 	Simply add the tag [#show_downloads] to a page.
+	
+**Show downloads with category selector:**
 
+	Simply add the tag [#advanced_downloads] to a page.
+	
+**Show downloads in a single category:**
+	
+	Use <code>[download_cat#id]</code> replacing id with the id of the category.
