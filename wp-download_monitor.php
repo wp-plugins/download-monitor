@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.1.0 B20080615
+Version: v2.1.0 B20080619
 Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -24,7 +24,7 @@ Description: Manage downloads on your site, view and show hits, and output in po
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-$dlm_build="B20080615";
+$dlm_build="B20080619";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
