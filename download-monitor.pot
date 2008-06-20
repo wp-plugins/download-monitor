@@ -1,0 +1,659 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
+"POT-Creation-Date: 2008-06-20 21:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: wp-download_monitor.php:62
+msgid ""
+"<p>The plugin has recently been updated - You may need to <strong>re-save "
+"your permalinks settings</strong> (Options/settings -> Permalinks) for the "
+"changes to occur in your blog.</p></div>"
+msgstr ""
+
+#: wp-download_monitor.php:76 wp-download_monitor.php:239
+#: wp-download_monitor.php:264 wp-download_monitor.php:1181
+#: wp-download_monitor.php:1982
+msgid "Downloads"
+msgstr ""
+
+#: wp-download_monitor.php:232
+msgid "Show"
+msgstr ""
+
+#: wp-download_monitor.php:233
+msgid "All Downloads"
+msgstr ""
+
+#: wp-download_monitor.php:234
+msgid "Downloads and categories"
+msgstr ""
+
+#: wp-download_monitor.php:252 wp-download_monitor.php:1674
+msgid "Categories"
+msgstr ""
+
+#: wp-download_monitor.php:353 wp-download_monitor.php:361
+#: wp-download_monitor.php:381 wp-download_monitor.php:392
+#: wp-download_monitor.php:400 wp-download_monitor.php:504
+#: wp-download_monitor.php:701 wp-download_monitor.php:777
+#: wp-download_monitor.php:953 wp-download_monitor.php:1200
+#: wp-download_monitor.php:1571 wp-download_monitor.php:1574
+#: wp-download_monitor.php:1577 wp-download_monitor.php:1620
+#: wp-download_monitor.php:1716
+msgid "Version"
+msgstr ""
+
+#: wp-download_monitor.php:353 wp-download_monitor.php:361
+#: wp-download_monitor.php:392 wp-download_monitor.php:400
+#: wp-download_monitor.php:504 wp-download_monitor.php:1571
+#: wp-download_monitor.php:1574 wp-download_monitor.php:1577
+#: wp-download_monitor.php:1620 wp-download_monitor.php:1716
+msgid "downloaded"
+msgstr ""
+
+#: wp-download_monitor.php:353 wp-download_monitor.php:354
+#: wp-download_monitor.php:361 wp-download_monitor.php:362
+#: wp-download_monitor.php:382 wp-download_monitor.php:384
+#: wp-download_monitor.php:392 wp-download_monitor.php:393
+#: wp-download_monitor.php:400 wp-download_monitor.php:401
+#: wp-download_monitor.php:504 wp-download_monitor.php:505
+#: wp-download_monitor.php:1571 wp-download_monitor.php:1574
+#: wp-download_monitor.php:1577 wp-download_monitor.php:1620
+#: wp-download_monitor.php:1716
+msgid "times"
+msgstr ""
+
+#: wp-download_monitor.php:354 wp-download_monitor.php:362
+#: wp-download_monitor.php:393 wp-download_monitor.php:401
+#: wp-download_monitor.php:505 wp-download_monitor.php:2011
+#: wp-download_monitor.php:2027
+msgid "Downloaded"
+msgstr ""
+
+#: wp-download_monitor.php:381 wp-download_monitor.php:383
+msgid "Download"
+msgstr ""
+
+#: wp-download_monitor.php:382 wp-download_monitor.php:384
+msgid "Downloaded a total of"
+msgstr ""
+
+#: wp-download_monitor.php:604
+msgid ""
+"<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
+msgstr ""
+
+#: wp-download_monitor.php:606
+msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
+msgstr ""
+
+#: wp-download_monitor.php:642
+msgid "<div class=\"error\">No file selected</div>"
+msgstr ""
+
+#: wp-download_monitor.php:643
+msgid "<div class=\"error\">Error</div>"
+msgstr ""
+
+#: wp-download_monitor.php:669 wp-download_monitor.php:670
+msgid "Download added Successfully"
+msgstr ""
+
+#: wp-download_monitor.php:675
+msgid "<div class=\"error\">Error saving to database</div>"
+msgstr ""
+
+#: wp-download_monitor.php:690 wp-download_monitor.php:766
+msgid "Add Download"
+msgstr ""
+
+#: wp-download_monitor.php:695 wp-download_monitor.php:771
+#: wp-download_monitor.php:947
+msgid "Title (required)"
+msgstr ""
+
+#: wp-download_monitor.php:707 wp-download_monitor.php:783
+msgid "Starting hits"
+msgstr ""
+
+#: wp-download_monitor.php:713 wp-download_monitor.php:1005
+msgid "Select a file..."
+msgstr ""
+
+#: wp-download_monitor.php:714 wp-download_monitor.php:1007
+msgid "Max. filesize = "
+msgstr ""
+
+#: wp-download_monitor.php:714 wp-download_monitor.php:1007
+msgid "bytes"
+msgstr ""
+
+#: wp-download_monitor.php:717
+msgid "Replace File?"
+msgstr ""
+
+#: wp-download_monitor.php:718
+msgid ""
+"Replacing the file will <strong>delete all current stats</strong> \n"
+"                                            for the currently uploaded file. "
+"If you wish to keep existing stats, go to the\n"
+"                                            files Edit page instead and re-"
+"upload there."
+msgstr ""
+
+#: wp-download_monitor.php:723 wp-download_monitor.php:795
+#: wp-download_monitor.php:965 wp-download_monitor.php:1199
+msgid "Category"
+msgstr ""
+
+#: wp-download_monitor.php:741 wp-download_monitor.php:813
+#: wp-download_monitor.php:983
+msgid ""
+"Categories are optional and allow you to group and organise simular "
+"downloads."
+msgstr ""
+
+#: wp-download_monitor.php:744 wp-download_monitor.php:816
+#: wp-download_monitor.php:986
+msgid "Member only file?"
+msgstr ""
+
+#: wp-download_monitor.php:745 wp-download_monitor.php:817
+#: wp-download_monitor.php:987
+msgid ""
+"If chosen, only logged in users will be able to access the file via a "
+"download link. It is a good idea to give the file a name which cannot be "
+"easily guessed and accessed directly."
+msgstr ""
+
+#: wp-download_monitor.php:749
+msgid "Upload &amp; save"
+msgstr ""
+
+#: wp-download_monitor.php:789
+msgid "Url"
+msgstr ""
+
+#: wp-download_monitor.php:820
+msgid "Save"
+msgstr ""
+
+#: wp-download_monitor.php:833
+msgid "<p>Invalid Add method, <a href=\"?page=Downloads\">go back</a>.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:839
+msgid "Sure?"
+msgstr ""
+
+#: wp-download_monitor.php:840
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: wp-download_monitor.php:840
+msgid ""
+"? (If originally uploaded by this plugin, this will also remove the file "
+"from the server)"
+msgstr ""
+
+#: wp-download_monitor.php:840
+msgid "[yes]"
+msgstr ""
+
+#: wp-download_monitor.php:840
+msgid "[no]"
+msgstr ""
+
+#: wp-download_monitor.php:848
+msgid "Required field: <strong>Title</strong> omitted"
+msgstr ""
+
+#: wp-download_monitor.php:849
+msgid "Required field: <strong>File URL</strong> omitted"
+msgstr ""
+
+#: wp-download_monitor.php:851
+msgid "Invalid <strong>hits</strong> entered"
+msgstr ""
+
+#: wp-download_monitor.php:899 wp-download_monitor.php:913
+msgid "Download edited Successfully"
+msgstr ""
+
+#: wp-download_monitor.php:942
+msgid "Edit Download Information"
+msgstr ""
+
+#: wp-download_monitor.php:959
+msgid "Change hit count"
+msgstr ""
+
+#: wp-download_monitor.php:990
+msgid "File URL (required)"
+msgstr ""
+
+#: wp-download_monitor.php:992
+msgid ""
+"Note: changes to the file url will only work if not uploading a new file "
+"below."
+msgstr ""
+
+#: wp-download_monitor.php:997
+msgid "Upload a new file"
+msgstr ""
+
+#: wp-download_monitor.php:1000
+msgid ""
+"<p>Here you can upload/re-upload the file from your computer. This will "
+"Overwrite any existing files \n"
+"\t\t\t\t\t\t\t\t\t\twith the same name, but will keep stats in-tact.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1020 wp-download_monitor.php:1392
+#: wp-download_monitor.php:1416
+msgid "Save Changes"
+msgstr ""
+
+#: wp-download_monitor.php:1045
+msgid "Download deleted Successfully"
+msgstr ""
+
+#: wp-download_monitor.php:1063
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks "
+"settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, add "
+"the following to your \n"
+"\t\t\t\t\t.htaccess file above the \"# BEGIN WordPress\" line:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/(.*) wp-content/plugins/download-monitor/"
+"download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1074
+msgid ""
+"<p>Download URL updated - You need to <strong>re-save your permalinks "
+"settings</strong> (Options/settings -> Permalinks) for \n"
+"\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
+"\t\t\t\t\t\t<p>If your .htaccess file cannot be written to by WordPress, "
+"remove the following from your \n"
+"\t\t\t\t\t.htaccess file if it exists above the \"# BEGIN WordPress\" line:</"
+"p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/(.*) wp-content/plugins/download-monitor/"
+"download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1101
+msgid "<p>Allowed extensions updated</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1115
+msgid "Category added"
+msgstr ""
+
+#: wp-download_monitor.php:1165
+msgid "Category deleted Successfully"
+msgstr ""
+
+#: wp-download_monitor.php:1186
+msgid "Add New Download"
+msgstr ""
+
+#: wp-download_monitor.php:1187
+msgid "Add Existing Download"
+msgstr ""
+
+#: wp-download_monitor.php:1196 wp-download_monitor.php:1315
+#: wp-download_monitor.php:1410
+msgid "ID"
+msgstr ""
+
+#: wp-download_monitor.php:1197 wp-download_monitor.php:1411
+msgid "Title"
+msgstr ""
+
+#: wp-download_monitor.php:1198 wp-download_monitor.php:1948
+msgid "File"
+msgstr ""
+
+#: wp-download_monitor.php:1201
+msgid "Members only"
+msgstr ""
+
+#: wp-download_monitor.php:1202
+msgid "Posted"
+msgstr ""
+
+#: wp-download_monitor.php:1203
+msgid "Hits"
+msgstr ""
+
+#: wp-download_monitor.php:1204 wp-download_monitor.php:1317
+msgid "Action"
+msgstr ""
+
+#: wp-download_monitor.php:1262
+msgid "Yes"
+msgstr ""
+
+#: wp-download_monitor.php:1262
+msgid "No"
+msgstr ""
+
+#: wp-download_monitor.php:1270
+msgid "No downloads added yet."
+msgstr ""
+
+#: wp-download_monitor.php:1282 wp-download_monitor.php:1283
+msgid "Previous"
+msgstr ""
+
+#: wp-download_monitor.php:1296 wp-download_monitor.php:1297
+msgid "Next"
+msgstr ""
+
+#: wp-download_monitor.php:1307
+msgid "Download Categories"
+msgstr ""
+
+#: wp-download_monitor.php:1309
+msgid ""
+"<p>You can categorise downloads using these categories. You can then show "
+"groups of downloads using the category tags or a dedicated download page "
+"(see instructions box below). Please note, deleting a category also deletes "
+"it's child categories.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1355
+msgid "Name"
+msgstr ""
+
+#: wp-download_monitor.php:1359
+msgid "Parent"
+msgstr ""
+
+#: wp-download_monitor.php:1374
+msgid "Add"
+msgstr ""
+
+#: wp-download_monitor.php:1381
+msgid "Allowed extensions"
+msgstr ""
+
+#: wp-download_monitor.php:1383
+msgid ""
+"<p>You can set the allowed uploaded file extensions here by entering a list "
+"of extensions separated by commas, e.g. <code>.zip,.rar</code></p>"
+msgstr ""
+
+#: wp-download_monitor.php:1388
+msgid "Extensions"
+msgstr ""
+
+#: wp-download_monitor.php:1397
+msgid "Custom Download URL"
+msgstr ""
+
+#: wp-download_monitor.php:1399
+msgid ""
+"<p>Set the url of the downloads, e.g. <code>download/</code>. In this "
+"example a download link would look like this: \n"
+"                        <code>http://yoursite.com/download/2</code>.</p>\n"
+"                        <p>Leave this option blank to use the default "
+"download path (<code>wp-content/plugins/download-monitor/download.php?id=</"
+"code>)</p>\n"
+"                        <p>You can also choose how to link to the download "
+"in it's url, e.g. selecting \"filename\" would make the link appear as "
+"<code>http://yoursite.com/download/filename.zip</code>.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1407
+msgid "Custom URL"
+msgstr ""
+
+#: wp-download_monitor.php:1412
+msgid "Filename"
+msgstr ""
+
+#: wp-download_monitor.php:1421
+msgid "Instructions"
+msgstr ""
+
+#: wp-download_monitor.php:1423
+msgid "Adding a download"
+msgstr ""
+
+#: wp-download_monitor.php:1424
+msgid ""
+"<p>Add a download by clicking the 'Add new Download' or 'Add Existing "
+"Download' button. You will then be shown the 'Add Download' form. On this "
+"form:</p>\n"
+"                <ol>\n"
+"                    <li>If using the <strong>'add new download'</strong> "
+"form, choose to upload your file from your hard disk by using the 'Select a "
+"file' input</br>\n"
+"                    or if using the <strong>'add existing download'</strong> "
+"form enter the url of an already existing file in the 'URL' input (e.g "
+"<code>http://www.blue-anvil.com/download.zip</code>).</li>\n"
+"                    <li>Add a <strong>Title</strong> for your download, and "
+"optionally a <strong>version</strong>. This name will be used when "
+"displaying the download link.</li>\n"
+"                </ol>"
+msgstr ""
+
+#: wp-download_monitor.php:1431
+msgid "Displaying a download link"
+msgstr ""
+
+#: wp-download_monitor.php:1432
+msgid ""
+"<p>This plugin has special tags for use in Wordpress posts to display "
+"download links. If using the rich text editor you must enter these\n"
+"                manually, however, if using the normal plain editor there is "
+"a dropdown menu to add them quicker. Replace 'id' with the downloads id.</"
+"p>\n"
+"                <ol>\t\t\t\n"
+"                    <li><strong>Link/hits</strong> - <code>[download#id]</"
+"code> <strong>Output example:</strong> <code><a href=\"download.php?id=1\" "
+"title=\"Version 1 downloaded 10 times\">Download title (10)</a></code></li>\n"
+"                    <li><strong>Link w/o hits</strong> - <code>"
+"[download#id#nohits]</code> <strong>Output example:</strong> <code><a href="
+"\"download.php?id=1\" title=\"Version 1 downloaded 10 times\">Download "
+"title</a></code></li>\n"
+"                    <li><strong>URL only</strong> - <code>[download#id#url]</"
+"code> <strong>Output example:</strong> <code>download.php?id=1</code></li>\n"
+"                    <li><strong>Hits only</strong> - <code>[download#id#hits]"
+"</code> <strong>Output example:</strong> <code>10</code></li>\n"
+"                    <li><strong>Image with download link and hits</strong> - "
+"<code>[download#id#image]</code> <strong>Output example:</strong><br />\n"
+"                    <a style=\"display:block;text-align:center;margin:0.5em;"
+"\" class=\"dlimg\" href=\"#\" title=\"Download the File\"><img src=\"../wp-"
+"content/plugins/download-monitor/img/download.gif\" alt=\"Download the File"
+"\" /></a>\n"
+"                    <p style=\"display:block;text-align:center;margin-"
+"bottom:12px;\" class=\"dlstat\">Downloaded a total of 10 times</p>\n"
+"                    To help style the text/image from this output, the image "
+"is wrapped in an anchor with class <code>dlimg</code>, and the stats below "
+"<code>dlstat</code>.\n"
+"                    </li>\n"
+"\t\t\t\t\t<li><strong>Link/hits/filesize</strong> - <code>[download#id#size]"
+"</code> <strong>Output example:</strong> <code><a href=\"download.php?id=1\" "
+"title=\"Version 1 downloaded 10 times\">Download title (10) - 2MB</a></"
+"code></li>\n"
+"\t\t\t\t\t<li><strong>Link/filesize</strong> - <code>"
+"[download#id#size#nohits]</code> <strong>Output example:</strong> <code><a "
+"href=\"download.php?id=1\" title=\"Version 1 downloaded 10 times\">Download "
+"title (2MB)</a></code></li>\n"
+"                </ol>"
+msgstr ""
+
+#: wp-download_monitor.php:1448
+msgid "Additional template tags"
+msgstr ""
+
+#: wp-download_monitor.php:1449
+msgid ""
+"<p>There are a few other template tags to use in your wordpress templates. "
+"Replace '$no' with the amount of downloads to show.</p>\n"
+"                <ol>\n"
+"                    <li><strong>Most downloaded</strong> - <code>&lt;?php "
+"wp_dlm_show_downloads(1,$no); ?&gt;</code></li>\n"
+"                    <li><strong>Most recent</strong> - <code>&lt;?php "
+"wp_dlm_show_downloads(2,$no); ?&gt;</code></li>\n"
+"                    <li><strong>Random</strong> - <code>&lt;?php "
+"wp_dlm_show_downloads(3,$no); ?&gt;</code></li>\n"
+"                </ol>\t\t"
+msgstr ""
+
+#: wp-download_monitor.php:1455
+msgid "Show all downloads"
+msgstr ""
+
+#: wp-download_monitor.php:1456
+msgid "<p>Simply add the tag <code>[#show_downloads]</code> to a page.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1457
+msgid "Show download page with category selector"
+msgstr ""
+
+#: wp-download_monitor.php:1458
+msgid "<p>Add the tag <code>[#advanced_downloads]</code> to a page.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1459
+msgid "Show a single category as a list"
+msgstr ""
+
+#: wp-download_monitor.php:1460
+msgid ""
+"<p>Use <code>[download_cat#id]</code> replacing id with the id of the "
+"category.</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1464
+msgid "About this plugin - please donate!"
+msgstr ""
+
+#: wp-download_monitor.php:1466
+msgid ""
+"<p>The Wordpress Download monitor plugin was created by <a href=\"http://"
+"blue-anvil.com/\">Mike Jolley</a>. The development\n"
+"                of this plugin took a lot of time and effort, therefore "
+"donations are very welcome, and encouraged \n"
+"                (I have living costs you know) :)</p>"
+msgstr ""
+
+#: wp-download_monitor.php:1620 wp-download_monitor.php:1716
+msgid "Added"
+msgstr ""
+
+#: wp-download_monitor.php:1673
+msgid "Most Popular Downloads"
+msgstr ""
+
+#: wp-download_monitor.php:1719
+msgid "No Downloads Found"
+msgstr ""
+
+#: wp-download_monitor.php:1948
+msgid "successfully uploaded!"
+msgstr ""
+
+#: wp-download_monitor.php:1949
+msgid ""
+"The uploaded file exceeds the max. upload filesize directive in the server "
+"configuration."
+msgstr ""
+
+#: wp-download_monitor.php:1950
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the html form."
+msgstr ""
+
+#: wp-download_monitor.php:1951
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: wp-download_monitor.php:1952
+msgid "No file was uploaded"
+msgstr ""
+
+#: wp-download_monitor.php:1954
+msgid "Please select a file for upload."
+msgstr ""
+
+#: wp-download_monitor.php:1955
+msgid "Only files with the following extensions are allowed:"
+msgstr ""
+
+#: wp-download_monitor.php:1956
+msgid ""
+"Sorry, the filename contains invalid characters. Use only alphanumerical "
+"chars and separate parts of the name (if needed) with an underscore. <br>A "
+"valid filename ends with one dot followed by the extension."
+msgstr ""
+
+#: wp-download_monitor.php:1957
+msgid "The filename exceeds the maximum length of "
+msgstr ""
+
+#: wp-download_monitor.php:1957
+msgid "characters."
+msgstr ""
+
+#: wp-download_monitor.php:1958
+msgid "Sorry, the upload directory doesn't exist!"
+msgstr ""
+
+#: wp-download_monitor.php:1959
+msgid "Uploading"
+msgstr ""
+
+#: wp-download_monitor.php:1959
+msgid "Sorry, a file with this name already exitst."
+msgstr ""
+
+#: wp-download_monitor.php:1960
+msgid "The uploaded file is renamed to"
+msgstr ""
+
+#: wp-download_monitor.php:1961
+#, php-format
+msgid "The file %s does not exist."
+msgstr ""
+
+#: wp-download_monitor.php:2001
+msgid "Most Recent"
+msgstr ""
+
+#: wp-download_monitor.php:2011 wp-download_monitor.php:2027
+msgid "times since"
+msgstr ""
+
+#: wp-download_monitor.php:2013 wp-download_monitor.php:2029
+msgid "No downloads found"
+msgstr ""
+
+#: wp-download_monitor.php:2017
+msgid "Most Popular"
+msgstr ""
