@@ -73,10 +73,10 @@
 						mysql_real_escape_string( $d->id ));
 				   $wpdb->query($query_update);
 			   }
-        	  /* $location= 'Location: '.$d->filename;
+        	   $location= 'Location: '.$d->filename;
         	   header($location);
-        	   exit();*/
-			   /* Redirect to the link URL */
+        	   exit();
+			   /* Redirect to the link URL THIS CODE IS BROKEN - 0kb downlaods
 				$location= $d->filename;
 				$mm_type="application/octet-stream";
 				header("Cache-Control: public, must-revalidate");
@@ -85,7 +85,7 @@
 				header('Content-Disposition: attachment; filename="'.basename($location).'"');
 				header("Content-Transfer-Encoding: binary\n");
 				readfile($location);
-				exit();
+				exit();*/
 		} else echo 'Download does not exist!';
    }
    else echo 'Download does not exist!';
