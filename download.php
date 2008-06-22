@@ -58,7 +58,7 @@
 				}
 				
 				// Check permissions
-				if ($d->members && ($level==0 || !isset($user_ID))) {
+				if ($d->members && !isset($user_ID)) {
 					echo "You must be logged in to download this file";
 					exit();
 				}
