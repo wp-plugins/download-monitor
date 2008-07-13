@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.1.2 B20080623
+Version: v2.1.3
 Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -24,7 +24,7 @@ Description: Manage downloads on your site, view and show hits, and output in po
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-$dlm_build="B20080623";
+$dlm_build="B20080713";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
@@ -137,12 +137,13 @@ function wp_dlm_init() {
 			PRIMARY KEY ( `id` )
 			)";
 	$result = $wpdb->query($sql);
+	$wpdb->hide_errors();		
 	// ADD ROW FOR MEMBER ONLY DOWNLOADS
 	$sql = "ALTER TABLE ".$wp_dlm_db." ADD `members` INT (1) NULL;";
-	$result = @$wpdb->query($sql);
+	$result = $wpdb->query($sql);
 	// ADD ROW FOR CATEGORY
 	$sql = "ALTER TABLE ".$wp_dlm_db." ADD `category_id` INT (12) NULL;";
-	$result = @$wpdb->query($sql);
+	$result = $wpdb->query($sql);
 	$q=$wpdb->get_results("select * from $wp_dlm_db;");
 	if ( empty( $q ) ) {
 		$wpdb->query("TRUNCATE table $wp_dlm_db");
@@ -411,6 +412,7 @@ function wp_dlm_ins($data) {
 } 
 add_filter('the_content', 'wp_dlm_ins',1,1); 
 add_filter('the_excerpt', 'wp_dlm_ins',1,1);
+add_filter('the_meta_key', 'wp_dlm_ins',1,1);
 ################################################################################
 // CATEGORIES - INSERT LINK INTO POSTS
 ################################################################################
@@ -1344,12 +1346,12 @@ function wp_dlm_admin()
 										get_children_cats($c->id, "$c->name &mdash; ");
 									}
 								} else {
-									echo '<tr><td colspan="3">No categories exist</td></tr>';
+									echo '<tr><td colspan="3">'.__('No categories exist',"wp-download_monitor").'</td></tr>';
 								}
 							?>
                         </tbody>
                     </table>
-                	<h4>Add Category</h4>
+                	<h4><?php _e('Add category',"wp-download_monitor"); ?></h4>
                     <table class="niceblue">
                         <tr>
                             <th scope="col"><?php _e('Name',"wp-download_monitor"); ?>:</th>
@@ -1358,7 +1360,7 @@ function wp_dlm_admin()
                         <tr>
                             <th scope="col"><?php _e('Parent',"wp-download_monitor"); ?>:</th>
                             <td><select name="cat_parent">
-                            	<option value="">None</option>
+                            	<option value=""><?php _e('None',"wp-download_monitor"); ?></option>
                                 <?php
 									if (!empty($cats)) {
 										foreach ( $cats as $c ) {
@@ -1528,7 +1530,7 @@ function wp_dlm_show_downloads($mode,$no) {
 			$wpdb->escape( $no ));
 		break;
 		case (2) :
-			$query = sprintf("SELECT * FROM %s ORDER BY postDate LIMIT %s;",
+			$query = sprintf("SELECT * FROM %s ORDER BY postDate DESC LIMIT %s;",
 			$wpdb->escape( $wp_dlm_db ),
 			$wpdb->escape( $no ));
 		break;
@@ -1839,8 +1841,9 @@ class wp_dlm_file_upload {
 		}
 	}
 	function get_extension($from_file) {
-		$ext = strtolower(strrchr($from_file,"."));
-		return $ext;
+		//$ext = strtolower(strrchr($from_file,"."));
+		$ext = strtolower(pathinfo($from_file, PATHINFO_EXTENSION));
+		return '.'.$ext;
 	}
 	function validateExtension() {
 		$extension = $this->get_extension($this->the_file);

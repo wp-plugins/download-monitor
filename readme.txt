@@ -15,10 +15,10 @@ Plugin with interface for uploading and managing download files, inserting downl
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links. 
 
 Features
-
+	* New - Custom Field support
     * New - Download Categories
 	* New - Member only downloads
-    * New - Localization support
+    * Localization support
     * Fixed - Sorting and pagination of downloads in admin
     * Support for wordpress 2+ (including 2.5)
     * Re-upload files, handy for updating versions!
