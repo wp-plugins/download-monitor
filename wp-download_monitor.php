@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://blue-anvil.com
-Version: v2.1.3
+Version: v2.1.4
 Author: Mike Jolley
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
 */
@@ -24,7 +24,7 @@ Description: Manage downloads on your site, view and show hits, and output in po
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-$dlm_build="B20080713";
+$dlm_build="B20080801";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/"; 	//FIXED: 2 - get_settings depreciated
 $max_upload_size = 10485760; //10mb
 
@@ -113,12 +113,9 @@ function wp_dlm_init() {
 
 	add_option('wp_dlm_url', '', 'URL for download', 'no');	
 	add_option('wp_dlm_url', 'ID', 'wp_dlm_type', 'no');
-	
 	// Added options for extensions
 	add_option('wp_dlm_extensions', '.zip,.pdf,.mp3,.rar', '', 'no');
-		
  	global $wp_dlm_db,$wp_dlm_db_cats,$wpdb;
-
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db." (				
 			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 			`title`   	VARCHAR (200) NOT NULL ,
@@ -127,6 +124,8 @@ function wp_dlm_init() {
 			`postDate`  DATETIME  NOT NULL ,
 			`hits`   	INT (12) UNSIGNED NOT NULL ,
 			`user`   	VARCHAR (200) NOT NULL ,
+			`category_id` INT (12) NULL,
+			`members` INT (1) NULL,
 			PRIMARY KEY ( `id` )
 			)";
 	$result = $wpdb->query($sql);
@@ -136,14 +135,7 @@ function wp_dlm_init() {
 			`parent`  	INT (12) UNSIGNED NOT NULL,
 			PRIMARY KEY ( `id` )
 			)";
-	$result = $wpdb->query($sql);
-	$wpdb->hide_errors();		
-	// ADD ROW FOR MEMBER ONLY DOWNLOADS
-	$sql = "ALTER TABLE ".$wp_dlm_db." ADD `members` INT (1) NULL;";
-	$result = $wpdb->query($sql);
-	// ADD ROW FOR CATEGORY
-	$sql = "ALTER TABLE ".$wp_dlm_db." ADD `category_id` INT (12) NULL;";
-	$result = $wpdb->query($sql);
+	$result = $wpdb->query($sql);	
 	$q=$wpdb->get_results("select * from $wp_dlm_db;");
 	if ( empty( $q ) ) {
 		$wpdb->query("TRUNCATE table $wp_dlm_db");
@@ -1168,6 +1160,64 @@ function wp_dlm_admin()
 					$ins_cat=true;
 					$show=true;
 				break;
+				case "reinstall" :
+					global $wpdb, $wp_dlm_db, $wp_dlm_db_cats;
+					// GET OLD DATA
+					$wpdb->show_errors;
+					$query = sprintf("SELECT * from %s;",
+						$wpdb->escape( $wp_dlm_db ));
+					$result_d = $wpdb->get_results($query);
+					if($result_d && $wpdb->num_rows>0) {
+						$values="";
+						foreach($result_d as $d) {
+							$id=$d->id;
+							$title=$d->title;
+							$filename=$d->filename;
+							$dlversion=$d->dlversion;
+							$postDate=$d->postDate;
+							$hits=$d->hits;
+							$user=$d->user;
+							$members=$d->members;
+							$category_id=$d->category_id;							
+							$values.='("'.$id.'","'.$title.'","'.$filename.'","'.$dlversion.'","'.$postDate.'","'.$hits.'","'.$user.'","'.$members.'","'.$category_id.'"),';
+						}
+						$values = substr_replace($values,"",-1);
+					}
+					$query = sprintf("SELECT * from %s;",
+						$wpdb->escape( $wp_dlm_db_cats ));
+					$result_cats = $wpdb->get_results($query);
+					if($result_cats && $wpdb->num_rows>0) {
+						$values2="";
+						foreach($result_cats as $d) {
+							$id=$d->id;
+							$name=$d->name;
+							$parent=$d->parent;							
+							$values2.='("'.$id.'","'.$name.'","'.$parent.'"),';
+						}
+						$values2 = substr_replace($values2,"",-1);
+					}
+					// DROP TABLES
+					$sql = 'DROP TABLE IF EXISTS `'.$wp_dlm_db.'`';
+					$wpdb->query($sql);
+					$sql = 'DROP TABLE IF EXISTS `'.$wp_dlm_db_cats.'`';
+					$wpdb->query($sql);
+					wp_dlm_init();
+					// ADD OLD DATA
+					if (!empty($values)) {
+						$query_ins = sprintf("INSERT INTO %s (id, title, filename, dlversion, postDate, hits, user, members, category_id) VALUES %s;",
+							$wpdb->escape( $wp_dlm_db ),
+							$values);
+						$wpdb->query($query_ins);
+					}
+					if (!empty($values2)) {
+						$query_ins = sprintf("INSERT INTO %s (id, name, parent) VALUES %s;",
+							$wpdb->escape( $wp_dlm_db_cats ),
+							$values2);
+						$wpdb->query($query_ins);
+					}	
+					echo '<div id="message" class="updated fade"><p><strong>'.__('Database recreated',"wp-download_monitor").'</strong></p></div>';
+					$show=true;				
+				break;
 		}
 	}
 	//show downloads page
@@ -1416,6 +1466,16 @@ function wp_dlm_admin()
                         </tr>
                     </table>
                     <p class="submit"><input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" /></p>
+                </form>
+            </div>
+        </div>
+        <div class="postbox close-me dlmbox">
+            <h3><?php _e('Recreate Download Database',"wp-download_monitor"); ?></h3>
+            <div class="inside">
+            	<?php _e('<p>This will delete the old download monitor tables and recreate them. You should only do this as a last resort if experiencing database errors after updating the plugin. Download monitor will attempt to re-add any downloads currently in the database.</p>',"wp-download_monitor"); ?>
+                <?php _e('<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>',"wp-download_monitor"); ?>
+                <form action="?page=Downloads&amp;action=reinstall" method="post">
+                    <p class="submit"><input type="submit" value="<?php _e('Recreate Download Database',"wp-download_monitor"); ?>" /></p>
                 </form>
             </div>
         </div>
