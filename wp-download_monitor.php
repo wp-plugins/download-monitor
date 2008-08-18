@@ -1,10 +1,11 @@
 <?php
-/* 
+/*
 Plugin Name: Wordpress Download Monitor
-Plugin URI: http://blue-anvil.com
-Version: v2.1.4
-Author: Mike Jolley
+Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page found at "Manage>Downloads".
+Version: 2.1.5
+Author: Mike Jolley
+Author URI: http://blue-anvil.com
 */
 
 /*  Copyright 2006  Michael Jolley  (email : jolley.small.at.googlemail.com)

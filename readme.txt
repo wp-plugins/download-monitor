@@ -1,12 +1,10 @@
 === Plugin Name ===
 Contributors: jolley_small
-Author URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
-Plugin URI: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.0
 Tested up to: 2.5
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -14,23 +12,24 @@ Plugin with interface for uploading and managing download files, inserting downl
 
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links. 
 
-Features
-	* New - Custom Field support
-    * New - Download Categories
-	* New - Member only downloads
-    * Localization support
-    * Fixed - Sorting and pagination of downloads in admin
-    * Support for wordpress 2+ (including 2.5)
-    * Re-upload files, handy for updating versions!
-    * Change hits, just in case you change servers or import old downloads that already have stats
-    * URL hider using mod_rewrite
-    * Image display mode (show a link like the download link image on this page!)
-    * Admin page for uploading/linking to downloads, and specifying information (title and version).
-    * Records download hits.
-    * Does **not** count downloads by wordpress admin users.
-    * Template tags for showing popular, recent, and random downloads in your web site's sidebar.
-    * Post tags for outputting download links e.g [download#id]
-    * Drop-down menu in non-rich text wordpress editor for adding links.
+= Features =
+
+*	New - Custom Field support.
+*	New - Download Categories.
+*	New - Member only downloads.
+*	Localization support.
+*	Fixed - Sorting and pagination of downloads in admin.
+*	Support for wordpress 2+ (including 2.5).
+*	Re-upload files, handy for updating versions!
+*	Change hits, just in case you change servers or import old downloads that already have stats.
+*	URL hider using mod_rewrite.
+*	Image display mode (show a link like the download link image on this page!).
+*	Admin page for uploading/linking to downloads, and specifying information (title and version).
+*	Records download hits.
+*	Does **not** count downloads by wordpress admin users.
+*	Template tags for showing popular, recent, and random downloads in your web site's sidebar.
+*	Post tags for outputting download links e.g [download#id].
+*	Drop-down menu in non-rich text wordpress editor for adding links.
 	
 	
 == Installation ==
