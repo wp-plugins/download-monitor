@@ -1,5 +1,22 @@
 <?php
-	require_once('../../../wp-config.php');
+	if(file_exists('../../../wp-config.php')) {
+		require_once("../../../wp-config.php");
+	} else if(file_exists('../../wp-config.php')) {
+		require_once("../../wp-config.php");
+	} else if(file_exists('../wp-config.php')) {
+		require_once("../wp-config.php");
+	} else if(file_exists('wp-config.php')) {
+		require_once("wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else {
+		echo '<p>Cannnot find wp-config.php. Maybe a config error with "custom download url" setting.</p>';
+		exit;
+	}
+	include_once('classes/linkValidator.class.php');
+		
 	global $table_prefix,$wpdb,$user_ID;	
 	// set table name	
 	$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -25,7 +42,6 @@
 		// set table name	
 		$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 		
-		
 		switch ($downloadtype) {
 					case ("Title") :
 							// select a download
@@ -49,8 +65,8 @@
 		}	
 
 		$d = $wpdb->get_row($query_select_1);
-		if (!empty($d)) {
-				
+		if (!empty($d) && is_numeric($d->id) ) {
+					
 				// FIXED:1.6 - Admin downloads don't count
 				if (isset($user_ID)) {
 					$user_info = get_userdata($user_ID);
@@ -59,7 +75,12 @@
 				
 				// Check permissions
 				if ($d->members && !isset($user_ID)) {
-					echo "You must be logged in to download this file";
+					$url = get_option('wp_dlm_member_only');
+					if (!empty($url)) {
+						$url = 'Location: '.$url;
+						header( $url );
+						exit();
+   					} else echo 'You must be logged in to download this file.';
 					exit();
 				}
 				
@@ -73,20 +94,58 @@
 						mysql_real_escape_string( $d->id ));
 				   $wpdb->query($query_update);
 			   }
-        	   $location= 'Location: '.$d->filename;
+			   
+			   // Select a mirror
+			   $mirrors = trim($d->mirrors);
+			   if (!empty($mirrors)) {
+			   
+			   
+			   		$mirrors = explode("\n",$mirrors);
+			   		array_push($mirrors,$d->filename);
+			   		$mirrorcount = sizeof($mirrors)-1;
+			   		$thefile = $mirrors[rand(0,$mirrorcount)];
+
+			   		// Check random mirror is OK or choose another
+			   		$checking=true;
+			   		$loop = 0;
+			   		while ($checking) {
+ 						$linkValidator = new linkValidator();
+						$linkValidator->linkValidator($thefile);
+						if (!$linkValidator->status()) {
+						
+							// Failed - use another mirror
+							if ($mirrorcount<$loop) {
+								$thefile = $mirrors[$loop];
+								$loop++;
+							} else {
+								// All broken
+								$thefile = $d->filename;
+								$checking = false;
+							}
+						
+						} else {
+							$checking = false;
+						}
+
+					}
+					// Do we have a link?		
+					if (strlen($thefile)<4) $thefile = $d->filename;			   		
+			   			   		
+			   } else {
+			   		$thefile = $d->filename;
+			   };
+			   
+			   // Link to download
+        	   $location= 'Location: '.$thefile;
         	   header($location);
         	   exit();
-			   /* Redirect to the link URL THIS CODE IS BROKEN - 0kb downlaods
-				$location= $d->filename;
-				$mm_type="application/octet-stream";
-				header("Cache-Control: public, must-revalidate");
-				header("Pragma: hack");
-				header("Content-Type: " . $mm_type);
-				header('Content-Disposition: attachment; filename="'.basename($location).'"');
-				header("Content-Transfer-Encoding: binary\n");
-				readfile($location);
-				exit();*/
-		} else echo 'Download does not exist!';
+		}
    }
-   else echo 'Download does not exist!';
+   $url = get_option('wp_dlm_does_not_exist');
+   if (!empty($url)) {
+   		$url = 'Location: '.$url;
+		header( $url );
+		exit();
+   } else echo 'Download does not exist!';
+   exit();
 ?>

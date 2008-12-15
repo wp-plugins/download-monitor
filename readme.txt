@@ -3,23 +3,30 @@ Contributors: jolley_small
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.0
-Tested up to: 2.5
-Stable tag: 2.1.5
+Tested up to: 2.7
+Stable tag: 2.2
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
 == Description ==
 
-Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links. 
+Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links.
 
 = Features =
 
-*	New - Custom Field support.
-*	New - Download Categories.
-*	New - Member only downloads.
+*	New - WP2.7 Support
+*	New - Editor button - upload and add a download stright from a post.
+*	New - Custom redirects.
+*	New - Custom download image.
+*	New - Localised files include redirects.
+*	New - Added support to add downloads to text widgets
+*	New - Mirror support (selected at random)
+*	New - Mirror deadlink checker
+*	Custom Field support.
+*	Download Categories.
+*	Member only downloads.
 *	Localization support.
 *	Fixed - Sorting and pagination of downloads in admin.
-*	Support for wordpress 2+ (including 2.5).
 *	Re-upload files, handy for updating versions!
 *	Change hits, just in case you change servers or import old downloads that already have stats.
 *	URL hider using mod_rewrite.
@@ -48,21 +55,6 @@ Installation is fast and easy. The following steps will guide get you started:
    5. Once activated, go to the Manage > Downloads.
    6. That's it, you're done. You can now add downloads.
 
-= Upgrade instructions from v1.5/1.6 =
-
-Already using download monitor? This release has a new folder/file name so:
-
-   1. upload the new files to the plugin directory (do not put in old download monitor folder)
-   2. Copy the contents of the old user_uploads folder into the new via ftp (and don't forget to set the permissions of the folder to 777)
-   3. de-activate the old version
-   4. Activate the new and your done.
-
-It uses the same database; nothing in the database has changed. After your made sure its working you can remove the old download monitor plugin directory.
-
-= Upgrade instructions from v2.0.6 =
-
-Due to the new wordpress update system, the upload directory can no longer be within the plugin folder; wordpress deletes it. Therefore the plugin directory is now the uploads folder in the wp-content folder. ENSURE YOU MOVE DOWNLOADS HERE BEFORE UPGRADING! The plugin will convert the urls to the new directory on activation.
-
 == Frequently Asked Questions ==
 
 = My hits arn't showing up! =
@@ -73,22 +65,35 @@ Admin hits are not counted, log out and try!
 
 The admin interface now allows you to change extensions.
 
+= I get an 'error saving to database error' =
+
+The download tables may not exist. Use the option in manage/tools > downloads > recreate download database.
+
+= I want my downloads to be parsed in a custom field using get_post_meta() =
+
+Wordpress does not have a filter I can hook into for this function, so to make this work wrap it in the <code>wp_dlm_parse_downloads()</code> function. For example:
+
+<code>echo wp_dlm_parse_downloads(get_post_meta($post->ID, 'Download', true));</code>
+
 == Screenshots ==
 
-1. Wordpress 2.3 admin screenshot
+1. Wordpress 2.7 admin screenshot
 2. Wordpress 2.5 admin screenshot
+3. Wordpress 2.3 admin screenshot
 
 == Usage ==
 
-To **show download links**, use the following tags:
+**New Method**: Use the admin panel to define custom formats to output your links and then use `[download#id#format=id]` or just [download#id] if you set one as default.
 
-   1. Link/hits - [download#id]
-   2. Link w/o hits - [download#id#nohits]
-   3. URL only - [download#id#url]
-   4. Hits only - [download#id#hits]
-   5. Link with image - [download#id#image]
-   6. New - Link/hits/filesize - [download#id#size]
-   7. New - Link/filesize - [download#id#size#nohits]
+**Traditional Method:** To **show download links**, use the following tags:
+
+   1. Link/hits - `[download#id]`
+   2. Link w/o hits - `[download#id#nohits]`
+   3. URL only - `[download#id#url]`
+   4. Hits only - `[download#id#hits]`
+   5. Link with image - `[download#id#image]`
+   6. Link/hits/filesize - `[download#id#size]`
+   7. Link/filesize - `[download#id#size#nohits]`
    
 There are a few other **template tags** to use in your wordpress templates. Replace '$no' with the amount of downloads to show.
 

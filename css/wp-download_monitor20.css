@@ -5,7 +5,7 @@
 	border:1px solid #CCCCCC;
 	clear:both;
 	margin:15px 5%;
-	padding:1em;
+	padding:0 1em;
 }
 #poststuff.dlm {
 	margin:0 !important;
@@ -33,4 +33,7 @@ a.togbox:hover {
 	border:1px solid #ccc;
 	background:#fff;
 	color:#999;
+}
+#downloadadminicon {
+	display: none;
 }

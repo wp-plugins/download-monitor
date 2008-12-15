@@ -1,0 +1,41 @@
+.widefat thead th a {
+	color:#333 !important;
+	text-decoration:underline;
+}
+.error
+{
+	padding:12px;
+}
+.dlm.meta-box-sortables {
+	margin:0 15px 0 5px;
+}
+#downloadadminicon {
+	background:transparent url(../img/downloads-icon.gif) no-repeat scroll -8px -5px;
+}
+.a_break {
+	display: none;
+}
+.dlm.meta-box-sortables h3 {
+	cursor: pointer;
+}
+#wp_dlm_add strong {
+	font-weight: normal;
+}
+.small-table {
+	margin-bottom: 0;
+}
+.small-table td {
+	font-size:11px;
+	line-height:12px;
+	margin-bottom:0px;
+	padding:4px 10px;
+}
+
+.small-table th {
+	padding:4px 10px;
+	line-height:12px;
+	text-align:left;
+	vertical-align:middle;
+	width:100px;
+}
+
