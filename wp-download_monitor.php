@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page can be found in "Manage/Tools > Downloads". If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 2.2
+Version: 2.2.1
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20081215";
+$dlm_build="B20081217";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 add_option('max_upload_size','10485760','no'); //10mb
 $max_upload_size = get_option('max_upload_size');
@@ -502,8 +502,8 @@ function wp_dlm_parse_downloads($data) {
 						// Regular download link - NOW USES DEFAULT FORMAT
 						if ($def_format==0) {
 							if (!empty($d->dlversion)) 				
-								$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
-							else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
+								$link = '<a class="downloadlink" href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
+							else $link = '<a class="downloadlink" href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
 						} else {
 							// Get Custom formatted version
 							$format = wp_dlm_get_custom_format($def_format);							
@@ -1069,11 +1069,17 @@ function wp_dlm_admin()
 				break;
 				case "delete" :
 					$d = $wpdb->get_row($query_select_1);
+					global $wp_db_version;
+					if ($wp_db_version>=9872) {
+						$adminpage = 'tools.php';
+					} else {
+						$adminpage = 'edit.php';
+					}
 					?>
 						<div class="wrap">
 							<div id="downloadadminicon" class="icon32"><br/></div>
 							<h2><?php _e('Sure?',"wp-download_monitor"); ?></h2>
-							<p><?php _e('Are you sure you want to delete',"wp-download_monitor"); ?> "<?php echo $d->title; ?>"<?php _e('? (If originally uploaded by this plugin, this will also remove the file from the server)',"wp-download_monitor"); ?> <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/edit.php?page=Downloads&amp;action=confirmed&amp;id=<?php echo $_GET['id']; ?>&amp;sort=<?php echo $_GET['sort']; ?>&amp;p=<?php echo $_GET['p']; ?>"><?php _e('[yes]',"wp-download_monitor"); ?></a> <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/edit.php?page=Downloads&amp;action=cancelled&amp;sort=<?php echo $_GET['sort']; ?>&amp;p=<?php echo $_GET['p']; ?>"><?php _e('[no]',"wp-download_monitor"); ?></a>
+							<p><?php _e('Are you sure you want to delete',"wp-download_monitor"); ?> "<?php echo $d->title; ?>"<?php _e('? (If originally uploaded by this plugin, this will also remove the file from the server)',"wp-download_monitor"); ?> <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/<?php echo $adminpage; ?>?page=Downloads&amp;action=confirmed&amp;id=<?php echo $_GET['id']; ?>&amp;sort=<?php echo $_GET['sort']; ?>&amp;p=<?php echo $_GET['p']; ?>"><?php _e('[yes]',"wp-download_monitor"); ?></a> <a href="<?php echo get_bloginfo('wpurl'); ?>/wp-admin/<?php echo $adminpage; ?>?page=Downloads&amp;action=cancelled&amp;sort=<?php echo $_GET['sort']; ?>&amp;p=<?php echo $_GET['p']; ?>"><?php _e('[no]',"wp-download_monitor"); ?></a>
 						</div>
 					<?php
 				break;
@@ -1582,8 +1588,9 @@ function wp_dlm_admin()
 				} else echo '<tr><th colspan="11">'.__('No downloads added yet.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
 		?>			
 		</table>
+
         <div class="tablenav">
-        	<div style="float:left">
+        	<div style="float:left" class="tablenav-pages">
 				<?php
 					// FIXED: 2 - Moved around to make more sense
 					if ($total_pages>1)  { // FIXED: 1.6 - Stops it displaying when un-needed
@@ -1592,11 +1599,11 @@ function wp_dlm_admin()
 						if($page > 1){ 
 							$prev = ($page - 1); 
 							echo "<a href=\"?page=Downloads&amp;p=$prev&amp;sort=$sort\">&laquo; ".__('Previous',"wp-download_monitor")."</a> "; 
-						} else echo "&laquo; ".__('Previous',"wp-download_monitor")."";
+						} else echo "<span class='current page-numbers'>&laquo; ".__('Previous',"wp-download_monitor")."</span>";
 
 						for($i = 1; $i <= $total_pages; $i++){ 
 							if(($page) == $i){ 
-								echo " $i "; 
+								echo " <span class='page-numbers current'>$i</span> "; 
 								} else { 
 									echo " <a href=\"?page=Downloads&amp;p=$i&amp;sort=$sort\">$i</a> "; 
 							} 
@@ -1606,13 +1613,13 @@ function wp_dlm_admin()
 						if($page < $total_pages){ 
 							$next = ($page + 1); 
 							echo "<a href=\"?page=Downloads&amp;p=$next&amp;sort=$sort\">".__('Next',"wp-download_monitor")." &raquo;</a>"; 
-						} else echo __('Next',"wp-download_monitor")." &raquo;";
+						} else echo "<span class='current page-numbers'>".__('Next',"wp-download_monitor")." &raquo;</span>";
 						
 					}
 				?>	
-            </div>
-        	<br class="a_break" style="clear: both;"/>
-        </div>			
+            </div>        	
+        </div>
+        <br style="clear: both; margin-bottom:1px; height:2px; line-height:2px;" />
     </div>
     <div id="poststuff" class="dlm meta-box-sortables">
     
@@ -2122,7 +2129,13 @@ if ($wp_db_version > 6124) {
 		}
 		// Register the widget for dashboard use
 		function register_widget() {
-			wp_register_sidebar_widget( 'download_monitor_dash', __( 'Downloads', 'wp-download_monitor' ), array(&$this, 'widget'), array( 'all_link' => 'edit.php?page=Downloads' ) );
+			global $wp_db_version;
+			if ($wp_db_version>=9872) {
+				$adminpage = 'tools.php';
+			} else {
+				$adminpage = 'edit.php';
+			}
+			wp_register_sidebar_widget( 'download_monitor_dash', __( 'Downloads', 'wp-download_monitor' ), array(&$this, 'widget'), array( 'all_link' => $adminpage.'?page=Downloads' ) );
 		}
 		// Insert into dashboard
 		function add_widget( $widgets ) {

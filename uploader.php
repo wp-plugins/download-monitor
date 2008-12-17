@@ -1,6 +1,12 @@
 <?php
 define(ABSPATH,'../../../');
-require_once('../../../wp-admin/admin.php');
+//require_once('../../../wp-admin/admin.php');
+require_once( ABSPATH . 'wp-config.php' );
+wp_admin_css_color('classic', __('Blue'), admin_url("css/colors-classic.css"), array('#073447', '#21759B', '#EAF3FA', '#BBD8E7'));
+wp_admin_css_color('fresh', __('Gray'), admin_url("css/colors-fresh.css"), array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));
+
+wp_enqueue_script( 'common' );
+wp_enqueue_script( 'jquery-color' );
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
@@ -312,14 +318,14 @@ load_plugin_textdomain('wp-download_monitor', '/');
 			<h3><?php _e('Downloads'); ?></h3>
 	        <table class="widefat" style="width:100%;" cellpadding="0" cellspacing="0"> 
 				<thead>
-					<tr>
-					<th scope="col" style="text-align:center;vertical-align:middle"><?php _e('ID',"wp-download_monitor"); ?></th>
-					<th scope="col" style="vertical-align:middle"><?php _e('Title',"wp-download_monitor"); ?></th>
-					<th scope="col" style="vertical-align:middle"><?php _e('File',"wp-download_monitor"); ?></th>
-	                <th scope="col" style="text-align:center;vertical-align:middle"><?php _e('Category',"wp-download_monitor"); ?></th>					
-					<th scope="col" style="text-align:left;width:100px;vertical-align:middle"><?php _e('Description',"wp-download_monitor"); ?></th>
-	                <th scope="col" style="text-align:center;vertical-align:middle"><?php _e('Member only',"wp-download_monitor"); ?></th>
-					<th scope="col" style="text-align:center;vertical-align:middle"><?php _e('Action',"wp-download_monitor"); ?></th>
+					<tr>				
+						<th scope="col" style="text-align:center;vertical-align:middle"><a href="?tab=downloads&amp;sort=id"><?php _e('ID',"wp-download_monitor"); ?></a></th>
+						<th scope="col" style="vertical-align:middle"><a href="?tab=downloads&amp;sort=title"><?php _e('Title',"wp-download_monitor"); ?></a></th>
+						<th scope="col" style="vertical-align:middle"><a href="?tab=downloads&amp;sort=filename"><?php _e('File',"wp-download_monitor"); ?></a></th>
+		                <th scope="col" style="text-align:center;vertical-align:middle;"><?php _e('Category',"wp-download_monitor"); ?></th>
+						<th scope="col" style="text-align:left;width:100px;vertical-align:middle;"><?php _e('Description',"wp-download_monitor"); ?></th>
+		                <th scope="col" style="text-align:center;text-align:center"><?php _e('Member only',"wp-download_monitor"); ?></th>
+						<th scope="col" style="text-align:center;vertical-align:middle"><?php _e('Action',"wp-download_monitor"); ?></th>
 					</tr>
 				</thead>						
 			<?php	
@@ -391,19 +397,51 @@ load_plugin_textdomain('wp-download_monitor', '/');
 					} 
 			?>			
 			</table>
-			<script type="text/javascript">
-				/* <![CDATA[ */
-				jQuery('.insertdownload').click(function(){
-					var win = window.dialogArguments || opener || parent || top;
-					var did = jQuery(this).attr('id');
-					did=did.replace('download-', '');
-					if (jQuery('#format').val()>0) win.send_to_editor('[download#' + did + '#format=' + jQuery('#format').val() + ']');
-					else win.send_to_editor('[download#' + did + ']');
-				});
-				/* ]]> */
-			</script>
+	        <div class="tablenav">
+	        	<div style="float:left" class="tablenav-pages">
+					<?php
+						// FIXED: 2 - Moved around to make more sense
+						if ($total_pages>1)  { // FIXED: 1.6 - Stops it displaying when un-needed
+						
+							// Build Page Number Hyperlinks 
+							if($page > 1){ 
+								$prev = ($page - 1); 
+								echo "<a href=\"?tab=downloads&amp;p=$prev&amp;sort=$sort\">&laquo; ".__('Previous',"wp-download_monitor")."</a> "; 
+							} else echo "<span class='current page-numbers'>&laquo; ".__('Previous',"wp-download_monitor")."</span>";
+	
+							for($i = 1; $i <= $total_pages; $i++){ 
+								if(($page) == $i){ 
+									echo " <span class='page-numbers current'>$i</span> "; 
+									} else { 
+										echo " <a href=\"?tab=downloads&amp;p=$i&amp;sort=$sort\">$i</a> "; 
+								} 
+							} 
+	
+							// Build Next Link 
+							if($page < $total_pages){ 
+								$next = ($page + 1); 
+								echo "<a href=\"?tab=downloads&amp;p=$next&amp;sort=$sort\">".__('Next',"wp-download_monitor")." &raquo;</a>"; 
+							} else echo "<span class='current page-numbers'>".__('Next',"wp-download_monitor")." &raquo;</span>";
+							
+						}
+					?>	
+	            </div>        	
+	        </div>
+	        <br style="clear: both; margin-bottom:1px; height:2px; line-height:2px;" />
+	    </div>
+		<script type="text/javascript">
+			/* <![CDATA[ */
+			jQuery('.insertdownload').click(function(){
+				var win = window.dialogArguments || opener || parent || top;
+				var did = jQuery(this).attr('id');
+				did=did.replace('download-', '');
+				if (jQuery('#format').val()>0) win.send_to_editor('[download#' + did + '#format=' + jQuery('#format').val() + ']');
+				else win.send_to_editor('[download#' + did + ']');
+			});
+			/* ]]> */
+		</script>
 
-			<?php
+		<?php
 			
 		break;
 	}

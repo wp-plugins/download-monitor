@@ -108,8 +108,8 @@
 			   		// Check random mirror is OK or choose another
 			   		$checking=true;
 			   		$loop = 0;
-			   		while ($checking) {
- 						$linkValidator = new linkValidator();
+			   		$linkValidator = new linkValidator();
+			   		while ($checking) { 						
 						$linkValidator->linkValidator($thefile);
 						if (!$linkValidator->status()) {
 						
