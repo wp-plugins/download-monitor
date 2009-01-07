@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. Downloads page can be found in "Manage/Tools > Downloads". If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 2.2.1
+Version: 2.2.2
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20081217";
+$dlm_build="B20090107";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 add_option('max_upload_size','10485760','no'); //10mb
 $max_upload_size = get_option('max_upload_size');
@@ -481,132 +481,135 @@ function wp_dlm_parse_downloads($data) {
 					
 					foreach($downloads as $d) {
 					
-						switch ($downloadtype) {
-								case ("Title") :
-										$downloadlink = urlencode($d->title);
-								break;
-								case ("Filename") :
-										$downloadlink = $d->filename;
-										$links = explode("/",$downloadlink);
-										$downloadlink = end($links);
-								break;
-								default :
-										$downloadlink = $d->id;
-								break;
-						}
-						
-						################################################################################
-						// Define Patterns
-						################################################################################
-												
-						// Regular download link - NOW USES DEFAULT FORMAT
-						if ($def_format==0) {
-							if (!empty($d->dlversion)) 				
-								$link = '<a class="downloadlink" href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
-							else $link = '<a class="downloadlink" href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
-						} else {
-							// Get Custom formatted version
-							$format = wp_dlm_get_custom_format($def_format);							
-							$fpatts = array();
-							$fsubs = array();
-							$fpatts[] = '{url}';
-							$fsubs[]  = $downloadurl.$downloadlink;
-							$fpatts[] = '{version}';
-							$fsubs[]  = $d->dlversion;
-							$fpatts[] = '{title}';
-							$fsubs[]  = $d->title;
-							$fpatts[] = '{size}';
-							$fsubs[]  = wp_dlm_get_size($d->filename);
-							$fpatts[] = '{hits}';
-							$fsubs[]  = $d->hits;
-							$fpatts[] = '{image_url}';
-							$fsubs[]  = get_option('wp_dlm_image_url');
-							
-							if ($d->category_id>0) {
-								$fpatts[] = '{category}';
-								$c = $wpdb->get_row("SELECT name FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
-								$fsubs[]  = $c->name;
-								preg_match("/{category,([^,{}]*),([^,{}]*)}/", $format, $match);
-								$fpatts[] = $match[0];
-								$fsubs[]  = $match[1].$c->name.$match[2];
-							} else {
-								$fpatts[] = '{category}';
-								$fsubs[]  = "";
-								preg_match("/{category,([^,{}]*),([^,{}]*)}/", $format, $match);
-								$fpatts[] = $match[0];
-								$fsubs[]  = "";
+						// If download is present in post
+						if ( strstr($data, "[download#".$d->id ) ) {
+					
+							switch ($downloadtype) {
+									case ("Title") :
+											$downloadlink = urlencode($d->title);
+									break;
+									case ("Filename") :
+											$downloadlink = $d->filename;
+											$links = explode("/",$downloadlink);
+											$downloadlink = end($links);
+									break;
+									default :
+											$downloadlink = $d->id;
+									break;
 							}
-														
-							$fpatts[] = '{description}';
-							$fsubs[]  = $d->file_description;
-							$fpatts[] = '{description-autop}';
-							$fsubs[]  = wpautop($d->file_description);
-							preg_match("/{description,([^,{}]*),([^,{}]*)}/", $format, $match);
-							$fpatts[] = $match[0];
-							if ($d->file_description) $fsubs[]  = $match[1].$d->file_description.$match[2]; else $fsubs[]  = "";
 							
-							preg_match("/{description-autop,([^,{}]*),([^,{}]*)}/", $format, $match);
-							$fpatts[] = $match[0];
-							if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
-						
-							$link = str_replace($fpatts, $fsubs, $format);	
-						}							
-						
-						$patts[] = "[download#" . $d->id . "]";
-						$subs[] = $link;												
-						
-						// No hit counter
-						if (!empty($d->dlversion)) 
-							$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.'</a>';
-						else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.'</a>';
-						
-						$patts[] = "[download#" . $d->id . "#nohits]";
-						$subs[] = $link;
-						
-						// URL only
-						$link = $downloadurl.$downloadlink;	
-						$patts[] = "[download#" . $d->id . "#url]";
-						$subs[] = $link;
-						
-						// Description only
-						$link = $d->file_description;	
-						$patts[] = "[download#" . $d->id . "#description]";
-						$subs[] = $link;
-						
-						// Description (autop) only
-						$link = wpautop($d->file_description);	
-						$patts[] = "[download#" . $d->id . "#description_autop]";
-						$subs[] = $link;		
-						
-						// Hits only
-						$link = $d->hits;
-						$patts[] = "[download#" . $d->id . "#hits]";
-						$subs[] = $link;		
-						
-						// Image link
-						if (!empty($d->dlversion)) 				
-							$link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'"><img src="'.get_option('wp_dlm_image_url').'" alt="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'" /></a>
-									<p class="dlstat">'.__("Downloaded a total of","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'</p>';
-						else $link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.'"><img src="'.get_option('wp_dlm_image_url').'" alt="'.__("Download","wp-download_monitor").' '.$d->title.'" /></a>
-									<p class="dlstat">'.__("Downloaded a total of","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'</p>';
-						$patts[] = "[download#" . $d->id . "#image]";
-						$subs[] = $link;
-						
-						// Regular download link WITH filesize
-						if (!empty($d->dlversion)) 				
-							$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size($d->filename).'</a>';
-						else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size($d->filename).'</a>';			
-						$patts[] = "[download#" . $d->id . "#size]";
-						$subs[] = $link;
-						
-						// No hit counter + filesize
-						if (!empty($d->dlversion)) 
-							$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size($d->filename).')</a>';
-						else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size($d->filename).')</a>';
-						$patts[] = "[download#" . $d->id . "#size#nohits]";
-						$subs[] = $link;
-						
-						
+							################################################################################
+							// Define Patterns
+							################################################################################
+													
+							// Regular download link - NOW USES DEFAULT FORMAT
+							if ($def_format==0) {
+								if (!empty($d->dlversion)) 				
+									$link = '<a class="downloadlink" href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
+								else $link = '<a class="downloadlink" href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a>';
+							} else {
+								// Get Custom formatted version
+								$format = wp_dlm_get_custom_format($def_format);							
+								$fpatts = array();
+								$fsubs = array();
+								$fpatts[] = '{url}';
+								$fsubs[]  = $downloadurl.$downloadlink;
+								$fpatts[] = '{version}';
+								$fsubs[]  = $d->dlversion;
+								$fpatts[] = '{title}';
+								$fsubs[]  = $d->title;
+								$fpatts[] = '{size}';
+								$fsubs[]  = wp_dlm_get_size($d->filename);
+								$fpatts[] = '{hits}';
+								$fsubs[]  = $d->hits;
+								$fpatts[] = '{image_url}';
+								$fsubs[]  = get_option('wp_dlm_image_url');
+								
+								if ($d->category_id>0) {
+									$fpatts[] = '{category}';
+									$c = $wpdb->get_row("SELECT name FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
+									$fsubs[]  = $c->name;
+									preg_match("/{category,([^,{}]*),([^,{}]*)}/", $format, $match);
+									$fpatts[] = $match[0];
+									$fsubs[]  = $match[1].$c->name.$match[2];
+								} else {
+									$fpatts[] = '{category}';
+									$fsubs[]  = "";
+									preg_match("/{category,([^,{}]*),([^,{}]*)}/", $format, $match);
+									$fpatts[] = $match[0];
+									$fsubs[]  = "";
+								}
+															
+								$fpatts[] = '{description}';
+								$fsubs[]  = $d->file_description;
+								$fpatts[] = '{description-autop}';
+								$fsubs[]  = wpautop($d->file_description);
+								preg_match("/{description,([^,{}]*),([^,{}]*)}/", $format, $match);
+								$fpatts[] = $match[0];
+								if ($d->file_description) $fsubs[]  = $match[1].$d->file_description.$match[2]; else $fsubs[]  = "";
+								
+								preg_match("/{description-autop,([^,{}]*),([^,{}]*)}/", $format, $match);
+								$fpatts[] = $match[0];
+								if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
+							
+								$link = str_replace($fpatts, $fsubs, $format);	
+							}							
+							
+							$patts[] = "[download#" . $d->id . "]";
+							$subs[] = $link;												
+							
+							// No hit counter
+							if (!empty($d->dlversion)) 
+								$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.'</a>';
+							else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.'</a>';
+							
+							$patts[] = "[download#" . $d->id . "#nohits]";
+							$subs[] = $link;
+							
+							// URL only
+							$link = $downloadurl.$downloadlink;	
+							$patts[] = "[download#" . $d->id . "#url]";
+							$subs[] = $link;
+							
+							// Description only
+							$link = $d->file_description;	
+							$patts[] = "[download#" . $d->id . "#description]";
+							$subs[] = $link;
+							
+							// Description (autop) only
+							$link = wpautop($d->file_description);	
+							$patts[] = "[download#" . $d->id . "#description_autop]";
+							$subs[] = $link;		
+							
+							// Hits only
+							$link = $d->hits;
+							$patts[] = "[download#" . $d->id . "#hits]";
+							$subs[] = $link;		
+							
+							// Image link
+							if (!empty($d->dlversion)) 				
+								$link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'"><img src="'.get_option('wp_dlm_image_url').'" alt="'.__("Download","wp-download_monitor").' '.$d->title.' '.__("Version","wp-download_monitor").' '.$d->dlversion.'" /></a>
+										<p class="dlstat">'.__("Downloaded a total of","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'</p>';
+							else $link = '<a class="dlimg" href="'.$downloadurl.$downloadlink.'" title="'.__("Download","wp-download_monitor").' '.$d->title.'"><img src="'.get_option('wp_dlm_image_url').'" alt="'.__("Download","wp-download_monitor").' '.$d->title.'" /></a>
+										<p class="dlstat">'.__("Downloaded a total of","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'</p>';
+							$patts[] = "[download#" . $d->id . "#image]";
+							$subs[] = $link;
+							
+							// Regular download link WITH filesize
+							if (!empty($d->dlversion)) 				
+								$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size($d->filename).'</a>';
+							else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.') - '.wp_dlm_get_size($d->filename).'</a>';			
+							$patts[] = "[download#" . $d->id . "#size]";
+							$subs[] = $link;
+							
+							// No hit counter + filesize
+							if (!empty($d->dlversion)) 
+								$link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size($d->filename).')</a>';
+							else $link = '<a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.wp_dlm_get_size($d->filename).')</a>';
+							$patts[] = "[download#" . $d->id . "#size#nohits]";
+							$subs[] = $link;
+							
+						} // DOwnload present						
 						
 					} return str_replace($patts, $subs, $data);
 				} else return $data;
@@ -627,6 +630,34 @@ function wp_dlm_parse_downloads_cats($data) {
 	if (substr_count($data,"[download_cat#")) {
 
       	global $wpdb,$wp_dlm_root,$allowed_extentions,$max_upload_size,$wp_dlm_db,$wp_dlm_db_cats;
+      	
+		// Get cats and dig for sub cats
+		function get_sub_cats($the_cats) {
+			global $wpdb, $wp_dlm_db_cats;
+			
+			$a=sizeof($the_cats);
+			
+			$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
+				$wpdb->escape( $wp_dlm_db_cats ),
+				$wpdb->escape( implode(",",$the_cats) ));
+				
+			$res = $wpdb->get_results($query);
+			
+			if ($res) {
+				foreach($res as $r) {
+					if (!in_array($r->id, $the_cats)) $the_cats[]=$r->id;
+				}
+			}
+			
+			$b=sizeof($the_cats);
+			
+			if ($a!=$b) {
+				$sub_cats = get_sub_cats($the_cats);
+				$the_cats = $the_cats + $sub_cats;
+			}
+			
+			return $the_cats;
+		}
 		
 		$wp_dlm_db_exists = false;
           	
@@ -647,8 +678,7 @@ function wp_dlm_parse_downloads_cats($data) {
 			$downloadtype = get_option('wp_dlm_type');
 
 			// select all cats
-            $query_select = sprintf("SELECT * FROM %s ORDER BY id;",
-            	$wpdb->escape($wp_dlm_db_cats));
+            $query_select = "SELECT * FROM ".$wpdb->escape($wp_dlm_db_cats)." ORDER BY id;";
                 	
             $cats = $wpdb->get_results($query_select);	
                 
@@ -659,66 +689,53 @@ function wp_dlm_parse_downloads_cats($data) {
 					
 					foreach($cats as $c) {
 					
-						// Get downloads for cat and put in ul
-						$links = '<ul>';
-						// Get list of cats and sub cats
-						$the_cats = array();
-						$the_cats[] = $c->id;
-						$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
-							$wpdb->escape( $wp_dlm_db_cats ),
-							$wpdb->escape( implode(",",$the_cats) ));
-						$res = $wpdb->get_results($query);
-						$b=sizeof($the_cats);
-						if ($res) {
-							foreach($res as $r) {
-								if (!in_array($r->id,$the_cats)) $the_cats[]=$r->id;
-							}
-						}
-						$a=sizeof($the_cats);
-						while ($b!=$a) {
-							$query = sprintf("SELECT id from %s WHERE parent IN (%s);",
-								$wpdb->escape( $wp_dlm_db_cats ),
+						// Get downloads for cat and put in ul IF WE FIND IT IN THE DATA
+						if ( strstr($data, "[download_cat#".$c->id."]" ) ) {
+
+							// GENERATE LIST
+							$links = '<ul>';
+							// Get list of cats and sub cats
+							$the_cats = array();
+							$the_cats[] = $c->id;
+							
+							// Run it beatch
+							$the_cats = get_sub_cats($the_cats);
+							
+							// We can query the downloads now
+							$query = sprintf("SELECT * FROM %s WHERE `category_id` IN (%s) ORDER BY `title`;",
+								$wpdb->escape( $wp_dlm_db ),
 								$wpdb->escape( implode(",",$the_cats) ));
-							$res = $wpdb->get_results($query);
-							$b=sizeof($the_cats);
-							if ($res) {
-								foreach($res as $r) {
-									if (!in_array($r->id,$the_cats)) $the_cats[]=$r->id;
-								}
-							}
-							$a=sizeof($the_cats);
-						} 
-						$query = sprintf("SELECT * FROM %s WHERE `category_id` IN (%s) ORDER BY `title`;",
-							$wpdb->escape( $wp_dlm_db ),
-							$wpdb->escape( implode(",",$the_cats) ));
-						// Now grab downloads
-						$downloads = $wpdb->get_results($query);	
-						if (!empty($downloads)) {
-							foreach($downloads as $d) {
-								switch ($downloadtype) {
-									case ("Title") :
-											$downloadlink = urlencode($d->title);
-									break;
-									case ("Filename") :
-											$downloadlink = $d->filename;
-											$link = explode("/",$downloadlink);
-											$downloadlink = end($link);
-									break;
-									default :
-											$downloadlink = $d->id;
-									break;
-								}
-								if (!empty($d->dlversion)) 				
-									$links.= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';
-								else $links.= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';									
 								
+							// Now grab downloads
+							$downloads = $wpdb->get_results($query);	
+							if (!empty($downloads)) {
+								foreach($downloads as $d) {
+									switch ($downloadtype) {
+										case ("Title") :
+												$downloadlink = urlencode($d->title);
+										break;
+										case ("Filename") :
+												$downloadlink = $d->filename;
+												$link = explode("/",$downloadlink);
+												$downloadlink = end($link);
+										break;
+										default :
+												$downloadlink = $d->id;
+										break;
+									}
+									if (!empty($d->dlversion)) 				
+										$links.= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__("Version","wp-download_monitor").' '.$d->dlversion.' '.__("downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';
+									else $links.= '<li><a href="'.$downloadurl.$downloadlink.'" title="'.__("Downloaded","wp-download_monitor").' '.$d->hits.' '.__("times","wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';									
+									
+								}
+							} else {
+								$links .= '<li>No Downloads Found</li>';
 							}
-						} else {
-							$links .= '<li>No Downloads Found</li>';
+							$links .= '</ul>';
+							$patts[] = "[download_cat#" . $c->id . "]";
+							$subs[] = $links;
 						}
-						$links .= '</ul>';
-						$patts[] = "[download_cat#" . $c->id . "]";
-						$subs[] = $links;
+						
 					} return str_replace($patts, $subs, $data);
 				}else return $data;
 		} else return $data;
@@ -1442,10 +1459,11 @@ function wp_dlm_admin()
 								if ($_POST['formatfield'][$loop]) {
 									$query_update = sprintf("UPDATE %s SET `format`='%s' WHERE id = %s;",
 										$wpdb->escape( $wp_dlm_db_formats ),
-										$wpdb->escape( $_POST['formatfield'][$loop] ),
+										$wpdb->escape( stripslashes($_POST['formatfield'][$loop]) ),
 										$wpdb->escape( $formatid ));
 									$wpdb->query($query_update);
 								}
+								echo htmlspecialchars($wpdb->escape( stripslashes($_POST['formatfield'][$loop]) ));
 								$loop++;	
 							}						
 							echo '<div id="message" class="updated fade"><p><strong>'.__('Formats updated',"wp-download_monitor").'</strong></p></div>';									$ins_format=true;
@@ -1717,7 +1735,7 @@ function wp_dlm_admin()
 								if (!empty($formats)) {
 									foreach ( $formats as $f ) {
 										echo '<tr><td style="vertical-align:middle;">'.$f->id.'</td><td style="vertical-align:middle;">'.$f->name.'</td>
-										<td style="vertical-align:middle;"><input type="hidden" value="'.$f->id.'" name="formatfieldid[]" /><input type="text" name="formatfield[]" value="'.htmlspecialchars($f->format).'" /></td>
+										<td style="vertical-align:middle;"><input type="hidden" value="'.$f->id.'" name="formatfieldid[]" /><input type="text" name="formatfield[]" value="'.htmlspecialchars($f->format).'" style="width:100%" /></td>
 										<td style="text-align:center;vertical-align:middle;"><a href="?page=Downloads&amp;action=deleteformat&amp;id='.$f->id.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
 									}
 								} else {

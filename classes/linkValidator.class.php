@@ -189,8 +189,9 @@ class linkValidator {
 			$referer = "http://$host$get";
 
 		//try to open socket
-		if($host){
-			$fp = @fsockopen($host,$port,&$errnr,&$err,10);
+		if($host){		
+			//$fp = @fsockopen($host,$port,&$errnr,&$err,10);
+			$fp = @fsockopen($host,$port,$errnr,$err,10);
 			if($fp && !$errnr){
 				//get header
 				$header = $protocol == '1.0' ?sprintf($this->httpHeader_10,$get,$this->userAgent,$host) : sprintf($this->httpHeader_11,$get,$host,$this->userAgent,$referer);

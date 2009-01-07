@@ -81,7 +81,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						
 					$my_upload = new wp_dlm_file_upload;
 		
-					$my_upload->upload_dir = "../../../uploads/"; // the folder for the uploaded files (you may have to create this folder)
+					$my_upload->upload_dir = "../../uploads/"; // the folder for the uploaded files (you may have to create this folder)
 					
 					$my_upload->extensions = $allowed_extentions; // specify the allowed extensions here
 					$my_upload->max_length_filename = 100; // change this value to fit your field length in your database (standard 100)
