@@ -1,9 +1,55 @@
 <?php
-define(ABSPATH,'../../../');
-//require_once('../../../wp-admin/admin.php');
-require_once( ABSPATH . 'wp-config.php' );
-wp_admin_css_color('classic', __('Blue'), admin_url("css/colors-classic.css"), array('#073447', '#21759B', '#EAF3FA', '#BBD8E7'));
-wp_admin_css_color('fresh', __('Gray'), admin_url("css/colors-fresh.css"), array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));
+//define(ABSPATH,'../../../');
+//require_once( ABSPATH . 'wp-config.php' );
+
+//require_once('../../../wp-config.php' );
+
+/** Load WordPress Administration Bootstrap */
+if(file_exists('../../../wp-load.php')) {
+	require_once("../../../wp-load.php");
+} else if(file_exists('../../wp-load.php')) {
+	require_once("../../wp-load.php");
+} else if(file_exists('../wp-load.php')) {
+	require_once("../wp-load.php");
+} else if(file_exists('wp-load.php')) {
+	require_once("wp-load.php");
+} else if(file_exists('../../../../wp-load.php')) {
+	require_once("../../../../wp-load.php");
+} else if(file_exists('../../../../wp-load.php')) {
+	require_once("../../../../wp-load.php");
+} else {
+
+	if(file_exists('../../../wp-config.php')) {
+		require_once("../../../wp-config.php");
+	} else if(file_exists('../../wp-config.php')) {
+		require_once("../../wp-config.php");
+	} else if(file_exists('../wp-config.php')) {
+		require_once("../wp-config.php");
+	} else if(file_exists('wp-config.php')) {
+		require_once("wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else {
+		echo '<p>Failed to load bootstrap.</p>';
+		exit;
+	}
+
+}
+
+require_once(ABSPATH.'wp-admin/admin.php');
+
+load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/', 'download-monitor/');
+
+// REPLACE ADMIN URL
+if (function_exists('admin_url')) {
+	wp_admin_css_color('classic', __('Blue'), admin_url("css/colors-classic.css"), array('#073447', '#21759B', '#EAF3FA', '#BBD8E7'));
+	wp_admin_css_color('fresh', __('Gray'), admin_url("css/colors-fresh.css"), array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));
+} else {
+	wp_admin_css_color('classic', __('Blue'), get_bloginfo('wpurl').'/wp-admin/css/colors-classic.css', array('#073447', '#21759B', '#EAF3FA', '#BBD8E7'));
+	wp_admin_css_color('fresh', __('Gray'), get_bloginfo('wpurl').'/wp-admin/css/colors-fresh.css', array('#464646', '#6D6D6D', '#F1F1F1', '#DFDFDF'));
+}
 
 wp_enqueue_script( 'common' );
 wp_enqueue_script( 'jquery-color' );
@@ -42,8 +88,8 @@ load_plugin_textdomain('wp-download_monitor', '/');
 <body id="media-upload">
 	<div id="media-upload-header">
 		<ul id='sidemenu'>
-			<li id='tab-add'><a href='uploader.php?tab=add' <?php if ($_GET['tab']=='add') echo "class='current'"; ?>>Add New Download</a></li>
-			<li id='tab-downloads'><a href='uploader.php?tab=downloads' <?php if ($_GET['tab']=='downloads') echo "class='current'"; ?>>View Downloads</a></li>
+			<li id='tab-add'><a href='uploader.php?tab=add' <?php if ($_GET['tab']=='add') echo "class='current'"; ?>><?php _e('Add New Download',"wp-download_monitor"); ?></a></li>
+			<li id='tab-downloads'><a href='uploader.php?tab=downloads' <?php if ($_GET['tab']=='downloads') echo "class='current'"; ?>><?php _e('View Downloads',"wp-download_monitor"); ?></a></li>
 		</ul>
 	</div>
 	<?php
@@ -69,76 +115,67 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				$download_cat = $_POST['download_cat'];
 				$mirrors = htmlspecialchars(trim($_POST['mirrors']));
 				$file_description = trim($_POST['file_description']);
+				
+				if ($_POST['insertonlybutton']) {
 											
-				//validate fields
-				if (empty( $_POST['title'] )) $errors=__('<div id="media-upload-error">Required field: <strong>Title</strong> omitted</div>',"wp-download_monitor");
-				if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;						
-				if (!is_numeric($_POST['dlhits'] )) $errors=__('<div id="media-upload-error">Invalid <strong>hits</strong> entered</div>',"wp-download_monitor");
-											
-				if (empty( $filename ) && $_FILES['upload'] && empty($errors)) {
-					//attempt to upload file
-					$max_size = get_option('max_upload_size'); // the max. size for uploading
-						
-					$my_upload = new wp_dlm_file_upload;
-		
-					$my_upload->upload_dir = "../../uploads/"; // the folder for the uploaded files (you may have to create this folder)
-					
-					$my_upload->extensions = $allowed_extentions; // specify the allowed extensions here
-					$my_upload->max_length_filename = 100; // change this value to fit your field length in your database (standard 100)
-					$my_upload->rename_file = false;
-		
-					//upload it
-					$my_upload->the_temp_file = $_FILES['upload']['tmp_name'];
-					$my_upload->the_file = $_FILES['upload']['name'];
-					$my_upload->http_error = $_FILES['upload']['error'];
-					$my_upload->replace = (isset($_POST['replace'])) ? $_POST['replace'] : "n";
-					$my_upload->do_filename_check = "n";
-					
-					if ($my_upload->upload()) {
-						$full_path = $my_upload->upload_dir.$my_upload->file_copy;
-						$info = $my_upload->show_error_string();
+					//validate fields
+					if (empty( $_POST['title'] )) $errors=__('<div id="media-upload-error">Required field: <strong>Title</strong> omitted</div>',"wp-download_monitor");
+					if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;						
+					if (!is_numeric($_POST['dlhits'] )) $errors=__('<div id="media-upload-error">Invalid <strong>hits</strong> entered</div>',"wp-download_monitor");
+												
+					if (empty( $filename ) && $_FILES['upload'] && empty($errors)) {
+						//attempt to upload file
+						$time = current_time('mysql');
+						$overrides = array('test_form'=>false);
+	
+						$file = wp_handle_upload($_FILES['upload'], $overrides, $time);
+	
+						if ( !isset($file['error']) ) {
+							$full_path = $file['url'];
+							$info = $file['url'];
+							$filename = $file['url'];
+						} 
+						else $errors = '<div class="error">'.$file['error'].'</div>';	
+															
+					} elseif (empty($errors)) {
+						if ( empty( $filename ) ) $errors=__('<div id="media-upload-error">No file selected</div>',"wp-download_monitor");
 					} 
-					else $errors = '<div id="media-upload-error">'.$my_upload->show_error_string().'</div>';
-					
-					$filename = get_bloginfo('wpurl')."/wp-content/uploads/".$my_upload->file_copy;									
-				} elseif (empty($errors)) {
-					if ( empty( $filename ) ) $errors=__('<div id="media-upload-error">No file selected</div>',"wp-download_monitor");
-				} 
-											
-				//save to db
-				if ( empty($errors ) ) {	
-		
-					if ($my_upload->replace=="y") {
-							$query_del = sprintf("DELETE FROM %s WHERE filename='%s';",
-							$wpdb->escape( $wp_dlm_db ),
-							$wpdb->escape( $filename ));
-							$wpdb->query($query_del);
-					} 
-					
-					$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members,category_id,mirrors, file_description) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
-					$wpdb->escape( $wp_dlm_db ),
-					$wpdb->escape( $_POST['title'] ),
-					$wpdb->escape( $filename ),
-					mysql_real_escape_string( $_POST['dlversion'] ),
-					$wpdb->escape( $_POST['postDate'] ),
-					mysql_real_escape_string( $_POST['dlhits'] ),
-					$wpdb->escape( $_POST['user'] ),
-					$wpdb->escape( $members ),
-					$wpdb->escape($download_cat),
-					$wpdb->escape($mirrors),
-					$wpdb->escape($file_description)
-					);										
+												
+					//save to db
+					if ( empty($errors ) ) {	
+			
+						if ($my_upload->replace=="y") { /* !!!!*/
+								$query_del = sprintf("DELETE FROM %s WHERE filename='%s';",
+								$wpdb->escape( $wp_dlm_db ),
+								$wpdb->escape( $filename ));
+								$wpdb->query($query_del);
+						} 
 						
-					$result = $wpdb->query($query_add);
-					if ($result) {								
-						$newdownloadID = $wpdb->insert_id;
+						$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members,category_id,mirrors, file_description) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+						$wpdb->escape( $wp_dlm_db ),
+						$wpdb->escape( $_POST['title'] ),
+						$wpdb->escape( $filename ),
+						mysql_real_escape_string( $_POST['dlversion'] ),
+						$wpdb->escape( $_POST['postDate'] ),
+						mysql_real_escape_string( $_POST['dlhits'] ),
+						$wpdb->escape( $_POST['user'] ),
+						$wpdb->escape( $members ),
+						$wpdb->escape($download_cat),
+						$wpdb->escape($mirrors),
+						$wpdb->escape($file_description)
+						);										
+							
+						$result = $wpdb->query($query_add);
+						if ($result) {								
+							$newdownloadID = $wpdb->insert_id;
+						}
+						else _e('<div id="media-upload-error">Error saving to database - check downloads table exists.</div>',"wp-download_monitor");						
+						
 					}
-					else _e('<div id="media-upload-error">Error saving to database - check downloads table exists.</div>',"wp-download_monitor");						
-					
 				}
 				
 			}
-			if ($errors || !$_POST) {
+			if ($errors || !$_POST['insertonlybutton']) {
 			?>
 			<form enctype="multipart/form-data" method="post" action="uploader.php?tab=add" id="media-upload-form type-form validate" id="download-form">
 								
@@ -203,7 +240,44 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				
 				<h3><?php _e('Upload/link to existing file',"wp-download_monitor"); ?></h3>
 				
-				<input type="hidden" name="MAX_FILE_SIZE" value="<?php echo get_option('max_upload_size'); ?>" />
+				<input type="hidden" name="MAX_FILE_SIZE" value="<?php 
+					
+					$max_upload_size = "";
+					
+					if (!function_exists('let_to_num')) {
+						function let_to_num($v){ 
+							$l = substr($v, -1);
+						    $ret = substr($v, 0, -1);
+						    switch(strtoupper($l)){
+						    case 'P':
+						        $ret *= 1024;
+						    case 'T':
+						        $ret *= 1024;
+						    case 'G':
+						        $ret *= 1024;
+						    case 'M':
+						        $ret *= 1024;
+						    case 'K':
+						        $ret *= 1024;
+						        break;
+						    }
+						    return $ret;
+						}
+					}
+
+					if (function_exists('ini_get')) {
+						$max_upload_size = min(let_to_num(ini_get('post_max_size')), let_to_num(ini_get('upload_max_filesize')));
+						$max_upload_size_text = __(' (defined in php.ini)',"wp-download_monitor");
+					}
+					
+					if (!$max_upload_size || $max_upload_size==0) {
+						$max_upload_size = 8388608;
+						$max_upload_size_text = '';
+					}	
+					
+					echo $max_upload_size;
+	
+				 ?>" />
 				<input type="hidden" name="postDate" value="<?php echo date(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
 				<?php 
 										global $userdata;
@@ -217,16 +291,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						</th> 
 						<td class="field"><input type="file" name="upload" style="width:320px;" id="file" /></td>												
 					</tr>
-					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Max. filesize = ',"wp-download_monitor"); ?><?php echo $max_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>.</td></tr>
-					<tr>												
-						<th valign="top" scope="row" class="label">
-							<span class="alignleft"><label for="replace"><?php _e('Replace File?',"wp-download_monitor"); ?></label></span>
-						</th> 
-						<td class="field"><input type="checkbox" name="replace" id="replace" value="y" /></td>
-					</tr>
-					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Replacing the file will <strong>delete all current stats</strong> 
-						for the currently uploaded file. If you wish to keep existing stats, go to the
-						files Edit page instead and re-upload there.',"wp-download_monitor"); ?></td></tr>
+					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Max. filesize',"wp-download_monitor"); echo $max_upload_size_text; ?> = <?php echo $max_upload_size; ?> <?php _e('bytes',"wp-download_monitor"); ?>. <?php _e('If a file with the same name already exists in the upload directly, this file will be renamed automatically.',"wp-download_monitor"); ?></td></tr>
 					<tr valign="top">
 						<td colspan="2"><p style="text-align:center"><?php _e('&mdash; OR &mdash;'); ?></p></td>				
 					</tr>
@@ -246,13 +311,54 @@ load_plugin_textdomain('wp-download_monitor', '/');
                     </tr>
                     <tr><td></td><td class="help" style="font-size:11px;"><?php _e('Optionally list the url\'s of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download.',"wp-download_monitor"); ?></td></tr>
 				</tbody></table>
+	            <h3><?php _e('Custom fields',"wp-download_monitor"); ?></h3>	            
+				<table style="width:100%">
+					<thead>
+						<tr>
+							<th class="left"><?php _e('Name',"wp-download_monitor"); ?></th>
+							<th><?php _e('Value',"wp-download_monitor"); ?></th>
+						</tr>			
+					</thead>
+					<tbody>
+						<?php
+						$index = 1;
+						if ($_POST) {
+							if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
+							{
+								if (!$meta['remove']) {
+									echo '<tr class="alternate">
+										<td class="left" style="vertical-align:top;">
+											<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="'.strtolower((str_replace(' ','-',$meta['key']))).'" type="text" style="width:95%">
+											<input type="submit" name="meta['.$index.'][remove]" class="button" value="'.__('remove',"wp-download_monitor").'" />
+										</td>
+										<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%">'.$meta['value'].'</textarea></td>
+									</tr>';								
+								}		
+								$index ++;					
+							}
+							if ($_POST['addmeta']) {
+								echo '<tr class="alternate">
+										<td class="left" style="vertical-align:top;">
+											<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="" type="text" style="width:95%">
+											<input type="submit" name="meta['.$index.'][remove]" class="button" value="'.__('remove',"wp-download_monitor").'" />
+										</td>
+										<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%"></textarea></td>
+								</tr>';
+							}
+						} 											
+						?>
+						<tr>
+							<td colspan="2" class="submit"><input id="addmetasub" name="addmeta" value="<?php _e('Add Custom Field',"wp-download_monitor"); ?>" type="submit"></td>
+						</tr>
+					</tbody>
+				</table>				
 				
 				<p class="submit"><input type="submit" class="button button-primary" name="insertonlybutton" value="<?php _e('Save new download'); ?>" /></p>
 				
 			</form>
 			<?php } else {
 				// GENERATE CODE TO INSERT
-				$html = '[download#'.$newdownloadID.'';
+				$html = '[download id="'.$newdownloadID.'"';
 				?>
 				<div style="margin:1em;">
 				<h3><?php _e('Insert new download into post'); ?></h3>
@@ -277,9 +383,8 @@ load_plugin_textdomain('wp-download_monitor', '/');
 					/* <![CDATA[ */
 					jQuery('#insertdownload').click(function(){
 					var win = window.dialogArguments || opener || parent || top;
-					//win.send_to_editor('<?php echo addslashes($html); ?>');
-					if (jQuery('#format').val()>0) win.send_to_editor('<?php echo addslashes($html); ?>#format=' + jQuery('#format').val() + ']');
-					else win.send_to_editor('<?php echo addslashes($html); ?>]');
+					if (jQuery('#format').val()>0) win.send_to_editor('<?php echo $html; ?> format="' + jQuery('#format').val() + '"]');
+					else win.send_to_editor('<?php echo $html; ?>]');
 					});
 					/* ]]> */
 				</script>
@@ -300,7 +405,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						<label for="format" style="font-size:12px;text-align:right;margin-right:8px;margin-top:4px;"><?php _e('Insert into post using format:',"wp-download_monitor"); ?></label>
 					</th>
 					<td style="vertical-align:middle;text-align:right;"><select name="format" id="format">
-						<option value="0">Default</option>
+						<option value="0"><?php _e('Default',"wp-download_monitor"); ?></option>
 						<?php								
 							$query_select_formats = sprintf("SELECT * FROM %s ORDER BY id;",
 								$wpdb->escape( $wp_dlm_db_formats ));	
@@ -435,8 +540,8 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				var win = window.dialogArguments || opener || parent || top;
 				var did = jQuery(this).attr('id');
 				did=did.replace('download-', '');
-				if (jQuery('#format').val()>0) win.send_to_editor('[download#' + did + '#format=' + jQuery('#format').val() + ']');
-				else win.send_to_editor('[download#' + did + ']');
+				if (jQuery('#format').val()>0) win.send_to_editor('[download id="' + did + '" format="' + jQuery('#format').val() + '"]');
+				else win.send_to_editor('[download id="' + did + '"]');
 			});
 			/* ]]> */
 		</script>

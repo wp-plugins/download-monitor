@@ -1,15 +1,68 @@
-.widefat thead th a {
+.download_monitor .widefat thead th a {
 	color:#d7d7d7 !important;
 	text-decoration:underline;
 }
-.error
+.download_monitor .error
 {
 	padding:12px;
 }
-.wrap.alternate {
-	margin-bottom:1.5em;
+.download_monitor hr {
+	display: none;
+	}
+.download_monitor {
+	margin:0 15px;
+	max-width:980px;
+	}
+.download_monitor .wrap.alternate {
 	padding:0 0 0 8px;
+	margin: 0 0 1.5em !important;
 }
-#downloadadminicon {
+.download_monitor #downloadadminicon {
 	display: none;
 }
+.download_monitor hr {
+	border: 1px solid #ccc !important;
+	background: transparent;
+	padding: 0;
+	}
+.download_monitor .about {
+	color: #999;
+	}
+.download_chart td.value {
+	background-image: url(../img/gridline58.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+	border-left: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+	padding: 0;
+	background-color: transparent;
+	}
+.download_chart td {
+	padding: 4px 6px;
+	border-bottom: 1px solid #e5e5e5;
+	border-left: 1px solid #e5e5e5;
+	background-color: #fff;
+	}
+.download_chart td.value img {
+	vertical-align: middle;
+	margin: 5px 5px 5px 0;
+	border-right: 1px solid #828282;
+	border-bottom: 1px solid #828282;
+	}
+.download_chart th {
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid #e5e5e5;
+	}
+.download_chart .auraltext {
+	position: absolute;
+	font-size: 0;
+	left: -1000px;
+	}
+table.download_chart {
+	width: 100%;
+	}
+.download_chart caption {
+	font-size: 90%;
+	font-style: italic;
+	}
