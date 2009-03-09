@@ -122,9 +122,12 @@ Defaults:
 
 	'limit' => '', 
 	'offset' => 0,
+	'vip' => 0
 	'category' => '', 
 	'orderby' => 'id',
 	'order' => 'ASC'
+	
+The vip argument will hide member only downloads if the user is not logged in.
 	
 Example:
 
@@ -145,6 +148,7 @@ Return Value:
 *	category_id
 *	id
 *	date
+*	memberonly
 
 Full Example (Output a list of top downloads):
 

@@ -1,5 +1,5 @@
 <?php
-	if(file_exists('../../../wp-config.php')) {
+/*	if(file_exists('../../../wp-config.php')) {
 		require_once("../../../wp-config.php");
 	} else if(file_exists('../../wp-config.php')) {
 		require_once("../../wp-config.php");
@@ -14,7 +14,41 @@
 	} else {
 		echo '<p>Cannnot find wp-config.php. Maybe a config error with "custom download url" setting.</p>';
 		exit;
+	}*/
+	
+if(file_exists('../../../wp-load.php')) {
+	require_once("../../../wp-load.php");
+} else if(file_exists('../../wp-load.php')) {
+	require_once("../../wp-load.php");
+} else if(file_exists('../wp-load.php')) {
+	require_once("../wp-load.php");
+} else if(file_exists('wp-load.php')) {
+	require_once("wp-load.php");
+} else if(file_exists('../../../../wp-load.php')) {
+	require_once("../../../../wp-load.php");
+} else if(file_exists('../../../../wp-load.php')) {
+	require_once("../../../../wp-load.php");
+} else {
+
+	if(file_exists('../../../wp-config.php')) {
+		require_once("../../../wp-config.php");
+	} else if(file_exists('../../wp-config.php')) {
+		require_once("../../wp-config.php");
+	} else if(file_exists('../wp-config.php')) {
+		require_once("../wp-config.php");
+	} else if(file_exists('wp-config.php')) {
+		require_once("wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else {
+		exit;
 	}
+
+}
+
+load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/', 'download-monitor/');
 
 	include_once('classes/linkValidator.class.php');
 		
@@ -80,7 +114,7 @@
 						$url = 'Location: '.$url;
 						header( $url );
 						exit();
-   					} else echo 'You must be logged in to download this file.';
+   					} else _e('You must be logged in to download this file.',"wp-download_monitor");
 					exit();
 				}
 				
@@ -162,6 +196,6 @@
    		$url = 'Location: '.$url;
 		header( $url );
 		exit();
-   } else echo 'Download does not exist!';
+   } else _e('Download does not exist!',"wp-download_monitor");
    exit();
 ?>

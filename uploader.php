@@ -103,6 +103,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				global $table_prefix,$wpdb;
 				$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 				$wp_dlm_db_cats = $table_prefix."DLM_CATS";	
+				$wp_dlm_db_meta = $table_prefix."DLM_META";
 											
 				//get postdata
 				$title = htmlspecialchars(trim($_POST['title']));
@@ -168,6 +169,19 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						$result = $wpdb->query($query_add);
 						if ($result) {								
 							$newdownloadID = $wpdb->insert_id;
+							
+							// Process and save meta/custom fields
+							$index = 1;
+							$values = array();
+							if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
+							{
+								if (trim($meta['key'])) {
+									$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$newdownloadID.')';
+									$index ++;
+								}
+							}
+							$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");							
+							
 						}
 						else _e('<div id="media-upload-error">Error saving to database - check downloads table exists.</div>',"wp-download_monitor");						
 						
@@ -319,20 +333,22 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							<th><?php _e('Value',"wp-download_monitor"); ?></th>
 						</tr>			
 					</thead>
-					<tbody>
+					<tbody id="customfield_list">
 						<?php
 						$index = 1;
 						if ($_POST) {
 							if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
 							{
 								if (!$meta['remove']) {
+									if (trim($meta['key'])) {
 									echo '<tr class="alternate">
 										<td class="left" style="vertical-align:top;">
 											<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="'.strtolower((str_replace(' ','-',$meta['key']))).'" type="text" style="width:95%">
 											<input type="submit" name="meta['.$index.'][remove]" class="button" value="'.__('remove',"wp-download_monitor").'" />
 										</td>
 										<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%">'.$meta['value'].'</textarea></td>
-									</tr>';								
+									</tr>';	
+									}							
 								}		
 								$index ++;					
 							}
@@ -347,12 +363,11 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							}
 						} 											
 						?>
-						<tr>
+						<tr id="addmetarow">
 							<td colspan="2" class="submit"><input id="addmetasub" name="addmeta" value="<?php _e('Add Custom Field',"wp-download_monitor"); ?>" type="submit"></td>
 						</tr>
 					</tbody>
 				</table>				
-				
 				<p class="submit"><input type="submit" class="button button-primary" name="insertonlybutton" value="<?php _e('Save new download'); ?>" /></p>
 				
 			</form>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-06 16:54+0100\n"
+"POT-Creation-Date: 2009-03-09 20:35+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,6 +12,16 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development\n"
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:117
+msgid "You must be logged in to download this file."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/download.php:199
+msgid "Download does not exist!"
+msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:47
 #: Monitor/Development/uploader.php:50
@@ -36,7 +46,7 @@ msgid "WordPress"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:91
-#: Monitor/Development/wp-download_monitor.php:1800
+#: Monitor/Development/wp-download_monitor.php:1902
 msgid "Add New Download"
 msgstr ""
 
@@ -45,325 +55,326 @@ msgid "View Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:122
+#: Monitor/Development/uploader.php:123
 msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:124
+#: Monitor/Development/uploader.php:125
 msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:141
+#: Monitor/Development/uploader.php:142
 msgid "<div id=\"media-upload-error\">No file selected</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:172
+#: Monitor/Development/uploader.php:186
 msgid "<div id=\"media-upload-error\">Error saving to database - check downloads table exists.</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:182
+#: Monitor/Development/uploader.php:196
 msgid "Download Information"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:188
-#: Monitor/Development/uploader.php:428
-#: Monitor/Development/wp-download_monitor.php:1177
-#: Monitor/Development/wp-download_monitor.php:1670
-#: Monitor/Development/wp-download_monitor.php:2255
+#: Monitor/Development/uploader.php:202
+#: Monitor/Development/uploader.php:443
+#: Monitor/Development/wp-download_monitor.php:1278
+#: Monitor/Development/wp-download_monitor.php:1772
+#: Monitor/Development/wp-download_monitor.php:2365
 msgid "Title"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:194
-#: Monitor/Development/uploader.php:431
-#: Monitor/Development/wp-download_monitor.php:1001
-#: Monitor/Development/wp-download_monitor.php:1181
-#: Monitor/Development/wp-download_monitor.php:1910
-#: Monitor/Development/wp-download_monitor.php:2120
+#: Monitor/Development/uploader.php:208
+#: Monitor/Development/uploader.php:446
+#: Monitor/Development/wp-download_monitor.php:1093
+#: Monitor/Development/wp-download_monitor.php:1282
+#: Monitor/Development/wp-download_monitor.php:2014
+#: Monitor/Development/wp-download_monitor.php:2228
 msgid "Description"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:199
-#: Monitor/Development/wp-download_monitor.php:398
-#: Monitor/Development/wp-download_monitor.php:504
-#: Monitor/Development/wp-download_monitor.php:530
-#: Monitor/Development/wp-download_monitor.php:535
-#: Monitor/Development/wp-download_monitor.php:540
-#: Monitor/Development/wp-download_monitor.php:694
-#: Monitor/Development/wp-download_monitor.php:995
-#: Monitor/Development/wp-download_monitor.php:1180
-#: Monitor/Development/wp-download_monitor.php:1904
-#: Monitor/Development/wp-download_monitor.php:2114
-#: Monitor/Development/wp-download_monitor.php:2511
-#: Monitor/Development/wp-download_monitor.php:2598
-#: Monitor/Development/wp-download_monitor.php:2601
-#: Monitor/Development/wp-download_monitor.php:2618
-#: Monitor/Development/wp-download_monitor.php:2655
+#: Monitor/Development/uploader.php:213
+#: Monitor/Development/wp-download_monitor.php:439
+#: Monitor/Development/wp-download_monitor.php:566
+#: Monitor/Development/wp-download_monitor.php:592
+#: Monitor/Development/wp-download_monitor.php:597
+#: Monitor/Development/wp-download_monitor.php:602
+#: Monitor/Development/wp-download_monitor.php:782
+#: Monitor/Development/wp-download_monitor.php:1087
+#: Monitor/Development/wp-download_monitor.php:1281
+#: Monitor/Development/wp-download_monitor.php:2008
+#: Monitor/Development/wp-download_monitor.php:2222
+#: Monitor/Development/wp-download_monitor.php:2639
+#: Monitor/Development/wp-download_monitor.php:2747
+#: Monitor/Development/wp-download_monitor.php:2750
+#: Monitor/Development/wp-download_monitor.php:2767
+#: Monitor/Development/wp-download_monitor.php:2804
 msgid "Version"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:205
-#: Monitor/Development/wp-download_monitor.php:1914
-#: Monitor/Development/wp-download_monitor.php:2124
+#: Monitor/Development/uploader.php:219
+#: Monitor/Development/wp-download_monitor.php:2018
+#: Monitor/Development/wp-download_monitor.php:2232
 msgid "Starting hits"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:211
-#: Monitor/Development/uploader.php:430
-#: Monitor/Development/wp-download_monitor.php:1011
-#: Monitor/Development/wp-download_monitor.php:1179
-#: Monitor/Development/wp-download_monitor.php:1924
-#: Monitor/Development/wp-download_monitor.php:2136
+#: Monitor/Development/uploader.php:225
+#: Monitor/Development/uploader.php:445
+#: Monitor/Development/wp-download_monitor.php:1103
+#: Monitor/Development/wp-download_monitor.php:1280
+#: Monitor/Development/wp-download_monitor.php:2028
+#: Monitor/Development/wp-download_monitor.php:2244
 msgid "Category"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:231
-#: Monitor/Development/wp-download_monitor.php:1029
-#: Monitor/Development/wp-download_monitor.php:1942
-#: Monitor/Development/wp-download_monitor.php:2154
+#: Monitor/Development/uploader.php:245
+#: Monitor/Development/wp-download_monitor.php:1121
+#: Monitor/Development/wp-download_monitor.php:2046
+#: Monitor/Development/wp-download_monitor.php:2262
 msgid "Categories are optional and allow you to group and organise simular downloads."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:234
-#: Monitor/Development/wp-download_monitor.php:1032
-#: Monitor/Development/wp-download_monitor.php:1945
-#: Monitor/Development/wp-download_monitor.php:2157
+#: Monitor/Development/uploader.php:248
+#: Monitor/Development/wp-download_monitor.php:1124
+#: Monitor/Development/wp-download_monitor.php:2049
+#: Monitor/Development/wp-download_monitor.php:2265
 msgid "Member only file?"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:238
-#: Monitor/Development/wp-download_monitor.php:1033
-#: Monitor/Development/wp-download_monitor.php:1946
-#: Monitor/Development/wp-download_monitor.php:2158
+#: Monitor/Development/uploader.php:252
+#: Monitor/Development/wp-download_monitor.php:1125
+#: Monitor/Development/wp-download_monitor.php:2050
+#: Monitor/Development/wp-download_monitor.php:2266
 msgid "If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:241
+#: Monitor/Development/uploader.php:255
 msgid "Upload/link to existing file"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:270
-#: Monitor/Development/wp-download_monitor.php:973
-#: Monitor/Development/wp-download_monitor.php:1885
+#: Monitor/Development/uploader.php:284
+#: Monitor/Development/wp-download_monitor.php:1065
+#: Monitor/Development/wp-download_monitor.php:1989
 msgid " (defined in php.ini)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:281
-#: Monitor/Development/wp-download_monitor.php:1064
-#: Monitor/Development/wp-download_monitor.php:1999
-#: Monitor/Development/wp-download_monitor.php:2210
+#: Monitor/Development/uploader.php:295
+#: Monitor/Development/wp-download_monitor.php:1156
+#: Monitor/Development/wp-download_monitor.php:2105
+#: Monitor/Development/wp-download_monitor.php:2320
 msgid "Y-m-d H:i:s"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:290
+#: Monitor/Development/uploader.php:304
 msgid "Upload File"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:294
-#: Monitor/Development/wp-download_monitor.php:1054
-#: Monitor/Development/wp-download_monitor.php:1921
+#: Monitor/Development/uploader.php:308
+#: Monitor/Development/wp-download_monitor.php:1146
+#: Monitor/Development/wp-download_monitor.php:2025
 msgid "Max. filesize"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:294
-#: Monitor/Development/wp-download_monitor.php:1054
-#: Monitor/Development/wp-download_monitor.php:1921
+#: Monitor/Development/uploader.php:308
+#: Monitor/Development/wp-download_monitor.php:1146
+#: Monitor/Development/wp-download_monitor.php:2025
 msgid "bytes"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:294
-#: Monitor/Development/wp-download_monitor.php:1921
+#: Monitor/Development/uploader.php:308
+#: Monitor/Development/wp-download_monitor.php:2025
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed automatically."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:296
+#: Monitor/Development/uploader.php:310
 msgid "&mdash; OR &mdash;"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:300
+#: Monitor/Development/uploader.php:314
 msgid "File URL"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:306
-#: Monitor/Development/uploader.php:309
-#: Monitor/Development/wp-download_monitor.php:1042
-#: Monitor/Development/wp-download_monitor.php:1949
-#: Monitor/Development/wp-download_monitor.php:2161
+#: Monitor/Development/uploader.php:320
+#: Monitor/Development/uploader.php:323
+#: Monitor/Development/wp-download_monitor.php:1134
+#: Monitor/Development/wp-download_monitor.php:2053
+#: Monitor/Development/wp-download_monitor.php:2269
 msgid "Download Mirrors"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:312
-#: Monitor/Development/wp-download_monitor.php:1043
-#: Monitor/Development/wp-download_monitor.php:1950
-#: Monitor/Development/wp-download_monitor.php:2162
+#: Monitor/Development/uploader.php:326
+#: Monitor/Development/wp-download_monitor.php:1135
+#: Monitor/Development/wp-download_monitor.php:2054
+#: Monitor/Development/wp-download_monitor.php:2270
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:314
-#: Monitor/Development/wp-download_monitor.php:1071
-#: Monitor/Development/wp-download_monitor.php:1184
-#: Monitor/Development/wp-download_monitor.php:1954
-#: Monitor/Development/wp-download_monitor.php:2165
+#: Monitor/Development/uploader.php:328
+#: Monitor/Development/wp-download_monitor.php:1163
+#: Monitor/Development/wp-download_monitor.php:1285
+#: Monitor/Development/wp-download_monitor.php:2058
+#: Monitor/Development/wp-download_monitor.php:2273
 msgid "Custom fields"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:318
-#: Monitor/Development/wp-download_monitor.php:1076
-#: Monitor/Development/wp-download_monitor.php:1529
-#: Monitor/Development/wp-download_monitor.php:1568
-#: Monitor/Development/wp-download_monitor.php:1599
-#: Monitor/Development/wp-download_monitor.php:1643
-#: Monitor/Development/wp-download_monitor.php:1959
-#: Monitor/Development/wp-download_monitor.php:2170
+#: Monitor/Development/uploader.php:332
+#: Monitor/Development/wp-download_monitor.php:1168
+#: Monitor/Development/wp-download_monitor.php:1630
+#: Monitor/Development/wp-download_monitor.php:1669
+#: Monitor/Development/wp-download_monitor.php:1700
+#: Monitor/Development/wp-download_monitor.php:1745
+#: Monitor/Development/wp-download_monitor.php:2063
+#: Monitor/Development/wp-download_monitor.php:2278
 msgid "Name"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:319
-#: Monitor/Development/wp-download_monitor.php:1077
-#: Monitor/Development/wp-download_monitor.php:1960
-#: Monitor/Development/wp-download_monitor.php:2171
+#: Monitor/Development/uploader.php:333
+#: Monitor/Development/wp-download_monitor.php:1169
+#: Monitor/Development/wp-download_monitor.php:2064
+#: Monitor/Development/wp-download_monitor.php:2279
 msgid "Value"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:332
-#: Monitor/Development/uploader.php:343
-#: Monitor/Development/wp-download_monitor.php:1089
-#: Monitor/Development/wp-download_monitor.php:1100
-#: Monitor/Development/wp-download_monitor.php:1973
-#: Monitor/Development/wp-download_monitor.php:1984
-#: Monitor/Development/wp-download_monitor.php:2184
-#: Monitor/Development/wp-download_monitor.php:2195
+#: Monitor/Development/uploader.php:347
+#: Monitor/Development/uploader.php:359
+#: Monitor/Development/wp-download_monitor.php:143
+#: Monitor/Development/wp-download_monitor.php:1182
+#: Monitor/Development/wp-download_monitor.php:1194
+#: Monitor/Development/wp-download_monitor.php:2078
+#: Monitor/Development/wp-download_monitor.php:2090
+#: Monitor/Development/wp-download_monitor.php:2293
+#: Monitor/Development/wp-download_monitor.php:2305
 msgid "remove"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:351
-#: Monitor/Development/wp-download_monitor.php:1107
-#: Monitor/Development/wp-download_monitor.php:1992
-#: Monitor/Development/wp-download_monitor.php:2203
+#: Monitor/Development/uploader.php:367
+#: Monitor/Development/wp-download_monitor.php:1201
+#: Monitor/Development/wp-download_monitor.php:2098
+#: Monitor/Development/wp-download_monitor.php:2313
 msgid "Add Custom Field"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:356
+#: Monitor/Development/uploader.php:371
 msgid "Save new download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:364
+#: Monitor/Development/uploader.php:379
 msgid "Insert new download into post"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:366
-#: Monitor/Development/uploader.php:405
+#: Monitor/Development/uploader.php:381
+#: Monitor/Development/uploader.php:420
 msgid "Insert into post using format:"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:380
+#: Monitor/Development/uploader.php:395
 msgid "Insert into post"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:408
+#: Monitor/Development/uploader.php:423
 msgid "Default"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:423
+#: Monitor/Development/uploader.php:438
 #: Monitor/Development/wp-download_monitor.php:93
-#: Monitor/Development/wp-download_monitor.php:310
-#: Monitor/Development/wp-download_monitor.php:335
+#: Monitor/Development/wp-download_monitor.php:351
+#: Monitor/Development/wp-download_monitor.php:376
 msgid "Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:427
-#: Monitor/Development/wp-download_monitor.php:1176
-#: Monitor/Development/wp-download_monitor.php:1528
-#: Monitor/Development/wp-download_monitor.php:1598
-#: Monitor/Development/wp-download_monitor.php:1669
-#: Monitor/Development/wp-download_monitor.php:2254
+#: Monitor/Development/uploader.php:442
+#: Monitor/Development/wp-download_monitor.php:1277
+#: Monitor/Development/wp-download_monitor.php:1629
+#: Monitor/Development/wp-download_monitor.php:1699
+#: Monitor/Development/wp-download_monitor.php:1771
+#: Monitor/Development/wp-download_monitor.php:2364
 msgid "ID"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:429
-#: Monitor/Development/wp-download_monitor.php:1178
-#: Monitor/Development/wp-download_monitor.php:2256
+#: Monitor/Development/uploader.php:444
+#: Monitor/Development/wp-download_monitor.php:1279
+#: Monitor/Development/wp-download_monitor.php:2366
 msgid "File"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:432
-#: Monitor/Development/wp-download_monitor.php:1182
+#: Monitor/Development/uploader.php:447
+#: Monitor/Development/wp-download_monitor.php:1283
 msgid "Member only"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:433
-#: Monitor/Development/wp-download_monitor.php:1186
-#: Monitor/Development/wp-download_monitor.php:1530
-#: Monitor/Development/wp-download_monitor.php:1601
+#: Monitor/Development/uploader.php:448
+#: Monitor/Development/wp-download_monitor.php:1287
+#: Monitor/Development/wp-download_monitor.php:1631
+#: Monitor/Development/wp-download_monitor.php:1702
 msgid "Action"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:496
-#: Monitor/Development/wp-download_monitor.php:1262
+#: Monitor/Development/uploader.php:511
+#: Monitor/Development/wp-download_monitor.php:1363
 msgid "Yes"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:496
-#: Monitor/Development/wp-download_monitor.php:1262
+#: Monitor/Development/uploader.php:511
+#: Monitor/Development/wp-download_monitor.php:1363
 msgid "No"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:514
-#: Monitor/Development/uploader.php:515
-#: Monitor/Development/wp-download_monitor.php:1286
-#: Monitor/Development/wp-download_monitor.php:1287
-#: Monitor/Development/wp-download_monitor.php:2320
-#: Monitor/Development/wp-download_monitor.php:2321
+#: Monitor/Development/uploader.php:529
+#: Monitor/Development/uploader.php:530
+#: Monitor/Development/wp-download_monitor.php:1387
+#: Monitor/Development/wp-download_monitor.php:1388
+#: Monitor/Development/wp-download_monitor.php:2430
+#: Monitor/Development/wp-download_monitor.php:2431
 msgid "Previous"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/uploader.php:528
-#: Monitor/Development/uploader.php:529
-#: Monitor/Development/wp-download_monitor.php:1300
-#: Monitor/Development/wp-download_monitor.php:1301
-#: Monitor/Development/wp-download_monitor.php:2334
-#: Monitor/Development/wp-download_monitor.php:2335
+#: Monitor/Development/uploader.php:543
+#: Monitor/Development/uploader.php:544
+#: Monitor/Development/wp-download_monitor.php:1401
+#: Monitor/Development/wp-download_monitor.php:1402
+#: Monitor/Development/wp-download_monitor.php:2444
+#: Monitor/Development/wp-download_monitor.php:2445
 msgid "Next"
 msgstr ""
 
@@ -403,225 +414,225 @@ msgid "Log"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:303
+#: Monitor/Development/wp-download_monitor.php:344
 msgid "Show"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:304
+#: Monitor/Development/wp-download_monitor.php:345
 msgid "All Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:305
+#: Monitor/Development/wp-download_monitor.php:346
 msgid "Downloads and categories"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:323
-#: Monitor/Development/wp-download_monitor.php:2639
+#: Monitor/Development/wp-download_monitor.php:364
+#: Monitor/Development/wp-download_monitor.php:2788
 msgid "Categories"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:398
-#: Monitor/Development/wp-download_monitor.php:504
-#: Monitor/Development/wp-download_monitor.php:530
-#: Monitor/Development/wp-download_monitor.php:535
-#: Monitor/Development/wp-download_monitor.php:540
-#: Monitor/Development/wp-download_monitor.php:694
-#: Monitor/Development/wp-download_monitor.php:2511
-#: Monitor/Development/wp-download_monitor.php:2598
-#: Monitor/Development/wp-download_monitor.php:2601
-#: Monitor/Development/wp-download_monitor.php:2618
-#: Monitor/Development/wp-download_monitor.php:2655
+#: Monitor/Development/wp-download_monitor.php:439
+#: Monitor/Development/wp-download_monitor.php:566
+#: Monitor/Development/wp-download_monitor.php:592
+#: Monitor/Development/wp-download_monitor.php:597
+#: Monitor/Development/wp-download_monitor.php:602
+#: Monitor/Development/wp-download_monitor.php:782
+#: Monitor/Development/wp-download_monitor.php:2639
+#: Monitor/Development/wp-download_monitor.php:2747
+#: Monitor/Development/wp-download_monitor.php:2750
+#: Monitor/Development/wp-download_monitor.php:2767
+#: Monitor/Development/wp-download_monitor.php:2804
 msgid "downloaded"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:398
-#: Monitor/Development/wp-download_monitor.php:504
-#: Monitor/Development/wp-download_monitor.php:530
-#: Monitor/Development/wp-download_monitor.php:535
-#: Monitor/Development/wp-download_monitor.php:540
-#: Monitor/Development/wp-download_monitor.php:694
-#: Monitor/Development/wp-download_monitor.php:695
-#: Monitor/Development/wp-download_monitor.php:2511
-#: Monitor/Development/wp-download_monitor.php:2598
-#: Monitor/Development/wp-download_monitor.php:2601
-#: Monitor/Development/wp-download_monitor.php:2618
-#: Monitor/Development/wp-download_monitor.php:2655
+#: Monitor/Development/wp-download_monitor.php:439
+#: Monitor/Development/wp-download_monitor.php:566
+#: Monitor/Development/wp-download_monitor.php:592
+#: Monitor/Development/wp-download_monitor.php:597
+#: Monitor/Development/wp-download_monitor.php:602
+#: Monitor/Development/wp-download_monitor.php:782
+#: Monitor/Development/wp-download_monitor.php:783
+#: Monitor/Development/wp-download_monitor.php:2639
+#: Monitor/Development/wp-download_monitor.php:2747
+#: Monitor/Development/wp-download_monitor.php:2750
+#: Monitor/Development/wp-download_monitor.php:2767
+#: Monitor/Development/wp-download_monitor.php:2804
 msgid "times"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:530
+#: Monitor/Development/wp-download_monitor.php:592
 msgid "Download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:695
+#: Monitor/Development/wp-download_monitor.php:783
 msgid "Downloaded"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:818
+#: Monitor/Development/wp-download_monitor.php:906
 msgid "Sure?"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:819
+#: Monitor/Development/wp-download_monitor.php:907
 msgid "Are you sure you want to delete"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:819
+#: Monitor/Development/wp-download_monitor.php:907
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:819
+#: Monitor/Development/wp-download_monitor.php:907
 msgid "[yes]"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:819
+#: Monitor/Development/wp-download_monitor.php:907
 msgid "[no]"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:837
+#: Monitor/Development/wp-download_monitor.php:925
 msgid "Required field: <strong>Title</strong> omitted"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:838
+#: Monitor/Development/wp-download_monitor.php:926
 msgid "Required field: <strong>File URL</strong> omitted"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:840
+#: Monitor/Development/wp-download_monitor.php:928
 msgid "Invalid <strong>hits</strong> entered"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:904
-#: Monitor/Development/wp-download_monitor.php:934
+#: Monitor/Development/wp-download_monitor.php:994
+#: Monitor/Development/wp-download_monitor.php:1026
 msgid "Download edited Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:984
+#: Monitor/Development/wp-download_monitor.php:1076
 msgid "Edit Download Information"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:989
-#: Monitor/Development/wp-download_monitor.php:1898
-#: Monitor/Development/wp-download_monitor.php:2108
+#: Monitor/Development/wp-download_monitor.php:1081
+#: Monitor/Development/wp-download_monitor.php:2002
+#: Monitor/Development/wp-download_monitor.php:2216
 msgid "Title (required)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1005
+#: Monitor/Development/wp-download_monitor.php:1097
 msgid "Change hit count"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1036
+#: Monitor/Development/wp-download_monitor.php:1128
 msgid "File URL (required)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1038
+#: Monitor/Development/wp-download_monitor.php:1130
 msgid "Note: changes to the file url will only work if not uploading a new file below."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1047
+#: Monitor/Development/wp-download_monitor.php:1139
 msgid "Upload a new file"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1049
+#: Monitor/Development/wp-download_monitor.php:1141
 msgid "Here you can upload/re-upload the file from your computer."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1053
-#: Monitor/Development/wp-download_monitor.php:1920
+#: Monitor/Development/wp-download_monitor.php:1145
+#: Monitor/Development/wp-download_monitor.php:2024
 msgid "Select a file..."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1057
+#: Monitor/Development/wp-download_monitor.php:1149
 msgid "Remove old file?"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1058
+#: Monitor/Development/wp-download_monitor.php:1150
 msgid "If chosen, the old file will be deleted from the server (if it exists) before uploading the new file."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1072
-#: Monitor/Development/wp-download_monitor.php:1955
-#: Monitor/Development/wp-download_monitor.php:2166
+#: Monitor/Development/wp-download_monitor.php:1164
+#: Monitor/Development/wp-download_monitor.php:2059
+#: Monitor/Development/wp-download_monitor.php:2274
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1114
-#: Monitor/Development/wp-download_monitor.php:1622
-#: Monitor/Development/wp-download_monitor.php:1675
-#: Monitor/Development/wp-download_monitor.php:1716
+#: Monitor/Development/wp-download_monitor.php:1206
+#: Monitor/Development/wp-download_monitor.php:1723
+#: Monitor/Development/wp-download_monitor.php:1777
+#: Monitor/Development/wp-download_monitor.php:1818
 msgid "Save Changes"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1141
+#: Monitor/Development/wp-download_monitor.php:1242
 msgid "Download deleted Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1164
+#: Monitor/Development/wp-download_monitor.php:1265
 msgid "Edit Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1183
+#: Monitor/Development/wp-download_monitor.php:1284
 msgid "Posted"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1185
+#: Monitor/Development/wp-download_monitor.php:1286
 msgid "Hits"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1273
+#: Monitor/Development/wp-download_monitor.php:1374
 msgid "No downloads added yet."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1318
+#: Monitor/Development/wp-download_monitor.php:1419
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1319
+#: Monitor/Development/wp-download_monitor.php:1420
 msgid ""
 "<p>The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development\n"
 "\t    of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful to ensure continued development.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1350
+#: Monitor/Development/wp-download_monitor.php:1451
 msgid "Download Monitor Configuration"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1362
+#: Monitor/Development/wp-download_monitor.php:1463
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
 "\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
@@ -634,7 +645,7 @@ msgid ""
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1373
+#: Monitor/Development/wp-download_monitor.php:1474
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
 "\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
@@ -647,116 +658,117 @@ msgid ""
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1393
+#: Monitor/Development/wp-download_monitor.php:1494
 msgid "<p>Options updated</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1407
+#: Monitor/Development/wp-download_monitor.php:1508
 msgid "Category added"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1457
+#: Monitor/Development/wp-download_monitor.php:1558
 msgid "Category deleted Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1463
+#: Monitor/Development/wp-download_monitor.php:1564
 msgid "Database recreated"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1481
+#: Monitor/Development/wp-download_monitor.php:1582
 msgid "Formats updated"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1492
+#: Monitor/Development/wp-download_monitor.php:1593
 msgid "Format added"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1505
+#: Monitor/Development/wp-download_monitor.php:1606
 msgid "Format deleted Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1520
+#: Monitor/Development/wp-download_monitor.php:1621
 msgid "Download Categories"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1522
+#: Monitor/Development/wp-download_monitor.php:1623
 msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1560
+#: Monitor/Development/wp-download_monitor.php:1661
 msgid "No categories exist"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1565
+#: Monitor/Development/wp-download_monitor.php:1666
 msgid "Add category"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1572
+#: Monitor/Development/wp-download_monitor.php:1673
 msgid "Parent"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1574
+#: Monitor/Development/wp-download_monitor.php:1675
 msgid "None"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1586
-#: Monitor/Development/wp-download_monitor.php:1651
+#: Monitor/Development/wp-download_monitor.php:1687
+#: Monitor/Development/wp-download_monitor.php:1753
 msgid "Add"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1591
+#: Monitor/Development/wp-download_monitor.php:1692
 msgid "Custom Output Formats"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1593
+#: Monitor/Development/wp-download_monitor.php:1694
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1600
-#: Monitor/Development/wp-download_monitor.php:1647
+#: Monitor/Development/wp-download_monitor.php:1701
+#: Monitor/Development/wp-download_monitor.php:1749
 msgid "Format"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1617
+#: Monitor/Development/wp-download_monitor.php:1718
 msgid "No formats exist"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1623
+#: Monitor/Development/wp-download_monitor.php:1724
 msgid "Add format"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1624
+#: Monitor/Development/wp-download_monitor.php:1725
 msgid ""
-"<p>Use the following tags in your custom format:</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
+"<p>Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities.</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
 "\t                \t<li><code>{url}</code> - Url of download (does not include hyperlink)</li>\n"
 "\t                \t<li><code>{version}</code> - Version of download</li>\n"
-"\t                \t<li><code>{version,before,after}</code> - Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
+"\t                \t<li><code>{version,\"before\",\"after\"}</code> - Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
 "\t                \t<li><code>{title}</code> - Title of download</li>\n"
 "\t                \t<li><code>{size}</code> - Filesize of download</li>\n"
-"\t                \t<li><code>{category,before,after}</code> or <code>{category}</code> - Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
+"\t                \t<li><code>{category,\"before\",\"after\"}</code> or <code>{category}</code> - Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
 "\t                \t<li><code>{hits}</code> - Current hit count</li>\n"
+"\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</code> - Formatted hit count depending on hits. <code>%</code> replaced with hit count.</li>\n"
 "\t                \t<li><code>{image_url}</code> - URL of the download image</li>\n"
-"\t                \t<li><code>{description,before,after}</code> or <code>{description}</code> - Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
-"\t                \t<li><code>{description-autop,before,after}</code> or <code>{description-autop}</code> - Description formatted with autop (converts double line breaks to paragraphs)</li>\n"
+"\t                \t<li><code>{description,\"before\",\"after\"}</code> or <code>{description}</code> - Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
+"\t                \t<li><code>{description-autop,\"before\",\"after\"}</code> or <code>{description-autop}</code> - Description formatted with autop (converts double line breaks to paragraphs)</li>\n"
 "\t                \t<li><code>{meta-<em>key</em>}</code> - Custom field value</li>\n"
 "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Custom field value formatted with autop</li>\n"
 "\t                </ul>\n"
@@ -766,12 +778,12 @@ msgid ""
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1656
+#: Monitor/Development/wp-download_monitor.php:1758
 msgid "Custom Download URL"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1658
+#: Monitor/Development/wp-download_monitor.php:1760
 msgid ""
 "<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>.</p>\n"
 "                        <p>Leave this option blank to use the default download path (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>\n"
@@ -779,175 +791,175 @@ msgid ""
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1666
+#: Monitor/Development/wp-download_monitor.php:1768
 msgid "Custom URL"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1671
+#: Monitor/Development/wp-download_monitor.php:1773
 msgid "Filename"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1680
+#: Monitor/Development/wp-download_monitor.php:1782
 msgid "General Options"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1685
+#: Monitor/Development/wp-download_monitor.php:1787
 msgid "\"Download not found\" redirect URL"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1689
+#: Monitor/Development/wp-download_monitor.php:1791
 msgid "Member-only files non-member redirect"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1693
+#: Monitor/Development/wp-download_monitor.php:1795
 msgid "Download image path"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1694
+#: Monitor/Development/wp-download_monitor.php:1796
 msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1697
+#: Monitor/Development/wp-download_monitor.php:1799
 msgid "Default output format"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1721
-#: Monitor/Development/wp-download_monitor.php:1726
+#: Monitor/Development/wp-download_monitor.php:1823
+#: Monitor/Development/wp-download_monitor.php:1828
 msgid "Recreate Download Database"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1723
+#: Monitor/Development/wp-download_monitor.php:1825
 msgid "<p>This will delete the old download monitor tables and recreate them. You should only do this as a last resort if experiencing database errors after updating the plugin. Download monitor will attempt to re-add any downloads currently in the database.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1724
+#: Monitor/Development/wp-download_monitor.php:1826
 msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1819
-#: Monitor/Development/wp-download_monitor.php:2057
+#: Monitor/Development/wp-download_monitor.php:1921
+#: Monitor/Development/wp-download_monitor.php:2163
 msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1821
-#: Monitor/Development/wp-download_monitor.php:2059
+#: Monitor/Development/wp-download_monitor.php:1923
+#: Monitor/Development/wp-download_monitor.php:2165
 msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1870
-#: Monitor/Development/wp-download_monitor.php:1871
-#: Monitor/Development/wp-download_monitor.php:2092
-#: Monitor/Development/wp-download_monitor.php:2093
+#: Monitor/Development/wp-download_monitor.php:1974
+#: Monitor/Development/wp-download_monitor.php:1975
+#: Monitor/Development/wp-download_monitor.php:2200
+#: Monitor/Development/wp-download_monitor.php:2201
 msgid "Download added Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1876
-#: Monitor/Development/wp-download_monitor.php:2099
+#: Monitor/Development/wp-download_monitor.php:1980
+#: Monitor/Development/wp-download_monitor.php:2207
 msgid "<div class=\"error\">Error saving to database</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:1998
+#: Monitor/Development/wp-download_monitor.php:2104
 msgid "Upload &amp; save"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2038
+#: Monitor/Development/wp-download_monitor.php:2144
 msgid "Add Existing Download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2060
+#: Monitor/Development/wp-download_monitor.php:2166
 msgid "<div class=\"error\">No file selected</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2130
+#: Monitor/Development/wp-download_monitor.php:2238
 msgid "Url"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2209
+#: Monitor/Development/wp-download_monitor.php:2319
 msgid "Save"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2249
+#: Monitor/Development/wp-download_monitor.php:2359
 msgid "Download Logs"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2250
+#: Monitor/Development/wp-download_monitor.php:2360
 msgid "Clear Log"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2257
+#: Monitor/Development/wp-download_monitor.php:2367
 msgid "User"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2258
+#: Monitor/Development/wp-download_monitor.php:2368
 msgid "IP Address"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2259
+#: Monitor/Development/wp-download_monitor.php:2369
 msgid "Date"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2308
+#: Monitor/Development/wp-download_monitor.php:2418
 msgid "No downloads logged."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2618
-#: Monitor/Development/wp-download_monitor.php:2655
+#: Monitor/Development/wp-download_monitor.php:2767
+#: Monitor/Development/wp-download_monitor.php:2804
 msgid "Added"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2638
+#: Monitor/Development/wp-download_monitor.php:2787
 msgid "Most Popular Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2658
+#: Monitor/Development/wp-download_monitor.php:2807
 msgid "No Downloads Found"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2720
+#: Monitor/Development/wp-download_monitor.php:2869
 msgid "Download Stats"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2849
+#: Monitor/Development/wp-download_monitor.php:2998
 msgid "Downloads per day for"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2907
+#: Monitor/Development/wp-download_monitor.php:3056
 msgid "Top 5 Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:2929
+#: Monitor/Development/wp-download_monitor.php:3078
 msgid "Most Downloaded"
 msgstr ""
 
