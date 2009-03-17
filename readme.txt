@@ -89,7 +89,8 @@ Wordpress does not have a filter I can hook into for this function, so to make t
 
 Download monitor now uses shortcodes to output its downloads.
 
-= `[download]` =
+<br/>
+= [download] =
 
 **Attributes:**
 
@@ -101,7 +102,8 @@ Download monitor now uses shortcodes to output its downloads.
 
 	[download id="1" autop="false" format="1"]
 
-= `[downloads]` =
+<br/>
+= [downloads] =
 
 **Attributes:**
 
@@ -111,7 +113,8 @@ Download monitor now uses shortcodes to output its downloads.
 `before` - Html/text before each download. Encode tags (e.g. &lt for &lt;) Default: '&lt;li&gt;'
 `after` - Html/text after each download. Default: '&lt;/li&gt;'
 
-= `get_downloads()` =
+<br/>
+= get_downloads() =
 
 Returns downloads that match your query. Takes 1 argument containing the query string.
 
@@ -159,9 +162,7 @@ Returns an array object with attributes:
 		}
 		echo '&lt;/ul&gt;';
 	}
-
-
-
+<br/>
 = Legacy tags = 
 
 The following tags still work and use the old style from previous versions of the plugin. These are mainly here for backward compatibility.
