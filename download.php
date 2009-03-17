@@ -106,7 +106,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 					$user_info = get_userdata($user_ID);
 					$level = $user_info->user_level;
 				}
-				
+
 				// Check permissions
 				if ($d->members && !isset($user_ID)) {
 					$url = get_option('wp_dlm_member_only');
@@ -116,6 +116,22 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 						exit();
    					} else _e('You must be logged in to download this file.',"wp-download_monitor");
 					exit();
+				}
+								
+				// Min-level add-on
+				if ($d->members && isset($user_ID)) {
+					$minLevel = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='min-level' LIMIT 1" , $id ) );
+					if ($minLevel) {
+						if ($level < $minLevel) {
+							$url = get_option('wp_dlm_member_only');
+							if (!empty($url)) {
+								$url = 'Location: '.$url;
+								header( $url );
+								exit();
+		   					} else _e('You do not have permission to download this file.',"wp-download_monitor");
+							exit();
+						}
+					}
 				}
 				
 				if ($level!=10) {

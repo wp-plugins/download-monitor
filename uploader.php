@@ -99,6 +99,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 	
 		case 'add' :
 			if ($_POST) {
+						
 				// Form processing
 				global $table_prefix,$wpdb;
 				$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -106,16 +107,16 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				$wp_dlm_db_meta = $table_prefix."DLM_META";
 											
 				//get postdata
-				$title = htmlspecialchars(trim($_POST['title']));
-				$filename = htmlspecialchars(trim($_POST['filename']));									
-				$dlversion = htmlspecialchars(trim($_POST['dlversion']));
+				$title = htmlspecialchars(trim(stripslashes($_POST['title'])));
+				$filename = htmlspecialchars(trim(stripslashes($_POST['filename'])));									
+				$dlversion = htmlspecialchars(trim(stripslashes($_POST['dlversion'])));
 				$dlhits = htmlspecialchars(trim($_POST['dlhits']));
 				$postDate = $_POST['postDate'];
 				$user = $_POST['user'];
 				$members = (isset($_POST['memberonly'])) ? 1 : 0;
 				$download_cat = $_POST['download_cat'];
 				$mirrors = htmlspecialchars(trim($_POST['mirrors']));
-				$file_description = trim($_POST['file_description']);
+				$file_description = trim(stripslashes($_POST['file_description']));
 				
 				if ($_POST['insertonlybutton']) {
 											
@@ -154,9 +155,9 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						
 						$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members,category_id,mirrors, file_description) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
 						$wpdb->escape( $wp_dlm_db ),
-						$wpdb->escape( $_POST['title'] ),
+						$wpdb->escape( $title ),
 						$wpdb->escape( $filename ),
-						mysql_real_escape_string( $_POST['dlversion'] ),
+						mysql_real_escape_string( $dlversion ),
 						$wpdb->escape( $_POST['postDate'] ),
 						mysql_real_escape_string( $_POST['dlhits'] ),
 						$wpdb->escape( $_POST['user'] ),
@@ -176,7 +177,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
 							{
 								if (trim($meta['key'])) {
-									$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$newdownloadID.')';
+									$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim(stripslashes($meta['key'])))))).'", "'.$wpdb->escape(stripslashes($meta['value'])).'", '.$newdownloadID.')';
 									$index ++;
 								}
 							}
@@ -249,7 +250,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						</th> 
 						<td class="field"><input type="checkbox" name="memberonly" id="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /></td>
 					</tr>
-					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></td></tr>					
+					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></td></tr>					
 				</tbody></table>
 				
 				<h3><?php _e('Upload/link to existing file',"wp-download_monitor"); ?></h3>
@@ -343,10 +344,10 @@ load_plugin_textdomain('wp-download_monitor', '/');
 									if (trim($meta['key'])) {
 									echo '<tr class="alternate">
 										<td class="left" style="vertical-align:top;">
-											<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="'.strtolower((str_replace(' ','-',$meta['key']))).'" type="text" style="width:95%">
+											<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="'.strtolower((str_replace(' ','-',stripslashes($meta['key'])))).'" type="text" style="width:95%">
 											<input type="submit" name="meta['.$index.'][remove]" class="button" value="'.__('remove',"wp-download_monitor").'" />
 										</td>
-										<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%">'.$meta['value'].'</textarea></td>
+										<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%">'.stripslashes($meta['value']).'</textarea></td>
 									</tr>';	
 									}							
 								}		

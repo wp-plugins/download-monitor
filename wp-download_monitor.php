@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0 Beta 2
+Version: 3.0
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090307";
+$dlm_build="B20090317";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -1122,7 +1122,7 @@ function wp_dlm_admin()
                                         </tr>  
                                             <tr valign="top">												
                                                 <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                                                <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></span></td>
+                                                <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
                                             </tr> 
 											<tr valign="top">
 												<th scope="row"><strong><?php _e('File URL (required)',"wp-download_monitor"); ?>: </strong></th> 
@@ -2047,7 +2047,7 @@ function dlm_addnew() {
                 </tr>  
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></span></td>
+                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
                 </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Download Mirrors',"wp-download_monitor"); ?></strong></th> 
@@ -2263,7 +2263,7 @@ function dlm_addexisting() {
                 </tr>  
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                    <td><input type="checkbox" style="vertical-align:top" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly.',"wp-download_monitor"); ?></span></td>
+                    <td><input type="checkbox" style="vertical-align:top" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
                 </tr> 
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Download Mirrors',"wp-download_monitor"); ?></strong></th> 
@@ -2488,6 +2488,27 @@ if (!empty($dlm_url))
 // Main template tag (get) function
 ################################################################################
 
+class download_object {
+	var $id;
+	var $url;
+	var $size;
+	var $version;
+	var $image;
+	var $desc;
+	var $category;
+	var $category_id;
+	var $memberonly;
+	var $dlversion;
+	var $file_description;
+	var $postDate;
+	var $members;
+	var $filename;
+	var $hits;
+	var $user;
+	var $mirrors;
+	var $title;
+}
+	
 function get_downloads($args = null) {
 
 	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_cats, $dlm_url, $downloadurl, $downloadtype;
@@ -2571,37 +2592,52 @@ function get_downloads($args = null) {
 		ORDER BY $orderby ".$r['order']."
 		".$limitandoffset.";" );
 
+	$return_downloads = array();
+
 	// Process download variables
-	foreach ($downloads as $d) {
+	foreach ($downloads as $dl) {
 	
 		switch ($downloadtype) {
 			case ("Title") :
-					$downloadlink = urlencode($d->title);
+					$downloadlink = urlencode($dl->title);
 			break;
 			case ("Filename") :
-					$downloadlink = $d->filename;
+					$downloadlink = $dl->filename;
 					$link = explode("/",$downloadlink);
 					$downloadlink = end($link);
 			break;
 			default :
-					$downloadlink = $d->id;
+					$downloadlink = $dl->id;
 			break;
 		}
+		
+		$d = new download_object;
 
 		// Can use size, url, title, version, hits, image, desc, category, category_id, id, date, memberonly
-		$d->size = wp_dlm_get_size($d->filename);
+		$d->id = $dl->id;
+		$d->title = $dl->title;
+		$d->filename = $dl->filename;
+		$d->mirrors = $dl->mirrors;
+		$d->user = $dl->user;
+		$d->hits = $dl->hits;
+		$d->members = $dl->members;
+		$d->postDate = $dl->postDate;
+		$d->file_description = $dl->file_description;
+		$d->dlversion = $dl->dlversion;		
+		$d->size = wp_dlm_get_size($dl->filename);
 		$d->url =  $downloadurl.$downloadlink;
-		$d->version = $d->dlversion;
+		$d->version = $dl->dlversion;
 		$d->image = get_option('wp_dlm_image_url');
-		$d->desc = $d->file_description;		
-		$d->category = $d->name;
-		$d->category_id = $d->category_id;
-		$d->date = $d->postDate;	
-		$d->memberonly = $d->members;
-			
+		$d->desc = $dl->file_description;		
+		$d->category = $dl->name;
+		$d->category_id = $dl->category_id;
+		$d->date = $dl->postDate;	
+		$d->memberonly = $dl->members;
+		
+		$return_downloads[] = $d;
 	}
 	
-	return $downloads;
+	return $return_downloads;
 		
 }
 
