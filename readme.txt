@@ -85,58 +85,54 @@ Wordpress does not have a filter I can hook into for this function, so to make t
 
 == Usage ==
 
-= New/recommended tags = 
+= New/recommended tags/functions = 
 
 Download monitor now uses shortcodes to output its downloads.
 
-= Shortcodes =
+= `[download]` =
 
-**<code>[download]</code>**
+**Attributes:**
 
-Attributes:
+`id` - Required. Id of download to show.
+`format` - Id of format to use. Leave blank to use default format.
+`autop` - formats the output with autop. Do not use if showing the download link inline. Default: false
 
-	<code>id</code> - Required. Id of download to show.
-	<code>format</code> - Id of format to use. Leave blank to use default format.
-	<code>autop</code> - formats the output with autop. Do not use if showing the download link inline. Default: false
-
-Example:
+**Example:**
 
 	[download id="1" autop="false" format="1"]
 
-**<code>[downloads]</code>**
+= `[downloads]` =
 
-Attributes:
+**Attributes:**
 
-	<code>query</code> - used to query the downloads. See the get_downloads template tag for the string options. Default: 'limit=5&orderby=rand'
-	<code>autop</code> - formats the output with autop. Do not use if showing the download link inline. Default: false
-	<code>wrap</code> - Set to 'ul' to wrap in ul tag. Set to '' to wrap with nothing. Default: 'ul'
-	<code>before</code> - Html/text before each download. Encode tags (e.g. &lt for &lt;) Default: '&lt;li&gt;'
-	<code>after</code> - Html/text after each download. Default: '&lt;/li&gt;'
+`query` - used to query the downloads. See the get_downloads template tag for the string options. Default: 'limit=5&orderby=rand'
+`autop` - formats the output with autop. Do not use if showing the download link inline. Default: false
+`wrap` - Set to 'ul' to wrap in ul tag. Set to '' to wrap with nothing. Default: 'ul'
+`before` - Html/text before each download. Encode tags (e.g. &lt for &lt;) Default: '&lt;li&gt;'
+`after` - Html/text after each download. Default: '&lt;/li&gt;'
 
-= Template tag =
-
-**<code>get_downloads()</code>**
+= `get_downloads()` =
 
 Returns downloads that match your query. Takes 1 argument containing the query string.
 
-Defaults:
+**Defaults:**
 
-	'limit' => '', 
-	'offset' => 0,
-	'vip' => 0
-	'category' => '', 
-	'orderby' => 'id',
-	'order' => 'ASC'
+'limit' => '', 
+'offset' => 0,
+'vip' => 0
+'category' => '', 
+'orderby' => 'id',
+'order' => 'ASC'
 	
 The vip argument will hide member only downloads if the user is not logged in.
 	
-Example:
+**Example:**
 
-	(5 Random Downloads) <code>get_downloads('limit=5&orderby=random&order=desc');</code>
+(5 Random Downloads) <code>get_downloads('limit=5&orderby=random&order=desc');</code>
 	
-Return Value:
+**Return Value:**
 
-	Returns an array object with attributes:
+Returns an array object with attributes:
 	
 *	size
 *	url
@@ -151,9 +147,8 @@ Return Value:
 *	date
 *	memberonly
 
-Full Example (Output a list of top downloads):
+**Full Example (Output a list of top downloads):**
 
-	<code>
 	$dl = get_downloads('limit=5&amp;orderby=hits&amp;order=desc');
 	
 	if (!empty($dl)) {
@@ -164,7 +159,7 @@ Full Example (Output a list of top downloads):
 		}
 		echo '&lt;/ul&gt;';
 	}
-	</code>
+
 
 
 = Legacy tags = 
@@ -187,18 +182,18 @@ Use the admin panel to define custom formats to output your links and then use `
    
 There are a few other **template tags** to use in your wordpress templates. Replace '$no' with the amount of downloads to show.
 
-   1. <del>Most downloaded - `<?php wp_dlm_show_downloads(1,$no); ?>`</del>
-   2. <del>Most recent - `<?php wp_dlm_show_downloads(2,$no); ?>`</del>
-   3. <del>Random - `<?php wp_dlm_show_downloads(3,$no); ?>`</del>
+   1. Most downloaded - `<?php wp_dlm_show_downloads(1,$no); ?>`
+   2. Most recent - `<?php wp_dlm_show_downloads(2,$no); ?>`
+   3. Random - `<?php wp_dlm_show_downloads(3,$no); ?>`
    
 **Show all downloads:**
 
-	Add the tag [#show_downloads] to a page.
+Add the tag `[#show_downloads]` to a page.
 	
 **Show downloads with category selector:**
 
-	Add the tag [#advanced_downloads] to a page.
+Add the tag `[#advanced_downloads]` to a page.
 	
 **Show downloads in a single category:**
 	
-	Use <code>[download_cat#id]</code> replacing id with the id of the category.
+Use `[download_cat#id]` replacing id with the id of the category.
