@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0
+Version: 3.0.1
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090317";
+$dlm_build="B20090318";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -425,15 +425,14 @@ function wp_dlm_shortcode_download( $atts ) {
 	global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_cats, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
 
 	if ($id>0) {
-
 		// Handle Formats
-		if ($format==0 && $def_format>0) {
+		if (!$format && $def_format>0) {
 			$format = wp_dlm_get_custom_format($def_format);
 		} elseif ($format>0 && is_numeric($format) ) {
 			$format = wp_dlm_get_custom_format($format);
 		} else {
 			// Format is set!
-			$format = htmlspecialchars_decode($format);
+			$format = html_entity_decode($format);
 		}	
 		if (empty($format) || $format=='0') {
 			$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';		
@@ -563,7 +562,7 @@ function wp_dlm_parse_downloads($data) {
 				$subs[] = '[download id="'.$val[1].'"]';
 				
 				// No hit counter				
-				$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title}</a>';
+				$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title}</a>';
 				
 				$patts[] = "[download#" . $val[1] . "#nohits]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
@@ -589,17 +588,17 @@ function wp_dlm_parse_downloads($data) {
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 				
 				// Image link
-				$format = '<a class="downloadlink dlimg" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" ><img src="{image_url}" alt="'.__("Download","wp-download_monitor").' {title} {version,'.__("Version","wp-download_monitor").' ,}" /></a>';				
+				$format = '<a class="downloadlink dlimg" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" ><img src="{image_url}" alt="'.__("Download","wp-download_monitor").' {title} {version,'.__("Version","wp-download_monitor").' ,}" /></a>';				
 				$patts[] = "[download#" . $val[1] . "#image]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 				
 				// Regular download link WITH filesize
-				$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits}) - {size}</a>';
+				$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits}) - {size}</a>';
 				$patts[] = "[download#" . $val[1] . "#size]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 								
 				// No hit counter + filesize
-				$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({size})</a>';
+				$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({size})</a>';
 				$patts[] = "[download#" . $val[1] . "#size#nohits]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 		
@@ -2663,13 +2662,13 @@ function wp_dlm_shortcode_downloads( $atts ) {
 	if (!empty($dl)) {
 	
 		// Handle Formats
-		if ($format==0 && $def_format>0) {
+		if (!$format && $def_format>0) {
 			$format = wp_dlm_get_custom_format($def_format);
 		} elseif ($format>0 && is_numeric($format) ) {
 			$format = wp_dlm_get_custom_format($format);
 		} else {
 			// Format is set!
-			$format = htmlspecialchars_decode($format);
+			$format = html_entity_decode($format);
 		}	
 		if (empty($format) || $format=='0') {
 			$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';		
@@ -2740,7 +2739,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 				}
 			}
 			
-			$output .= htmlspecialchars_decode($before).str_replace( $fpatts , $fsubs , $format ).htmlspecialchars_decode($after);
+			$output .= html_entity_decode($before).str_replace( $fpatts , $fsubs , $format ).html_entity_decode($after);
 
    		} 
 	
@@ -3124,23 +3123,23 @@ if ($wp_db_version > 6124) {
 						$loop = 1;
 						$size = sizeof($downloads);
 						$last = "";
-						if ($downloads) {
-						foreach ($downloads as $d) {
-							$hits = $d->hits;
-							$date = $d->date;
-							$width = ($hits / $max * 100) - 10;
-							if ($loop==$size) $last = 'last';
-							echo '
-							<tr>			
-								<td class="'.$first.'" style="width:25%;">'.$d->title.'</td>
-								<td class="value '.$first.' '.$last.'"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
-							</tr>
-							';
-							$first = "";
-							$loop++;
-						}
+						if ($downloads && $max>0) {
+							foreach ($downloads as $d) {
+								$hits = $d->hits;
+								$date = $d->date;
+								$width = ($hits / $max * 100) - 10;
+								if ($loop==$size) $last = 'last';
+								echo '
+								<tr>			
+									<td class="'.$first.'" style="width:25%;">'.$d->title.'</td>
+									<td class="value '.$first.' '.$last.'"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
+								</tr>
+								';
+								$first = "";
+								$loop++;
+							}
 						} else {
-							echo '<tr><td class="first last" style="border-right:1px solid #e5e5e5" colspan="2">None Found</td></tr>';
+							echo '<tr><td class="first last" style="border-right:1px solid #e5e5e5" colspan="2">No stats yet</td></tr>';
 						}
 					?>						
 			</tbody></table>
