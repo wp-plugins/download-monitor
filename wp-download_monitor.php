@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0.1
+Version: 3.0.2
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090318";
+$dlm_build="B20090320";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -117,6 +117,13 @@ function wp_dlm_head() {
 	if ($_GET['activate'] && $_GET['activate']==true) {
 		wp_dlm_init();
 	}
+	
+	if (
+		$_REQUEST['page']=='dlm_addnew' ||
+		$_REQUEST['page']=='dlm_addexisting' ||
+		$_REQUEST['page']=='download-monitor/wp-download_monitor.php' ||
+		$_REQUEST['page']=='download-monitor/wp-download_monitor.php'
+	) {
 	?>
 	<script type="text/javascript">
 	/* <![CDATA[ */
@@ -158,6 +165,7 @@ function wp_dlm_head() {
 	/* ]]> */
 	</script>
 	<?php
+	}
 }
 add_action('admin_head', 'wp_dlm_head');
 
@@ -305,8 +313,7 @@ function wp_dlm_reinstall() {
 }
 
 ################################################################################
-// MAGIC QUOTES - checks if magic quotes enabled, disables the add_slashes on
-// inputs, so ensure add_slashes before interacting with the database
+// MAGIC QUOTES - WORDPRESS DOES THIS BUT ADDS THE SLASHES BACK - I DONT WANT THEM!
 ################################################################################
 
 function wp_dlm_magic() { 
@@ -314,10 +321,10 @@ function wp_dlm_magic() {
 		if (!is_array($in)) $out = stripslashes($in); else $out = $in;
 		return $out;
 	}
-	if (get_magic_quotes_gpc()){ 
+	//if (get_magic_quotes_gpc() || get_magic_quotes_runtime() ){ 
 		$_GET = array_map('stripit', $_GET); 
 		$_POST = array_map('stripit', $_POST); 
-	}
+	//}
 	return;
 }
 
@@ -467,18 +474,18 @@ function wp_dlm_shortcode_download( $atts ) {
 			if ($d->category_id>0) {
 				$c = $wpdb->get_row("SELECT name FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
 				$fsubs[]  = $c->name;
-				preg_match("/{category,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				$fpatts[] = $match[0];
 				$fsubs[]  = $match[1].$c->name.$match[2];
 			} else {
 				$fsubs[]  = "";
-				preg_match("/{category,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				$fpatts[] = $match[0];
 				$fsubs[]  = "";
 			}
 				
 			// Hits (special) {hits, none, one, many)
-			preg_match("/{hits,\"([^\"]*?)\",\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ( $d->hits == 1 ) 
 			{
@@ -497,16 +504,21 @@ function wp_dlm_shortcode_download( $atts ) {
 			}						
 			
 			// Version
-			preg_match("/{version,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{version,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
-			if ($d->dlversion) $fsubs[]  = $match[1].$d->dlversion.$match[2]; else $fsubs[]  = "";						
+			if ($d->dlversion) $fsubs[]  = $match[1].$d->dlversion.$match[2]; else $fsubs[]  = "";
+			
+			// Date
+			preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
+			$fpatts[] = $match[0];
+			if ($d->postDate) $fsubs[] = date($match[1],strtotime($d->postDate)); else $fsubs[]  = "";					
 			
 			// Other
-			preg_match("/{description,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ($d->file_description) $fsubs[]  = $match[1].$d->file_description.$match[2]; else $fsubs[]  = "";
 			
-			preg_match("/{description-autop,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
 			
@@ -588,7 +600,7 @@ function wp_dlm_parse_downloads($data) {
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 				
 				// Image link
-				$format = '<a class="downloadlink dlimg" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" ><img src="{image_url}" alt="'.__("Download","wp-download_monitor").' {title} {version,'.__("Version","wp-download_monitor").' ,}" /></a>';				
+				$format = '<a class="downloadlink dlimg" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" ><img src="{image_url}" alt="'.__("Download","wp-download_monitor").' {title} {version,"'.__("Version","wp-download_monitor").' ",""}" /></a>';				
 				$patts[] = "[download#" . $val[1] . "#image]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 				
@@ -612,7 +624,8 @@ function wp_dlm_parse_downloads($data) {
 	
 	
 	
-	global $wpdb, $wp_dlm_db, $wp_dlm_db_meta, $wp_dlm_db_cats, $downloadurl;
+	global $wpdb, $wp_dlm_db, $wp_dlm_db_meta, $wp_dlm_db_cats, $downloadurl, $downloadtype;
+	
 	// Handle CATEGORIES
 	if (substr_count($data,"[download_cat#")) {
 		
@@ -666,18 +679,18 @@ function wp_dlm_parse_downloads($data) {
 						if ($d->category_id>0) {
 							$c = $wpdb->get_row("SELECT name FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
 							$fsubs[]  = $c->name;
-							preg_match("/{category,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+							preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 							$fpatts[] = $match[0];
 							$fsubs[]  = $match[1].$c->name.$match[2];
 						} else {
 							$fsubs[]  = "";
-							preg_match("/{category,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+							preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 							$fpatts[] = $match[0];
 							$fsubs[]  = "";
 						}
 						
 						// Hits (special) {hits, none, one, many)
-						preg_match("/{hits,\"([^\"]*?)\",\"([^']*?)\",\"([^']*?)\"}/", $format, $match);
+						preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^']*?)\",\s*\"([^']*?)\"}/", $format, $match);
 						$fpatts[] = $match[0];
 						if ( $d->hits == 1 ) 
 						{
@@ -696,16 +709,21 @@ function wp_dlm_parse_downloads($data) {
 						}
 						
 						// Version
-						preg_match("/{version,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+						preg_match("/{version,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 						$fpatts[] = $match[0];
-						if ($d->dlversion) $fsubs[]  = $match[1].$d->dlversion.$match[2]; else $fsubs[]  = "";							
+						if ($d->dlversion) $fsubs[]  = $match[1].$d->dlversion.$match[2]; else $fsubs[]  = "";
+						
+						// Date
+						preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
+						$fpatts[] = $match[0];
+						if ($d->postDate) $fsubs[] = date($match[1],strtotime($d->postDate)); else $fsubs[]  = "";							
 						
 						// Other
-						preg_match("/{description,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+						preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 						$fpatts[] = $match[0];
 						if ($d->file_description) $fsubs[]  = $match[1].$d->file_description.$match[2]; else $fsubs[]  = "";
 						
-						preg_match("/{description-autop,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+						preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 						$fpatts[] = $match[0];
 						if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
 						
@@ -953,9 +971,8 @@ function wp_dlm_admin()
 											$file = wp_handle_upload($_FILES['upload'], $overrides, $time);
 	
 											if ( !isset($file['error']) ) {
-												$full_path = $file['url'];
 												$info = $file['url'];
-												$filename = $file['url'];
+												$filename = $file['url'];	
 											} 
 											else $errors = '<div class="error">'.$file['error'].'</div>';				
 	
@@ -1102,7 +1119,7 @@ function wp_dlm_admin()
                                             <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
                                             <td>
                                             <select name="download_cat">
-                                            	<option value="">N/A</option>
+                                            	<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
 												<?php
                                                     $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
                                                         $wpdb->escape( $wp_dlm_db_cats ));	
@@ -1328,7 +1345,7 @@ function wp_dlm_admin()
 				if (!empty($download)) {
 					echo '<tbody id="the-list">';
 					foreach ( $download as $d ) {
-						$date = date("jS M Y", strtotime($d->postDate));
+						$date = date(__("jS M Y","wp-download_monitor"), strtotime($d->postDate));
 						
 						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace($path, "", $d->filename);
@@ -1339,7 +1356,7 @@ function wp_dlm_admin()
 						<td>'.$d->title.'</td>
 						<td>'.$file.'</td>
 						<td style="text-align:center">';
-						if ($d->category_id=="" || $d->category_id==0) echo "N/A"; else {
+						if ($d->category_id=="" || $d->category_id==0) _e('N/A',"wp-download_monitor"); else {
 							//$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
 							//$chain = $c->name;
 							$chain = $d->name;
@@ -1361,7 +1378,7 @@ function wp_dlm_admin()
 						<td style="text-align:center">';
 						if ($d->members) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
 						echo '</td>
-						<td>'.$date.' by '.$d->user.'</td>
+						<td>'.$date.' '.__('by',"wp-download_monitor").' '.$d->user.'</td>
 						<td style="text-align:center">';
 						echo $wpdb->get_var('SELECT COUNT(id) FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.'');
 						echo '</td>
@@ -1433,7 +1450,7 @@ function wp_dlm_admin()
 function wp_dlm_config() {
 
 	//set globals
-	global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_cats,$wp_dlm_db_formats,$dlm_url;
+	global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_cats,$wp_dlm_db_formats,$dlm_url,$downloadtype;
 
 	// turn off magic quotes
 	wp_dlm_magic();
@@ -1550,7 +1567,7 @@ function wp_dlm_config() {
 						$wpdb->escape( implode(",",$delete_cats) ));
 					$wpdb->query($query_delete);
 					// Remove from downloads
-					$query_update = sprintf("UPDATE %s SET category_id='N/A' WHERE category_id IN (%s);",
+					$query_update = sprintf("UPDATE %s SET category_id='0' WHERE category_id IN (%s);",
 						$wpdb->escape( $wp_dlm_db ),
 						$wpdb->escape( implode(",",$delete_cats) ));		
 					$d = $wpdb->get_row($query_update);
@@ -1733,6 +1750,7 @@ function wp_dlm_config() {
 	                	<li><code>{image_url}</code> - URL of the download image</li>
 	                	<li><code>{description,"before","after"}</code> or <code>{description}</code> - Description you gave download. Not outputted if none set. Replace "before" with preceding text/html and "after" with succeeding text/html.</li>
 	                	<li><code>{description-autop,"before","after"}</code> or <code>{description-autop}</code> - Description formatted with autop (converts double line breaks to paragraphs)</li>
+	                	<li><code>{date,"Y-m-d"}</code> - Date posted. Second argument is for date format.</li>
 	                	<li><code>{meta-<em>key</em>}</code> - Custom field value</li>
 	                	<li><code>{meta-autop-<em>key</em>}</code> - Custom field value formatted with autop</li>
 	                </ul>
@@ -2027,7 +2045,7 @@ function dlm_addnew() {
                     <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
                     <td>
                     <select name="download_cat">
-                    	<option value="">N/A</option>
+                    	<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
 						<?php
                             $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
                                 $wpdb->escape( $wp_dlm_db_cats ));	
@@ -2243,7 +2261,7 @@ function dlm_addexisting() {
                     <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
                     <td>
                     <select name="download_cat">
-                    	<option value="">N/A</option>
+                    	<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
 						<?php
                             $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
                                 $wpdb->escape( $wp_dlm_db_cats ));	
@@ -2394,7 +2412,7 @@ function wp_dlm_log()
 				if (!empty($logs)) {
 					echo '<tbody id="the-list">';
 					foreach ( $logs as $log ) {
-						$date = date("jS M Y", strtotime($log->date));
+						$date = date(__("jS M Y","wp-download_monitor"), strtotime($log->date));
 						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace($path, "", $log->filename);
 						$links = explode("/",$file);
@@ -2685,18 +2703,18 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			// Category
 			if ($d->category_id>0) {
 				$fsubs[]  = $d->category;
-				preg_match("/{category,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				$fpatts[] = $match[0];
 				$fsubs[]  = $match[1].$d->category.$match[2];
 			} else {
 				$fsubs[]  = "";
-				preg_match("/{category,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				$fpatts[] = $match[0];
 				$fsubs[]  = "";
 			}
 			
 			// Hits (special) {hits, none, one, many)
-			preg_match("/{hits,\"([^\"]*?)\",\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ( $d->hits == 1 ) 
 			{
@@ -2715,16 +2733,21 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			}	
 			
 			// Version
-			preg_match("/{version,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{version,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
-			if ($d->version) $fsubs[]  = $match[1].$d->version.$match[2]; else $fsubs[]  = "";						
+			if ($d->version) $fsubs[]  = $match[1].$d->version.$match[2]; else $fsubs[]  = "";	
+			
+			// Date
+			preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
+			$fpatts[] = $match[0];
+			if ($d->postDate) $fsubs[] = date($match[1],strtotime($d->postDate)); else $fsubs[]  = "";						
 			
 			// Other
-			preg_match("/{description,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ($d->desc) $fsubs[]  = $match[1].$d->desc.$match[2]; else $fsubs[]  = "";
 			
-			preg_match("/{description-autop,\"([^\"]*?)\",\"([^\"]*?)\"}/", $format, $match);
+			preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ($d->desc) $fsubs[]  = $match[1].wpautop($d->desc).$match[2]; else $fsubs[]  = "";
 			
@@ -2775,14 +2798,14 @@ function wp_dlm_show_downloads($mode = 1,$no = 5) {
 	if (!empty($dl)) {
 		echo '<ul class="downloadList">';
 		foreach($dl as $d) {
-			$date = date("jS M Y", strtotime($d->date));
+			$date = date(__("jS M Y","wp-download_monitor"), strtotime($d->date));
 			switch ($mode) {
 				case (1) :
 				case (3) :
 					echo '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';
 				break;
 				case (2) :
-					echo '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" >'.$d->title.' <span>('. date("jS M Y", strtotime($d->date)).')</span></a></li>';
+					echo '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" >'.$d->title.' <span>('. date(__("jS M Y","wp-download_monitor"), strtotime($d->date)).')</span></a></li>';
 				break;
 			}
 		}
@@ -2799,7 +2822,7 @@ function wp_dlm_all() {
 	if (!empty($dl)) {
 		$retval = '<ul class="downloadList">';
 		foreach($dl as $d) {
-			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date("jS F Y", strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
+			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date(__("jS M Y","wp-download_monitor"), strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
 		}
 		$retval .='</ul>';
 	}
@@ -2836,7 +2859,7 @@ function wp_dlm_advanced() {
 	if (!empty($dl)) {
 		$retval .= '<ul class="download-list">';
 		foreach($dl as $d) {
-			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date("jS F Y", strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
+			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date(__("jS M Y","wp-download_monitor"), strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
 		}
 		$retval .='</ul>';
 	} else $retval .='<p>'.__('No Downloads Found',"wp-download_monitor").'</p>';

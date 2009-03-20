@@ -4,7 +4,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.7
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -48,6 +48,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Russian Translation - http://blog.liri-site.ru/portfolio/wordpress-download-monitor
 *	Korean Translation - http://incommunity.codex.kr/wordpress/?p=7 - Jong-In Kim
 *	Lithuanian Translation - http://wordpresstvs.lt/wordpress-download-monitor-2/
+*	German Translation - http://www.outsourcetoasia.de/download-monitor-3
 	
 == Installation ==
 

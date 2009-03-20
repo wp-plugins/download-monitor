@@ -84,6 +84,45 @@ load_plugin_textdomain('wp-download_monitor', '/');
 	if ( is_string($content_func) )
 		do_action( "admin_head_{$content_func}" );
 	?>
+	<script type="text/javascript">
+	/* <![CDATA[ */
+		
+		jQuery.noConflict();
+		(function($) { 
+		  $(function() {								 
+		  										  	
+		  	$('#customfield_list tr.alternate').each(function(i){
+		  	
+		  		var index = i + 1;
+		  		$("input[name='meta[" + index + "][remove]']").click(function(){
+		    		$('input, textarea', $(this).parent().parent()).val('');
+		    		$(this).parent().parent().hide();
+		    		return false;
+		    	});
+		  	
+		  	});										  	
+		    
+		    $('#addmetasub').click(function(){
+		    
+		    	var newfield = $('#customfield_list tr.alternate').size() + 1;
+		    	
+		    	$('#addmetarow').before('<tr class="alternate"><td class="left" style="vertical-align:top;"><label class="hidden" for="meta[' + newfield + '][key]">Key</label><input name="meta[' + newfield +'][key]" id="meta[' + newfield +'][key]" tabindex="6" size="20" value="" type="text" style="width:95%"><input type="submit" name="meta[' + newfield +'][remove]" class="button" value="<?php _e('remove',"wp-download_monitor"); ?>" /></td><td style="vertical-align:top;"><label class="hidden" for="meta[' + newfield + '][value]">Value</label><textarea name="meta[' + newfield + '][value]" id="meta[' + newfield + '][value]" tabindex="6" rows="2" cols="30" style="width:95%"></textarea></td></tr>');									    	
+		    	
+		    	$("input[name='meta[" + newfield + "][remove]']").click(function(){
+		    		$('input, textarea', $(this).parent().parent()).val('');
+		    		$(this).parent().parent().hide();
+		    		return false;
+		    	});
+		    	
+		    	return false;
+		    	
+		    });
+		    
+		  });
+		})(jQuery);
+
+	/* ]]> */
+	</script>
 </head>
 <body id="media-upload">
 	<div id="media-upload-header">
@@ -369,7 +408,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						</tr>
 					</tbody>
 				</table>				
-				<p class="submit"><input type="submit" class="button button-primary" name="insertonlybutton" value="<?php _e('Save new download'); ?>" /></p>
+				<p class="submit"><input type="submit" class="button button-primary" name="insertonlybutton" value="<?php _e('Save new download',"wp-download_monitor"); ?>" /></p>
 				
 			</form>
 			<?php } else {
