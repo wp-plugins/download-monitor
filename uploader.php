@@ -416,10 +416,10 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				$html = '[download id="'.$newdownloadID.'"';
 				?>
 				<div style="margin:1em;">
-				<h3><?php _e('Insert new download into post'); ?></h3>
+				<h3><?php _e('Insert new download into post',"wp-download_monitor"); ?></h3>
 				
 				<p class="submit"><label for="format"><?php _e('Insert into post using format:',"wp-download_monitor"); ?></label> <select style="vertical-align:middle;" name="format" id="format">
-							<option value="0">Default</option>
+							<option value="0"><?php _e('Default',"wp-download_monitor"); ?></option>
 							<?php								
 								$query_select_formats = sprintf("SELECT * FROM %s ORDER BY id;",
 									$wpdb->escape( $wp_dlm_db_formats ));	
@@ -432,7 +432,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 								}
 							?>         
 						</select>
-				<?php echo '<input type="submit" id="insertdownload" class="button button-primary" name="insertintopost" value="'.__('Insert into post').'" />'; ?></p>
+				<?php echo '<input type="submit" id="insertdownload" class="button button-primary" name="insertintopost" value="'.__('Insert into post',"wp-download_monitor").'" />'; ?></p>
 
 				<script type="text/javascript">
 					/* <![CDATA[ */

@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0.2
+Version: 3.0.3
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090320";
+$dlm_build="B20090323";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -511,7 +511,7 @@ function wp_dlm_shortcode_download( $atts ) {
 			// Date
 			preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
-			if ($d->postDate) $fsubs[] = date($match[1],strtotime($d->postDate)); else $fsubs[]  = "";					
+			if ($d->postDate) $fsubs[] = date_i18n($match[1],strtotime($d->postDate)); else $fsubs[]  = "";					
 			
 			// Other
 			preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
@@ -716,7 +716,7 @@ function wp_dlm_parse_downloads($data) {
 						// Date
 						preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
 						$fpatts[] = $match[0];
-						if ($d->postDate) $fsubs[] = date($match[1],strtotime($d->postDate)); else $fsubs[]  = "";							
+						if ($d->postDate) $fsubs[] = date_i18n($match[1],strtotime($d->postDate)); else $fsubs[]  = "";							
 						
 						// Other
 						preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
@@ -1169,7 +1169,7 @@ function wp_dlm_admin()
 									<input type="hidden" name="sort" value="<?php echo $_REQUEST['sort']; ?>" />
 									<input type="hidden" name="p" value="<?php echo $_REQUEST['p']; ?>" />
 									<input type="hidden" name="sub" value="1" />
-									<input type="hidden" name="postDate" value="<?php echo date(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
+									<input type="hidden" name="postDate" value="<?php echo date_i18n(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
 									<?php 
 										global $userdata;
 										get_currentuserinfo();										
@@ -1281,9 +1281,9 @@ function wp_dlm_admin()
         <h2><?php _e('Edit Downloads',"wp-download_monitor"); ?></h2>
 		<form id="downloads-filter" action="admin.php?page=download-monitor/wp-download_monitor.php" method="POST">
 			<p class="search-box">
-				<label class="hidden" for="post-search-input">Search Downloads:</label>
+				<label class="hidden" for="post-search-input"><?php _e('Search Downloads:',"wp-download_monitor"); ?></label>
 				<input class="search-input" id="post-search-input" name="s" value="<?php echo $_REQUEST['s']; ?>" type="text" />
-				<input value="Search Downloads" class="button" type="submit" />
+				<input value="<?php _e('Search Downloads',"wp-download_monitor"); ?>" class="button" type="submit" />
 			</p>
 		</form>
         <br class="" style="clear: both;"/>
@@ -1345,7 +1345,7 @@ function wp_dlm_admin()
 				if (!empty($download)) {
 					echo '<tbody id="the-list">';
 					foreach ( $download as $d ) {
-						$date = date(__("jS M Y","wp-download_monitor"), strtotime($d->postDate));
+						$date = date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->postDate));
 						
 						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace($path, "", $d->filename);
@@ -1474,6 +1474,7 @@ function wp_dlm_config() {
 				  $dlm_url = $_POST['url'];						 
 					update_option('wp_dlm_url', trim($dlm_url));
 					update_option('wp_dlm_type', $_POST['type']);
+					$downloadtype = get_option('wp_dlm_type');
 					if (!empty($dlm_url)) {
 						echo '<div id="message"class="updated fade">';	
 						_e('<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for 
@@ -1482,7 +1483,7 @@ function wp_dlm_config() {
 					.htaccess file above the "# BEGIN WordPress" line:</p>
 						<p>Options +FollowSymLinks<br/>
 						RewriteEngine on<br/>
-						RewriteRule ^download/(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
+						RewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
 						<p>replacing "download/" with your custom url.</p>',"wp-download_monitor");			
 						echo '</div>';
 					} else {
@@ -1493,7 +1494,7 @@ function wp_dlm_config() {
 					.htaccess file if it exists above the "# BEGIN WordPress" line:</p>
 						<p>Options +FollowSymLinks<br/>
 						RewriteEngine on<br/>
-						RewriteRule ^download/(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
+						RewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
 						<p>replacing "download/" with your previous custom url.</p>',"wp-download_monitor");
 					echo '</div>';
 					}
@@ -1777,12 +1778,20 @@ function wp_dlm_config() {
             	<?php _e('<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it\'s url, e.g. selecting "filename" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>.</p>
                         <p>Leave this option blank to use the default download path (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>
                         <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post\'s url as this can cause problems redirecting to download.php.</p>',"wp-download_monitor"); ?>
-                 <img style="display:block; clear:both; margin:12px auto 4px; border:3px solid #eee; -moz-border-radius: 4px; -webkit-border-radius: 4px; padding:8px" src="<?php echo $wp_dlm_root; ?>img/explain.gif" alt="Explanation" />
+                 
+                 <div style="display:block; width:716px; clear:both; margin:12px auto 4px; border:3px solid #eee; -moz-border-radius: 4px; -webkit-border-radius: 4px;">
+                 <p style="background:#eee;padding:4px; margin:0;"><strong><?php _e('Without Custom URL:',"wp-download_monitor"); ?></strong></p>
+                 <img style="padding:8px" src="<?php echo $wp_dlm_root; ?>img/explain.gif" alt="Explanation" />
+                 </div>
+                 
+                 <div style="display:block; width:716px; clear:both; margin:12px auto 4px; border:3px solid #eee; -moz-border-radius: 4px; -webkit-border-radius: 4px;">
+                 <p style="background:#eee;padding:4px; margin:0;"><strong><?php _e('With Custom URL (downloads/ID):',"wp-download_monitor"); ?></strong></p>
+                 <img style="padding:8px" src="<?php echo $wp_dlm_root; ?>img/explain2.gif" alt="Explanation" /></div>
                 
                 <form action="?page=dlm_config&amp;action=saveurl" method="post">
                     <table class="niceblue form-table">
                         <tr>
-                            <th scope="col"><?php _e('Custom URL',"wp-download_monitor"); ?>:</th>
+                            <th scope="col"><strong><?php _e('Custom URL',"wp-download_monitor"); ?>:</strong></th>
                             <td><?php echo get_bloginfo('wpurl'); ?>/<input type="text" name="url" value="<?php echo $dlm_url; ?>" />            
                             <select name="type" style="width:150px;padding:2px !important;cursor:pointer;">
                                     <option<?php if ($downloadtype=="ID") echo ' selected="selected" '; ?> value="ID"><?php _e('ID',"wp-download_monitor"); ?></option>
@@ -1815,7 +1824,7 @@ function wp_dlm_config() {
                         <tr>
                             <th scope="col"><?php _e('Default output format',"wp-download_monitor"); ?>:</th>
                             <td><select name="wp_dlm_default_format" id="wp_dlm_default_format">
-                            	<option value="0">None</option>
+                            	<option value="0"><?php _e('None',"wp-download_monitor"); ?></option>
                         	<?php								
 								$query_select_formats = sprintf("SELECT * FROM %s ORDER BY id;",
 									$wpdb->escape( $wp_dlm_db_formats ));	
@@ -2119,7 +2128,7 @@ function dlm_addnew() {
 			<hr />
 
             <p class="submit"><input type="submit" class="btn button-primary" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Upload &amp; save',"wp-download_monitor"); ?>" /></p>
-			<input type="hidden" name="postDate" value="<?php echo date(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
+			<input type="hidden" name="postDate" value="<?php echo date_i18n(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
 			<?php 
 				global $userdata;
 				get_currentuserinfo();										
@@ -2334,7 +2343,7 @@ function dlm_addexisting() {
 			<hr />
             
 			<p class="submit"><input type="submit" class="btn button-primary" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save',"wp-download_monitor"); ?>" /></p>
-			<input type="hidden" name="postDate" value="<?php echo date(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
+			<input type="hidden" name="postDate" value="<?php echo date_i18n(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
 			<?php 
 				global $userdata;
 				get_currentuserinfo();										
@@ -2412,7 +2421,7 @@ function wp_dlm_log()
 				if (!empty($logs)) {
 					echo '<tbody id="the-list">';
 					foreach ( $logs as $log ) {
-						$date = date(__("jS M Y","wp-download_monitor"), strtotime($log->date));
+						$date = date_i18n(__("jS M Y","wp-download_monitor"), strtotime($log->date));
 						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace($path, "", $log->filename);
 						$links = explode("/",$file);
@@ -2491,7 +2500,7 @@ function wp_dlm_rewrite($rewrite) {
 	$rule = ('
 Options +FollowSymLinks
 RewriteEngine on
-RewriteRule ^'.$offset.$dlm_url.'(.*)$ '.$offset.'wp-content/plugins/download-monitor/download.php?id=$1 [L]
+RewriteRule ^'.$offset.$dlm_url.'([^/]+)$ '.$offset.'wp-content/plugins/download-monitor/download.php?id=$1 [L]
 ');
 	return $rule.$rewrite;	
 }
@@ -2528,18 +2537,21 @@ class download_object {
 	
 function get_downloads($args = null) {
 
-	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_cats, $dlm_url, $downloadurl, $downloadtype;
-
 	$defaults = array(
 		'limit' => '', 
-		'offset' => 0,
-		'vip' => 0,
-		'category' => '', 
+		'offset' => '0',
 		'orderby' => 'id',
-		'order' => 'ASC'
+		'vip' => '0',
+		'category' => '',		
+		'order' => 'asc'
 	);
+	
+	$args = str_replace('&amp;','&',$args);
 
 	$r = wp_parse_args( $args, $defaults );
+	
+	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_cats, $dlm_url, $downloadurl, $downloadtype;
+	
 	$where = array();	
 	
 	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) )
@@ -2569,6 +2581,7 @@ function get_downloads($args = null) {
 		}
 		
 	}
+
 	if ( ! empty($r['orderby']) ) {
 		// Can order by date/postDate, filename, title, id, hits, random
 		$r['orderby'] = strtolower($r['orderby']);
@@ -2596,6 +2609,7 @@ function get_downloads($args = null) {
 			break;
 		}
 	}
+	
 	if (strtolower($r['order'])!='desc' && strtolower($r['order'])!='asc') $r['order']='desc';
 	
 	// Process where clause
@@ -2740,7 +2754,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			// Date
 			preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
-			if ($d->postDate) $fsubs[] = date($match[1],strtotime($d->postDate)); else $fsubs[]  = "";						
+			if ($d->postDate) $fsubs[] = date_i18n($match[1],strtotime($d->postDate)); else $fsubs[]  = "";						
 			
 			// Other
 			preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
@@ -2769,7 +2783,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 	} else $output = '[Downloads not found]';	
 	
 	if ($wrap=='ul') {
-		$output = '<ul>'.$output.'</ul>';
+		$output = '<ul class="dlm_download_list">'.$output.'</ul>';
 	}
 	
 	if ($autop) return wpautop($output);
@@ -2798,14 +2812,14 @@ function wp_dlm_show_downloads($mode = 1,$no = 5) {
 	if (!empty($dl)) {
 		echo '<ul class="downloadList">';
 		foreach($dl as $d) {
-			$date = date(__("jS M Y","wp-download_monitor"), strtotime($d->date));
+			$date = date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->date));
 			switch ($mode) {
 				case (1) :
 				case (3) :
 					echo '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" >'.$d->title.' ('.$d->hits.')</a></li>';
 				break;
 				case (2) :
-					echo '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" >'.$d->title.' <span>('. date(__("jS M Y","wp-download_monitor"), strtotime($d->date)).')</span></a></li>';
+					echo '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" >'.$d->title.' <span>('. date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->date)).')</span></a></li>';
 				break;
 			}
 		}
@@ -2822,7 +2836,7 @@ function wp_dlm_all() {
 	if (!empty($dl)) {
 		$retval = '<ul class="downloadList">';
 		foreach($dl as $d) {
-			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date(__("jS M Y","wp-download_monitor"), strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
+			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
 		}
 		$retval .='</ul>';
 	}
@@ -2859,7 +2873,7 @@ function wp_dlm_advanced() {
 	if (!empty($dl)) {
 		$retval .= '<ul class="download-list">';
 		foreach($dl as $d) {
-			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date(__("jS M Y","wp-download_monitor"), strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
+			$retval .= '<li><a href="'.$d->url.'" title="'.__('Version',"wp-download_monitor").' '.$d->version.' '.__('downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").' - '.__('Added',"wp-download_monitor").' '.date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->date)).'" >'.$d->title.' ('.$d->hits.')</a></li>';
 		}
 		$retval .='</ul>';
 	} else $retval .='<p>'.__('No Downloads Found',"wp-download_monitor").'</p>';
@@ -2894,7 +2908,7 @@ if (!function_exists('dlm_fill_date_gaps')) {
 			$date = strtotime($gapcalc, $date );
 			
 			$string[] = '<tr>			
-				<td style="width:25%;">'.date($dateformat, $date ).'</td>
+				<td style="width:25%;">'.date_i18n($dateformat, $date ).'</td>
 				<td class="value"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="0%" />0</td>
 			</tr>';									
 			$loop++;
@@ -2983,11 +2997,11 @@ if ($wp_db_version > 6124) {
 				$prevcalc = '+1 day';
 				$gapcalc = '-1 day';	
 				
-				$dateformat = 'D j M';
+				$dateformat = __('D j M',"wp-download_monitor");
 				
-				$previous_text = '&laquo; Previous Week';
-				$this_text = 'This Week';
-				$next_text = 'Next Week &raquo;';
+				$previous_text = '&laquo; '.__('Previous Week',"wp-download_monitor").'';
+				$this_text = ''.__('This Week',"wp-download_monitor").'';
+				$next_text = ''.__('Next Week',"wp-download_monitor").' &raquo;';
 			
 			} elseif ($stattype=='monthly') {
 			
@@ -3008,11 +3022,11 @@ if ($wp_db_version > 6124) {
 				$prevcalc = '+1 month';	
 				$gapcalc = '-1 month';	
 				
-				$dateformat = 'F Y';
+				$dateformat = __('F Y',"wp-download_monitor");
 				
-				$previous_text = '&laquo; Previous 6 months';
-				$this_text = 'Last 6 months';
-				$next_text = 'Next 6 months &raquo;';
+				$previous_text = '&laquo; '.__('Previous 6 months',"wp-download_monitor").'';
+				$this_text = ''.__('Last 6 months',"wp-download_monitor").'';
+				$next_text = ''.__('Next 6 months',"wp-download_monitor").' &raquo;';
 			
 			}		
 
@@ -3022,18 +3036,18 @@ if ($wp_db_version > 6124) {
 				echo '<form action="" method="post" style="margin-bottom:8px"><select name="show_download_stats">';
 					echo '<option ';
 					if ($_REQUEST['show_download_stats']=='weekly') echo 'selected="selected" '; 
-					echo 'value="weekly">Weekly</option>';
+					echo 'value="weekly">'.__('Weekly',"wp-download_monitor").'</option>';
 					echo '<option ';
 					if ($_REQUEST['show_download_stats']=='monthly') echo 'selected="selected" '; 
-					echo 'value="monthly">Monthly</option>';
-				echo '</select><select name="download_stats_id"><option value="">Select a download</option>';
+					echo 'value="monthly">'.__('Monthly',"wp-download_monitor").'</option>';
+				echo '</select><select name="download_stats_id" style="width:50%;"><option value="">'.__('Select a download',"wp-download_monitor").'</option>';
 					foreach( $downloads as $download )
 					{
 						echo '<option ';
 						if ($_REQUEST['download_stats_id']==$download->id) echo 'selected="selected" '; 
 						echo 'value="'.$download->id.'">'.$download->id.' - '.$download->title.'</option>';
 					}
-				echo '</select><input type="submit" value="Show" class="button" /></form>';
+				echo '</select><input type="submit" value="'.__('Show',"wp-download_monitor").'" class="button" /></form>';
 				
 				if ($d) {
 				
@@ -3056,8 +3070,8 @@ if ($wp_db_version > 6124) {
 			<table class="download_chart" summary="<?php _e('Downloads per day for',"wp-download_monitor"); ?> <?php echo $d->title ?>" cellpadding="0" cellspacing="0">
 				<tbody>
 					<tr>
-						<th scope="col"><span class="auraltext">Day</span> </th>
-						<th scope="col"><span class="auraltext">Number of downloads</span> </th>
+						<th scope="col"><span class="auraltext"><?php _e('Day',"wp-download_monitor"); ?></span> </th>
+						<th scope="col"><span class="auraltext"><?php _e('Number of downloads',"wp-download_monitor"); ?></span> </th>
 					</tr>
 					<?php					
 		
@@ -3078,7 +3092,7 @@ if ($wp_db_version > 6124) {
 								
 								echo '
 								<tr>			
-									<td style="width:25%;">'.date($dateformat,$date).'</td>
+									<td style="width:25%;">'.date_i18n($dateformat,$date).'</td>
 									<td class="value"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
 								</tr>
 								';
@@ -3092,7 +3106,7 @@ if ($wp_db_version > 6124) {
 			<?php
 				}
 			
-			} else echo '<p>None Found</p>';
+			} else echo '<p>'.__('None Found',"wp-download_monitor").'</p>';
 						
 			echo $after_widget;
 		}
@@ -3136,8 +3150,8 @@ if ($wp_db_version > 6124) {
 			<table class="download_chart" style="margin-bottom:0" summary="<?php _e('Most Downloaded',"wp-download_monitor"); ?>" cellpadding="0" cellspacing="0">
 				<tbody>
 					<tr>
-						<th scope="col"><span class="auraltext">Name</span> </th>
-						<th scope="col"><span class="auraltext">Number of downloads</span> </th>
+						<th scope="col"><span class="auraltext"><?php _e('Day',"wp-download_monitor"); ?></span> </th>
+						<th scope="col"><span class="auraltext"><?php _e('Number of downloads',"wp-download_monitor"); ?></span> </th>
 					</tr>
 					<?php
 						// get stats

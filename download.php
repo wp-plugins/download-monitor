@@ -163,8 +163,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 			   
 			   // Select a mirror
 			   $mirrors = trim($d->mirrors);
-			   if (!empty($mirrors)) {
-			   
+			   if (!empty($mirrors)) {			   
 			   
 			   		$mirrors = explode("\n",$mirrors);
 			   		array_push($mirrors,$d->filename);
@@ -204,7 +203,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 			   // Link to download
         	   $location= 'Location: '.$thefile;
         	   header($location);
-        	   exit();
+        	   exit;
 		}
    }
    $url = get_option('wp_dlm_does_not_exist');
