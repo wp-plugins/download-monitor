@@ -200,9 +200,50 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 			   		$thefile = $d->filename;
 			   };
 			   
-			   // Link to download
-        	   $location= 'Location: '.$thefile;
-        	   header($location);
+				// Normal Download Script (comment out if using force download below. use of force download is unsupported!)
+				$location= 'Location: '.$thefile;
+				header($location);
+				
+				// Force Download Script; uncomment to use
+				/*
+				$filename = basename($thefile);
+				$file_extension = strtolower(substr(strrchr($filename1,"."),1));
+
+				// required for IE
+				if(ini_get('zlib.output_compression')) { ini_set('zlib.output_compression', 'Off');	}
+
+				//This will set the Content-Type to the appropriate setting for the file
+				switch( $file_extension ) {
+					case "mp3": $ctype="audio/mpeg"; break;
+					case "m4r": $ctype="audio/Ringtone"; break;
+					
+					//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
+					case "php":
+					case "htm":
+					case "htaccess":
+					case "sql":
+					case "html":
+					case "txt": 
+						$location= 'Location: '.$thefile;
+						header($location);
+						exit;
+					break;
+					
+					default: $ctype="application/force-download";
+				}
+
+				// Set headers
+				header("Cache-Control: public");
+				header("Content-Description: File Transfer");
+				header("Content-Disposition: attachment; filename=$filename");
+				header("Content-Type: $ctype");
+				header("Content-Transfer-Encoding: binary");
+				
+				// Read the file from disk
+				readfile($thefile);
+				*/
+				// End force download
+
         	   exit;
 		}
    }

@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0.3
+Version: 3.0.4
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090323";
+$dlm_build="B20090325";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -74,8 +74,8 @@ function wp_dlm_update() {
 		wp_dlm_init();
 
 		// Show update message
-		echo '<div id="message"class="updated fade">';				
-		_e('<p>The plugin has recently been updated - You may need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for the changes to occur in your blog.</p><p>If you encounter any errors, such as not being able to save a file to the database, try using the Recreate Download Database option.</p></div>',"wp-download_monitor");	
+		//echo '<div id="message"class="updated fade">';				
+		//_e('<p>The plugin has recently been updated - You may need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for the changes to occur in your blog.</p><p>If you encounter any errors, such as not being able to save a file to the database, try using the Recreate Download Database option.</p></div>',"wp-download_monitor");	
 			
 		// Update the build
 		update_option('wp_dlm_build', $dlm_build);
@@ -181,6 +181,15 @@ function wp_dlm_init() {
 	add_option('wp_dlm_image_url',get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/img/download.gif",'no');
 	
  	global $wp_dlm_db,$wp_dlm_db_cats,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta;
+ 	
+ 	// Get Collation
+	$collate = "";
+	if($wpdb->supports_collation()) {
+		if(!empty($wpdb->charset)) $collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if(!empty($wpdb->collate)) $collate .= " COLLATE $wpdb->collate";
+	} 
+	
+	// Create tables 	
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db." (				
 			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 			`title`   	VARCHAR (200) NOT NULL ,
@@ -193,24 +202,21 @@ function wp_dlm_init() {
 			`category_id` INT (12) NULL,
 			`members` INT (1) NULL,
 			`mirrors` LONGTEXT NULL,
-			PRIMARY KEY ( `id` )
-			)";
+			PRIMARY KEY ( `id` )) $collate;";
 	$result = $wpdb->query($sql);
 	
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_cats." (				
 			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 			`name`   	LONGTEXT  NOT NULL ,
 			`parent`  	INT (12) UNSIGNED NOT NULL,
-			PRIMARY KEY ( `id` )
-			)";
+			PRIMARY KEY ( `id` )) $collate;";
 	$result = $wpdb->query($sql);
 	
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_formats." (				
 			`id`        INT UNSIGNED NOT NULL AUTO_INCREMENT, 
 			`name`   	VARCHAR (250)  NOT NULL ,
 			`format`  	LONGTEXT NOT NULL,
-			PRIMARY KEY ( `id` )
-			)";
+			PRIMARY KEY ( `id` )) $collate;";
 	$result = $wpdb->query($sql);
 	
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_stats." (				
@@ -218,8 +224,7 @@ function wp_dlm_init() {
 			`download_id` INT UNSIGNED NOT NULL,
 			`date`   	DATE  NOT NULL ,
 			`hits`  	INT (12) UNSIGNED NOT NULL,
-			PRIMARY KEY ( `id` )
-			)";
+			PRIMARY KEY ( `id` )) $collate;";
 	$result = $wpdb->query($sql);
 	
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_log." (				
@@ -228,8 +233,7 @@ function wp_dlm_init() {
 			`user_id` INT UNSIGNED NOT NULL,
 			`date`   	DATETIME  NULL ,
 			`ip_address`  	VARCHAR (200) NULL ,
-			PRIMARY KEY ( `id` )
-			)";
+			PRIMARY KEY ( `id` )) $collate;";
 	$result = $wpdb->query($sql);
 	
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_meta." (				
@@ -237,8 +241,7 @@ function wp_dlm_init() {
 			`meta_name` 	LONGTEXT  NOT NULL ,
 			`meta_value`   	LONGTEXT  NOT NULL ,
 			`download_id`  	INT (12) UNSIGNED NOT NULL,
-			PRIMARY KEY ( `id` )
-			)";
+			PRIMARY KEY ( `id` )) $collate;";
 	$result = $wpdb->query($sql);
 
 	$q = $wpdb->get_results("select * from $wp_dlm_db;");
@@ -297,6 +300,20 @@ function wp_dlm_reinstall() {
 	$sql = 'DROP TABLE IF EXISTS `'.$wp_dlm_db_cats.'`';
 	$wpdb->query($sql);
 	wp_dlm_init();
+	
+	// Change Collation (we forgot to do this in older versions)
+	if($wpdb->supports_collation()) {
+		if(!empty($wpdb->charset)) $char_set = $wpdb->charset;
+		if(!empty($wpdb->collate)) $collate = 'collate '.$wpdb->collate;
+	} 	
+	if ($char_set) {
+		global $wp_dlm_db_formats,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta;
+		$wpdb->query('ALTER TABLE '.$wp_dlm_db_formats.' convert to character set '.$char_set.' '.$collate.';');
+		$wpdb->query('ALTER TABLE '.$wp_dlm_db_stats.' convert to character set '.$char_set.' '.$collate.';');
+		$wpdb->query('ALTER TABLE '.$wp_dlm_db_log.' convert to character set '.$char_set.' '.$collate.';');
+		$wpdb->query('ALTER TABLE '.$wp_dlm_db_meta.' convert to character set '.$char_set.' '.$collate.';');
+	}
+	
 	// ADD OLD DATA
 	if (!empty($values)) {
 		$query_ins = sprintf("INSERT INTO %s (id, title, filename, dlversion, postDate, hits, user, members, category_id, mirrors, file_description) VALUES %s;",
@@ -323,7 +340,8 @@ function wp_dlm_magic() {
 	}
 	//if (get_magic_quotes_gpc() || get_magic_quotes_runtime() ){ 
 		$_GET = array_map('stripit', $_GET); 
-		$_POST = array_map('stripit', $_POST); 
+		$_POST = array_map('stripit', $_POST);
+		$_REQUEST = array_map('stripit', $_REQUEST); 
 	//}
 	return;
 }
@@ -1005,7 +1023,7 @@ function wp_dlm_admin()
 													$index ++;
 												}
 											}
-											$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
+											if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 											
 											echo '<div id="message" class="updated fade"><p><strong>'.__('Download edited Successfully',"wp-download_monitor").' - '.$info.'</strong></p></div>';
 									} else {
@@ -1036,7 +1054,7 @@ function wp_dlm_admin()
 													$index ++;
 												}
 											}
-											$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
+											if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 				
 				
 											echo '<div id="message" class="updated fade"><p><strong>'.__('Download edited Successfully',"wp-download_monitor").'</strong></p></div>';
@@ -1315,7 +1333,7 @@ function wp_dlm_admin()
 				if(!isset($_REQUEST['s'])){ 
 					$search = ""; 
 				} else { 
-					$search = " WHERE (title LIKE '%".$_REQUEST['s']."%' OR filename LIKE '%".$_REQUEST['s']."%') ";
+					$search = " WHERE (title LIKE '%".$wpdb->escape($_REQUEST['s'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['s'])."%') ";
 				}
 				
 				// Sort column
@@ -1387,7 +1405,7 @@ function wp_dlm_admin()
 						
 					}
 					echo '</tbody>';
-				} else echo '<tr><th colspan="11">'.__('No downloads added yet.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
+				} else echo '<tr><th colspan="11">'.__('No downloads found.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
 		?>			
 		</table>
 
@@ -1811,11 +1829,11 @@ function wp_dlm_config() {
                     <table class="niceblue form-table">
                         <tr>
                             <th scope="col"><?php _e('"Download not found" redirect URL',"wp-download_monitor"); ?>:</th>
-                            <td><input type="text" value="<?php echo get_option('wp_dlm_does_not_exist'); ?>" name="wp_dlm_does_not_exist" /> <span class="setting-description">Leave blank for no redirect.</span></td>
+                            <td><input type="text" value="<?php echo get_option('wp_dlm_does_not_exist'); ?>" name="wp_dlm_does_not_exist" /> <span class="setting-description"><?php _e('Leave blank for no redirect.',"wp-download_monitor"); ?></span></td>
                         </tr>
                         <tr>
                             <th scope="col"><?php _e('Member-only files non-member redirect',"wp-download_monitor"); ?>:</th>
-                            <td><input type="text" value="<?php echo get_option('wp_dlm_member_only'); ?>" name="wp_dlm_member_only" /> <span class="setting-description">Leave blank for no redirect.</span></td>
+                            <td><input type="text" value="<?php echo get_option('wp_dlm_member_only'); ?>" name="wp_dlm_member_only" /> <span class="setting-description"><?php _e('Leave blank for no redirect.',"wp-download_monitor"); ?></span></td>
                         </tr>
                         <tr>
                             <th scope="col"><?php _e('Download image path',"wp-download_monitor"); ?>:</th>
@@ -1995,7 +2013,7 @@ function dlm_addnew() {
 						$index ++;
 					}
 				}
-				$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
+				if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 				
 				if (empty($info)) echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").'</strong></p></div>';
 				else echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").' - '.$info.'</strong></p></div>';											
@@ -2221,7 +2239,7 @@ function dlm_addexisting() {
 						$index ++;
 					}
 				}
-				$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
+				if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 			
 				if (empty($info)) echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").'</strong></p></div>';
 				else echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").' - '.$info.'</strong></p></div>';											
@@ -2413,7 +2431,7 @@ function wp_dlm_log()
 						$wpdb->escape( $from ));
 					
 				$logs = $wpdb->get_results($paged_select);
-				$total = $wpdb->get_var("SELECT COUNT(id) FROM $wp_dlm_db_log;");
+				$total = $wpdb->get_var("SELECT COUNT(id) FROM $wp_dlm_db_log INNER JOIN $wp_dlm_db ON $wp_dlm_db_log.download_id = $wp_dlm_db.id;");
 			
 				// Figure out the total number of pages. Always round up using ceil() 
 				$total_pages = ceil($total / 20);
@@ -3176,7 +3194,7 @@ if ($wp_db_version > 6124) {
 								$loop++;
 							}
 						} else {
-							echo '<tr><td class="first last" style="border-right:1px solid #e5e5e5" colspan="2">No stats yet</td></tr>';
+							echo '<tr><td class="first last" style="border-right:1px solid #e5e5e5" colspan="2">'.__('No stats yet',"wp-download_monitor").'</td></tr>';
 						}
 					?>						
 			</tbody></table>

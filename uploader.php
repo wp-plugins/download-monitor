@@ -265,7 +265,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							<span class="alignleft"><label for="download_cat"><?php _e('Category',"wp-download_monitor"); ?></label></span>
 						</th> 
 						<td class="field"><select name="download_cat" id="download_cat">
-							<option value="">N/A</option>
+							<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
 							<?php
 								$query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
 									$wpdb->escape( $wp_dlm_db_cats ));	
@@ -531,7 +531,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							<td style="vertical-align:middle">'.$d->title.'</td>
 							<td style="vertical-align:middle">'.$file.'</td>
 							<td style="text-align:center;vertical-align:middle">';
-							if ($d->category_id=="" || $d->category_id==0) echo "N/A"; else {
+							if ($d->category_id=="" || $d->category_id==0) _e('N/A',"wp-download_monitor"); else {
 								$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
 								$chain = $c->name;
 								while ($c->parent>0) {
@@ -550,7 +550,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							<td style="text-align:center;vertical-align:middle">';
 							if ($d->members) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
 							echo '</td>
-							<td style="text-align:center;vertical-align:middle"><a href="#" style="display:block" class="button insertdownload" id="download-'.$d->id.'">Insert</a></td>';
+							<td style="text-align:center;vertical-align:middle"><a href="#" style="display:block" class="button insertdownload" id="download-'.$d->id.'">'.__('Insert',"wp-download_monitor").'</a></td>';
 							
 						}
 						echo '</tbody>';
