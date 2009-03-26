@@ -460,7 +460,7 @@ function wp_dlm_shortcode_download( $atts ) {
 			$format = html_entity_decode($format);
 		}	
 		if (empty($format) || $format=='0') {
-			$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';		
+			$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';	
 			
 		}
 		
@@ -2721,7 +2721,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			$format = html_entity_decode($format);
 		}	
 		if (empty($format) || $format=='0') {
-			$format = '<a class="downloadlink" href="{url}" title="{version,'.__("Version","wp-download_monitor").' ,} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';		
+			$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';		
 			
 		}
 		
