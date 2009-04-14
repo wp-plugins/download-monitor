@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0.4
+Version: 3.0.5
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -617,7 +617,7 @@ function wp_dlm_parse_downloads($data) {
 				$patts[] = "[download#" . $val[1] . "#hits]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
 				
-				// Image link
+				// Image link	
 				$format = '<a class="downloadlink dlimg" href="{url}" title="{version,"'.__("Version","wp-download_monitor").' ",""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" ><img src="{image_url}" alt="'.__("Download","wp-download_monitor").' {title} {version,"'.__("Version","wp-download_monitor").' ",""}" /></a>';				
 				$patts[] = "[download#" . $val[1] . "#image]";
 				$subs[] = '[download id="'.$val[1].'" format="'.htmlspecialchars($format).'"]';
@@ -683,7 +683,7 @@ function wp_dlm_parse_downloads($data) {
 							case ("Filename") :
 									$downloadlink = $d->filename;
 									$link = explode("/",$downloadlink);
-									$downloadlink = end($link);
+									$downloadlink = urlencode(end($link));
 							break;
 							default :
 									$downloadlink = $d->id;
@@ -807,7 +807,7 @@ function wp_dlm_parse_downloads($data) {
 						case ("Filename") :
 								$downloadlink = $d->filename;
 								$link = explode("/",$downloadlink);
-								$downloadlink = end($link);
+								$downloadlink = urlencode(end($link));
 						break;
 						default :
 								$downloadlink = $d->id;
@@ -2431,7 +2431,7 @@ function wp_dlm_log()
 						$wpdb->escape( $from ));
 					
 				$logs = $wpdb->get_results($paged_select);
-				$total = $wpdb->get_var("SELECT COUNT(id) FROM $wp_dlm_db_log INNER JOIN $wp_dlm_db ON $wp_dlm_db_log.download_id = $wp_dlm_db.id;");
+				$total = $wpdb->get_var("SELECT COUNT(*) FROM $wp_dlm_db_log INNER JOIN $wp_dlm_db ON $wp_dlm_db_log.download_id = $wp_dlm_db.id;");
 			
 				// Figure out the total number of pages. Always round up using ceil() 
 				$total_pages = ceil($total / 20);
@@ -2560,7 +2560,8 @@ function get_downloads($args = null) {
 		'offset' => '0',
 		'orderby' => 'id',
 		'vip' => '0',
-		'category' => '',		
+		'category' => '',
+		'tags' => '',	
 		'order' => 'asc'
 	);
 	
@@ -2568,7 +2569,7 @@ function get_downloads($args = null) {
 
 	$r = wp_parse_args( $args, $defaults );
 	
-	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_cats, $dlm_url, $downloadurl, $downloadtype;
+	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_cats, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype;
 	
 	$where = array();	
 	
@@ -2590,6 +2591,27 @@ function get_downloads($args = null) {
 		$where[] = ' category_id IN ('.$categories.') ';
 				
 	} else $category = '';
+	
+	if ( ! empty($r['tags']) ) {
+		$tags = explode(',', $r['tags']);
+		if (sizeof($tags)>0) {
+			// Get posts with tags
+			$tagged = $wpdb->get_results( "SELECT * FROM $wp_dlm_db INNER JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id WHERE $wp_dlm_db_meta.meta_name = 'tags';");
+			$postIDS = array();
+			foreach ($tagged as $t) {
+				$my_tags = explode(',', $t->meta_value );
+				$my_clean_tags = array();
+				foreach ($my_tags as $tag) {
+					$my_clean_tags[] = trim(strtolower($tag));
+				}
+				foreach ($tags as $tag) {
+					if (in_array(trim(strtolower($tag)), $my_clean_tags)) $postIDS[] = $t->download_id;
+				}
+			}
+			$where[] = ' '.$wp_dlm_db.'.id IN ('.implode(',',$postIDS).') ';
+		}				
+	} else $tags = '';
+	
 	if ( $vip==1 ) {
 	
 		global $user_ID;
@@ -2653,7 +2675,7 @@ function get_downloads($args = null) {
 			case ("Filename") :
 					$downloadlink = $dl->filename;
 					$link = explode("/",$downloadlink);
-					$downloadlink = end($link);
+					$downloadlink = urlencode(end($link));
 			break;
 			default :
 					$downloadlink = $dl->id;
@@ -2798,7 +2820,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 
    		} 
 	
-	} else $output = '[Downloads not found]';	
+	} else $output = '['.__("No Downloads found","wp-download_monitor").']';	
 	
 	if ($wrap=='ul') {
 		$output = '<ul class="dlm_download_list">'.$output.'</ul>';

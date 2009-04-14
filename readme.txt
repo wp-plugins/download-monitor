@@ -4,7 +4,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.7
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -87,116 +87,4 @@ Wordpress does not have a filter I can hook into for this function, so to make t
 
 == Usage ==
 
-= New/recommended tags/functions = 
-
-Download monitor now uses shortcodes to output its downloads.
-
-<br/>
-= [download] =
-
-**Attributes:**
-
-`id` - Required. Id of download to show.
-`format` - Id of format to use. Leave blank to use default format.
-`autop` - formats the output with autop. Do not use if showing the download link inline. Default: false
-
-**Example:**
-
-	[download id="1" autop="false" format="1"]
-
-<br/>
-= [downloads] =
-
-**Attributes:**
-
-`query` - used to query the downloads. See the get_downloads template tag for the string options. Default: 'limit=5&orderby=rand'
-`autop` - formats the output with autop. Do not use if showing the download link inline. Default: false
-`wrap` - Set to 'ul' to wrap in ul tag. Set to '' to wrap with nothing. Default: 'ul'
-`before` - Html/text before each download. Encode tags (e.g. &lt for &lt;) Default: '&lt;li&gt;'
-`after` - Html/text after each download. Default: '&lt;/li&gt;'
-
-<br/>
-= get_downloads() =
-
-Returns downloads that match your query. Takes 1 argument containing the query string.
-
-**Defaults:**
-
-'limit' => '', 
-'offset' => 0,
-'vip' => 0
-'category' => '', 
-'orderby' => 'id',
-'order' => 'ASC'
-	
-The vip argument will hide member only downloads if the user is not logged in.
-	
-**Example:**
-
-(5 Random Downloads) <code>get_downloads('limit=5&orderby=random&order=desc');</code>
-	
-**Return Value:**
-
-Returns an array object with attributes:
-	
-*	size
-*	url
-*	title
-*	version
-*	hits
-*	image
-*	desc
-*	category
-*	category_id
-*	id
-*	date
-*	memberonly
-
-**Full Example (Output a list of top downloads):**
-
-	$dl = get_downloads('limit=5&amp;orderby=hits&amp;order=desc');
-	
-	if (!empty($dl)) {
-		echo '&lt;ul class=&quot;downloadList&quot;&gt;';
-		foreach($dl as $d) {
-			$date = date(&quot;jS M Y&quot;, strtotime($d-&gt;date));
-			echo '&lt;li&gt;&lt;a href=&quot;'.$d-&gt;url.'&quot; title=&quot;'.__('Version',&quot;wp-download_monitor&quot;).' '.$d-&gt;version.' '.__('downloaded',&quot;wp-download_monitor&quot;).' '.$d-&gt;hits.' '.__('times',&quot;wp-download_monitor&quot;).'&quot; &gt;'.$d-&gt;title.' ('.$d-&gt;hits.')&lt;/a&gt;&lt;/li&gt;';
-		}
-		echo '&lt;/ul&gt;';
-	}
-<br/>
-= Legacy tags = 
-
-The following tags still work and use the old style from previous versions of the plugin. These are mainly here for backward compatibility.
-
-**Output a download with a custom format:**
-
-Use the admin panel to define custom formats to output your links and then use `[download#id#format=id]` or just [download#id] if you set one as default.
-
-**Other output functions:** To **show download links**, use the following tags:
-
-   1. Link/hits - `[download#id]`
-   2. Link w/o hits - `[download#id#nohits]`
-   3. URL only - `[download#id#url]`
-   4. Hits only - `[download#id#hits]`
-   5. Link with image - `[download#id#image]`
-   6. Link/hits/filesize - `[download#id#size]`
-   7. Link/filesize - `[download#id#size#nohits]`
-   
-There are a few other **template tags** to use in your wordpress templates. Replace '$no' with the amount of downloads to show.
-
-   1. Most downloaded - `<?php wp_dlm_show_downloads(1,$no); ?>`
-   2. Most recent - `<?php wp_dlm_show_downloads(2,$no); ?>`
-   3. Random - `<?php wp_dlm_show_downloads(3,$no); ?>`
-   
-**Show all downloads:**
-
-Add the tag `[#show_downloads]` to a page.
-	
-**Show downloads with category selector:**
-
-Add the tag `[#advanced_downloads]` to a page.
-	
-**Show downloads in a single category:**
-	
-Use `[download_cat#id]` replacing id with the id of the category.
+Full Usage instructions and documentation can be found here: http://blue-anvil.com/archives/wordpress-download-monitor-3-documentation

@@ -1,21 +1,5 @@
 <?php
-/*	if(file_exists('../../../wp-config.php')) {
-		require_once("../../../wp-config.php");
-	} else if(file_exists('../../wp-config.php')) {
-		require_once("../../wp-config.php");
-	} else if(file_exists('../wp-config.php')) {
-		require_once("../wp-config.php");
-	} else if(file_exists('wp-config.php')) {
-		require_once("wp-config.php");
-	} else if(file_exists('../../../../wp-config.php')) {
-		require_once("../../../../wp-config.php");
-	} else if(file_exists('../../../../wp-config.php')) {
-		require_once("../../../../wp-config.php");
-	} else {
-		echo '<p>Cannnot find wp-config.php. Maybe a config error with "custom download url" setting.</p>';
-		exit;
-	}*/
-	
+
 if(file_exists('../../../wp-load.php')) {
 	require_once("../../../wp-load.php");
 } else if(file_exists('../../wp-load.php')) {
@@ -58,7 +42,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 	$wp_dlm_db_stats = $table_prefix."DLM_STATS";
 	$wp_dlm_db_log = $table_prefix."DLM_LOG";
 	
-	$id=$_GET['id'];
+	$id = stripslashes($_GET['id']);
 	
 	if ($id) {
 		//type of link
@@ -71,7 +55,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 				$go=true;
 			break;
 			case ("Filename") :
-				//nothing
+				$id=urldecode($id);
 				$go=true;
 			break;
 			default :
@@ -120,7 +104,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 								
 				// Min-level add-on
 				if ($d->members && isset($user_ID)) {
-					$minLevel = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='min-level' LIMIT 1" , $id ) );
+					$minLevel = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='min-level' LIMIT 1" , $d->id ) );
 					if ($minLevel) {
 						if ($level < $minLevel) {
 							$url = get_option('wp_dlm_member_only');
@@ -201,8 +185,53 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 			   };
 			   
 				// Normal Download Script (comment out if using force download below. use of force download is unsupported!)
-				$location= 'Location: '.$thefile;
-				header($location);
+				//$location= 'Location: '.$thefile;
+				//header($location);
+
+				// NEW - Member only downloads should be forced to download so real URL is not revealed
+				if ($d->members && ini_get('allow_url_fopen')) {
+					
+					$filename = basename($thefile);
+					$file_extension = strtolower(substr(strrchr($filename1,"."),1));
+				
+					//This will set the Content-Type to the appropriate setting for the file
+					switch( $file_extension ) {
+						case "mp3": $ctype="audio/mpeg"; break;
+						case "m4r": $ctype="audio/Ringtone"; break;
+						//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
+						case "php":
+						case "htm":
+						case "htaccess":
+						case "sql":
+						case "html":
+						case "txt": 
+							$location= 'Location: '.$thefile;
+							header($location);
+							exit;
+						break;						
+						default: $ctype="application/force-download";
+					}
+									
+					header("Pragma: public");
+					header("Expires: 0");
+					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+					header("Content-Type: ".$ctype."");
+					header("Content-Type: application/octet-stream");
+					header("Content-Type: application/download");
+					header("Content-Disposition: attachment; filename=\"".$filename."\";");
+					
+					$path = str_replace(get_bloginfo('wpurl'),"./",$thefile);
+					if (file_exists($path)) {
+						$size = filesize($path);
+						header("Content-Length: ".$size);
+					}
+					
+					header("Content-Transfer-Encoding: binary");
+					@readfile($thefile);					
+				} else {
+					$location= 'Location: '.$thefile;
+					header($location);
+				}			
 				
 				// Force Download Script; uncomment to use
 				/*
