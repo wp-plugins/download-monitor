@@ -16,6 +16,41 @@
 // Output a list of files for jQuery File Tree
 //
 
+if(file_exists('../../../../../../wp-load.php')) {
+	require_once("../../../../../../wp-load.php");
+} else if(file_exists('../../wp-load.php')) {
+	require_once("../../wp-load.php");
+} else if(file_exists('../wp-load.php')) {
+	require_once("../wp-load.php");
+} else if(file_exists('wp-load.php')) {
+	require_once("wp-load.php");
+} else if(file_exists('../../../../wp-load.php')) {
+	require_once("../../../../wp-load.php");
+} else if(file_exists('../../../../wp-load.php')) {
+	require_once("../../../../wp-load.php");
+} else {
+
+	if(file_exists('../../../../../../wp-config.php')) {
+		require_once("../../../../../../wp-config.php");
+	} else if(file_exists('../../wp-config.php')) {
+		require_once("../../wp-config.php");
+	} else if(file_exists('../wp-config.php')) {
+		require_once("../wp-config.php");
+	} else if(file_exists('wp-config.php')) {
+		require_once("wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else if(file_exists('../../../../wp-config.php')) {
+		require_once("../../../../wp-config.php");
+	} else {
+		echo '<p>Failed to load bootstrap.</p>';
+		exit;
+	}
+
+}
+
+require_once(ABSPATH.'wp-admin/admin.php');
+
 $_POST['dir'] = urldecode($_POST['dir']);
 
 if( file_exists($root . $_POST['dir']) ) {
