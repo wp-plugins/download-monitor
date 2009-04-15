@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0.5
+Version: 3.0.6
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090325";
+$dlm_build="B20090415";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -71,11 +71,7 @@ function wp_dlm_update() {
 	if ( get_option('wp_dlm_build') != $dlm_build ) {
 	
 		// Init again
-		wp_dlm_init();
-
-		// Show update message
-		//echo '<div id="message"class="updated fade">';				
-		//_e('<p>The plugin has recently been updated - You may need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for the changes to occur in your blog.</p><p>If you encounter any errors, such as not being able to save a file to the database, try using the Recreate Download Database option.</p></div>',"wp-download_monitor");	
+		wp_dlm_init();	
 			
 		// Update the build
 		update_option('wp_dlm_build', $dlm_build);
@@ -125,12 +121,27 @@ function wp_dlm_head() {
 		$_REQUEST['page']=='download-monitor/wp-download_monitor.php'
 	) {
 	?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $wp_dlm_root; ?>js/jqueryFileTree/jqueryFileTree.css" />
+	<script type="text/javascript" src="<?php echo $wp_dlm_root; ?>js/jqueryFileTree/jqueryFileTree.js"></script>
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		
 		jQuery.noConflict();
 		(function($) { 
-		  $(function() {								 
+		  $(function() {
+		  
+		    $('#file_browser').hide().fileTree({
+		      root: '<?php echo ABSPATH; ?>',
+		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
+		    }, function(file) {
+		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        $('#filename, #dlfilename').val(path);
+		        $('#file_browser').slideToggle();
+		    });
+		    
+		    $('a.browsefiles').show().click(function(){
+		    	$('#file_browser').slideToggle();
+		    });			 
 		  										  	
 		  	$('#customfield_list tr.alternate').each(function(i){
 		  	
@@ -1161,7 +1172,8 @@ function wp_dlm_admin()
 											<tr valign="top">
 												<th scope="row"><strong><?php _e('File URL (required)',"wp-download_monitor"); ?>: </strong></th> 
 												<td>
-													<input type="text" style="width:320px;" class="cleardefault" value="<?php echo $dlfilename; ?>" name="dlfilename" id="dlfilename" /><br /><span class="setting-description"><?php _e('Note: changes to the file url will only work if not uploading a new file below.',"wp-download_monitor"); ?></span>
+													<input type="text" style="width:320px;" class="cleardefault" value="<?php echo $dlfilename; ?>" name="dlfilename" id="dlfilename" /> <a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a><br /><span class="setting-description"><?php _e('Note: changes to the file url will only work if not uploading a new file below.',"wp-download_monitor"); ?></span> 
+													<div id="file_browser"></div>
 												</td> 
 											</tr>
 											<tr valign="top">												
@@ -2281,7 +2293,8 @@ function dlm_addexisting() {
                 <tr valign="top">
                     <th scope="row"><strong><?php _e('Url',"wp-download_monitor"); ?>:</strong></th> 
                     <td>
-                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $filename; ?>" name="filename" id="filename" />
+                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $filename; ?>" name="filename" id="filename" /> <a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
+                        <div id="file_browser"></div>
                     </td> 
                 </tr>
                 <tr valign="top">												
@@ -2717,7 +2730,7 @@ function get_downloads($args = null) {
 ################################################################################		
 		
 function wp_dlm_shortcode_downloads( $atts ) {
-
+		
 	extract(shortcode_atts(array(
 		'query' => 'limit=5&orderby=rand',
 		'format' => 0,
@@ -2726,6 +2739,8 @@ function wp_dlm_shortcode_downloads( $atts ) {
 		'before' => '<li>',
 		'after' => '</li>'
 	), $atts));
+	
+	$query = str_replace('&#038;','&', $query);
 	
 	global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_cats, $def_format, $wp_dlm_db_meta;
 

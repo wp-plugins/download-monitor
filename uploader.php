@@ -84,12 +84,29 @@ load_plugin_textdomain('wp-download_monitor', '/');
 	if ( is_string($content_func) )
 		do_action( "admin_head_{$content_func}" );
 	?>
+	<link rel="stylesheet" type="text/css" href="<?php echo $wp_dlm_root; ?>js/jqueryFileTree/jqueryFileTree.css" />
+	<script type="text/javascript" src="<?php echo $wp_dlm_root; ?>js/jqueryFileTree/jqueryFileTree.js"></script>
 	<script type="text/javascript">
 	/* <![CDATA[ */
 		
 		jQuery.noConflict();
 		(function($) { 
 		  $(function() {								 
+		  			
+		  			
+		    $('#file_browser').hide().fileTree({
+		      root: '<?php echo ABSPATH; ?>',
+		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
+		    }, function(file) {
+		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        $('#filename, #dlfilename').val(path);
+		        $('#file_browser').slideToggle();
+		    });
+		    
+		    $('a.browsefiles').show().click(function(){
+		    	$('#file_browser').slideToggle();
+		    });	
+		    	
 		  										  	
 		  	$('#customfield_list tr.alternate').each(function(i){
 		  	
@@ -353,7 +370,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						<th valign="top" scope="row" class="label">
 							<span class="alignleft"><label for="filename"><?php _e('File URL'); ?></label></span>
 						</th>
-						<td class="field"><input id="filename" name="filename" value="<?php echo $filename; ?>" type="text"></td>
+						<td class="field"><input id="filename" name="filename" value="<?php echo $filename; ?>" type="text" style="width:320px"> <a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a><div id="file_browser"></div></td>
 					</tr>
 				</tbody></table>
 				
@@ -452,9 +469,16 @@ load_plugin_textdomain('wp-download_monitor', '/');
 		case 'downloads' :
 			// Show table of downloads			
 			?>
-			<form enctype="multipart/form-data" method="post" action="uploader.php?tab=downloads" class="media-upload-form" id="gallery-form">
-			
-			<table style="float:right;width:300px;margin-bottom:8px;" cellpadding="0" cellspacing="0">
+			<form id="downloads-filter" action="uploader.php?tab=downloads" method="POST">
+				<p class="search-box">
+					<label class="hidden" for="post-search-input"><?php _e('Search Downloads:',"wp-download_monitor"); ?></label>
+					<input class="search-input" id="post-search-input" name="s" value="<?php echo $_REQUEST['s']; ?>" type="text" />
+					<input value="<?php _e('Search Downloads',"wp-download_monitor"); ?>" class="button" type="submit" />
+				</p>
+			</form>
+			<div class="clear:both"></div>
+			<form enctype="multipart/form-data" method="post" style="clear:both" action="uploader.php?tab=downloads" class="media-upload-form" id="gallery-form">
+			<table style="float:right;width:300px;margin:0.7em 0 0" cellpadding="0" cellspacing="0">
 				<tr>
 					<th scope="row" style="vertical-align:middle;">
 						<label for="format" style="font-size:12px;text-align:right;margin-right:8px;margin-top:4px;"><?php _e('Insert into post using format:',"wp-download_monitor"); ?></label>
@@ -474,8 +498,9 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						?>         
 					</select></td>
 				</tr>
-			</table>	
-			<h3><?php _e('Downloads'); ?></h3>
+			</table>
+			<h3 style="float:left"><?php _e('Downloads'); ?></h3>		
+			<div class="clear:both"></div>
 	        <table class="widefat" style="width:100%;" cellpadding="0" cellspacing="0"> 
 				<thead>
 					<tr>				
@@ -496,20 +521,23 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						$page = $_REQUEST['p']; 
 					}
 					
+					// Search
+					if(!isset($_REQUEST['s'])){ 
+						$search = ""; 
+					} else { 
+						$search = " WHERE (title LIKE '%".$wpdb->escape($_REQUEST['s'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['s'])."%') ";
+					}
+					
 					// Sort column
 					$sort = "title";
 					if ($_REQUEST['sort'] && ($_REQUEST['sort']=="id" || $_REQUEST['sort']=="filename" || $_REQUEST['sort']=="postDate")) $sort = $_REQUEST['sort'];
 					
-					$total_results = sprintf("SELECT COUNT(id) FROM %s;",
-						$wpdb->escape($wp_dlm_db));
+					$total_results = "SELECT COUNT(id) FROM $wp_dlm_db".$search.";";
 						
 					// Figure out the limit for the query based on the current page number. 
 					$from = (($page * 10) - 10); 
 				
-					$paged_select = sprintf("SELECT * FROM %s ORDER BY %s LIMIT %s,10;",
-						$wpdb->escape( $wp_dlm_db ),
-						$wpdb->escape( $sort ),
-						$wpdb->escape( $from ));
+					$paged_select = "SELECT * FROM $wp_dlm_db".$search." ORDER BY ".$wpdb->escape( $sort )." LIMIT ".$wpdb->escape( $from ).",10;";
 						
 					$download = $wpdb->get_results($paged_select);
 					$total = $wpdb->get_var($total_results);
