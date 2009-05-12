@@ -142,7 +142,8 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 		   		// Log download details
 				$timestamp = current_time('timestamp');					
 				$ipAddress = $_SERVER['REMOTE_ADDR'];
-				$user = $user_ID;					
+				$user = $user_ID;
+				if (empty($user)) $user = '0';				
 				$wpdb->query( $wpdb->prepare( "INSERT INTO $wp_dlm_db_log (download_id, user_id, date, ip_address) VALUES (%s, %s, %s, %s);", $d->id, $user, date("Y-m-d H:i:s" ,$timestamp), $ipAddress ) );
 			   
 			   // Select a mirror
@@ -189,15 +190,27 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 				//header($location);
 
 				// NEW - Member only downloads should be forced to download so real URL is not revealed
-				if ($d->members && ini_get('allow_url_fopen')) {
-					
+
+				if ($d->members && ini_get('allow_url_fopen') ) {
+
 					$filename = basename($thefile);
-					$file_extension = strtolower(substr(strrchr($filename1,"."),1));
-				
+					$file_extension = strtolower(substr(strrchr($filename1,"."),1));					
+
 					//This will set the Content-Type to the appropriate setting for the file
 					switch( $file_extension ) {
-						case "mp3": $ctype="audio/mpeg"; break;
-						case "m4r": $ctype="audio/Ringtone"; break;
+						case "mp3": 	$ctype="audio/mpeg"; 			break;
+						case "m4r": 	$ctype="audio/Ringtone"; 		break;
+						case "jpg": 	$ctype="image/jpeg"; 			break;
+						case "jpeg": 	$ctype="image/jpeg"; 			break;
+						case "gif": 	$ctype="image/gif";				break;
+						case "png": 	$ctype="image/png"; 			break;
+						case "pdf": 	$ctype="application/pdf"; 		break;
+						case "zip": 	$ctype="application/zip"; 		break;
+						case "gz": 		$ctype="application/x-gzip"; 	break;
+						case "tar": 	$ctype="application/x-tar"; 	break;
+						case "rar": 	$ctype="application/zip"; 		break;
+						case "doc": 	$ctype="application/msword";	break;	
+						case "xls": 	$ctype="application/vnd.ms-excel";	break;
 						//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
 						case "php":
 						case "htm":
@@ -209,71 +222,80 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 							header($location);
 							exit;
 						break;						
-						default: $ctype="application/force-download";
-					}
-									
-					header("Pragma: public");
-					header("Expires: 0");
-					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
-					header("Content-Type: ".$ctype."");
-					header("Content-Type: application/octet-stream");
-					header("Content-Type: application/download");
-					header("Content-Disposition: attachment; filename=\"".$filename."\";");
-					
-					$path = str_replace(get_bloginfo('wpurl'),"./",$thefile);
-					if (file_exists($path)) {
-						$size = filesize($path);
-						header("Content-Length: ".$size);
+						default: 		$ctype="application/octet-stream";
 					}
 					
-					header("Content-Transfer-Encoding: binary");
-					@readfile($thefile);					
-				} else {
-					$location= 'Location: '.$thefile;
-					header($location);
-				}			
-				
-				// Force Download Script; uncomment to use
-				/*
-				$filename = basename($thefile);
-				$file_extension = strtolower(substr(strrchr($filename1,"."),1));
-
-				// required for IE
-				if(ini_get('zlib.output_compression')) { ini_set('zlib.output_compression', 'Off');	}
-
-				//This will set the Content-Type to the appropriate setting for the file
-				switch( $file_extension ) {
-					case "mp3": $ctype="audio/mpeg"; break;
-					case "m4r": $ctype="audio/Ringtone"; break;
+					if(	ini_get('zlib.output_compression')) ini_set('zlib.output_compression', 'Off');
+					if(	!ini_get('safe_mode')) set_time_limit(0);
+					@ob_end_clean();
 					
-					//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
-					case "php":
-					case "htm":
-					case "htaccess":
-					case "sql":
-					case "html":
-					case "txt": 
-						$location= 'Location: '.$thefile;
-						header($location);
+					// Deal with remote file or local file					
+					if (strstr($thefile, get_bloginfo('url'))) {
+						// Local File						
+						if ( file_exists($thefile) && is_readable($thefile) ) {
+							header("Pragma: public");
+							header("Expires: 0");
+							header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+							header("Content-Type: application/force-download");
+							header("Content-Type: ".$ctype."");	;
+							header("Content-Type: application/download");
+							header("Content-Description: File Transfer");						
+							header("Content-Disposition: attachment; filename=".$filename.";");
+							header("Content-Transfer-Encoding: binary");
+							$size = @filesize($thefile);
+							if ($size) {						
+								header("Content-Length: ".$size);
+							}
+							@readfile($thefile);
+							exit;
+						}			
+					} else {
+						// Remote File						
+						header("Pragma: public");
+						header("Expires: 0");
+						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+						header("Content-Type: application/force-download");
+						header("Content-Type: ".$ctype."");	;
+						header("Content-Type: application/download");
+						header("Content-Description: File Transfer");						
+						header("Content-Disposition: attachment; filename=".$filename.";");
+						header("Content-Transfer-Encoding: binary");
+						// Get filesize
+						$filesize = 0;
+						if (function_exists('get_headers')) {
+							// php5 method
+							$ary_header = get_headers($thefile, 1);    
+							$filesize = $ary_header['Content-Length'];
+						} else if (function_exists('curl_init')) {
+							// Curl Method
+							ob_start();
+							$ch = curl_init($thefile);
+							curl_setopt($ch, CURLOPT_HEADER, 1);
+							curl_setopt($ch, CURLOPT_NOBODY, 1);
+							if(!empty($user) && !empty($pw)) {
+							$headers = array('Authorization: Basic ' . base64_encode("$user:$pw"));
+							curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+							}
+							$ok = curl_exec($ch);
+							curl_close($ch);
+							$head = ob_get_contents();
+							ob_end_clean();
+							$regex = '/Content-Length:\s([0-9].+?)\s/';
+							$count = preg_match($regex, $head, $matches);
+							if (isset($matches[1])) $filesize = $matches[1];
+						}
+						if ($file_size > 0) {						
+							header("Content-Length: ".$file_size);
+						}
+						@readfile($thefile);
 						exit;
-					break;
-					
-					default: $ctype="application/force-download";
-				}
-
-				// Set headers
-				header("Cache-Control: public");
-				header("Content-Description: File Transfer");
-				header("Content-Disposition: attachment; filename=$filename");
-				header("Content-Type: $ctype");
-				header("Content-Transfer-Encoding: binary");
+					}				
+				}		
 				
-				// Read the file from disk
-				readfile($thefile);
-				*/
-				// End force download
-
-        	   exit;
+				// If we have not exited by now then we have not redirected or outputted the download yet	
+				$location= 'Location: '.$thefile;
+				header($location);
+        	    exit;
 		}
    }
    $url = get_option('wp_dlm_does_not_exist');

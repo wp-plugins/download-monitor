@@ -1,21 +1,7 @@
 <?php
 //
-// jQuery File Tree PHP Connector
+// jQuery File Tree PHP Connector - modified for php4/wordpress compatibility
 //
-// Version 1.01
-//
-// Cory S.N. LaViska
-// A Beautiful Site (http://abeautifulsite.net/)
-// 24 March 2008
-//
-// History:
-//
-// 1.01 - updated to work with foreign characters in directory/file names (12 April 2008)
-// 1.00 - released (24 March 2008)
-//
-// Output a list of files for jQuery File Tree
-//
-
 if(file_exists('../../../../../../wp-load.php')) {
 	require_once("../../../../../../wp-load.php");
 } else if(file_exists('../../wp-load.php')) {
@@ -49,12 +35,32 @@ if(file_exists('../../../../../../wp-load.php')) {
 
 }
 
+if (!function_exists('php4_scandir') && !function_exists('scandir')) {
+	function php4_scandir($dir,$listDirectories=false, $skipDots=true) {
+	    $dirArray = array();
+	    if ($handle = opendir($dir)) {
+	        while (false !== ($file = readdir($handle))) {
+	            if (($file != "." && $file != "..") || $skipDots == true) {
+	                if($listDirectories == false) { if(is_dir($file)) { continue; } }
+	                array_push($dirArray,basename($file));
+	            }
+	        }
+	        closedir($handle);
+	    }
+	    return $dirArray;
+	}
+}
+
 require_once(ABSPATH.'wp-admin/admin.php');
 
 $_POST['dir'] = urldecode($_POST['dir']);
 
 if( file_exists($root . $_POST['dir']) ) {
-	$files = scandir($root . $_POST['dir']);
+	if (function_exists('scandir')) {
+		$files = scandir($root . $_POST['dir']);
+	} else {
+		$files = php4_scandir($root . $_POST['dir']);
+	}
 	natcasesort($files);
 	if( count($files) > 2 ) { /* The 2 accounts for . and .. */
 		echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
