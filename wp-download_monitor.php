@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.0.7
+Version: 3.1
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-$dlm_build="B20090512";
+$dlm_build="B20090622";
 $wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
@@ -1166,7 +1166,7 @@ function wp_dlm_admin()
                                             <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
                                             <td>
                                             <select name="download_cat">
-                                            	<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
+                                            	<option value="0"><?php _e('N/A',"wp-download_monitor"); ?></option>
 												<?php
                                                     $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
                                                         $wpdb->escape( $wp_dlm_db_cats ));	
@@ -2108,7 +2108,7 @@ function dlm_addnew() {
                     <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
                     <td>
                     <select name="download_cat">
-                    	<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
+                    	<option value="0"><?php _e('N/A',"wp-download_monitor"); ?></option>
 						<?php
                             $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
                                 $wpdb->escape( $wp_dlm_db_cats ));	
@@ -2325,7 +2325,7 @@ function dlm_addexisting() {
                     <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
                     <td>
                     <select name="download_cat">
-                    	<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
+                    	<option value="0"><?php _e('N/A',"wp-download_monitor"); ?></option>
 						<?php
                             $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
                                 $wpdb->escape( $wp_dlm_db_cats ));	
@@ -2476,7 +2476,7 @@ function wp_dlm_log()
 				if (!empty($logs)) {
 					echo '<tbody id="the-list">';
 					foreach ( $logs as $log ) {
-						$date = date_i18n(__("jS M Y H:m:s","wp-download_monitor"), strtotime($log->date));
+						$date = date_i18n(__("jS M Y H:i:s","wp-download_monitor"), strtotime($log->date));
 						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
 						$file = str_replace($path, "", $log->filename);
 						$links = explode("/",$file);
@@ -3321,4 +3321,10 @@ function wp_dlm_init_hooks() {
 	}
 }
 add_action('init','wp_dlm_init_hooks',1);
+
+################################################################################
+// Addons
+################################################################################
+
+if (!function_exists('wp_dlmp_styles')) include('page-addon/download-monitor-page-addon.php');
 ?>

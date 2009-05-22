@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-05-12 19:18+0100\n"
+"POT-Creation-Date: 2009-05-22 20:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,7 +24,7 @@ msgid "You do not have permission to download this file."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/download.php:306
+#: Monitor/Development/download.php:315
 msgid "Download does not exist!"
 msgstr ""
 
@@ -116,6 +116,7 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:1347
 #: Monitor/Development/wp-download_monitor.php:2094
 #: Monitor/Development/wp-download_monitor.php:2308
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:70
 msgid "Description"
 msgstr ""
 
@@ -136,6 +137,10 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:2918
 #: Monitor/Development/wp-download_monitor.php:2935
 #: Monitor/Development/wp-download_monitor.php:2972
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:71
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:109
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:572
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:683
 msgid "Version"
 msgstr ""
 
@@ -349,6 +354,7 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:89
 #: Monitor/Development/wp-download_monitor.php:390
 #: Monitor/Development/wp-download_monitor.php:415
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:69
 msgid "Downloads"
 msgstr ""
 
@@ -407,6 +413,12 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:1455
 #: Monitor/Development/wp-download_monitor.php:2511
 #: Monitor/Development/wp-download_monitor.php:2512
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:284
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:285
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:442
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:443
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:529
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:530
 msgid "Previous"
 msgstr ""
 
@@ -417,6 +429,12 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:1469
 #: Monitor/Development/wp-download_monitor.php:2525
 #: Monitor/Development/wp-download_monitor.php:2526
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:297
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:298
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:455
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:456
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:542
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:543
 msgid "Next"
 msgstr ""
 
@@ -469,6 +487,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:403
 #: Monitor/Development/wp-download_monitor.php:2956
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:72
 msgid "Categories"
 msgstr ""
 
@@ -484,6 +503,7 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:2918
 #: Monitor/Development/wp-download_monitor.php:2935
 #: Monitor/Development/wp-download_monitor.php:2972
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:109
 msgid "downloaded"
 msgstr ""
 
@@ -500,6 +520,8 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:2918
 #: Monitor/Development/wp-download_monitor.php:2935
 #: Monitor/Development/wp-download_monitor.php:2972
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:109
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:688
 msgid "times"
 msgstr ""
 
@@ -510,6 +532,8 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:845
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:74
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:688
 msgid "Downloaded"
 msgstr ""
 
@@ -1004,7 +1028,7 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:2479
-msgid "jS M Y H:m:s"
+msgid "jS M Y H:i:s"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
@@ -1128,5 +1152,85 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:3275
 msgid "No stats yet"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:62
+msgid "Popular Downloads"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:63
+msgid "Other"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:64
+msgid "Search Downloads: "
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:65
+msgid "Go"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:66
+msgid "Results found for "
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:67
+msgid "No downloads were found."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:68
+msgid "No download found matching given ID."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:73
+msgid "Tags"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:75
+msgid " time"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:76
+msgid " times"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:77
+msgid "Date posted"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:78
+msgid "F j, Y"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:79
+msgid "Read More"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:80
+msgid "Sub-Categories:"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:81
+msgid "Sort by:"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:82
+msgid "Downloads tagged:"
 msgstr ""
 

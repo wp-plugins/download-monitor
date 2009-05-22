@@ -3,8 +3,8 @@ Contributors: jolley_small
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
-Tested up to: 2.7
-Stable tag: 3.0.7
+Tested up to: 2.7.1
+Stable tag: 3.1
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -18,6 +18,7 @@ For older versions of wordpress use the older Download Monitor version 2.2.3 whi
 
 = Features =
 
+*	NEW: Built in Download Page function with built in sorting, pagination, and search. This was going to be a paid addon but i'm too nice - so please donate if you use it!
 *	Records file download hits but does **not** count downloads by wordpress admin users.
 *	Stats on downloads and a download log for viewing who downloaded when.
 *	Uses shortcodes (backward compatible with old [download#id] style).
@@ -50,6 +51,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Lithuanian Translation - http://wordpresstvs.lt/wordpress-download-monitor-2/
 *	German Translation - http://www.outsourcetoasia.de/download-monitor-3
 *	Dutch Translation - http://www.marcovanveelen.nl/wp-content/plugins/download-monitor/download.php?id=57
+*	Croatian Translation - http://www.eugen-bozic.net/download-monitor-plugin-prijevod/
 	
 == Installation ==
 
@@ -66,24 +68,15 @@ Installation is fast and easy. The following steps will guide get you started:
 
 == Frequently Asked Questions ==
 
-= My hits arn't showing up! =
-
-Admin hits are not counted, log out and try! Also ensure that if you have set the 'custom url' option that the custom url does not actually match the physical location of the file.
-
-= I get an 'error saving to database error' =
-
-The download tables may not exist. Use the option in Downloads > configuration > Recreate Download Database.
-
-= I want my downloads to be parsed in a custom field using get_post_meta() =
-
-Wordpress does not have a filter I can hook into for this function, so to make this work wrap it in the relevant functions. For old style download links ([download#id]) use <code>wp_dlm_parse_downloads()</code> else use <code>do_shortcode()</code>. For example:
-
-<code>echo do_shortcode(get_post_meta($post->ID, 'Download', true));</code>
+You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wordpress-download-monitor-3-documentation.
 
 == Screenshots ==
 
 1. Wordpress 2.7 admin screenshot
 2. Wordpress 2.5 admin screenshot
+3. Download page listings
+4. More download page listings
+5. Download page single listing
 
 == Usage ==
 

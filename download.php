@@ -189,12 +189,15 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 				//$location= 'Location: '.$thefile;
 				//header($location);
 
-				// NEW - Member only downloads should be forced to download so real URL is not revealed
-
-				if ($d->members && ini_get('allow_url_fopen') ) {
+				// NEW - Member only downloads should be forced to download so real URL is not revealed - NOW OPTIONAL DUE TO SOME SERVER CONFIGS
+				
+				$force = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='force' LIMIT 1" , $d->id ) );
+				if ($force!=0) $force=1;	
+			
+				if ($d->members && $force && ini_get('allow_url_fopen') ) {
 
 					$filename = basename($thefile);
-					$file_extension = strtolower(substr(strrchr($filename1,"."),1));					
+					$file_extension = strtolower(substr(strrchr($filename,"."),1));					
 
 					//This will set the Content-Type to the appropriate setting for the file
 					switch( $file_extension ) {
@@ -211,6 +214,10 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 						case "rar": 	$ctype="application/zip"; 		break;
 						case "doc": 	$ctype="application/msword";	break;	
 						case "xls": 	$ctype="application/vnd.ms-excel";	break;
+						case "mov": 	$ctype="video/quicktime";	break;
+						case "mp3": 	$ctype="audio/mpeg";	break;
+						case "mpeg": 	$ctype="video/mpeg";	break;
+						case "mpg": 	$ctype="video/mpeg";	break;
 						//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
 						case "php":
 						case "htm":
@@ -223,8 +230,8 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 							exit;
 						break;						
 						default: 		$ctype="application/octet-stream";
-					}
-					
+					}						
+
 					if(	ini_get('zlib.output_compression')) ini_set('zlib.output_compression', 'Off');
 					if(	!ini_get('safe_mode')) set_time_limit(0);
 					@ob_end_clean();
@@ -240,7 +247,7 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 							header("Content-Type: ".$ctype."");	;
 							header("Content-Type: application/download");
 							header("Content-Description: File Transfer");						
-							header("Content-Disposition: attachment; filename=".$filename.";");
+							header("Content-Disposition: attachment; filename=\"".$filename."\";");
 							header("Content-Transfer-Encoding: binary");
 							$size = @filesize($thefile);
 							if ($size) {						
@@ -251,15 +258,17 @@ load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monit
 						}			
 					} else {
 						// Remote File						
-						header("Pragma: public");
+						header('Cache-Control: private');
+						header('Pragma: private');
 						header("Expires: 0");
 						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 						header("Content-Type: application/force-download");
 						header("Content-Type: ".$ctype."");	;
 						header("Content-Type: application/download");
 						header("Content-Description: File Transfer");						
-						header("Content-Disposition: attachment; filename=".$filename.";");
+						header("Content-Disposition: attachment; filename=\"".$filename."\";");
 						header("Content-Transfer-Encoding: binary");
+						
 						// Get filesize
 						$filesize = 0;
 						if (function_exists('get_headers')) {
