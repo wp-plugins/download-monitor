@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.1
+Version: 3.1.1
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,8 +29,17 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
+// Pre 2.6 compatibility (BY Stephen Rider)
+if ( ! defined( 'WP_CONTENT_URL' ) ) {
+	if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
+	else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+}
+if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+
 $dlm_build="B20090622";
-$wp_dlm_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/";
+$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 global $table_prefix;
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 $wp_dlm_db_cats = $table_prefix."DLM_CATS";
@@ -47,14 +56,15 @@ if (empty($dlm_url))
 else
 	$downloadurl = get_bloginfo('wpurl').'/'.$dlm_url;	
 
-load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/', 'download-monitor/');
+load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
 
 ################################################################################
 // ADD MEDIA BUTTONS AND FORMS
 ################################################################################
        
 function wp_dlm_add_media_button() {
-	echo '<a href="../wp-content/plugins/download-monitor/uploader.php?tab=add&TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.get_bloginfo('wpurl').'/wp-content/plugins/download-monitor/media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
+	global $wp_dlm_root;
+	echo '<a href="'.WP_PLUGIN_URL.'/download-monitor/uploader.php?tab=add&TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.$wp_dlm_root.'media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
 }
 
 
@@ -189,7 +199,7 @@ function wp_dlm_init() {
 	add_option('wp_dlm_type', 'ID', 'wp_dlm_type', 'no');
 	add_option('wp_dlm_default_format', '0', 'wp_dlm_default_format', 'no');
 	add_option('wp_dlm_does_not_exist','','no');
-	add_option('wp_dlm_image_url',get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/img/download.gif",'no');
+	add_option('wp_dlm_image_url',WP_PLUGIN_URL."/download-monitor/img/download.gif",'no');
 	
  	global $wp_dlm_db,$wp_dlm_db_cats,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta;
  	
@@ -496,7 +506,7 @@ function wp_dlm_shortcode_download( $atts ) {
 						case ("Filename") :
 								$downloadlink = $d->filename;
 								$links = explode("/",$downloadlink);
-								$downloadlink = end($links);
+								$downloadlink = urlencode(end($links));
 						break;
 						default :
 								$downloadlink = $d->id;
@@ -1004,13 +1014,13 @@ function wp_dlm_admin()
 											if ($removefile){		
 												$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id=%s;",$_GET['id'] ) );
 												$file = $d->filename;
-												if ( strstr ( $d->filename, "/wp-content/uploads/" ) ) {
+												if ( strstr ( $d->filename, "/uploads/" ) ) {
 													
-													$path = get_bloginfo('wpurl')."/wp-content/uploads/";
+													$path = WP_CONTENT_URL."/uploads/";
 													$file = str_replace( $path , "" , $d->filename);
-													if(is_file('../wp-content/uploads/'.$file)){
-															chmod('../wp-content/uploads/'.$file, 0777);  
-															unlink('../wp-content/uploads/'.$file);
+													if(is_file(WP_CONTENT_DIR.'/uploads/'.$file)){
+															chmod(WP_CONTENT_DIR.'/uploads/'.$file, 0777);  
+															unlink(WP_CONTENT_DIR.'/uploads/'.$file);
 													 }					    
 												}										
 											}
@@ -1279,13 +1289,13 @@ function wp_dlm_admin()
 					//load values
 					$d = $wpdb->get_row($query_select_1);
 					$file = $d->filename;
-					if ( strstr ( $d->filename, "/wp-content/uploads/" ) ) {
+					if ( strstr ( $d->filename, "/uploads/" ) ) {
 						
-						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
+						$path = WP_CONTENT_URL."/uploads/";
 						$file = str_replace( $path , "" , $d->filename);
-						if(is_file('../wp-content/uploads/'.$file)){
-								chmod('../wp-content/uploads/'.$file, 0777);  
-								unlink('../wp-content/uploads/'.$file);
+						if(is_file(WP_CONTENT_DIR.'/uploads/'.$file)){
+								chmod(WP_CONTENT_DIR.'/uploads/'.$file, 0777);  
+								unlink(WP_CONTENT_DIR.'/uploads/'.$file);
 						 }					    
 					}
 					$query_delete = sprintf("DELETE FROM $wp_dlm_db WHERE id=%s;",
@@ -1398,7 +1408,7 @@ function wp_dlm_admin()
 					foreach ( $download as $d ) {
 						$date = date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->postDate));
 						
-						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
+						$path = WP_CONTENT_URL."/uploads/";
 						$file = str_replace($path, "", $d->filename);
 						$links = explode("/",$file);
 						$file = end($links);
@@ -1434,7 +1444,7 @@ function wp_dlm_admin()
 						echo $wpdb->get_var('SELECT COUNT(id) FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.'');
 						echo '</td>
 						<td style="text-align:center">'.$d->hits.'</td>
-						<td><a href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/download-monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
+						<td><a href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
 						
 					}
 					echo '</tbody>';
@@ -1534,8 +1544,8 @@ function wp_dlm_config() {
 					.htaccess file above the "# BEGIN WordPress" line:</p>
 						<p>Options +FollowSymLinks<br/>
 						RewriteEngine on<br/>
-						RewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
-						<p>replacing "download/" with your custom url.</p>',"wp-download_monitor");			
+						RewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>
+						<p>replacing "download/" with your custom url and "*your wp-content dir*" with your wp-content directory.</p>',"wp-download_monitor");			
 						echo '</div>';
 					} else {
 					echo '<div id="message"class="updated fade">';				
@@ -1545,8 +1555,8 @@ function wp_dlm_config() {
 					.htaccess file if it exists above the "# BEGIN WordPress" line:</p>
 						<p>Options +FollowSymLinks<br/>
 						RewriteEngine on<br/>
-						RewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>
-						<p>replacing "download/" with your previous custom url.</p>',"wp-download_monitor");
+						RewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>
+						<p>replacing "download/" with your previous custom url and "*your wp-content dir*" with your wp-content directory.</p>',"wp-download_monitor");
 					echo '</div>';
 					}
 					$save_url = true;
@@ -1712,7 +1722,7 @@ function wp_dlm_config() {
 									$scats = $wpdb->get_results($sql);
 									if (!empty($scats)) {
 										foreach ( $scats as $c ) {
-											echo '<tr><td style="text-align:center">'.$c->id.'</td><td>'.$chain.''.$c->name.'</td><td style="text-align:center"><a href="?page=dlm_config&amp;action=deletecat&amp;id='.$c->id.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
+											echo '<tr><td style="text-align:center">'.$c->id.'</td><td>'.$chain.''.$c->name.'</td><td style="text-align:center"><a href="?page=dlm_config&amp;action=deletecat&amp;id='.$c->id.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
 											get_children_cats($c->id, "$chain$c->name &mdash; ");
 										}
 									}
@@ -1725,7 +1735,7 @@ function wp_dlm_config() {
 			
 								if (!empty($cats)) {
 									foreach ( $cats as $c ) {
-										echo '<tr><td style="text-align:center">'.$c->id.'</td><td>'.$c->name.'</td><td style="text-align:center"><a href="?page=dlm_config&amp;action=deletecat&amp;id='.$c->id.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
+										echo '<tr><td style="text-align:center">'.$c->id.'</td><td>'.$c->name.'</td><td style="text-align:center"><a href="?page=dlm_config&amp;action=deletecat&amp;id='.$c->id.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
 										get_children_cats($c->id, "$c->name &mdash; ");
 									}
 								} else {
@@ -1783,7 +1793,7 @@ function wp_dlm_config() {
 									foreach ( $formats as $f ) {
 										echo '<tr><td style="vertical-align:middle;">'.$f->id.'</td><td style="vertical-align:middle;">'.$f->name.'</td>
 										<td style="vertical-align:middle;"><input type="hidden" value="'.$f->id.'" name="formatfieldid[]" /><input type="text" name="formatfield[]" value="'.htmlspecialchars($f->format).'" style="width:100%" /></td>
-										<td style="text-align:center;vertical-align:middle;"><a href="?page=dlm_config&amp;action=deleteformat&amp;id='.$f->id.'"><img src="../wp-content/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
+										<td style="text-align:center;vertical-align:middle;"><a href="?page=dlm_config&amp;action=deleteformat&amp;id='.$f->id.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
 									}
 								} else {
 									echo '<tr><td colspan="3">'.__('No formats exist',"wp-download_monitor").'</td></tr>';
@@ -1829,8 +1839,9 @@ function wp_dlm_config() {
         <div class="postbox <?php if (!$save_url) echo 'close-me';?> dlmbox">
             <h3><?php _e('Custom Download URL',"wp-download_monitor"); ?></h3>
             <div class="inside">
-            	<?php _e('<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it\'s url, e.g. selecting "filename" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>.</p>
-                        <p>Leave this option blank to use the default download path (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>
+            	<?php _e('<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it\'s url, e.g. selecting "filename" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>
+            	
+                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>
                         <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post\'s url as this can cause problems redirecting to download.php.</p>',"wp-download_monitor"); ?>
                  
                  <div style="display:block; width:716px; clear:both; margin:12px auto 4px; border:3px solid #eee; -moz-border-radius: 4px; -webkit-border-radius: 4px;">
@@ -2477,7 +2488,7 @@ function wp_dlm_log()
 					echo '<tbody id="the-list">';
 					foreach ( $logs as $log ) {
 						$date = date_i18n(__("jS M Y H:i:s","wp-download_monitor"), strtotime($log->date));
-						$path = get_bloginfo('wpurl')."/wp-content/uploads/";
+						$path = WP_CONTENT_URL."/uploads/";
 						$file = str_replace($path, "", $log->filename);
 						$links = explode("/",$file);
 						$file = end($links);
@@ -2555,7 +2566,7 @@ function wp_dlm_rewrite($rewrite) {
 	$rule = ('
 Options +FollowSymLinks
 RewriteEngine on
-RewriteRule ^'.$offset.$dlm_url.'([^/]+)$ '.$offset.'wp-content/plugins/download-monitor/download.php?id=$1 [L]
+RewriteRule ^'.$offset.$dlm_url.'([^/]+)$ '.WP_PLUGIN_DIR.'/download-monitor/download.php?id=$1 [L]
 ');
 	return $rule.$rewrite;	
 }
@@ -3018,271 +3029,291 @@ if (!function_exists('dlm_fill_date_gaps')) {
 // Dashboard widgets
 ################################################################################
 
-// Only for wordpress 2.5 and above!
+// Only for wordpress 2.5 and above
 if ($wp_db_version > 6124) {
 	
-	class wp_dlm_dash {
-	
-		// Class initialization
-		function wp_dlm_dash() {
-			// Add to dashboard
-			add_action( 'wp_dashboard_setup', array(&$this, 'register_widget') );
-			add_filter( 'wp_dashboard_widgets', array(&$this, 'add_widget') );
-		}
-		// Register the widget for dashboard use
-		function register_widget() {
-			global $wp_db_version;
-			$adminpage = 'admin.php';
-			
-			wp_register_sidebar_widget( 'download_monitor_dash', __( 'Download Stats', 'wp-download_monitor' ), array(&$this, 'widget') );
-		}
-		// Insert into dashboard
-		function add_widget( $widgets ) {
-			global $wp_registered_widgets;
-			if ( !isset($wp_registered_widgets['download_monitor_dash']) ) return $widgets;
-			array_splice( $widgets, 2, 0, 'download_monitor_dash' );
-			return $widgets;
-		}
-		// Output the widget
-		function widget( $args ) {
-			if (is_array($args)) extract( $args, EXTR_SKIP );
-			echo $before_widget;
-			echo $before_title;
-			echo $widget_name;
-			echo $after_title;
-			
-			global $wp_dlm_db,$wpdb,$wp_dlm_db_stats, $wp_dlm_root;			
-					
-			// select all downloads 	
-  			$downloads = $wpdb->get_results("SELECT * FROM $wp_dlm_db ORDER BY id;");
-			
-			// Get stats for download
-			if ($_REQUEST['download_stats_id']>0) 
-				$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id = %s LIMIT 1;", $_REQUEST['download_stats_id'] ));
-			else 
-				$d = 0;	
+	function dlm_download_stats_widget() {
+		global $wp_dlm_db,$wpdb,$wp_dlm_db_stats, $wp_dlm_root;			
 				
-			if ($_REQUEST['show_download_stats']=='monthly')
-				$stattype = 'monthly';
-			else
-				$stattype = 'weekly';
-				
-			// Get post/get data
-			$period = $_GET['download_stats_period'];
-			if (!$period || !is_numeric($period)) 
-				$period = '-1';
-			else 
-				$period = $period-1;
-			
-			$mindate = $wpdb->get_var( $wpdb->prepare("SELECT MIN(date) FROM $wp_dlm_db_stats;", $d->id));
-			
-			if ($stattype=='weekly') {
-			
-				if ($period<-1) 
-					$maxdate = strtotime(($period+1).' week');
-				else 
-					$maxdate = strtotime(date('Y-m-d'));
-	
-				// get stats
-				$max = $wpdb->get_var( $wpdb->prepare("SELECT MAX(hits) FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s;", $d->id, date('Y-m-d', strtotime("".$period." week") ), date('Y-m-d', strtotime("".($period+1)." week") ) ));						
-			 												
-				$stats = $wpdb->get_results( $wpdb->prepare("SELECT *, hits as thehits FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s ORDER BY date ASC LIMIT 7;", $d->id, date('Y-m-d', strtotime("".$period." week") ), date('Y-m-d', strtotime("".($period+1)." week") ) ));
-					
-				$prev = strtotime(''.$period.' week');
-				
-				$prevcalc = '+1 day';
-				$gapcalc = '-1 day';	
-				
-				$dateformat = __('D j M',"wp-download_monitor");
-				
-				$previous_text = '&laquo; '.__('Previous Week',"wp-download_monitor").'';
-				$this_text = ''.__('This Week',"wp-download_monitor").'';
-				$next_text = ''.__('Next Week',"wp-download_monitor").' &raquo;';
-			
-			} elseif ($stattype=='monthly') {
-			
-				$monthperiod = $period*6;
-			
-				if ($period<-1) 
-					$maxdate = strtotime(($monthperiod+6).' month');
-				else 
-					$maxdate = strtotime(date('Y-m-d'));
-					
-				// get stats
-				$max = $wpdb->get_var( $wpdb->prepare("SELECT MAX(t1.thehits) FROM (SELECT SUM(hits) AS thehits FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s group by month(date)) AS t1;", $d->id, date('Y-m-d', strtotime("".$monthperiod." month") ), date('Y-m-d', strtotime("".($monthperiod+6)." month") ) ));						
-			 												
-				$stats = $wpdb->get_results( $wpdb->prepare("SELECT *, SUM(hits) as thehits FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s group by month(date) ORDER BY date ASC;", $d->id, date('Y-m-d', strtotime("".$monthperiod." month") ), date('Y-m-d', strtotime("".($monthperiod+6)." month") ) ));
-					
-				$prev = strtotime(''.$monthperiod.' month');
-				
-				$prevcalc = '+1 month';	
-				$gapcalc = '-1 month';	
-				
-				$dateformat = __('F Y',"wp-download_monitor");
-				
-				$previous_text = '&laquo; '.__('Previous 6 months',"wp-download_monitor").'';
-				$this_text = ''.__('Last 6 months',"wp-download_monitor").'';
-				$next_text = ''.__('Next 6 months',"wp-download_monitor").' &raquo;';
-			
-			}		
-
-			if (!empty($downloads)) {				
-
-				// Output download select form
-				echo '<form action="" method="post" style="margin-bottom:8px"><select name="show_download_stats">';
-					echo '<option ';
-					if ($_REQUEST['show_download_stats']=='weekly') echo 'selected="selected" '; 
-					echo 'value="weekly">'.__('Weekly',"wp-download_monitor").'</option>';
-					echo '<option ';
-					if ($_REQUEST['show_download_stats']=='monthly') echo 'selected="selected" '; 
-					echo 'value="monthly">'.__('Monthly',"wp-download_monitor").'</option>';
-				echo '</select><select name="download_stats_id" style="width:50%;"><option value="">'.__('Select a download',"wp-download_monitor").'</option>';
-					foreach( $downloads as $download )
-					{
-						echo '<option ';
-						if ($_REQUEST['download_stats_id']==$download->id) echo 'selected="selected" '; 
-						echo 'value="'.$download->id.'">'.$download->id.' - '.$download->title.'</option>';
-					}
-				echo '</select><input type="submit" value="'.__('Show',"wp-download_monitor").'" class="button" /></form>';
-				
-				if ($d) {
-				
-				echo '<div style="text-align:center;overflow:hidden">';
-				
-				if (strtotime($period.' week')>strtotime($mindate))
-					echo '<a style="float:left" href="?download_stats_period='.($period).'&download_stats_id='.$d->id.'&show_download_stats='.$stattype.'">'.$previous_text.'</a>';
-				
-				if ($period<-1)
-					echo '<a style="float:right" href="?download_stats_period='.($period+2).'&download_stats_id='.$d->id.'&show_download_stats='.$stattype.'">'.$next_text.'</a>';
-					
-				echo '<a style="margin:0 auto; width:100px; display:block" href="?download_stats_id='.$d->id.'&show_download_stats='.$stattype.'">'.$this_text.'</a>';
-				
-				echo '</div>';				
-				echo '<div style="clear:both;margin-bottom:8px"></div>';
-				
-				
-						
-			?>
-			<table class="download_chart" summary="<?php _e('Downloads per day for',"wp-download_monitor"); ?> <?php echo $d->title ?>" cellpadding="0" cellspacing="0">
-				<tbody>
-					<tr>
-						<th scope="col"><span class="auraltext"><?php _e('Day',"wp-download_monitor"); ?></span> </th>
-						<th scope="col"><span class="auraltext"><?php _e('Number of downloads',"wp-download_monitor"); ?></span> </th>
-					</tr>
-					<?php					
+		// select all downloads 	
+			$downloads = $wpdb->get_results("SELECT * FROM $wp_dlm_db ORDER BY id;");
 		
-						if ($stats) {
-						
-							$loop = 1;
-							
-							foreach ($stats as $stat) {						
-								$hits = $stat->thehits;
-								$date = strtotime($stat->date);
-								
-								$width = ($hits / $max * 100) - 10;
-								
-								// Fill in gaps
-								echo dlm_fill_date_gaps($prev, $date, $gapcalc, $dateformat);
-								
-								$prev = strtotime($prevcalc, $date);							
-								
-								echo '
-								<tr>			
-									<td style="width:25%;">'.date_i18n($dateformat,$date).'</td>
-									<td class="value"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
-								</tr>
-								';
-								$loop++;
-							}
-							
-						} 
-						echo dlm_fill_date_gaps($prev, $maxdate, $gapcalc, $dateformat);
-					?>						
-			</tbody></table>
-			<?php
+		// Get stats for download
+		if ($_REQUEST['download_stats_id']>0) 
+			$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id = %s LIMIT 1;", $_REQUEST['download_stats_id'] ));
+		else 
+			$d = 0;	
+			
+		if ($_REQUEST['show_download_stats']=='monthly')
+			$stattype = 'monthly';
+		else
+			$stattype = 'weekly';
+			
+		// Get post/get data
+		$period = $_GET['download_stats_period'];
+		if (!$period || !is_numeric($period)) 
+			$period = '-1';
+		else 
+			$period = $period-1;
+		
+		$mindate = $wpdb->get_var( $wpdb->prepare("SELECT MIN(date) FROM $wp_dlm_db_stats;", $d->id));
+		
+		if ($stattype=='weekly') {
+		
+			if ($period<-1) 
+				$maxdate = strtotime(($period+1).' week');
+			else 
+				$maxdate = strtotime(date('Y-m-d'));
+
+			// get stats
+			$max = $wpdb->get_var( $wpdb->prepare("SELECT MAX(hits) FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s;", $d->id, date('Y-m-d', strtotime("".$period." week") ), date('Y-m-d', strtotime("".($period+1)." week") ) ));						
+		 												
+			$stats = $wpdb->get_results( $wpdb->prepare("SELECT *, hits as thehits FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s ORDER BY date ASC LIMIT 7;", $d->id, date('Y-m-d', strtotime("".$period." week") ), date('Y-m-d', strtotime("".($period+1)." week") ) ));
+				
+			$prev = strtotime(''.$period.' week');
+			
+			$prevcalc = '+1 day';
+			$gapcalc = '-1 day';	
+			
+			$dateformat = __('D j M',"wp-download_monitor");
+			
+			$previous_text = '&laquo; '.__('Previous Week',"wp-download_monitor").'';
+			$this_text = ''.__('This Week',"wp-download_monitor").'';
+			$next_text = ''.__('Next Week',"wp-download_monitor").' &raquo;';
+		
+		} elseif ($stattype=='monthly') {
+		
+			$monthperiod = $period*6;
+		
+			if ($period<-1) 
+				$maxdate = strtotime(($monthperiod+6).' month');
+			else 
+				$maxdate = strtotime(date('Y-m-d'));
+				
+			// get stats
+			$max = $wpdb->get_var( $wpdb->prepare("SELECT MAX(t1.thehits) FROM (SELECT SUM(hits) AS thehits FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s group by month(date)) AS t1;", $d->id, date('Y-m-d', strtotime("".$monthperiod." month") ), date('Y-m-d', strtotime("".($monthperiod+6)." month") ) ));						
+		 												
+			$stats = $wpdb->get_results( $wpdb->prepare("SELECT *, SUM(hits) as thehits FROM $wp_dlm_db_stats WHERE download_id = %s AND date>=%s AND date<=%s group by month(date) ORDER BY date ASC;", $d->id, date('Y-m-d', strtotime("".$monthperiod." month") ), date('Y-m-d', strtotime("".($monthperiod+6)." month") ) ));
+				
+			$prev = strtotime(''.$monthperiod.' month');
+			
+			$prevcalc = '+1 month';	
+			$gapcalc = '-1 month';	
+			
+			$dateformat = __('F Y',"wp-download_monitor");
+			
+			$previous_text = '&laquo; '.__('Previous 6 months',"wp-download_monitor").'';
+			$this_text = ''.__('Last 6 months',"wp-download_monitor").'';
+			$next_text = ''.__('Next 6 months',"wp-download_monitor").' &raquo;';
+		
+		}		
+
+		if (!empty($downloads)) {				
+
+			// Output download select form
+			echo '<form action="" method="post" style="margin-bottom:8px"><select name="show_download_stats">';
+				echo '<option ';
+				if ($_REQUEST['show_download_stats']=='weekly') echo 'selected="selected" '; 
+				echo 'value="weekly">'.__('Weekly',"wp-download_monitor").'</option>';
+				echo '<option ';
+				if ($_REQUEST['show_download_stats']=='monthly') echo 'selected="selected" '; 
+				echo 'value="monthly">'.__('Monthly',"wp-download_monitor").'</option>';
+			echo '</select><select name="download_stats_id" style="width:50%;"><option value="">'.__('Select a download',"wp-download_monitor").'</option>';
+				foreach( $downloads as $download )
+				{
+					echo '<option ';
+					if ($_REQUEST['download_stats_id']==$download->id) echo 'selected="selected" '; 
+					echo 'value="'.$download->id.'">'.$download->id.' - '.$download->title.'</option>';
 				}
+			echo '</select><input type="submit" value="'.__('Show',"wp-download_monitor").'" class="button" /></form>';
 			
-			} else echo '<p>'.__('None Found',"wp-download_monitor").'</p>';
-						
-			echo $after_widget;
-		}
-	}
-	add_action( 'plugins_loaded', create_function( '', 'global $wp_dlm_dash; $wp_dlm_dash = new wp_dlm_dash();' ) );
-	
-	class wp_dlm_dash2 {
-	
-		// Class initialization
-		function wp_dlm_dash2() {
-			// Add to dashboard
-			add_action( 'wp_dashboard_setup', array(&$this, 'register_widget') );
-			add_filter( 'wp_dashboard_widgets', array(&$this, 'add_widget') );
-		}
-		// Register the widget for dashboard use
-		function register_widget() {
-			global $wp_db_version;
-			$adminpage = 'admin.php';
-			wp_register_sidebar_widget( 'download_monitor_dash2', __( 'Top 5 Downloads', 'wp-download_monitor' ), array(&$this, 'widget') );
-		}
-		// Insert into dashboard
-		function add_widget( $widgets ) {
-			global $wp_registered_widgets;
-			if ( !isset($wp_registered_widgets['download_monitor_dash2']) ) return $widgets;
-			array_splice( $widgets, 2, 0, 'download_monitor_dash2' );
-			return $widgets;
-		}
-		// Output the widget
-		function widget( $args ) {
-			if (is_array($args)) extract( $args, EXTR_SKIP );
-			echo $before_widget;
-			echo $before_title;
-			echo $widget_name;
-			echo $after_title;
+			if ($d) {
 			
-			global $wp_dlm_db,$wpdb,$wp_dlm_db_stats, $wp_dlm_root;			
-							
-			$downloads = $wpdb->get_results( "SELECT * FROM $wp_dlm_db ORDER BY hits DESC LIMIT 5;" );			
-						
-			?>
-			<table class="download_chart" style="margin-bottom:0" summary="<?php _e('Most Downloaded',"wp-download_monitor"); ?>" cellpadding="0" cellspacing="0">
-				<tbody>
-					<tr>
-						<th scope="col"><span class="auraltext"><?php _e('Day',"wp-download_monitor"); ?></span> </th>
-						<th scope="col"><span class="auraltext"><?php _e('Number of downloads',"wp-download_monitor"); ?></span> </th>
-					</tr>
-					<?php
-						// get stats
-						$max = $wpdb->get_var( "SELECT MAX(hits) FROM $wp_dlm_db");
-						$first = 'first';						
+			echo '<div style="text-align:center;overflow:hidden">';
+			
+			if (strtotime($period.' week')>strtotime($mindate))
+				echo '<a style="float:left" href="?download_stats_period='.($period).'&download_stats_id='.$d->id.'&show_download_stats='.$stattype.'">'.$previous_text.'</a>';
+			
+			if ($period<-1)
+				echo '<a style="float:right" href="?download_stats_period='.($period+2).'&download_stats_id='.$d->id.'&show_download_stats='.$stattype.'">'.$next_text.'</a>';
+				
+			echo '<a style="margin:0 auto; width:100px; display:block" href="?download_stats_id='.$d->id.'&show_download_stats='.$stattype.'">'.$this_text.'</a>';
+			
+			echo '</div>';				
+			echo '<div style="clear:both;margin-bottom:8px"></div>';
+			
+			
+					
+		?>
+		<table class="download_chart" summary="<?php _e('Downloads per day for',"wp-download_monitor"); ?> <?php echo $d->title ?>" cellpadding="0" cellspacing="0">
+			<tbody>
+				<tr>
+					<th scope="col"><span class="auraltext"><?php _e('Day',"wp-download_monitor"); ?></span> </th>
+					<th scope="col"><span class="auraltext"><?php _e('Number of downloads',"wp-download_monitor"); ?></span> </th>
+				</tr>
+				<?php					
+	
+					if ($stats) {
+					
 						$loop = 1;
-						$size = sizeof($downloads);
-						$last = "";
-						if ($downloads && $max>0) {
-							foreach ($downloads as $d) {
-								$hits = $d->hits;
-								$date = $d->date;
-								$width = ($hits / $max * 100) - 10;
-								if ($loop==$size) $last = 'last';
-								echo '
-								<tr>			
-									<td class="'.$first.'" style="width:25%;">'.$d->title.'</td>
-									<td class="value '.$first.' '.$last.'"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
-								</tr>
-								';
-								$first = "";
-								$loop++;
-							}
-						} else {
-							echo '<tr><td class="first last" style="border-right:1px solid #e5e5e5" colspan="2">'.__('No stats yet',"wp-download_monitor").'</td></tr>';
-						}
-					?>						
-			</tbody></table>
-			<?php
+						
+						foreach ($stats as $stat) {						
+							$hits = $stat->thehits;
+							$date = strtotime($stat->date);
 							
-			echo $after_widget;
-		}
+							$width = ($hits / $max * 100) - 10;
+							
+							// Fill in gaps
+							echo dlm_fill_date_gaps($prev, $date, $gapcalc, $dateformat);
+							
+							$prev = strtotime($prevcalc, $date);							
+							
+							echo '
+							<tr>			
+								<td style="width:25%;">'.date_i18n($dateformat,$date).'</td>
+								<td class="value"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
+							</tr>
+							';
+							$loop++;
+						}
+						
+					} 
+					echo dlm_fill_date_gaps($prev, $maxdate, $gapcalc, $dateformat);
+				?>						
+		</tbody></table>
+		<?php
+			}
+		
+		} else echo '<p>'.__('None Found',"wp-download_monitor").'</p>';
 	}
-	add_action( 'plugins_loaded', create_function( '', 'global $wp_dlm_dash2; $wp_dlm_dash2 = new wp_dlm_dash2();' ) );
 	
+	function dlm_download_top_widget() {
+		global $wp_dlm_db,$wpdb,$wp_dlm_db_stats, $wp_dlm_root;			
+						
+		$downloads = $wpdb->get_results( "SELECT * FROM $wp_dlm_db ORDER BY hits DESC LIMIT 5;" );			
+					
+		?>
+		<table class="download_chart" style="margin-bottom:0" summary="<?php _e('Most Downloaded',"wp-download_monitor"); ?>" cellpadding="0" cellspacing="0">
+			<tbody>
+				<tr>
+					<th scope="col"><span class="auraltext"><?php _e('Day',"wp-download_monitor"); ?></span> </th>
+					<th scope="col"><span class="auraltext"><?php _e('Number of downloads',"wp-download_monitor"); ?></span> </th>
+				</tr>
+				<?php
+					// get stats
+					$max = $wpdb->get_var( "SELECT MAX(hits) FROM $wp_dlm_db");
+					$first = 'first';						
+					$loop = 1;
+					$size = sizeof($downloads);
+					$last = "";
+					if ($downloads && $max>0) {
+						foreach ($downloads as $d) {
+							$hits = $d->hits;
+							$date = $d->date;
+							$width = ($hits / $max * 100) - 10;
+							if ($loop==$size) $last = 'last';
+							echo '
+							<tr>			
+								<td class="'.$first.'" style="width:25%;">'.$d->title.'</td>
+								<td class="value '.$first.' '.$last.'"><img src="'.$wp_dlm_root.'img/bar.png" alt="" height="16" width="'.$width.'%" />'.$hits.'</td>
+							</tr>
+							';
+							$first = "";
+							$loop++;
+						}
+					} else {
+						echo '<tr><td class="first last" style="border-right:1px solid #e5e5e5" colspan="2">'.__('No stats yet',"wp-download_monitor").'</td></tr>';
+					}
+				?>						
+		</tbody></table>
+		<?php
+	}
+	
+	// Different handling if supported (2.7 and 2.8)
+	if (function_exists('wp_add_dashboard_widget')) {
+	
+		function dlm_download_stats_widget_setup() {
+			wp_add_dashboard_widget( 'dlm_download_stats_widget', __( 'Download Stats' ), 'dlm_download_stats_widget' );
+		}
+		add_action('wp_dashboard_setup', 'dlm_download_stats_widget_setup');
+		
+		function dlm_top_downloads_widget_setup() {
+			wp_add_dashboard_widget( 'dlm_download_top_widget', __( 'Top 5 Downloads' ), 'dlm_download_top_widget' );
+		}
+		add_action('wp_dashboard_setup', 'dlm_top_downloads_widget_setup');	
+		
+	} else {
+	
+		// Old Method using Classes	
+		class wp_dlm_dash {
+		
+			// Class initialization
+			function wp_dlm_dash() {
+				// Add to dashboard
+				add_action( 'wp_dashboard_setup', array(&$this, 'register_widget') );
+				add_filter( 'wp_dashboard_widgets', array(&$this, 'add_widget') );
+			}
+			// Register the widget for dashboard use
+			function register_widget() {
+				global $wp_db_version;
+				$adminpage = 'admin.php';
+				
+				wp_register_sidebar_widget( 'download_monitor_dash', __( 'Download Stats', 'wp-download_monitor' ), array(&$this, 'widget') );
+			}
+			// Insert into dashboard
+			function add_widget( $widgets ) {
+				global $wp_registered_widgets;
+				if ( !isset($wp_registered_widgets['download_monitor_dash']) ) return $widgets;
+				array_splice( $widgets, 2, 0, 'download_monitor_dash' );
+				return $widgets;
+			}
+			// Output the widget
+			function widget( $args ) {
+				if (is_array($args)) extract( $args, EXTR_SKIP );
+				echo $before_widget;
+				echo $before_title;
+				echo $widget_name;
+				echo $after_title;
+				dlm_download_stats_widget();							
+				echo $after_widget;
+			}
+		}
+		add_action( 'plugins_loaded', create_function( '', 'global $wp_dlm_dash; $wp_dlm_dash = new wp_dlm_dash();' ) );
+		
+		class wp_dlm_dash2 {
+		
+			// Class initialization
+			function wp_dlm_dash2() {
+				// Add to dashboard
+				add_action( 'wp_dashboard_setup', array(&$this, 'register_widget') );
+				add_filter( 'wp_dashboard_widgets', array(&$this, 'add_widget') );
+			}
+			// Register the widget for dashboard use
+			function register_widget() {
+				global $wp_db_version;
+				$adminpage = 'admin.php';
+				wp_register_sidebar_widget( 'download_monitor_dash2', __( 'Top 5 Downloads', 'wp-download_monitor' ), array(&$this, 'widget') );
+			}
+			// Insert into dashboard
+			function add_widget( $widgets ) {
+				global $wp_registered_widgets;
+				if ( !isset($wp_registered_widgets['download_monitor_dash2']) ) return $widgets;
+				array_splice( $widgets, 2, 0, 'download_monitor_dash2' );
+				return $widgets;
+			}
+			// Output the widget
+			function widget( $args ) {
+				if (is_array($args)) extract( $args, EXTR_SKIP );
+				echo $before_widget;
+				echo $before_title;
+				echo $widget_name;
+				echo $after_title;
+				dlm_download_top_widget();								
+				echo $after_widget;
+			}
+		}
+		add_action( 'plugins_loaded', create_function( '', 'global $wp_dlm_dash2; $wp_dlm_dash2 = new wp_dlm_dash2();' ) );
+	}
 }
 
 ################################################################################

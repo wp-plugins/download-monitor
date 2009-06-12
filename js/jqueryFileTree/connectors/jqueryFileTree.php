@@ -2,6 +2,7 @@
 //
 // jQuery File Tree PHP Connector - modified for php4/wordpress compatibility
 //
+
 if(file_exists('../../../../../../wp-load.php')) {
 	require_once("../../../../../../wp-load.php");
 } else if(file_exists('../../wp-load.php')) {

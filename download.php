@@ -32,7 +32,16 @@ if(file_exists('../../../wp-load.php')) {
 
 }
 
-load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/', 'download-monitor/');
+// Pre 2.6 compatibility (BY Stephen Rider)
+if ( ! defined( 'WP_CONTENT_URL' ) ) {
+	if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
+	else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+}
+if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+
+load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
 
 	include_once('classes/linkValidator.class.php');
 		
