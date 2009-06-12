@@ -23,8 +23,17 @@
 // Vars and version
 ################################################################################
 
+// Pre 2.6 compatibility (BY Stephen Rider)
+if ( ! defined( 'WP_CONTENT_URL' ) ) {
+	if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
+	else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+}
+if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+
 global $table_prefix;
-$wp_dlmp_root = get_bloginfo('wpurl')."/wp-content/plugins/download-monitor/page-addon";
+$wp_dlmp_root = WP_PLUGIN_URL."/download-monitor/page-addon";
 $wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
 $wp_dlm_db_cats = $table_prefix."DLM_CATS";
 $wp_dlm_db_formats = $table_prefix."DLM_FORMATS";
@@ -33,7 +42,7 @@ $wp_dlm_db_log = $table_prefix."DLM_LOG";
 $wp_dlm_db_meta = $table_prefix."DLM_META";
 $dlm_url = get_option('wp_dlm_url');
 
-load_plugin_textdomain('wp-download_monitor', 'wp-content/plugins/download-monitor/', 'download-monitor/');
+load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
 		
 ################################################################################
 // Styles and Javascript
