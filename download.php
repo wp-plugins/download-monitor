@@ -201,7 +201,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				// NEW - Member only downloads should be forced to download so real URL is not revealed - NOW OPTIONAL DUE TO SOME SERVER CONFIGS
 				
 				$force = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='force' LIMIT 1" , $d->id ) );
-				if ($force!=0) $force=1;	
+				if ($force && $force!=0) $force=1;	
 			
 				if ($d->members && $force && ini_get('allow_url_fopen') ) {
 
