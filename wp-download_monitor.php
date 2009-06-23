@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.1.3
+Version: 3.1.4
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -1880,7 +1880,7 @@ function wp_dlm_config() {
                         </tr>
                         <tr>
                             <th scope="col"><?php _e('Member-only files non-member redirect',"wp-download_monitor"); ?>:</th>
-                            <td><input type="text" value="<?php echo get_option('wp_dlm_member_only'); ?>" name="wp_dlm_member_only" /> <span class="setting-description"><?php _e('Leave blank for no redirect.',"wp-download_monitor"); ?></span></td>
+                            <td><input type="text" value="<?php echo get_option('wp_dlm_member_only'); ?>" name="wp_dlm_member_only" /> <span class="setting-description"><?php _e('Leave blank for no redirect.',"wp-download_monitor"); ?> <?php _e('Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>.',"wp-download_monitor"); ?></span></td>
                         </tr>
                         <tr>
                             <th scope="col"><?php _e('Download image path',"wp-download_monitor"); ?>:</th>
@@ -3333,12 +3333,12 @@ function wp_dlm_init_hooks() {
 	}
 	
 	if ($wp_dlm_db_exists==true) {
-		add_filter('the_content', 'wp_dlm_parse_downloads',0); 
-		add_filter('the_excerpt', 'wp_dlm_parse_downloads',0);
-		add_filter('the_meta_key', 'wp_dlm_parse_downloads',0);
-		add_filter('widget_text', 'wp_dlm_parse_downloads',0);
-		add_filter('widget_title', 'wp_dlm_parse_downloads',0);
-		add_filter('the_content', 'wp_dlm_parse_downloads_all',0);
+		add_filter('the_content', 'wp_dlm_parse_downloads',1); 
+		add_filter('the_excerpt', 'wp_dlm_parse_downloads',1);
+		add_filter('the_meta_key', 'wp_dlm_parse_downloads',1);
+		add_filter('widget_text', 'wp_dlm_parse_downloads',1);
+		add_filter('widget_title', 'wp_dlm_parse_downloads',1);
+		add_filter('the_content', 'wp_dlm_parse_downloads_all',1);
 		add_filter('admin_head', 'wp_dlm_ins_button');
 		add_action('media_buttons', 'wp_dlm_add_media_button', 20);
 		

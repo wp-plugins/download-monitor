@@ -103,11 +103,15 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				// Check permissions
 				if ($d->members && !isset($user_ID)) {
 					$url = get_option('wp_dlm_member_only');
+					$url = str_replace('{referrer}',urlencode($_SERVER['REQUEST_URI']),$url);
 					if (!empty($url)) {
 						$url = 'Location: '.$url;
 						header( $url );
 						exit();
-   					} else _e('You must be logged in to download this file.',"wp-download_monitor");
+   					} else {
+   						header("Content-Type: text/html; charset=" . get_option('blog_charset'));
+   						_e('You must be logged in to download this file.',"wp-download_monitor");
+   					}
 					exit();
 				}
 								
@@ -121,7 +125,10 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 								$url = 'Location: '.$url;
 								header( $url );
 								exit();
-		   					} else _e('You do not have permission to download this file.',"wp-download_monitor");
+		   					} else {
+		   						header("Content-Type: text/html; charset=" . get_option('blog_charset'));
+		   						_e('You do not have permission to download this file.',"wp-download_monitor");
+		   					}
 							exit();
 						}
 					}
@@ -194,23 +201,32 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   		$thefile = $d->filename;
 			   };
 			   
-				// Normal Download Script (comment out if using force download below. use of force download is unsupported!)
-				//$location= 'Location: '.$thefile;
-				//header($location);
 
 				// NEW - Member only downloads should be forced to download so real URL is not revealed - NOW OPTIONAL DUE TO SOME SERVER CONFIGS
 				
+				/*  CHANGED 23 June 09 - Ok, new logic. So we want to only force downloads if its member only and force is not set to 0. Ok so far.
+					But as we know, remotly hosted files can be a bitch to force download without corruption SO heres what I want to do:
+					
+						Member Only and Forced = 0 - DONT FORCE
+						Member Only and Forced Not Set or Set to 1 - FORCE
+						Normal Download and Forced Not Set or set to 0 =  DONT Force
+				*/
+				
 				$force = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='force' LIMIT 1" , $d->id ) );
-				if ($force && $force!=0) $force=1;	
+				
+				if ($d->members) {
+					if ($force && $force==0){} else {$force=1;}
+				} else {
+					if (!$force) $force = 0;
+				}
 			
-				if ($d->members && $force && ini_get('allow_url_fopen') ) {
+				if ($force && ini_get('allow_url_fopen') ) {				
 
 					$filename = basename($thefile);
 					$file_extension = strtolower(substr(strrchr($filename,"."),1));					
 
 					//This will set the Content-Type to the appropriate setting for the file
 					switch( $file_extension ) {
-						case "mp3": 	$ctype="audio/mpeg"; 			break;
 						case "m4r": 	$ctype="audio/Ringtone"; 		break;
 						case "jpg": 	$ctype="image/jpeg"; 			break;
 						case "jpeg": 	$ctype="image/jpeg"; 			break;
@@ -227,6 +243,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						case "mp3": 	$ctype="audio/mpeg";	break;
 						case "mpeg": 	$ctype="video/mpeg";	break;
 						case "mpg": 	$ctype="video/mpeg";	break;
+						case "djvu":	$ctype="image/x.djvu";	break;
 						//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files)
 						case "php":
 						case "htm":
@@ -247,7 +264,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					
 					// Deal with remote file or local file					
 					if (strstr($thefile, get_bloginfo('url'))) {
-						// Local File						
+						// Local File
+						$thefile = str_replace(get_bloginfo('url')."/", ABSPATH, $thefile); // Added by David MacMathan				
 						if ( file_exists($thefile) && is_readable($thefile) ) {
 							header("Pragma: public");
 							header("Expires: 0");
@@ -321,6 +339,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
    		$url = 'Location: '.$url;
 		header( $url );
 		exit();
-   } else _e('Download does not exist!',"wp-download_monitor");
+   } else {
+   	header("Content-Type: text/html; charset=" . get_option('blog_charset'));
+   	_e('Download does not exist!',"wp-download_monitor");
+   }
    exit();
 ?>

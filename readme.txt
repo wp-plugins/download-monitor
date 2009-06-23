@@ -4,7 +4,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.8
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -80,6 +80,13 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 3. Download page listings
 4. More download page listings
 5. Download page single listing
+
+== Changelog ==
+
+= 3.1.4 =
+*	Added {referrer} option to the member redirect - now you could redirect to http://yourdomain.com/wp-login.php?redirect_to={referrer} for instance and they will go straight to the download right after.
+*	Updated 'force' logic.
+*	Moved mo/po file.
 
 == Usage ==
 
