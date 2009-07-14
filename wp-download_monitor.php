@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.1.4
+Version: 3.1.5
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -54,7 +54,10 @@ $downloadtype = get_option('wp_dlm_type');
 if (empty($dlm_url)) 
 	$downloadurl = $wp_dlm_root.'download.php?id=';
 else
-	$downloadurl = get_bloginfo('wpurl').'/'.$dlm_url;	
+	$downloadurl = get_bloginfo('url').'/'.$dlm_url;
+	//$downloadurl = get_bloginfo('wpurl').'/'.$dlm_url;
+	/* Changed to url so that wordpress in a sub dir works with custom urls */	
+	
 
 load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
 
@@ -573,11 +576,21 @@ function wp_dlm_shortcode_download( $atts ) {
 				// meta
 				if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
 					$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $id ) );
+					$meta_names = array();
 					foreach($meta_data as $meta) {
 						$fpatts[] = "{meta-".$meta->meta_name."}";
 						$fsubs[] = $meta->meta_value;
 						$fpatts[] = "{meta-autop-".$meta->meta_name."}";
 						$fsubs[] = wpautop($meta->meta_value);
+						$meta_names[] = $meta->meta_name;
+					}
+					// Blank Meta
+					$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( %s )" , implode(',', $meta_names) ) );
+					foreach($meta_data as $meta) {
+						$fpatts[] = "{meta-".$meta->meta_name."}";
+						$fsubs[] = '';
+						$fpatts[] = "{meta-autop-".$meta->meta_name."}";
+						$fsubs[] = '';
 					}
 				}
 				
@@ -785,11 +798,21 @@ function wp_dlm_parse_downloads($data) {
 						// meta
 						if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
 							$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $d->id ) );
+							$meta_names = array();
 							foreach($meta_data as $meta) {
 								$fpatts[] = "{meta-".$meta->meta_name."}";
 								$fsubs[] = $meta->meta_value;
 								$fpatts[] = "{meta-autop-".$meta->meta_name."}";
 								$fsubs[] = wpautop($meta->meta_value);
+								$meta_names[] = $meta->meta_name;
+							}
+							// Blank Meta
+							$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( %s )" , implode(',', $meta_names) ) );
+							foreach($meta_data as $meta) {
+								$fpatts[] = "{meta-".$meta->meta_name."}";
+								$fsubs[] = '';
+								$fpatts[] = "{meta-autop-".$meta->meta_name."}";
+								$fsubs[] = '';
 							}
 						}
 						
@@ -1379,9 +1402,10 @@ function wp_dlm_admin()
 				
 				// Sort column
 				$sort = "title";
+				$sort_ex = '';
 				if ($_REQUEST['sort'] && ($_REQUEST['sort']=="id" || $_REQUEST['sort']=="filename" || $_REQUEST['sort']=="postDate")) $sort = $_REQUEST['sort'];
 				
-				if ($_REQUEST['sort']=="id") $sort.=' DESC';
+				if ($_REQUEST['sort']=="id") $sort_ex =' ASC';
 				
 				$total_results = sprintf("SELECT COUNT(id) FROM %s %s;",
 					$wpdb->escape($wp_dlm_db), $search );
@@ -1394,7 +1418,7 @@ function wp_dlm_admin()
 				%s
 				ORDER BY %s LIMIT %s,20;",
 					$search,
-					$wpdb->escape( $sort ),
+					$wpdb->escape( $sort.$sort_ex ),
 					$wpdb->escape( $from ));
 					
 				$download = $wpdb->get_results($paged_select);
@@ -1455,29 +1479,24 @@ function wp_dlm_admin()
         <div class="tablenav">
         	<div style="float:left" class="tablenav-pages">
 				<?php
-					// FIXED: 2 - Moved around to make more sense
-					if ($total_pages>1)  { // FIXED: 1.6 - Stops it displaying when un-needed
+					if ($total_pages>1) {
 					
-						// Build Page Number Hyperlinks 
-						if($page > 1){ 
-							$prev = ($page - 1); 
-							echo "<a href=\"?page=download-monitor/wp-download_monitor.php&amp;p=$prev&amp;sort=$sort&amp;search_downloads=".$_REQUEST['search_downloads']."\">&laquo; ".__('Previous',"wp-download_monitor")."</a> "; 
-						} else echo "<span class='current page-numbers'>&laquo; ".__('Previous',"wp-download_monitor")."</span>";
-
-						for($i = 1; $i <= $total_pages; $i++){ 
-							if(($page) == $i){ 
-								echo " <span class='page-numbers current'>$i</span> "; 
-								} else { 
-									echo " <a href=\"?page=download-monitor/wp-download_monitor.php&amp;p=$i&amp;sort=$sort&amp;search_downloads=".$_REQUEST['search_downloads']."\">$i</a> "; 
-							} 
-						} 
-
-						// Build Next Link 
-						if($page < $total_pages){ 
-							$next = ($page + 1); 
-							echo "<a href=\"?page=download-monitor/wp-download_monitor.php&amp;p=$next&amp;sort=$sort&amp;search_downloads=".$_REQUEST['search_downloads']."\">".__('Next',"wp-download_monitor")." &raquo;</a>"; 
-						} else echo "<span class='current page-numbers'>".__('Next',"wp-download_monitor")." &raquo;</span>";
-						
+						$arr_params = array (
+							'sort' => $sort,
+							'page' => 'download-monitor/wp-download_monitor.php',
+							'search_downloads' => $_REQUEST['search_downloads'],
+							'p' => "%#%"
+						);
+					
+						echo paginate_links( array(
+							'base' => add_query_arg( $arr_params ),
+							'prev_text' => __('&laquo; Previous'),
+							'next_text' => __('Next &raquo;'),
+							'total' => $total_pages,
+							'current' => $page,
+							'end_size' => 1,
+							'mid_size' => 5,
+						));
 					}
 				?>	
             </div>        	
@@ -1857,7 +1876,7 @@ function wp_dlm_config() {
                     <table class="niceblue form-table">
                         <tr>
                             <th scope="col"><strong><?php _e('Custom URL',"wp-download_monitor"); ?>:</strong></th>
-                            <td><?php echo get_bloginfo('wpurl'); ?>/<input type="text" name="url" value="<?php echo $dlm_url; ?>" />            
+                            <td><?php echo get_bloginfo('url'); ?>/<input type="text" name="url" value="<?php echo $dlm_url; ?>" />            
                             <select name="type" style="width:150px;padding:2px !important;cursor:pointer;">
                                     <option<?php if ($downloadtype=="ID") echo ' selected="selected" '; ?> value="ID"><?php _e('ID',"wp-download_monitor"); ?></option>
                                     <option<?php if ($downloadtype=="Title") echo ' selected="selected" '; ?> value="Title"><?php _e('Title',"wp-download_monitor"); ?></option>
@@ -2502,7 +2521,7 @@ function wp_dlm_log()
 				    		echo $user_info->user_login . ' ('.$user_info->ID.')';
 				    	}			
 						echo '</td>
-						<td>'.$log->ip_address.'</td>
+						<td><a href="http://ws.arin.net/whois/?queryinput='.$log->ip_address.'" target="_blank">'.$log->ip_address.'</a></td>
 						<td>'.$date.'</td>';
 						
 					}
@@ -2558,9 +2577,12 @@ function wp_dlm_rewrite($rewrite) {
 	$blog = get_bloginfo('wpurl');
 	$base_url = get_bloginfo('url');
 
+	/* Removed offset so that when using wordpress in a sub dir we don't need to show wordpress' sub directory name in the url..
+	
+	
 	if(strlen($blog) > strlen($base_url))
 		$offset = substr(str_replace($base_url, '', $blog), 1) . '/';
-	else
+	else*/
 		$offset = '';
 	
 	$rule = ('
@@ -2607,6 +2629,7 @@ function get_downloads($args = null) {
 		'limit' => '', 
 		'offset' => '0',
 		'orderby' => 'id',
+		'meta_name' => '',
 		'vip' => '0',
 		'category' => '',
 		'tags' => '',	
@@ -2622,6 +2645,8 @@ function get_downloads($args = null) {
 	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_cats, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype;
 	
 	$where = array();
+	$join = '';
+	$select = '';
 	
 	// Handle $exclude
 	$exclude_array = array();
@@ -2704,6 +2729,12 @@ function get_downloads($args = null) {
 			case 'hits' : 
 				$orderby = 'hits';
 			break;
+			case 'meta' : 
+				$orderby = 'meta';
+				$join = " LEFT JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id ";
+				$select = ", $wp_dlm_db_meta.meta_value as meta";
+				$where[] = ' meta_name = "'.$r['meta_name'].'"';
+			break;
 			case 'rand' :
 			case 'random' :
 				$orderby = 'RAND()';
@@ -2722,8 +2753,10 @@ function get_downloads($args = null) {
 	else $where = '';
 		
 	$downloads = $wpdb->get_results( "SELECT $wp_dlm_db.*, $wp_dlm_db_cats.parent, $wp_dlm_db_cats.name 
+		".$select."
 		FROM $wp_dlm_db  
 		LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
+		".$join."
 		".$where."
 		ORDER BY $orderby ".$r['order']."
 		".$limitandoffset.";" );
@@ -2875,11 +2908,21 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			// meta
 			if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
 				$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $d->id ) );
+				$meta_names = array();
 				foreach($meta_data as $meta) {
 					$fpatts[] = "{meta-".$meta->meta_name."}";
 					$fsubs[] = $meta->meta_value;
 					$fpatts[] = "{meta-autop-".$meta->meta_name."}";
 					$fsubs[] = wpautop($meta->meta_value);
+					$meta_names[] = $meta->meta_name;
+				}
+				// Blank Meta
+				$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( %s )" , implode(',', $meta_names) ) );
+				foreach($meta_data as $meta) {
+					$fpatts[] = "{meta-".$meta->meta_name."}";
+					$fsubs[] = '';
+					$fpatts[] = "{meta-autop-".$meta->meta_name."}";
+					$fsubs[] = '';
 				}
 			}
 			

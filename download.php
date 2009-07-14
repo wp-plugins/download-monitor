@@ -109,8 +109,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						header( $url );
 						exit();
    					} else {
-   						header("Content-Type: text/html; charset=" . get_option('blog_charset'));
-   						_e('You must be logged in to download this file.',"wp-download_monitor");
+   						@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+   						wp_die(__('You must be logged in to download this file.',"wp-download_monitor"), __('You must be logged in to download this file.',"wp-download_monitor"));
    					}
 					exit();
 				}
@@ -126,8 +126,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 								header( $url );
 								exit();
 		   					} else {
-		   						header("Content-Type: text/html; charset=" . get_option('blog_charset'));
-		   						_e('You do not have permission to download this file.',"wp-download_monitor");
+		   						@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+		   						wp_die(__('You do not have permission to download this file.',"wp-download_monitor"),__('You do not have permission to download this file.',"wp-download_monitor"));
 		   					}
 							exit();
 						}
@@ -340,8 +340,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 		header( $url );
 		exit();
    } else {
-   	header("Content-Type: text/html; charset=" . get_option('blog_charset'));
-   	_e('Download does not exist!',"wp-download_monitor");
+   	@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+   	wp_die(__('Download does not exist!',"wp-download_monitor"), __('Download does not exist!',"wp-download_monitor"));
    }
    exit();
 ?>

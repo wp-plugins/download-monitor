@@ -3,8 +3,8 @@ Contributors: jolley_small
 Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-wordpress-25-ready
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
-Tested up to: 2.8
-Stable tag: 3.1.4
+Tested up to: 2.8.1
+Stable tag: 3.1.5
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -68,6 +68,8 @@ Installation is fast and easy. The following steps will guide get you started:
    4. Open your WordPress Admin panel and go to the Plugins page. Locate the "Wordpress Download Monitor" plugin and
       click on the "Activate" link.
    5. Once activated, go to the Downloads admin section.
+   
+Note: If you encounter any problems when downloading files it is likely to be a file permissions issue. Change the file permissions of the download-monitor folder and contents to 755 (check with your host if your not sure how).
 
 == Frequently Asked Questions ==
 
@@ -82,6 +84,12 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 5. Download page single listing
 
 == Changelog ==
+
+= 3.1.5 =
+*	Changed custom urls to make them more friendly for people with wordpress in a sub directory.
+*	wp_die on download.php to make cleaner error messages
+*	Much better pagination in admin
+*	Order by 'meta' in downloads shortcode/get_downloads function - also must provide 'meta_name' and define the meta field to sort by. e.g. [downloads query="orderby=meta&meta_name=meta_sort"]
 
 = 3.1.4 =
 *	Added {referrer} option to the member redirect - now you could redirect to http://yourdomain.com/wp-login.php?redirect_to={referrer} for instance and they will go straight to the download right after.

@@ -227,9 +227,14 @@ if (function_exists('get_downloads')) {
 	// START PAGE OUTPUT
 	$page = '';
 	
+	// Ensure it works with default permalinks
+	global $post;
+	if ($post && is_page()) $fields = '<input type="hidden" name="page_id" value="'.$post->ID.'" />';
+	if ($post && is_single()) $fields = '<input type="hidden" name="p" value="'.$post->ID.'" />';
+	
 	$page .= '<div id="download-page">
 		<form id="download-page-search" action="" method="get">
-			<p><label for="dlsearch">'.$search_text.'</label><input type="text" name="dlsearch" id="dlsearch" value="'.$_GET['dlsearch'].'" /> <input type="submit" value="'.$search_submit_text.'" /></p>
+			<p>'.$fields.'<label for="dlsearch">'.$search_text.'</label><input type="text" name="dlsearch" id="dlsearch" value="'.$_GET['dlsearch'].'" /> <input type="submit" value="'.$search_submit_text.'" /></p>
 		</form>';
 		
 	if ($_GET['dlsearch']) {
