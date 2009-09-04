@@ -2,6 +2,10 @@
 	color:#d7d7d7 !important;
 	text-decoration:underline;
 }
+.download_monitor .checkbox {
+	margin: 0 !important;
+	padding: 0 !important;
+}
 .download_monitor .error
 {
 	padding:12px;
@@ -66,3 +70,6 @@ table.download_chart {
 	font-size: 90%;
 	font-style: italic;
 	}
+.clear {
+	clear: both;
+}

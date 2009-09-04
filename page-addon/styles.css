@@ -1,3 +1,20 @@
+.download-info .download-button,
+.download-info .more-button {
+	width: 120px;
+	height: 0;
+	padding-top: 36px;
+	overflow: hidden;
+	display: block;
+}
+
+.download-info .download-button {
+	background: url(downloadbutton.gif) no-repeat top left;
+}
+
+.download-info .more-button {
+	background: url(morebutton.gif) no-repeat top left;
+}
+
 form#download-page-search {
 	border:1px solid #ddd;
 	-moz-border-radius: 4px;
@@ -63,20 +80,20 @@ table.download-meta tbody th {
 	font-weight: bold;
 }
 
-#download-page-featured {
+#download-page-featured, #download-page-tags {
 	border:1px solid #ddd;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	padding: 12px;
 	margin: 8px 0 16px !important;	
 }
-div#download-page-featured ul {
+div#download-page-featured ul, div#download-page-tags ul {
 	overflow: hidden;
 	margin:0;
 	padding: 0;
 	text-indent: 0;
 }
-div#download-page-featured li:before {
+div#download-page-featured li:before, div#download-page-tags li:before {
 	content: "";
 }
 div#download-page-featured li {
@@ -114,7 +131,7 @@ div#download-page-featured span {
 div#download-page-featured a:hover, #download-page-categories a:hover {
 	text-decoration: none;
 }
-div#download-page-featured h3, #download-page-categories h3 {
+div#download-page-featured h3, #download-page-categories h3, div#download-page-tags h3 {
 	margin: 0 0 12px !important;
 	padding:  0 0 8px 0;
 	border-bottom:1px solid #ddd;
@@ -150,6 +167,19 @@ div#download-page-featured h3, #download-page-categories h3 {
 	list-style-position: inside;
 	border: 0;
 }
+
+div#download-page-tags ul {
+	text-align: center;
+}
+div#download-page-tags li {
+	display: inline;
+	margin: 0;
+	padding: 0 6px;
+}
+div#download-page-tags li a {
+	line-height: 1.5em;
+}
+
 p.sorting a.active {
 	background: #999;
 	color: #fff;

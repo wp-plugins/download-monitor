@@ -2,8 +2,8 @@
 /*
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
-Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> just in case.
-Version: 3.1.5
+Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
+Version: 3.2
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,14 +29,17 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-// Pre 2.6 compatibility (BY Stephen Rider)
-if ( ! defined( 'WP_CONTENT_URL' ) ) {
-	if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
-	else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+global $wp_db_version;
+if ($wp_db_version < 8201) {
+	// Pre 2.6 compatibility (BY Stephen Rider)
+	if ( ! defined( 'WP_CONTENT_URL' ) ) {
+		if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
+		else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+	}
+	if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+	if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 }
-if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 
 $dlm_build="B20090622";
 $wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
@@ -67,7 +70,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
        
 function wp_dlm_add_media_button() {
 	global $wp_dlm_root;
-	echo '<a href="'.WP_PLUGIN_URL.'/download-monitor/uploader.php?tab=add&TB_iframe=true&amp;height=500&amp;width=640" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.$wp_dlm_root.'media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
+	$url = WP_PLUGIN_URL.'/download-monitor/uploader.php?tab=add&TB_iframe=true&amp;height=500&amp;width=640';
+	if (is_ssl()) $url = preg_replace( '/^http:\/\//', 'https://',  $url );
+	echo '<a href="'.$url.'" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.$wp_dlm_root.'media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
 }
 
 
@@ -98,14 +103,15 @@ function wp_dlm_update() {
 ################################################################################
 function wp_dlm_menu() { 
 	global $wp_dlm_root;		
+	
 // Add a new top-level menu:
-    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 6, __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'/img/menu_icon.png');
+    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'/img/menu_icon.png');
 // Add submenus to the custom top-level menu:
-	add_submenu_page(__FILE__, __('Edit','wp-download_monitor'),  __('Edit','wp-download_monitor') , 6, __FILE__ , 'wp_dlm_admin');
-	add_submenu_page(__FILE__, __('Add New','wp-download_monitor') , __('Add New','wp-download_monitor') , 6, 'dlm_addnew', 'dlm_addnew');
-	add_submenu_page(__FILE__, __('Add Existing','wp-download_monitor') , __('Add Existing','wp-download_monitor') , 6, 'dlm_addexisting', 'dlm_addexisting');
-    add_submenu_page(__FILE__, __('Configuration','wp-download_monitor') , __('Configuration','wp-download_monitor') , 6, 'dlm_config', 'wp_dlm_config');
-    add_submenu_page(__FILE__, __('Log','wp-download_monitor') , __('Log','wp-download_monitor') , 6, 'dlm_log', 'wp_dlm_log');
+	add_submenu_page(__FILE__, __('Edit','wp-download_monitor'),  __('Edit','wp-download_monitor') , 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin');
+	add_submenu_page(__FILE__, __('Add New','wp-download_monitor') , __('Add New','wp-download_monitor') , 'user_can_add_new_downloads', 'dlm_addnew', 'dlm_addnew');
+	add_submenu_page(__FILE__, __('Add Existing','wp-download_monitor') , __('Add Existing','wp-download_monitor') , 'user_can_add_existing_downloads', 'dlm_addexisting', 'dlm_addexisting');
+    add_submenu_page(__FILE__, __('Configuration','wp-download_monitor') , __('Configuration','wp-download_monitor') , 'user_can_config_downloads', 'dlm_config', 'wp_dlm_config');
+    if (get_option('wp_dlm_log_downloads')=='yes') add_submenu_page(__FILE__, __('Log','wp-download_monitor') , __('Log','wp-download_monitor') , 'user_can_view_downloads_log', 'dlm_log', 'wp_dlm_log');
 }
 add_action('admin_menu', 'wp_dlm_menu');
 
@@ -122,10 +128,7 @@ function wp_dlm_head() {
 	} else {
 		// 2.7
 		echo '<link rel="stylesheet" type="text/css" href="'.$wp_dlm_root.'css/wp-download_monitor27.css" />';
-	}
-	if ($_GET['activate'] && $_GET['activate']==true) {
-		wp_dlm_init();
-	}
+	}	
 	
 	if (
 		$_REQUEST['page']=='dlm_addnew' ||
@@ -144,7 +147,7 @@ function wp_dlm_head() {
 		  $(function() {
 		  
 		    $('#file_browser').hide().fileTree({
-		      root: '<?php echo ABSPATH; ?>',
+		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
 		    }, function(file) {
 		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
@@ -197,12 +200,22 @@ add_action('admin_head', 'wp_dlm_head');
 // Set up database
 ################################################################################
 function wp_dlm_init() {
-
+	
+	global $wp_roles;
+	
 	add_option('wp_dlm_url', '', 'URL for download', 'no');	
 	add_option('wp_dlm_type', 'ID', 'wp_dlm_type', 'no');
 	add_option('wp_dlm_default_format', '0', 'wp_dlm_default_format', 'no');
 	add_option('wp_dlm_does_not_exist','','no');
 	add_option('wp_dlm_image_url',WP_PLUGIN_URL."/download-monitor/img/download.gif",'no');
+	add_option('wp_dlm_log_downloads', 'yes', '', 'no');
+	add_option('wp_dlm_file_browser_root', ABSPATH, 'no');
+	
+	$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_add_new_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_add_existing_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
 	
  	global $wp_dlm_db,$wp_dlm_db_cats,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta;
  	
@@ -518,8 +531,8 @@ function wp_dlm_shortcode_download( $atts ) {
 				
 				$format = str_replace('\\"',"'",$format);
 						
-				$fpatts = array('{url}', '{id}', '{version}', '{title}', '{size}', '{hits}', '{image_url}', '{description}', '{description-autop}', '{category}');
-				$fsubs = array( $downloadurl.$downloadlink , $d->id, $d->dlversion , $d->title , wp_dlm_get_size($d->filename) , $d->hits , get_option('wp_dlm_image_url') , $d->file_description , wpautop($d->file_description) );
+				$fpatts = array('{url}', '{id}', '{user}', '{version}', '{title}', '{size}', '{hits}', '{image_url}', '{description}', '{description-autop}', '{category}');
+				$fsubs = array( $downloadurl.$downloadlink , $d->id, $d->user, $d->dlversion , $d->title , wp_dlm_get_size($d->filename) , $d->hits , get_option('wp_dlm_image_url') , $d->file_description , wpautop($d->file_description) );
 					
 				// Category
 				if ($d->category_id>0) {
@@ -572,6 +585,18 @@ function wp_dlm_shortcode_download( $atts ) {
 				preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				$fpatts[] = $match[0];
 				if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
+
+				// tags
+				$tags = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'tags'" , $id ) );
+				if (!$tags) $tags = 'Untagged';
+				$fpatts[] = "{tags}";
+				$fsubs[] = $tags;
+				
+				// Thumbnail
+				$thumbnail = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'thumbnail'" , $id ) );
+				if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
+				$fpatts[] = "{thumbnail}";
+				$fsubs[] = $thumbnail;
 				
 				// meta
 				if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
@@ -606,7 +631,7 @@ function wp_dlm_shortcode_download( $atts ) {
 		$output = $cached_code;
 	}
 	
-	if ($autop) return wpautop($output);
+	 if ($autop && $autop != "false") return wpautop($output);
 	
 	return $output;
 
@@ -740,8 +765,8 @@ function wp_dlm_parse_downloads($data) {
 							break;
 						}
 						
-						$fpatts = array('{url}', '{version}', '{title}', '{size}', '{hits}', '{image_url}', '{description}', '{description-autop}', '{category}');
-						$fsubs = array( $downloadurl.$downloadlink , $d->dlversion , $d->title , wp_dlm_get_size($d->filename) , $d->hits , get_option('wp_dlm_image_url') , $d->file_description , wpautop($d->file_description) );
+						$fpatts = array('{url}', '{id}', '{user}', '{version}', '{title}', '{size}', '{hits}', '{image_url}', '{description}', '{description-autop}', '{category}');
+						$fsubs = array( $downloadurl.$downloadlink , $d->id, $d->user, $d->dlversion , $d->title , wp_dlm_get_size($d->filename) , $d->hits , get_option('wp_dlm_image_url') , $d->file_description , wpautop($d->file_description) );
 							
 						// Category
 						if ($d->category_id>0) {
@@ -794,6 +819,18 @@ function wp_dlm_parse_downloads($data) {
 						preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 						$fpatts[] = $match[0];
 						if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
+						
+						// tags
+						$tags = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'tags'" , $d->id ) );
+						if (!$tags) $tags = 'Untagged';
+						$fpatts[] = "{tags}";
+						$fsubs[] = $tags;
+						
+						// Thumbnail
+						$thumbnail = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'thumbnail'" , $d->id ) );
+						if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
+						$fpatts[] = "{thumbnail}";
+						$fsubs[] = $thumbnail;
 						
 						// meta
 						if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
@@ -900,7 +937,8 @@ function wp_dlm_parse_downloads($data) {
 ################################################################################
 
 function wp_dlm_get_size($path) {
-	$path = str_replace(get_bloginfo('wpurl'),"./",$path);
+
+	$path = str_replace(get_bloginfo('wpurl'), ABSPATH,$path);
 	if (file_exists($path)) {
 		$size = filesize($path);
 		if ($size) {
@@ -1016,6 +1054,9 @@ function wp_dlm_admin()
 						$mirrors = $_POST['mirrors'];
 						$file_description = $_POST['file_description'];
 						$custom_fields = $_POST['meta'];
+						$tags = $_POST['tags'];
+						$thumbnail = $_POST['thumbnail'];
+						
 						if ( $_POST['save'] )
 						{
 							//save and validate
@@ -1074,8 +1115,18 @@ function wp_dlm_admin()
 											$d = $wpdb->get_row($query_update_file);
 											$show=true;
 											
-											// Process and save meta/custom fields
+											// Process and save meta/custom fields	
 											$wpdb->query("DELETE FROM $wp_dlm_db_meta WHERE download_id = ".$_GET['id']."");
+											
+											// Tags
+											if ($tags = $_POST['tags']) {
+												$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('tags', '".$wpdb->escape( $tags )."', '".$_GET['id']."')");
+											}
+											// Thumbnail
+											if ($thumbnail = $_POST['thumbnail']) {
+												$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('thumbnail', '".$wpdb->escape( $thumbnail )."', '".$_GET['id']."')");
+											}											
+																					
 											$index = 1;
 											$values = array();
 											if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
@@ -1102,11 +1153,20 @@ function wp_dlm_admin()
 												$wpdb->escape( trim($_POST['file_description']) ) ,
 												$wpdb->escape( $_GET['id'] ));
 											$d = $wpdb->get_row($query_update);
-											$show=true;
+											$show=true;											
 											
-											
-											// Process and save meta/custom fields
+											// Process and save meta/custom fields	
 											$wpdb->query("DELETE FROM $wp_dlm_db_meta WHERE download_id = ".$_GET['id']."");
+											
+											// Tags
+											if ($tags = $_POST['tags']) {
+												$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('tags', '".$wpdb->escape( $tags )."', '".$_GET['id']."')");
+											}
+											// Thumbnail
+											if ($thumbnail = $_POST['thumbnail']) {
+												$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('thumbnail', '".$wpdb->escape( $thumbnail )."', '".$_GET['id']."')");
+											}
+											
 											$index = 1;
 											$values = array();
 											if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
@@ -1143,12 +1203,20 @@ function wp_dlm_admin()
 						$fields = $wpdb->get_results("SELECT * FROM $wp_dlm_db_meta WHERE download_id= ".$d->id."");
 						$index=1;
 						$custom_fields = array();
+						$tags = '';
+						$thumbnail = '';
 						if ($fields) foreach ($fields as $meta) 
 						{
-							$custom_fields[$index]['key'] = $meta->meta_name;
-							$custom_fields[$index]['value'] = $meta->meta_value;
-							$custom_fields[$index]['remove'] = 0;
-							$index++;
+							if ($meta->meta_name=='tags') {
+								$tags = $meta->meta_value;
+							} elseif ($meta->meta_name=='thumbnail') {
+								$thumbnail = $meta->meta_value;
+							} else {
+								$custom_fields[$index]['key'] = $meta->meta_name;
+								$custom_fields[$index]['value'] = $meta->meta_value;
+								$custom_fields[$index]['remove'] = 0;
+								$index++;
+							}
 						}
 					}	
 
@@ -1216,6 +1284,18 @@ function wp_dlm_admin()
                                                 ?>
                                             </select><br /><span class="setting-description"><?php _e('Categories are optional and allow you to group and organise similar downloads.',"wp-download_monitor"); ?></span></td>
                                         </tr>  
+						                <tr valign="middle">
+						                    <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
+						                    <td>
+						                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas. Tags can be displayed on the download page or with {tags} in a custom format.',"wp-download_monitor"); ?></span>
+						                    </td> 
+						                </tr>
+						                <tr valign="middle">
+						                    <th scope="row"><strong><?php _e('Thumbnail',"wp-download_monitor"); ?>: </strong></th> 
+						                    <td>
+						                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="dlthumbnail" /><br /><span class="setting-description"><?php _e('Enter URL to thumbnail image. This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set).',"wp-download_monitor"); ?></span>
+						                    </td> 
+						                </tr>
                                             <tr valign="top">												
                                                 <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
                                                 <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
@@ -1250,7 +1330,7 @@ function wp_dlm_admin()
 									<input type="hidden" name="sort" value="<?php echo $_REQUEST['sort']; ?>" />
 									<input type="hidden" name="p" value="<?php echo $_REQUEST['p']; ?>" />
 									<input type="hidden" name="sub" value="1" />
-									<input type="hidden" name="postDate" value="<?php echo date_i18n(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
+									<input type="hidden" name="postDate" value="<?php echo date_i18n(__('Y-m-d H:i:s',"wp-download_monitor"), strtotime($d->postDate)) ;?>" />
 									<?php 
 										global $userdata;
 										get_currentuserinfo();										
@@ -1351,6 +1431,270 @@ function wp_dlm_admin()
 				break;
 		}
 	}
+	
+	/* Bulk Editing */
+	if ($_POST['dobulkaction'] || $_POST['dobulkaction2']) {
+		if ($_POST['dobulkaction']) $action = $_POST['bulkactions'];
+		elseif ($_POST['dobulkaction2']) $action = $_POST['bulkactions2'];
+		$checked = $_POST['check'];
+		$bulk_ids = array();
+		if ($checked && is_array($checked)) foreach ($checked as $key=>$value){
+			if (key($value) && key($value)>0) $bulk_ids[] = key($value);
+		} elseif ($checked) {
+			$bulk_ids = explode(',',$checked);
+		}
+		if (!$action || sizeof($bulk_ids)==0) {
+			// No action selected/or no downloads selected
+			$show=true;
+		} elseif ($action=='reset') {
+			// Reset Stats of selected downloads
+			wp_cache_flush();
+			foreach ($bulk_ids as $bid) {
+				if (is_numeric($bid) && $bid>0) {
+					$wpdb->query( $wpdb->prepare( "UPDATE $wp_dlm_db SET hits=0 WHERE id=%s;", $bid ) );
+				}
+			}
+			
+			echo '<div id="message" class="updated fade"><p><strong>'.__('Stats successfully reset for selected downloads',"wp-download_monitor").'</strong></p></div>';
+				
+			$show=true;
+			
+		} elseif ($action=='delete') {
+			// Delete selected downloads
+			wp_cache_flush();
+			foreach ($bulk_ids as $bid) {
+				
+				if (is_numeric($bid) && $bid>0) {
+				
+					$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id=$bid;" );
+					$file = $d->filename;
+					if ( strstr ( $d->filename, "/uploads/" ) ) {				
+						$path = WP_CONTENT_URL."/uploads/";
+						$file = str_replace( $path , "" , $d->filename);
+						if(is_file(WP_CONTENT_DIR.'/uploads/'.$file)){
+								chmod(WP_CONTENT_DIR.'/uploads/'.$file, 0777);  
+								unlink(WP_CONTENT_DIR.'/uploads/'.$file);
+						 }					    
+					}
+					$query_delete = "DELETE FROM $wp_dlm_db WHERE id=$bid;";
+					$wpdb->query($query_delete);
+					
+					$query_delete = "DELETE FROM $wp_dlm_db_stats WHERE download_id=$bid;";
+					$wpdb->query($query_delete);
+					
+					$query_delete = "DELETE FROM $wp_dlm_db_log WHERE download_id=$bid;";
+					$wpdb->query($query_delete);
+					
+					$query_delete = "DELETE FROM $wp_dlm_db_meta WHERE download_id=$bid;";
+					$wpdb->query($query_delete);
+				
+				}
+			}					
+
+			echo '<div id="message" class="updated fade"><p><strong>'.__('Selected Downloads deleted Successfully',"wp-download_monitor").'</strong></p></div>';
+			
+			// Truncate table if empty
+			$q=$wpdb->get_results("select * from $wp_dlm_db;");
+			if ( empty( $q ) ) {
+				$wpdb->query("TRUNCATE table $wp_dlm_db");
+			}
+			$show=true;
+		} elseif ($action=='edit'){
+			// Show edit form instead
+			$show=false;
+			$show_edit = true;
+			$custom_fields = $_POST['meta'];
+			if ($_POST['save']) {
+				// get values
+				$download_cat = $_POST['download_cat'];
+				$change_memberonly = $_POST['change_memberonly'];
+				$members = (isset($_POST['memberonly'])) ? 1 : 0;
+				$change_customfields = $_POST['change_customfields'];
+				
+				$change_tags = $_POST['change_tags'];
+				$change_thumbnail = $_POST['change_thumbnail'];
+				$tags = $_POST['tags'];
+				$thumbnail = $_POST['thumbnail'];
+				
+				// save options
+				$queries = array();
+				if ($change_memberonly==1) {
+					$queries[] = " members='".$wpdb->escape($members)."' ";
+				}				
+				if ($download_cat && $download_cat!=='no') {
+					$queries[] = " category_id='".$wpdb->escape($download_cat)."' ";
+				}
+				if (sizeof($queries)>0) {
+					$wpdb->query( "UPDATE $wp_dlm_db SET ".implode(', ', $queries)." WHERE id IN (".$wpdb->escape( implode(', ',$bulk_ids) ).");" );
+				}
+				if ($change_tags==1) {
+					$wpdb->query("DELETE FROM $wp_dlm_db_meta WHERE download_id IN (".$wpdb->escape( implode(', ',$bulk_ids) ).") AND meta_name IN ('tags')");
+					foreach($bulk_ids as $bid) {
+						if ($tags) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('tags', '".$tags."' , ".$bid.")");
+					}					
+				}
+				if ($change_thumbnail==1) {
+					$wpdb->query("DELETE FROM $wp_dlm_db_meta WHERE download_id IN (".$wpdb->escape( implode(', ',$bulk_ids) ).") AND meta_name IN ('thumbnail')");
+					foreach($bulk_ids as $bid) {
+						if ($thumbnail) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('thumbnail', '".$thumbnail."' , ".$bid.")");
+					}
+				}
+				// Process and save meta/custom fields
+				if ($change_customfields>0) {
+					if ($change_customfields==1) {
+						
+						$wpdb->query("DELETE FROM $wp_dlm_db_meta WHERE download_id IN (".$wpdb->escape( implode(', ',$bulk_ids) ).") AND meta_name NOT IN ('tags','thumbnail')");
+
+					} elseif ($change_customfields==2) {
+					
+						// Get posted meta names
+						$meta_names = array();
+						if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
+						{
+							if (trim($meta['key'])) {
+								$meta_names[] = "'".$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key'])))))."'";
+							}
+						}
+					
+						$wpdb->query("DELETE FROM $wp_dlm_db_meta WHERE download_id IN (".$wpdb->escape( implode(', ',$bulk_ids) ).") AND meta_name IN (".implode(',', $meta_names).")");
+					
+					}
+					$values = array();
+					if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
+					{
+						if (trim($meta['key'])) {
+							foreach($bulk_ids as $bid) {
+								$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$bid.')';
+							}
+						}
+					}
+					if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
+				}		
+											
+				echo '<div id="message" class="updated fade"><p><strong>'.__('Downloads edited successfully',"wp-download_monitor").'</strong></p></div>';
+								
+				// hide edit form - show downloads
+				$show_edit = false;
+				$show=true;
+			}
+			if ($show_edit==true) :
+			?>
+			<div class="wrap">
+			<div id="downloadadminicon" class="icon32"><br/></div>
+				<h2><?php _e('Bulk Edit Downloads',"wp-download_monitor"); ?></h2>
+				<p><?php _e('Editing downloads with id\'s:',"wp-download_monitor"); ?> <code><?php echo implode(', ',$bulk_ids); ?></code>. <?php _e('Adding options here will overwrite the options in ALL of the selected downloads.',"wp-download_monitor"); ?></p>
+				<form action="admin.php?page=download-monitor/wp-download_monitor.php" method="post" id="wp_dlm_add" name="edit_download" class="form-table" cellpadding="0" cellspacing="0"> 
+
+					<table class="optiontable niceblue">                     
+	                    <tr valign="top">												
+	                        <th scope="row"><strong><?php _e('Category',"wp-download_monitor"); ?></strong></th> 
+	                        <td>
+	                        <select name="download_cat">
+	                        	<option value="no"><?php _e('No Change',"wp-download_monitor"); ?></option>
+	                        	<option value="0"><?php _e('N/A',"wp-download_monitor"); ?></option>
+								<?php
+	                                $query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
+	                                    $wpdb->escape( $wp_dlm_db_cats ));	
+	                                $cats = $wpdb->get_results($query_select_cats);
+									
+	                                if (!empty($cats)) {
+	                                    foreach ( $cats as $c ) {
+	                                        echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+	                                        echo get_option_children_cats($c->id, "$c->name &mdash; ", $download_cat);
+	                                    }
+	                                } 
+	                            ?>
+	                        </select><br /><span class="setting-description"><?php _e('Categories are optional and allow you to group and organise similar downloads.',"wp-download_monitor"); ?></span></td>
+	                    </tr>  
+		                <tr valign="middle">
+		                    <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
+		                    <td>
+		                        <select name="change_tags" style="vertical-align:middle">
+                            		<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
+                            		<option value="1"><?php _e('Change to -->',"wp-download_monitor"); ?></option>
+                            	</select><input type="text" style="width:320px;" class="cleardefault" value="<?php echo $tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas. Tags can be displayed on the download page or with {tags} in a custom format.',"wp-download_monitor"); ?></span>
+		                    </td> 
+		                </tr>
+		                <tr valign="middle">
+		                    <th scope="row"><strong><?php _e('Thumbnail',"wp-download_monitor"); ?>: </strong></th> 
+		                    <td>
+		                        <select name="change_thumbnail" style="vertical-align:middle">
+                            		<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
+                            		<option value="1"><?php _e('Change to -->',"wp-download_monitor"); ?></option>
+                            	</select><input type="text" style="width:320px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="dlthumbnail" /><br /><span class="setting-description"><?php _e('Enter URL to thumbnail image. This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set).',"wp-download_monitor"); ?></span>
+		                    </td> 
+		                </tr>
+                        <tr valign="top">												
+                            <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
+                            <td><select name="change_memberonly" style="vertical-align:middle">
+                            	<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
+                            	<option value="1"><?php _e('Change to -->',"wp-download_monitor"); ?></option>
+                            </select><input type="checkbox" name="memberonly" style="vertical-align:middle" /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
+                        </tr>						
+					</table>
+					<hr/>
+		            <h3><?php _e('Custom fields',"wp-download_monitor"); ?></h3>
+		            <p><?php _e('Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>.',"wp-download_monitor"); ?></p>
+		            <p><select name="change_customfields" style="vertical-align:middle">
+                            	<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
+                            	<option value="1"><?php _e('Replace with:',"wp-download_monitor"); ?></option>
+                            	<option value="2"><?php _e('Add/Update only (keep existing fields):',"wp-download_monitor"); ?></option>
+                            </select></p>
+					<table style="width:80%">
+						<thead>
+							<tr>
+								<th class="left"><?php _e('Name',"wp-download_monitor"); ?></th>
+								<th><?php _e('Value',"wp-download_monitor"); ?></th>
+							</tr>			
+						</thead>
+						<tbody id="customfield_list">
+							<?php
+							$index = 1;
+							if ($custom_fields) foreach ($custom_fields as $meta) 
+							{
+								if (!$meta['remove']) {
+									if (trim($meta['key'])) {
+										echo '<tr class="alternate">
+											<td class="left" style="vertical-align:top;">
+												<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="'.strtolower((str_replace(' ','-',trim($meta['key'])))).'" type="text" style="width:95%">
+												<input type="submit" name="meta['.$index.'][remove]" class="button" value="'.__('remove',"wp-download_monitor").'" />
+											</td>
+											<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%">'.stripslashes($meta['value']).'</textarea></td>
+										</tr>';
+									}							
+								}		
+								$index ++;					
+							}
+							if ($_POST['addmeta']) {
+								echo '<tr class="alternate">
+										<td class="left" style="vertical-align:top;">
+											<label class="hidden" for="meta['.$index.'][key]">Key</label><input name="meta['.$index.'][key]" id="meta['.$index.'][key]" tabindex="6" size="20" value="" type="text" style="width:95%">
+											<input type="submit" name="meta['.$index.'][remove]" class="button" value="'.__('remove',"wp-download_monitor").'" />
+										</td>
+										<td style="vertical-align:top;"><label class="hidden" for="meta['.$index.'][value]">Value</label><textarea name="meta['.$index.'][value]" id="meta['.$index.'][value]" tabindex="6" rows="2" cols="30" style="width:95%"></textarea></td>
+								</tr>';
+							}											
+							?>
+							<tr id="addmetarow">
+								<td colspan="2" class="submit"><input id="addmetasub" name="addmeta" value="<?php _e('Add Custom Field',"wp-download_monitor"); ?>" type="submit"></td>
+							</tr>
+						</tbody>
+					</table>
+					<hr />									
+					<p class="submit"><input type="submit" class="btn button-primary" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" />
+					
+					<input type="hidden" name="dobulkaction" value="1" />
+					<input type="hidden" name="bulkactions" value="edit" />
+					<input type="hidden" name="check" value="<?php echo implode(',',$bulk_ids);  ?>" />
+					</p>
+				</form>
+			</div>													
+			<?php
+			endif;			
+		}		
+	}
+	/* End Bulk Editing */
+
 	//show downloads page
 	if ( ($show==true) || ( empty($action) ) )
 	{
@@ -1361,28 +1705,41 @@ function wp_dlm_admin()
 	<div class="wrap alternate">    
     	<div id="downloadadminicon" class="icon32"><br/></div>
         <h2><?php _e('Edit Downloads',"wp-download_monitor"); ?></h2>
-		<form id="downloads-filter" action="admin.php?page=download-monitor/wp-download_monitor.php" method="POST">
-			<p class="search-box">
+		<form id="downloads-form" action="admin.php?page=download-monitor/wp-download_monitor.php" method="POST">
+
+		<div class="tablenav">
+			<div class="alignleft actions">
+				<label class="hidden" for="bulkactions"><?php _e('Actions:',"wp-download_monitor"); ?></label>
+				<select name="bulkactions" id="bulkactions">
+					<option value="">Bulk Actions</option>
+					<option value="edit">Edit</option>
+					<option value="delete">Delete</option>
+					<option value="reset">Reset Stats</option>
+				</select>
+				<input value="<?php _e('Apply',"wp-download_monitor"); ?>" class="button dobulkaction" name="dobulkaction" type="submit" />
+			</div>
+			<div class="alignright">
 				<label class="hidden" for="post-search-input"><?php _e('Search Downloads:',"wp-download_monitor"); ?></label>
 				<input class="search-input" id="post-search-input" name="search_downloads" value="<?php echo $_REQUEST['search_downloads']; ?>" type="text" />
-				<input value="<?php _e('Search Downloads',"wp-download_monitor"); ?>" class="button" type="submit" />
-			</p>
-		</form>
-        <br class="" style="clear: both;"/>
+				<input value="<?php _e('Search Downloads',"wp-download_monitor"); ?>" class="button" name="search_downloads" type="submit" />
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
         <table class="widefat" style="margin-top:4px"> 
 			<thead>
 				<tr>
-				<th scope="col" style="text-align:center"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=id"><?php _e('ID',"wp-download_monitor"); ?></a></th>
-				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=title"><?php _e('Title',"wp-download_monitor"); ?></a></th>
+				<th scope="col"><input type="checkbox" name="check_all" id="check_all" class="checkbox" /></th>
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=id"><?php _e('ID',"wp-download_monitor"); ?></a></th>
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=title"><?php _e('Download',"wp-download_monitor"); ?></a></th>
 				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=filename"><?php _e('File',"wp-download_monitor"); ?></a></th>
-                <th scope="col" style="text-align:center"><?php _e('Category',"wp-download_monitor"); ?></th>
-				<th scope="col" style="text-align:center"><?php _e('Version',"wp-download_monitor"); ?></th>
-				<th scope="col" style="text-align:left;width:150px;"><?php _e('Description',"wp-download_monitor"); ?></th>
+                <th scope="col"><?php _e('Category',"wp-download_monitor"); ?></th>
+				<th scope="col" style="text-align:left;width:150px;"><?php _e('Tags',"wp-download_monitor"); ?></th>
                 <th scope="col" style="text-align:center"><?php _e('Member only',"wp-download_monitor"); ?></th>
-				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=postDate"><?php _e('Posted',"wp-download_monitor"); ?></a></th>
-				<th scope="col" style="text-align:center"><?php _e('Custom fields',"wp-download_monitor"); ?></th>
-				<th scope="col" style="text-align:center"><?php _e('Hits',"wp-download_monitor"); ?></th>
-				<th scope="col"><?php _e('Action',"wp-download_monitor"); ?></th>
+                <th scope="col" style="text-align:center"><?php _e('Custom fields',"wp-download_monitor"); ?></th>
+                <th scope="col" style="text-align:center"><img src="<?php echo WP_CONTENT_URL; ?>/plugins/download-monitor/img/grey_arrow.gif" style="vertical-align:middle" alt="<?php _e('Hits',"wp-download_monitor"); ?>" title="<?php _e('Hits',"wp-download_monitor"); ?>" /></th>
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=postDate"><?php _e('Posted',"wp-download_monitor"); ?></a></th>					
+				<?php /*<th scope="col"><?php _e('Action',"wp-download_monitor"); ?></th> */ ?>
 				</tr>
 			</thead>						
 		<?php	
@@ -1430,54 +1787,80 @@ function wp_dlm_admin()
 				if (!empty($download)) {
 					echo '<tbody id="the-list">';
 					foreach ( $download as $d ) {
-						$date = date_i18n(__("jS M Y","wp-download_monitor"), strtotime($d->postDate));
+						// Changed from jS M Y
+						$date = date_i18n(__("Y/m/d","wp-download_monitor"), strtotime($d->postDate));
 						
 						$path = WP_CONTENT_URL."/uploads/";
 						$file = str_replace($path, "", $d->filename);
 						$links = explode("/",$file);
 						$file = end($links);
-						echo ('<tr class="alternate">');
-						echo '<td style="text-align:center">'.$d->id.'</td>
-						<td>'.$d->title.'</td>
+						echo '<tr class="alternate">';
+						echo '<td><input type="checkbox" name="check[]['.$d->id.']" id="check_'.$d->id.'" class="checkbox check" /></td>';
+						
+						//$onclickcode = "if ( confirm('You are about to delete this download \'".$d->title."\'.\\n \'Cancel\' to stop, \'OK\' to delete.') ){return true;}return false;";
+						
+						echo '<td>'.$d->id.'</td>
+						<td class="column-title">';
+						
+						$thumb = $wpdb->get_var('SELECT meta_value FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name = "thumbnail" LIMIT 1');
+						if (!$thumb) $thumb = $wp_dlm_root.'/page-addon/thumbnail.gif';
+						
+						echo '<img src="'.$thumb.'" alt="Thumbnail" style="float: left; margin: 0 8px 0 0; padding: 3px; background: #fff; border: 1px solid #E0E0E0" width="32" height="32" />';
+						
+						echo '<strong>'.$d->title.'';
+						if ($d->dlversion) echo ' ('.__('Version',"wp-download_monitor").' '.$d->dlversion.')';
+						echo '</strong>
+						<div class="row-actions">
+							<span class="edit"><a title="Edit this Download" href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'">Edit</a> | </span><span class="delete"><a class="submitdelete" href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'" title="Delete this post">Delete</a></span>
+						</div>						
+						</td>
 						<td>'.$file.'</td>
-						<td style="text-align:center">';
+						<td>';
 						if ($d->category_id=="" || $d->category_id==0) _e('N/A',"wp-download_monitor"); else {
-							//$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
-							//$chain = $c->name;
-							$chain = $d->name;
-							$c = $d->parent;
-							while ($c>0) {
+							$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$d->category_id." LIMIT 1;");
+							$chain = $c->name;
+							while ($c->parent > 0 ) {
 								$c = $wpdb->get_row("SELECT * FROM $wp_dlm_db_cats where id=".$c->parent." LIMIT 1;");
-								$chain = $d->name.' &mdash; '.$chain;
+								$chain = $c->name.' &mdash; '.$chain;
 							}
 							echo $d->category_id." - ".$chain;
 						}						
-						echo '</td>
-						<td style="text-align:center">'.$d->dlversion.'</td>';
+						echo '</td>';
 						
-						if (strlen($d->file_description) > 50)
+						/*if (strlen($d->file_description) > 50)
       						$file_description = substr(htmlspecialchars($d->file_description), 0, strrpos(substr(htmlspecialchars($d->file_description), 0, 50), ' ')) . ' [...]';
-      					else $file_description = htmlspecialchars($d->file_description);
+      					else $file_description = htmlspecialchars($d->file_description);*/
       
-						echo '<td style="text-align:left">'.nl2br($file_description).'</td>
+						echo '<td style="text-align:left">';
+						echo $wpdb->get_var('SELECT meta_value FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name = "tags" LIMIT 1');
+						echo '</td>
 						<td style="text-align:center">';
 						if ($d->members) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
 						echo '</td>
-						<td>'.$date.' '.__('by',"wp-download_monitor").' '.$d->user.'</td>
 						<td style="text-align:center">';
-						echo $wpdb->get_var('SELECT COUNT(id) FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.'');
+						echo $wpdb->get_var('SELECT COUNT(id) FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name NOT IN ("tags","thumbnail")');
 						echo '</td>
-						<td style="text-align:center">'.$d->hits.'</td>
-						<td><a href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';
+						<td style="text-align:center">'.$d->hits.'</td><td>'.$date.'<br/>'.__('by',"wp-download_monitor").' '.$d->user.'</td>';
+						
+						/*<td><a href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/edit.png" alt="Edit" title="Edit" /></a> <a href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td>';*/
 						
 					}
 					echo '</tbody>';
 				} else echo '<tr><th colspan="11">'.__('No downloads found.',"wp-download_monitor").'</th></tr>'; // FIXED: 1.6 - Colspan changed
 		?>			
 		</table>
-
-        <div class="tablenav">
-        	<div style="float:left" class="tablenav-pages">
+		<div class="tablenav">
+			<div class="alignleft actions">
+				<label class="hidden" for="bulkactions2"><?php _e('Actions:',"wp-download_monitor"); ?></label>
+				<select name="bulkactions2" id="bulkactions2">
+					<option value="">Bulk Actions</option>
+					<option value="edit">Edit</option>
+					<option value="delete">Delete</option>
+					<option value="reset">Reset Stats</option>
+				</select>
+				<input value="<?php _e('Apply',"wp-download_monitor"); ?>" class="button dobulkaction" name="dobulkaction2" type="submit" />
+			</div>
+        	<div class="tablenav-pages alignright">
 				<?php
 					if ($total_pages>1) {
 					
@@ -1487,9 +1870,16 @@ function wp_dlm_admin()
 							'search_downloads' => $_REQUEST['search_downloads'],
 							'p' => "%#%"
 						);
+						
+						$arr_params2 = array (
+							'action', 'id'
+						);
+						
+						$query_page = remove_query_arg($arr_params2);
+						$query_page = add_query_arg( $arr_params , $query_page );
 					
 						echo paginate_links( array(
-							'base' => add_query_arg( $arr_params ),
+							'base' => $query_page,
 							'prev_text' => __('&laquo; Previous'),
 							'next_text' => __('Next &raquo;'),
 							'total' => $total_pages,
@@ -1499,10 +1889,33 @@ function wp_dlm_admin()
 						));
 					}
 				?>	
-            </div>        	
-        </div>
+            </div> 
+			<div class="clear"></div>
+		</div>
         <br style="clear: both; margin-bottom:1px; height:2px; line-height:2px;" />
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			jQuery('#check_all').click(function(){
+				jQuery('.check').attr('checked', jQuery(this).is(':checked'));
+			});
+			jQuery('#check_all, .check').attr('checked',false);
+			
+			// Confirm
+			jQuery('.dobulkaction').click(function(){
+			
+				if ( jQuery('select[name=bulkactions], select[name=bulkactions2]', jQuery(this).parent() ).val() == 'delete' ) {
+					if ( confirm('<?php echo js_escape(__("You are about to delete the selected items.\n  'Cancel' to stop, 'OK' to delete.")); ?>') ) 
+					{
+						return true;
+					}
+					return false;
+				}				
+			});
+		/* ]]> */
+		</script>
+    </form>
     </div>
+    
     <hr />
     <div class="about">	    
 	    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:right">
@@ -1586,6 +1999,9 @@ function wp_dlm_config() {
 					update_option('wp_dlm_default_format', $_POST['wp_dlm_default_format']);
 					update_option('wp_dlm_does_not_exist', $_POST['wp_dlm_does_not_exist']);
 					update_option('wp_dlm_member_only', $_POST['wp_dlm_member_only']);
+					update_option('wp_dlm_log_downloads', $_POST['wp_dlm_log_downloads']);
+					update_option('wp_dlm_file_browser_root', $_POST['wp_dlm_file_browser_root']);			   
+					
 					$save_opt=true;
 					echo '<div id="message"class="updated fade">';	
 						_e('<p>Options updated</p>',"wp-download_monitor");			
@@ -1593,20 +2009,39 @@ function wp_dlm_config() {
 					$show=true;
 				break;				
 				case "categories" :
-					$name = $_POST['cat_name'];
-					if (!empty($name)) {
-						$parent = $_POST['cat_parent'];
-						if (!$parent) $parent=0;
-						$query_ins = sprintf("INSERT INTO %s (name, parent) VALUES ('%s','%s')",
-							$wpdb->escape( $wp_dlm_db_cats ),
-							$wpdb->escape( $name ),
-							$wpdb->escape( $parent ));
-						$wpdb->query($query_ins);
-						if ($wpdb->insert_id>0)	echo '<div id="message" class="updated fade"><p><strong>'.__('Category added',"wp-download_monitor").'</strong></p></div>';
-						else echo '<div id="message" class="updated fade"><p><strong>'.__('Category was not added. Try Recreating the download database from the configuration page.',"wp-download_monitor").'</strong></p></div>';
-						$ins_cat=true;
+					if ($_POST['rename_cat']) {						
+						$name = $_POST['cat_rename'];
+						if (!empty($name)) {
+							$category = $_POST['cat_to_rename'];
+							$parent = $_POST['cat_parent_edit'];
+							$parent_q = '';
+							if (($parent=='0' || $parent>0) AND $parent!==$category) $parent_q = ", parent='$parent'";
+							if ($category && is_numeric($category) && $category>0) {
+								$query = sprintf("UPDATE %s SET name='%s' $parent_q WHERE id='%s'",
+									$wpdb->escape( $wp_dlm_db_cats ),
+									$wpdb->escape( $name ),
+									$wpdb->escape( $category ));
+								$wpdb->query($query);
+								//echo $query;
+								echo '<div id="message" class="updated fade"><p><strong>'.__('Category updated',"wp-download_monitor").'</strong></p></div>';
+							}							
+						}
+					} elseif ($_POST['add_cat']) {
+						$name = $_POST['cat_name'];
+						if (!empty($name)) {
+							$parent = $_POST['cat_parent'];
+							if (!$parent) $parent=0;
+							$query_ins = sprintf("INSERT INTO %s (name, parent) VALUES ('%s','%s')",
+								$wpdb->escape( $wp_dlm_db_cats ),
+								$wpdb->escape( $name ),
+								$wpdb->escape( $parent ));
+							$wpdb->query($query_ins);
+							if ($wpdb->insert_id>0)	echo '<div id="message" class="updated fade"><p><strong>'.__('Category added',"wp-download_monitor").'</strong></p></div>';
+							else echo '<div id="message" class="updated fade"><p><strong>'.__('Category was not added. Try Recreating the download database from the configuration page.',"wp-download_monitor").'</strong></p></div>';							
+						}	
 					}
 					$show=true;
+					$ins_cat=true;
 				break;
 				case "deletecat" :
 					$id = $_GET['id'];
@@ -1763,28 +2198,70 @@ function wp_dlm_config() {
 							?>
                         </tbody>
                     </table>
-                	<h4><?php _e('Add category',"wp-download_monitor"); ?></h4>
-                    <table class="niceblue small-table" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <th scope="col"><?php _e('Name',"wp-download_monitor"); ?>:</th>
-                            <td><input type="text" name="cat_name" /></td>
-                        </tr>
-                        <tr>
-                            <th scope="col"><?php _e('Parent',"wp-download_monitor"); ?>:</th>
-                            <td><select name="cat_parent">
-                            	<option value=""><?php _e('None',"wp-download_monitor"); ?></option>
-                                <?php
-									if (!empty($cats)) {
-										foreach ( $cats as $c ) {
-											echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
-											echo get_option_children_cats($c->id, "$c->name &mdash; ", 0);
-										}
-									} 
-								?>
-                            </select></td>
-                        </tr>
-                    </table>
-                    <p class="submit"><input type="submit" value="<?php _e('Add',"wp-download_monitor"); ?>" /></p>
+                    <div style="float:left; margin-right: 20px;">
+	                	<h4><?php _e('Add category',"wp-download_monitor"); ?></h4>
+	                    <table class="niceblue small-table" cellpadding="0" cellspacing="0">
+	                        <tr>
+	                            <th scope="col"><?php _e('Name',"wp-download_monitor"); ?>:</th>
+	                            <td><input type="text" name="cat_name" /></td>
+	                        </tr>
+	                        <tr>
+	                            <th scope="col"><?php _e('Parent',"wp-download_monitor"); ?>:</th>
+	                            <td><select name="cat_parent">
+	                            	<option value=""><?php _e('None',"wp-download_monitor"); ?></option>
+	                                <?php
+										if (!empty($cats)) {
+											foreach ( $cats as $c ) {
+												echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+												echo get_option_children_cats($c->id, "$c->name &mdash; ", 0);
+											}
+										} 
+									?>
+	                            </select></td>
+	                        </tr>
+	                    </table>
+	                    <p class="submit"><input type="submit" value="<?php _e('Add',"wp-download_monitor"); ?>" name="add_cat" /></p>
+                    </div>
+                    <div style="float:left">
+	                	<h4><?php _e('Edit category',"wp-download_monitor"); ?></h4>
+	                    <table class="niceblue small-table" cellpadding="0" cellspacing="0">	                        
+	                        <tr>
+	                            <th scope="col"><?php _e('Category',"wp-download_monitor"); ?>:</th>
+	                            <td><select name="cat_to_rename">
+	                            	<option value=""><?php _e('Select a category',"wp-download_monitor"); ?></option>
+	                                <?php
+										if (!empty($cats)) {
+											foreach ( $cats as $c ) {
+												echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+												echo get_option_children_cats($c->id, "$c->name &mdash; ", 0);
+											}
+										} 
+									?>
+	                            </select></td>
+	                        </tr>
+	                        <tr>
+	                            <th scope="col"><?php _e('Parent',"wp-download_monitor"); ?>:</th>
+	                            <td><select name="cat_parent_edit">
+	                            	<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
+	                            	<option value="0"><?php _e('None',"wp-download_monitor"); ?></option>
+	                                <?php
+										if (!empty($cats)) {
+											foreach ( $cats as $c ) {
+												echo '<option value="'.$c->id.'">'.$c->id.' - '.$c->name.'</option>';
+												echo get_option_children_cats($c->id, "$c->name &mdash; ", 0);
+											}
+										} 
+									?>
+	                            </select></td>
+	                        </tr>
+	                        <tr>
+	                            <th scope="col"><?php _e('Name',"wp-download_monitor"); ?>:</th>
+	                            <td><input type="text" name="cat_rename" /></td>
+	                        </tr>
+	                    </table>
+	                    <p class="submit"><input type="submit" value="<?php _e('Edit',"wp-download_monitor"); ?>" name="rename_cat" /></p>
+                    </div>
+                    <div class="clear"></div>
                 </form>
             </div>
         </div>
@@ -1824,6 +2301,8 @@ function wp_dlm_config() {
                 	<h4><?php _e('Add format',"wp-download_monitor"); ?></h4>
                 	<?php _e('<p>Use the following tags in your custom formats: <em>note</em> if you use <code>"</code> (quote) characters within the special attributes e.g. <code>"before"</code> you should either escape them or use html entities.</p><ul style="margin-left:16px;margin-bottom:12px;">
 	                	<li><code>{url}</code> - Url of download (does not include hyperlink)</li>
+	                	<li><code>{id}</code> - ID of download</li>
+	                	<li><code>{user}</code> - Username of whoever posted download</li>
 	                	<li><code>{version}</code> - Version of download</li>
 	                	<li><code>{version,"before","after"}</code> - Version of download. Not outputted if none set. Replace "before" with preceding text/html and "after" with succeeding text/html.</li>
 	                	<li><code>{title}</code> - Title of download</li>
@@ -1835,6 +2314,8 @@ function wp_dlm_config() {
 	                	<li><code>{description,"before","after"}</code> or <code>{description}</code> - Description you gave download. Not outputted if none set. Replace "before" with preceding text/html and "after" with succeeding text/html.</li>
 	                	<li><code>{description-autop,"before","after"}</code> or <code>{description-autop}</code> - Description formatted with autop (converts double line breaks to paragraphs)</li>
 	                	<li><code>{date,"Y-m-d"}</code> - Date posted. Second argument is for date format.</li>
+	                	<li><code>{tags}</code> - Output tags</li>
+	                	<li><code>{thumbnail}</code> - Output thumbnail URL (or placeholder)</li>
 	                	<li><code>{meta-<em>key</em>}</code> - Custom field value</li>
 	                	<li><code>{meta-autop-<em>key</em>}</code> - Custom field value formatted with autop</li>
 	                </ul>
@@ -1923,7 +2404,39 @@ function wp_dlm_config() {
 								}
 							?>                            	
                             </select></td>
-                        </tr>                        
+                        </tr>
+                        <tr>
+                            <th scope="col"><?php _e('Log Downloads',"wp-download_monitor"); ?>:</th>
+                            <td>
+	                            <select name="wp_dlm_log_downloads" id="wp_dlm_log_downloads">
+	                            	<option value="yes" <?php
+	                            		if (get_option('wp_dlm_log_downloads')=='yes') echo 'selected="selected" ';
+	                            	?>><?php _e('Yes',"wp-download_monitor"); ?></option>
+	                        		<option value="no" <?php
+	                            		if (get_option('wp_dlm_log_downloads')=='no') echo 'selected="selected" ';
+	                            	?>><?php _e('No',"wp-download_monitor"); ?></option>                           	
+	                            </select>                            
+                            </td>
+                        </tr> 
+                        <tr>
+                            <th scope="col"><?php _e('File Browser Root',"wp-download_monitor"); ?>:</th>
+                            <td><input type="text" value="<?php echo get_option('wp_dlm_file_browser_root'); ?>" name="wp_dlm_file_browser_root" /> <span class="setting-description"><?php _e('The root directory the file browser can display.',"wp-download_monitor"); ?></span></td>
+                        </tr>    
+                        
+                       <?php /* Playing <tr>
+                            <th scope="col"><?php _e('&ldquo;Edit&rdquo; page role requirement',"wp-download_monitor"); ?>:</th>
+                            <td><select name="edit_role">
+                            	<?php
+                            		$rolenames = $wp_roles->get_names();
+                            		foreach ($rolenames as $key=>$role) {
+                            			echo '<option ';
+                            			
+                            			echo ' value="'.$key.'">'.$role.'</option>';
+                            		}
+                            	?>
+                            </select> and above.</td>
+                        </tr> */ ?>
+                         
                     </table>
                     <p class="submit"><input type="submit" value="<?php _e('Save Changes',"wp-download_monitor"); ?>" /></p>
                 </form>
@@ -2031,7 +2544,10 @@ function dlm_addnew() {
 		if (empty( $_POST['title'] )) $errors.=__('<div class="error">Required field: <strong>Title</strong> omitted</div>',"wp-download_monitor");
 		if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;						
 		if (!is_numeric($_POST['dlhits'] )) $errors.=__('<div class="error">Invalid <strong>hits</strong> entered</div>',"wp-download_monitor");
-									
+		
+		$tags = $_POST['tags'];
+		$thumbnail = $_POST['thumbnail'];
+							
 		//attempt to upload file
 		if ( empty($errors ) ) {
 															
@@ -2064,10 +2580,21 @@ function dlm_addnew() {
 			$wpdb->escape($download_cat),
 			$wpdb->escape($mirrors),
 			$wpdb->escape($file_description)
-			);										
-											
+			);
+							
 			$result = $wpdb->query($query_add);
 			if ($result) {
+				
+				$download_insert_id = $wpdb->insert_id;
+				
+				// Tags
+				if ($tags = $_POST['tags']) {
+					$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('tags', '".$wpdb->escape( $tags )."', '".$download_insert_id."')");
+				}
+				// Thumbnail
+				if ($thumbnail = $_POST['thumbnail']) {
+					$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('thumbnail', '".$wpdb->escape( $thumbnail )."', '".$download_insert_id."')");
+				}
 			
 				// Process and save meta/custom fields
 				$index = 1;
@@ -2075,7 +2602,7 @@ function dlm_addnew() {
 				if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
 				{
 					if (trim($meta['key'])) {
-						$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$wpdb->insert_id.')';
+						$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$download_insert_id.')';
 						$index ++;
 					}
 				}
@@ -2084,7 +2611,7 @@ function dlm_addnew() {
 				if (empty($info)) echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").'</strong></p></div>';
 				else echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").' - '.$info.'</strong></p></div>';											
 				// Redirect
-				echo '<meta http-equiv="refresh" content="1;url=admin.php?page=download-monitor/wp-download_monitor.php"/>';
+				echo '<meta http-equiv="refresh" content="1;url=admin.php?page=dlm_addnew"/>';
 				exit;
 			}
 			else _e('<div class="error">Error saving to database</div>',"wp-download_monitor");										
@@ -2154,7 +2681,19 @@ function dlm_addnew() {
                             } 
                         ?>
                     </select><br /><span class="setting-description"><?php _e('Categories are optional and allow you to group and organise simular downloads.',"wp-download_monitor"); ?></span></td>
-                </tr>  
+                </tr> 
+                <tr valign="middle">
+                    <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
+                    <td>
+                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas. Tags can be displayed on the download page or with {tags} in a custom format.',"wp-download_monitor"); ?></span>
+                    </td> 
+                </tr>
+                <tr valign="middle">
+                    <th scope="row"><strong><?php _e('Thumbnail',"wp-download_monitor"); ?>: </strong></th> 
+                    <td>
+                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="dlthumbnail" /><br /><span class="setting-description"><?php _e('Enter URL to thumbnail image. This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set).',"wp-download_monitor"); ?></span>
+                    </td> 
+                </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
                     <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
@@ -2274,7 +2813,10 @@ function dlm_addexisting() {
 		if (empty( $_POST['dlhits'] )) $_POST['dlhits'] = 0;						
 		if (!is_numeric($_POST['dlhits'] )) $errors.=__('<div class="error">Invalid <strong>hits</strong> entered</div>',"wp-download_monitor");
 		if ( empty( $_POST['filename']) ) $errors.=__('<div class="error">No file selected</div>',"wp-download_monitor");
-												
+		
+		$tags = $_POST['tags'];
+		$thumbnail = $_POST['thumbnail'];
+							
 		//save to db
 		if ( empty($errors ) ) {	
 										
@@ -2295,13 +2837,24 @@ function dlm_addexisting() {
 			$result = $wpdb->query($query_add);
 			if ($result) {
 			
+				$download_insert_id = $wpdb->insert_id;
+				
+				// Tags
+				if ($tags = $_POST['tags']) {
+					$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('tags', '".$wpdb->escape( $tags )."', '".$download_insert_id."')");
+				}
+				// Thumbnail
+				if ($thumbnail = $_POST['thumbnail']) {
+					$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('thumbnail', '".$wpdb->escape( $thumbnail )."', '".$download_insert_id."')");
+				}
+			
 				// Process and save meta/custom fields
 				$index = 1;
 				$values = array();
 				if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
 				{
 					if (trim($meta['key'])) {
-						$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$wpdb->insert_id.')';
+						$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim($meta['key']))))).'", "'.$wpdb->escape($meta['value']).'", '.$download_insert_id.')';
 						$index ++;
 					}
 				}
@@ -2311,7 +2864,7 @@ function dlm_addexisting() {
 				else echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").' - '.$info.'</strong></p></div>';											
 
 				// Redirect
-				echo '<meta http-equiv="refresh" content="1;url=admin.php?page=download-monitor/wp-download_monitor.php"/>';
+				echo '<meta http-equiv="refresh" content="1;url=admin.php?page=dlm_addexisting"/>';
 				exit;
 			}
 			else _e('<div class="error">Error saving to database</div>',"wp-download_monitor");										
@@ -2371,7 +2924,19 @@ function dlm_addexisting() {
                             } 
                         ?>
                     </select><br /><span class="setting-description"><?php _e('Categories are optional and allow you to group and organise simular downloads.',"wp-download_monitor"); ?></span></td>
-                </tr>  
+                </tr> 
+                <tr valign="middle">
+                    <th scope="row"><strong><?php _e('Tags',"wp-download_monitor"); ?>: </strong></th> 
+                    <td>
+                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $tags; ?>" name="tags" id="dltags" /><br /><span class="setting-description"><?php _e('Separate tags with commas. Tags can be displayed on the download page or with {tags} in a custom format.',"wp-download_monitor"); ?></span>
+                    </td> 
+                </tr>
+                <tr valign="middle">
+                    <th scope="row"><strong><?php _e('Thumbnail',"wp-download_monitor"); ?>: </strong></th> 
+                    <td>
+                        <input type="text" style="width:320px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="dlthumbnail" /><br /><span class="setting-description"><?php _e('Enter URL to thumbnail image. This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set).',"wp-download_monitor"); ?></span>
+                    </td> 
+                </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
                     <td><input type="checkbox" style="vertical-align:top" name="memberonly" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
@@ -2429,6 +2994,7 @@ function dlm_addexisting() {
             
 			<p class="submit"><input type="submit" class="btn button-primary" name="save" style="padding:5px 30px 5px 30px;" value="<?php _e('Save',"wp-download_monitor"); ?>" /></p>
 			<input type="hidden" name="postDate" value="<?php echo date_i18n(__('Y-m-d H:i:s',"wp-download_monitor")) ;?>" />
+			
 			<?php 
 				global $userdata;
 				get_currentuserinfo();										
@@ -2851,8 +3417,8 @@ function wp_dlm_shortcode_downloads( $atts ) {
 				
 		foreach ($dl as $d) {
 					
-			$fpatts = array('{url}', '{id}', '{version}', '{title}', '{size}', '{hits}', '{image_url}', '{description}', '{description-autop}', '{category}', );
-			$fsubs = array( $d->url , $d->id, $d->version , $d->title , $d->size , $d->hits , get_option('wp_dlm_image_url') , $d->desc , wpautop($d->desc) );
+			$fpatts = array('{url}', '{id}', '{user}', '{version}', '{title}', '{size}', '{hits}', '{image_url}', '{description}', '{description-autop}', '{category}', );
+			$fsubs = array( $d->url , $d->id, $d->user, $d->version , $d->title , $d->size , $d->hits , get_option('wp_dlm_image_url') , $d->desc , wpautop($d->desc) );
 											
 			// Category
 			if ($d->category_id>0) {
@@ -2866,7 +3432,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 				$fpatts[] = $match[0];
 				$fsubs[]  = "";
 			}
-			
+						
 			// Hits (special) {hits, none, one, many)
 			preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
@@ -2904,6 +3470,18 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			$fpatts[] = $match[0];
 			if ($d->desc) $fsubs[]  = $match[1].wpautop($d->desc).$match[2]; else $fsubs[]  = "";
+			
+			// tags
+			$tags = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'tags'" , $d->id ) );
+			if (!$tags) $tags = 'Untagged';
+			$fpatts[] = "{tags}";
+			$fsubs[] = $tags;
+			
+			// Thumbnail
+			$thumbnail = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'thumbnail'" , $d->id ) );
+			if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
+			$fpatts[] = "{thumbnail}";
+			$fsubs[] = $thumbnail;
 			
 			// meta
 			if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
@@ -3363,6 +3941,10 @@ if ($wp_db_version > 6124) {
 function wp_dlm_init_hooks() {
 	global $wpdb,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_cats;
 			
+	if (isset($_GET['activate']) && $_GET['activate']==true) {
+		wp_dlm_init();
+	}
+	
 	$wp_dlm_db_exists = false;
 	
 	// Check tables exist

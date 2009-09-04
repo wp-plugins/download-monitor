@@ -38,14 +38,17 @@ if(file_exists('../../../wp-load.php')) {
 
 }
 
-// Pre 2.6 compatibility (BY Stephen Rider)
-if ( ! defined( 'WP_CONTENT_URL' ) ) {
-	if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
-	else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+global $wp_db_version;
+if ($wp_db_version < 8201) {
+	// Pre 2.6 compatibility (BY Stephen Rider)
+	if ( ! defined( 'WP_CONTENT_URL' ) ) {
+		if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
+		else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
+	}
+	if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
+	if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 }
-if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 
 require_once(ABSPATH.'wp-admin/admin.php');
 
@@ -65,8 +68,8 @@ wp_enqueue_script( 'jquery-color' );
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if (!current_user_can('upload_files'))
-	wp_die(__('You do not have permission to upload files.'));
+if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_downloads') || !current_user_can('user_can_add_existing_downloads'))
+	wp_die(__('You do not have permission to upload files/downloads.'));
 	
 load_plugin_textdomain('wp-download_monitor', '/');
 ?>
@@ -104,7 +107,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 		  			
 		  			
 		    $('#file_browser').hide().fileTree({
-		      root: '<?php echo ABSPATH; ?>',
+		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
 		    }, function(file) {
 		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
@@ -183,6 +186,9 @@ load_plugin_textdomain('wp-download_monitor', '/');
 				$mirrors = htmlspecialchars(trim($_POST['mirrors']));
 				$file_description = trim(stripslashes($_POST['file_description']));
 				
+				$tags = htmlspecialchars(trim(stripslashes($_POST['tags'])));
+				$thumbnail = htmlspecialchars(trim(stripslashes($_POST['thumbnail'])));
+				
 				if ($_POST['insertonlybutton']) {
 											
 					//validate fields
@@ -235,6 +241,15 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						$result = $wpdb->query($query_add);
 						if ($result) {								
 							$newdownloadID = $wpdb->insert_id;
+							
+							// Tags
+							if ($tags) {
+								$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('tags', '".$wpdb->escape( $tags )."', '".$newdownloadID."')");
+							}
+							// Thumbnail
+							if ($thumbnail) {
+								$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('thumbnail', '".$wpdb->escape( $thumbnail )."', '".$newdownloadID."')");
+							}
 							
 							// Process and save meta/custom fields
 							$index = 1;
@@ -309,6 +324,20 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						</select></td>
 					</tr>
 					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Categories are optional and allow you to group and organise simular downloads.',"wp-download_monitor"); ?></td></tr>
+	                <tr>
+	                    <th valign="top" scope="row" class="label">
+	                    	<span class="alignleft"><label for="dltags"><?php _e('Tags',"wp-download_monitor"); ?></label></span>
+						</th> 
+	                    <td class="field"><input type="text" style="width:320px;" class="cleardefault" value="<?php echo $tags; ?>" name="tags" id="dltags" /></td> 
+	                </tr>
+	                <tr><td></td><td class="help" style="font-size:11px;"><?php _e('Separate tags with commas. Tags can be displayed on the download page or with {tags} in a custom format.',"wp-download_monitor"); ?></td></tr>
+	                <tr>
+	                    <th valign="top" scope="row" class="label">
+	                    	<span class="alignleft"><label for="dlthumbnail"><?php _e('Thumbnail',"wp-download_monitor"); ?></label></span>
+						</th>
+	                    <td class="field"><input type="text" style="width:320px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="dlthumbnail" /></td> 
+	                </tr>
+					<tr><td></td><td class="help" style="font-size:11px;"><?php _e('Enter URL to thumbnail image. This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set).',"wp-download_monitor"); ?></td></tr>
 					<tr>												
 						<th valign="top" scope="row" class="label">
 							<span class="alignleft"><label for="memberonly"><?php _e('Member only file?',"wp-download_monitor"); ?></label></span>
@@ -517,7 +546,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						<th scope="col" style="vertical-align:middle"><a href="?tab=downloads&amp;sort=title"><?php _e('Title',"wp-download_monitor"); ?></a></th>
 						<th scope="col" style="vertical-align:middle"><a href="?tab=downloads&amp;sort=filename"><?php _e('File',"wp-download_monitor"); ?></a></th>
 		                <th scope="col" style="text-align:center;vertical-align:middle;"><?php _e('Category',"wp-download_monitor"); ?></th>
-						<th scope="col" style="text-align:left;width:100px;vertical-align:middle;"><?php _e('Description',"wp-download_monitor"); ?></th>
+						<?php /*<th scope="col" style="text-align:left;width:100px;vertical-align:middle;"><?php _e('Description',"wp-download_monitor"); ?></th>*/ ?>
 		                <th scope="col" style="text-align:center;text-align:center"><?php _e('Member only',"wp-download_monitor"); ?></th>
 						<th scope="col" style="text-align:center;vertical-align:middle"><?php _e('Action',"wp-download_monitor"); ?></th>
 					</tr>
@@ -579,12 +608,13 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							}						
 							echo '</td>';
 							
-							if (strlen($d->file_description) > 25)
+							/*if (strlen($d->file_description) > 25)
 	      						$file_description = substr(htmlspecialchars($d->file_description), 0, strrpos(substr(htmlspecialchars($d->file_description), 0, 25), ' ')) . ' [...]';
 	      					else $file_description = htmlspecialchars($d->file_description);
 	      
-							echo '<td style="text-align:left;vertical-align:middle">'.nl2br($file_description).'</td>
-							<td style="text-align:center;vertical-align:middle">';
+							echo '<td style="text-align:left;vertical-align:middle">'.nl2br($file_description).'</td>*/
+							
+							echo '<td style="text-align:center;vertical-align:middle">';
 							if ($d->members) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
 							echo '</td>
 							<td style="text-align:center;vertical-align:middle"><a href="#" style="display:block" class="button insertdownload" id="download-'.$d->id.'">'.__('Insert',"wp-download_monitor").'</a></td>';

@@ -2,6 +2,10 @@
 	color: #333 !important;
 	text-decoration: underline;
 	}
+.download_monitor .checkbox {
+	margin: 0 !important;
+	padding: 0 !important;
+}
 .download_monitor .error {
 	padding: 12px;
 	}
@@ -44,7 +48,9 @@
 .download_monitor .about {
 	color: #999;
 	}
-
+.clear {
+	clear: both;
+}
 .download_chart td.value {
 	background-image: url(../img/gridline58.gif);
 	background-repeat: repeat-x;
