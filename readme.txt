@@ -4,7 +4,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.8.4
-Stable tag: 3.2
+Stable tag: 3.2.1
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -86,6 +86,11 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 5. Download page single listing
 
 == Changelog ==
+
+= 3.2.1 =
+*	Made meta query more efficient
+*	Updated main localisation file
+*	Added activation hook so admin should work now
 
 = 3.2 =
 *	{user} tag added for custom formats

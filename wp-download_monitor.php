@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.2
+Version: 3.2.1
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -97,6 +97,13 @@ function wp_dlm_update() {
 	}
 	
 }
+
+function wp_dlm_activate() {
+	wp_dlm_init();
+}
+
+register_activation_hook( __FILE__, 'wp_dlm_activate' );
+
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
@@ -121,6 +128,11 @@ add_action('admin_menu', 'wp_dlm_menu');
 ################################################################################
 function wp_dlm_head() {
 	global $wp_db_version, $wp_dlm_root;
+	
+	if ((isset($_GET['activate']) && $_GET['activate']==true) || ($_GET['activate-plugin']) ) {
+		wp_dlm_init();
+	}	
+	
 	// Provide css based on wordpress version.
 	if ($wp_db_version < 9872) {
 		// 2.5 + 2.6 with new interface
@@ -585,22 +597,32 @@ function wp_dlm_shortcode_download( $atts ) {
 				preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				$fpatts[] = $match[0];
 				if ($d->file_description) $fsubs[]  = $match[1].wpautop($d->file_description).$match[2]; else $fsubs[]  = "";
-
-				// tags
-				$tags = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'tags'" , $id ) );
+				
+				// meta
+				
+				$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $id ) );
+				$tags = '';
+				$thumbnail = '';
+				foreach($meta_data as $meta) {
+					if ($meta->meta_name == 'tags') {
+						$tags = $meta->meta_value;
+					}
+					if ($meta->meta_name == 'thumbnail') {
+						$thumbnail = $meta->meta_value;
+					}
+				}
 				if (!$tags) $tags = 'Untagged';
+				if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
+				
+				// tags
 				$fpatts[] = "{tags}";
 				$fsubs[] = $tags;
 				
 				// Thumbnail
-				$thumbnail = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name = 'thumbnail'" , $id ) );
-				if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
 				$fpatts[] = "{thumbnail}";
 				$fsubs[] = $thumbnail;
 				
-				// meta
-				if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
-					$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $id ) );
+				if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {					
 					$meta_names = array();
 					foreach($meta_data as $meta) {
 						$fpatts[] = "{meta-".$meta->meta_name."}";
@@ -748,6 +770,8 @@ function wp_dlm_parse_downloads($data) {
 				$links = '<ul>';	
 				
 				if (!empty($downloads)) {
+				
+					$meta_data = $wpdb->get_results( "SELECT * FROM $wp_dlm_db_meta" );
 					
 					foreach($downloads as $d) {
 						
@@ -833,15 +857,38 @@ function wp_dlm_parse_downloads($data) {
 						$fsubs[] = $thumbnail;
 						
 						// meta
-						if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
-							$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $d->id ) );
+			
+						$tags = '';
+						$thumbnail = '';
+						foreach($meta_data as $meta) {
+							if ($meta->download_id==$d->id && $meta->meta_name == 'tags') {
+								$tags = $meta->meta_value;
+							}
+							if ($meta->download_id==$d->id && $meta->meta_name == 'thumbnail') {
+								$thumbnail = $meta->meta_value;
+							}
+						}
+						if (!$tags) $tags = 'Untagged';
+						if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
+						
+						// tags
+						$fpatts[] = "{tags}";
+						$fsubs[] = $tags;
+						
+						// Thumbnail
+						$fpatts[] = "{thumbnail}";
+						$fsubs[] = $thumbnail;
+						
+						if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {					
 							$meta_names = array();
 							foreach($meta_data as $meta) {
-								$fpatts[] = "{meta-".$meta->meta_name."}";
-								$fsubs[] = $meta->meta_value;
-								$fpatts[] = "{meta-autop-".$meta->meta_name."}";
-								$fsubs[] = wpautop($meta->meta_value);
-								$meta_names[] = $meta->meta_name;
+								if ($meta->download_id==$d->id) {
+									$fpatts[] = "{meta-".$meta->meta_name."}";
+									$fsubs[] = $meta->meta_value;
+									$fpatts[] = "{meta-autop-".$meta->meta_name."}";
+									$fsubs[] = wpautop($meta->meta_value);
+									$meta_names[] = $meta->meta_name;
+								}
 							}
 							// Blank Meta
 							$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( %s )" , implode(',', $meta_names) ) );
@@ -2421,7 +2468,7 @@ function wp_dlm_config() {
                         <tr>
                             <th scope="col"><?php _e('File Browser Root',"wp-download_monitor"); ?>:</th>
                             <td><input type="text" value="<?php echo get_option('wp_dlm_file_browser_root'); ?>" name="wp_dlm_file_browser_root" /> <span class="setting-description"><?php _e('The root directory the file browser can display.',"wp-download_monitor"); ?></span></td>
-                        </tr>    
+                        </tr> 
                         
                        <?php /* Playing <tr>
                             <th scope="col"><?php _e('&ldquo;Edit&rdquo; page role requirement',"wp-download_monitor"); ?>:</th>
@@ -3414,6 +3461,8 @@ function wp_dlm_shortcode_downloads( $atts ) {
 		}
 		
 		$format = str_replace('\\"',"'",$format);
+		
+		$meta_data = $wpdb->get_results( "SELECT * FROM $wp_dlm_db_meta" );
 				
 		foreach ($dl as $d) {
 					
@@ -3484,15 +3533,38 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			$fsubs[] = $thumbnail;
 			
 			// meta
-			if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {
-				$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE download_id = %s" , $d->id ) );
+
+			$tags = '';
+			$thumbnail = '';
+			foreach($meta_data as $meta) {
+				if ($meta->download_id==$d->id && $meta->meta_name == 'tags') {
+					$tags = $meta->meta_value;
+				}
+				if ($meta->download_id==$d->id && $meta->meta_name == 'thumbnail') {
+					$thumbnail = $meta->meta_value;
+				}
+			}
+			if (!$tags) $tags = 'Untagged';
+			if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';
+			
+			// tags
+			$fpatts[] = "{tags}";
+			$fsubs[] = $tags;
+			
+			// Thumbnail
+			$fpatts[] = "{thumbnail}";
+			$fsubs[] = $thumbnail;
+			
+			if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {					
 				$meta_names = array();
 				foreach($meta_data as $meta) {
-					$fpatts[] = "{meta-".$meta->meta_name."}";
-					$fsubs[] = $meta->meta_value;
-					$fpatts[] = "{meta-autop-".$meta->meta_name."}";
-					$fsubs[] = wpautop($meta->meta_value);
-					$meta_names[] = $meta->meta_name;
+					if ($meta->download_id==$d->id) {
+						$fpatts[] = "{meta-".$meta->meta_name."}";
+						$fsubs[] = $meta->meta_value;
+						$fpatts[] = "{meta-autop-".$meta->meta_name."}";
+						$fsubs[] = wpautop($meta->meta_value);
+						$meta_names[] = $meta->meta_name;
+					}
 				}
 				// Blank Meta
 				$meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( %s )" , implode(',', $meta_names) ) );
@@ -3941,10 +4013,6 @@ if ($wp_db_version > 6124) {
 function wp_dlm_init_hooks() {
 	global $wpdb,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_cats;
 			
-	if (isset($_GET['activate']) && $_GET['activate']==true) {
-		wp_dlm_init();
-	}
-	
 	$wp_dlm_db_exists = false;
 	
 	// Check tables exist
