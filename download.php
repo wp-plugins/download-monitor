@@ -234,6 +234,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   		$thefile = $d->filename;
 			   };
 			   
+			   /* Do action - should allow custom functions to allow/disallow the download */
+			   do_action('download_ready_to_start', $d);
+			   
 
 				// NEW - Member only downloads should be forced to download so real URL is not revealed - NOW OPTIONAL DUE TO SOME SERVER CONFIGS
 				
@@ -251,7 +254,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					if ($d->members) $force=1; else $force=0;
 				}
 
-				if ($force==1 && ini_get('allow_url_fopen') ) {				
+				if ($force==1) {				
 
 					$filename = basename($thefile);
 					$file_extension = strtolower(substr(strrchr($filename,"."),1));					
@@ -431,10 +434,10 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						$willDownload = empty($thefile) ? false : !is_file($thefile) ? false : is_readable($thefile);
 						//if ( file_exists($thefile) && is_readable($thefile) ) {
 						if ( $willDownload ) {
-						// END jidd.jimisaacs.com
+						// END jidd.jimisaacs.com					
 							header("Pragma: public");
-							header("Expires: 0");
-							header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+							header("Expires: -1");
+							header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
 							header("Content-Type: application/force-download");
 							header("Content-Type: ".$ctype."");	;
 							header("Content-Type: application/download");
@@ -445,18 +448,17 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							if ($size) {						
 								header("Content-Length: ".$size);
 							}
-							readfile_chunked($thefile);
+							@readfile_chunked($thefile);
 							exit;
 						}			
 					// START jidd.jimisaacs.com
 					// this is only for remote URI's
-					} else if ( $isURI ) {
+					} elseif ( $isURI && ini_get('allow_url_fopen')  ) {
 					// END jidd.jimisaacs.com
 						// Remote File						
-						header('Cache-Control: private');
-						header('Pragma: private');
-						header("Expires: 0");
-						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+						header("Pragma: public");
+						header("Expires: -1");
+						header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
 						header("Content-Type: application/force-download");
 						header("Content-Type: ".$ctype."");	;
 						header("Content-Type: application/download");
@@ -491,9 +493,14 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						if ($file_size > 0) {						
 							header("Content-Length: ".$file_size);
 						}
-						readfile_chunked($thefile);
+						@readfile_chunked($thefile);
 						exit;
-					}	
+					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
+						
+						// O dear, we cannot force the remote file without allow_url_fopen
+						wp_die(__('Forcing the download of externally hosted files is not supported by this server.',"wp-download_monitor"), __('Forcing the download of externally hosted files is not supported by this server.',"wp-download_monitor"));
+						
+					}
 					
 					// If we have not exited by now, the only thing left to do is die.
 					// We cannot download something that is a local file system path on another system, and that's the only thing left it could be!

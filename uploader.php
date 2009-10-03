@@ -68,7 +68,7 @@ wp_enqueue_script( 'jquery-color' );
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_downloads') || !current_user_can('user_can_add_existing_downloads'))
+if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_download') || !current_user_can('user_can_add_exist_download'))
 	wp_die(__('You do not have permission to upload files/downloads.'));
 	
 load_plugin_textdomain('wp-download_monitor', '/');
@@ -306,7 +306,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 							<span class="alignleft"><label for="download_cat"><?php _e('Category',"wp-download_monitor"); ?></label></span>
 						</th> 
 						<td class="field"><select name="download_cat" id="download_cat">
-							<option value=""><?php _e('N/A',"wp-download_monitor"); ?></option>
+							<option value="0"><?php _e('N/A',"wp-download_monitor"); ?></option>
 							<?php
 								$query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
 									$wpdb->escape( $wp_dlm_db_cats ));	
@@ -588,7 +588,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						foreach ( $download as $d ) {
 							$date = date("jS M Y", strtotime($d->postDate));
 							
-							$path = WP_CONTENT_URL."/uploads/";
+							$path = get_bloginfo('wpurl').'/'.get_option('upload_path').'/';
 							$file = str_replace($path, "", $d->filename);
 							$links = explode("/",$file);
 							$file = end($links);

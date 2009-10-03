@@ -4,7 +4,7 @@ Donate link: http://blue-anvil.com/archives/wordpress-download-monitor-plugin-2-
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.8.4
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -86,6 +86,23 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 5. Download page single listing
 
 == Changelog ==
+
+= 3.2.2 =
+*	Small bugfix in uploader.php - cat ID
+*	Changed stats graph calculation - thanks lggemini
+*	Changes to headers in download.php to avoid caching
+*	File Browser fixes - $root was clashing with something....
+*	exclude_cat works in all sections of download_page now
+*	Removed hardcoding of /uploads/
+*	Added action to download.php - should be able to use it to stop a download if you want - maybe limiting downloads per day or something? Whatever you want...
+*	Made it so if you post new file on 'edit' screen, the post date is updated.
+*	Fixed the 'blank meta' section which blanks out custom field values when nothing is set.
+*	Moved 'allow_url_fopen' check.
+*	Someone said downloads don't work with spaces in the name. They do! Wasting my time sonny...
+*	All work and no play make jolley a dull boy
+*	Had to rename capibilities so they work. Apologies if you have to set this up again! Cheers to Mark Dingemanse.
+*	{category_ID} custom format tag added. Useful if you want to send someone to its category on the DL page I guess. Also added {category_other} so when no category is set "other" is shown - this is because the download page can show an 'other' section if you want it to.
+*	You can now manually edit the post date on the edit download screen.
 
 = 3.2.1 =
 *	Made meta query more efficient

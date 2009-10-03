@@ -57,6 +57,10 @@ function wp_dlmp_styles() {
 	if (function_exists('wp_register_style') && function_exists('wp_enqueue_style') ) {
 		global $wp_dlmp_root;
 	    $myStyleFile = $wp_dlmp_root.'/styles.css';
+	    
+	    if ( is_ssl() )
+			$myStyleFile = str_replace( 'http://', 'https://', $myStyleFile );
+	    
 	    wp_register_style('wp_dlmp_styles', $myStyleFile);
 	    wp_enqueue_style( 'wp_dlmp_styles');
     }
@@ -108,7 +112,7 @@ if (function_exists('get_downloads')) {
 			$e = trim($e);
 			if (is_numeric($e)) $exclude_array[] = $e;
 		}
-	}
+	}	
 	if (sizeof($exclude_array) > 0) $exclude_query = ' AND '.$wp_dlm_db.'.id NOT IN ('.implode(',',$exclude_array).')';
 	else $exclude_query="";
 	
@@ -123,6 +127,18 @@ if (function_exists('get_downloads')) {
 	}
 	if (sizeof($exclude_cat_array) > 0) $exclude_cat_query = ' AND '.$wp_dlm_db_cats.'.id NOT IN ('.implode(',',$exclude_cat_array).')';
 	else $exclude_cat_query="";
+	
+	// Find more IDS to exlude
+	$results = $wpdb->get_results("SELECT $wp_dlm_db.id FROM $wp_dlm_db 
+	LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
+	WHERE $wp_dlm_db_cats.id IN (".implode(',',$exclude_cat_array).");");
+	$new_exclude_array = array();
+	foreach ($results as $r) {
+		$new_exclude_array[] = $r->id;
+	}
+	$exclude_array = array_merge($exclude_array,$new_exclude_array);
+	if (sizeof($exclude_array) > 0) $exclude_query = ' AND '.$wp_dlm_db.'.id NOT IN ('.implode(',',$exclude_array).')';
+	else $exclude_query="";
 	
 	// Handle Formats
 	if (!$format && isset($def_format) && $def_format>0) {
@@ -290,7 +306,7 @@ if (function_exists('get_downloads')) {
 				FROM $wp_dlm_db  
 				LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
 				WHERE (title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%') 
-				$exclude_query
+				$exclude_query $exclude_cat_query
 			;");
 			$total_pages = ceil($total / $per_page);
 		// End Pagination Calc
@@ -299,7 +315,7 @@ if (function_exists('get_downloads')) {
 				FROM $wp_dlm_db  
 				LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
 				WHERE (title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%') 
-				$exclude_query $orderby $paged_query;" );			
+				$exclude_query $exclude_cat_query $orderby $paged_query;" );			
 			
 		if (!empty($downloads)) {
 		    $page .= '<ul>';
@@ -345,7 +361,7 @@ if (function_exists('get_downloads')) {
 		$total_pages = "";
 		$dlpage = "";
 		
-		if ($category==strtolower($uncategorized) && $show_uncategorized) {
+		if (($category==strtolower($uncategorized) || $category==0) && $show_uncategorized) {
 
 			$count = $wpdb->get_var( "SELECT COUNT(id) FROM $wp_dlm_db WHERE category_id = 0 $exclude_query" );
 							
@@ -533,7 +549,8 @@ if (function_exists('get_downloads')) {
 				$from = (($dlpage * $per_page) - $per_page); 
 				$paged_query = 'LIMIT '.$from.','.$per_page.'';
 								
-				$tagged = $wpdb->get_results( "SELECT * FROM $wp_dlm_db INNER JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id WHERE $wp_dlm_db_meta.meta_name = 'tags' $exclude_query;");
+				$tagged = $wpdb->get_results( "SELECT * FROM $wp_dlm_db LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id INNER JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id WHERE $wp_dlm_db_meta.meta_name = 'tags' $exclude_query $exclude_cat_query;");
+								
 				$postIDS = array();
 				foreach ($tagged as $t) {
 					$my_tags = explode(',', $t->meta_value );
@@ -551,7 +568,7 @@ if (function_exists('get_downloads')) {
 				;");				
 				$total_pages = ceil($total / $per_page);
 			// End Pagination Calc
-
+			
 			$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$per_page.'&orderby='.$orderby.'&order='.$order.'&offset='.$from.'&tags='.$tag.'" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');			
 
 			// Show Pagination				       
@@ -734,7 +751,8 @@ if (function_exists('get_downloads')) {
 					<h'.$base_heading_level.'>'.$tags_widget_text.'</h'.$base_heading_level.'><ul>';
 					
 					// Get tags
-					$tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags'" );
+					$tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags' AND download_id NOT IN (".implode(',',$exclude_array).")" );				
+					
 					if (!empty($tags)) {
 						$tags_array = array();
 						foreach ($tags as $taggroup) {
@@ -754,9 +772,11 @@ if (function_exists('get_downloads')) {
 						//$tags = array_unique($tags_array_clean);
 						$tags = array_count_values($tags_array_clean);
 						$max = max($tags);
-						$min = min($tags);				
+						$min = min($tags);	
+						$div = $max-$min;
+						if (!$div) $div = 1;			
 						
-						$multiplier = (200-80)/($max-$min); 
+						$multiplier = (200-80)/($div); 
 						
 						asort($tags);
 						
