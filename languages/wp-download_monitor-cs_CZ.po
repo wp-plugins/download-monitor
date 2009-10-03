@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
-"POT-Creation-Date: 2009-09-06 13:41+0000\n"
+"POT-Creation-Date: 2009-10-03 14:34+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -23,225 +23,235 @@ msgstr "Musíte se přihlásit pro stažení tohoto souboru."
 msgid "You do not have permission to download this file."
 msgstr "Ke stažení tohoto souboru nemáte oprávnění."
 
-#: download.php:500
+#: download.php:501
+msgid "Forcing the download of externally hosted files is not supported by this server."
+msgstr ""
+
+#: download.php:507
 #, fuzzy
 msgid "Download path is invalid!"
 msgstr "Statistiky stahování"
 
-#: download.php:516
+#: download.php:523
 msgid "Download does not exist!"
 msgstr "Tento soubor neexistuje!"
 
-#: page-addon/download-monitor-page-addon.php:76
+#: page-addon/download-monitor-page-addon.php:80
 msgid "Popular Downloads"
 msgstr "Nejoblíbenější soubory ke stažení"
 
-#: page-addon/download-monitor-page-addon.php:77
-#: page-addon/download-monitor-page-addon.php:88
+#: page-addon/download-monitor-page-addon.php:81
+#: page-addon/download-monitor-page-addon.php:92
 #: uploader.php:329
-#: wp-download_monitor.php:1288
-#: wp-download_monitor.php:1610
-#: wp-download_monitor.php:1737
-#: wp-download_monitor.php:2686
-#: wp-download_monitor.php:2929
+#: wp-download_monitor.php:1429
+#: wp-download_monitor.php:1756
+#: wp-download_monitor.php:1883
+#: wp-download_monitor.php:2834
+#: wp-download_monitor.php:3077
 msgid "Tags"
 msgstr "Značky"
 
-#: page-addon/download-monitor-page-addon.php:78
+#: page-addon/download-monitor-page-addon.php:82
+#: wp-download_monitor.php:597
+#: wp-download_monitor.php:603
+#: wp-download_monitor.php:856
+#: wp-download_monitor.php:862
+#: wp-download_monitor.php:3590
+#: wp-download_monitor.php:3596
 msgid "Other"
 msgstr "Ostatní"
 
-#: page-addon/download-monitor-page-addon.php:79
+#: page-addon/download-monitor-page-addon.php:83
 msgid "Search Downloads: "
 msgstr "Hledat v souborech ke stažení:"
 
-#: page-addon/download-monitor-page-addon.php:80
+#: page-addon/download-monitor-page-addon.php:84
 msgid "Go"
 msgstr "Najít"
 
-#: page-addon/download-monitor-page-addon.php:81
+#: page-addon/download-monitor-page-addon.php:85
 msgid "Results found for "
 msgstr "Výsledky hledání "
 
-#: page-addon/download-monitor-page-addon.php:82
+#: page-addon/download-monitor-page-addon.php:86
 msgid "No downloads were found."
 msgstr "Žádný soubor nenalezen."
 
-#: page-addon/download-monitor-page-addon.php:83
+#: page-addon/download-monitor-page-addon.php:87
 msgid "No download found matching given ID."
 msgstr "Žádný soubor neodpovídá zadanému ID."
 
-#: page-addon/download-monitor-page-addon.php:84
+#: page-addon/download-monitor-page-addon.php:88
 #: uploader.php:540
-#: wp-download_monitor.php:108
-#: wp-download_monitor.php:416
-#: wp-download_monitor.php:441
+#: wp-download_monitor.php:115
+#: wp-download_monitor.php:461
+#: wp-download_monitor.php:486
 msgid "Downloads"
 msgstr "Ke stažení"
 
-#: page-addon/download-monitor-page-addon.php:85
+#: page-addon/download-monitor-page-addon.php:89
 #: uploader.php:289
-#: wp-download_monitor.php:1257
-#: wp-download_monitor.php:2651
-#: wp-download_monitor.php:2891
+#: wp-download_monitor.php:1391
+#: wp-download_monitor.php:2799
+#: wp-download_monitor.php:3039
 msgid "Description"
 msgstr "Popis"
 
-#: page-addon/download-monitor-page-addon.php:86
-#: page-addon/download-monitor-page-addon.php:137
-#: page-addon/download-monitor-page-addon.php:606
-#: page-addon/download-monitor-page-addon.php:717
+#: page-addon/download-monitor-page-addon.php:90
+#: page-addon/download-monitor-page-addon.php:153
+#: page-addon/download-monitor-page-addon.php:623
+#: page-addon/download-monitor-page-addon.php:734
 #: uploader.php:294
-#: wp-download_monitor.php:509
-#: wp-download_monitor.php:670
-#: wp-download_monitor.php:696
-#: wp-download_monitor.php:701
-#: wp-download_monitor.php:706
-#: wp-download_monitor.php:914
-#: wp-download_monitor.php:1251
-#: wp-download_monitor.php:1811
-#: wp-download_monitor.php:2645
-#: wp-download_monitor.php:2885
-#: wp-download_monitor.php:3412
-#: wp-download_monitor.php:3547
-#: wp-download_monitor.php:3550
-#: wp-download_monitor.php:3567
-#: wp-download_monitor.php:3604
+#: wp-download_monitor.php:554
+#: wp-download_monitor.php:738
+#: wp-download_monitor.php:764
+#: wp-download_monitor.php:769
+#: wp-download_monitor.php:774
+#: wp-download_monitor.php:1020
+#: wp-download_monitor.php:1385
+#: wp-download_monitor.php:1957
+#: wp-download_monitor.php:2793
+#: wp-download_monitor.php:3033
+#: wp-download_monitor.php:3562
+#: wp-download_monitor.php:3736
+#: wp-download_monitor.php:3739
+#: wp-download_monitor.php:3756
+#: wp-download_monitor.php:3793
 msgid "Version"
 msgstr "Verze"
 
-#: page-addon/download-monitor-page-addon.php:87
-#: wp-download_monitor.php:429
-#: wp-download_monitor.php:3588
+#: page-addon/download-monitor-page-addon.php:91
+#: wp-download_monitor.php:474
+#: wp-download_monitor.php:3777
 msgid "Categories"
 msgstr "Kategorie"
 
-#: page-addon/download-monitor-page-addon.php:89
-#: page-addon/download-monitor-page-addon.php:722
-#: wp-download_monitor.php:915
+#: page-addon/download-monitor-page-addon.php:93
+#: page-addon/download-monitor-page-addon.php:739
+#: wp-download_monitor.php:1021
 msgid "Downloaded"
 msgstr "Staženo"
 
-#: page-addon/download-monitor-page-addon.php:90
+#: page-addon/download-monitor-page-addon.php:94
 msgid " time"
 msgstr "krát"
 
-#: page-addon/download-monitor-page-addon.php:91
+#: page-addon/download-monitor-page-addon.php:95
 msgid " times"
 msgstr "krát"
 
-#: page-addon/download-monitor-page-addon.php:92
+#: page-addon/download-monitor-page-addon.php:96
 msgid "Date posted"
 msgstr "Datum zveřejnění"
 
-#: page-addon/download-monitor-page-addon.php:93
+#: page-addon/download-monitor-page-addon.php:97
 msgid "F j, Y"
 msgstr "F j, Y"
 
-#: page-addon/download-monitor-page-addon.php:94
-#: wp-download_monitor.php:696
-#: wp-download_monitor.php:1734
+#: page-addon/download-monitor-page-addon.php:98
+#: wp-download_monitor.php:764
+#: wp-download_monitor.php:1880
 msgid "Download"
 msgstr "Ke stažení"
 
-#: page-addon/download-monitor-page-addon.php:95
+#: page-addon/download-monitor-page-addon.php:99
 msgid "Read More"
 msgstr "Další"
 
-#: page-addon/download-monitor-page-addon.php:96
+#: page-addon/download-monitor-page-addon.php:100
 msgid "Sub-Categories:"
 msgstr "Podkategorie:"
 
-#: page-addon/download-monitor-page-addon.php:97
+#: page-addon/download-monitor-page-addon.php:101
 msgid "Sort by:"
 msgstr "Řadit podle:"
 
-#: page-addon/download-monitor-page-addon.php:98
+#: page-addon/download-monitor-page-addon.php:102
 msgid "Downloads tagged:"
 msgstr "Soubory označené:"
 
-#: page-addon/download-monitor-page-addon.php:137
-#: wp-download_monitor.php:509
-#: wp-download_monitor.php:670
-#: wp-download_monitor.php:696
-#: wp-download_monitor.php:701
-#: wp-download_monitor.php:706
-#: wp-download_monitor.php:914
-#: wp-download_monitor.php:3412
-#: wp-download_monitor.php:3547
-#: wp-download_monitor.php:3550
-#: wp-download_monitor.php:3567
-#: wp-download_monitor.php:3604
+#: page-addon/download-monitor-page-addon.php:153
+#: wp-download_monitor.php:554
+#: wp-download_monitor.php:738
+#: wp-download_monitor.php:764
+#: wp-download_monitor.php:769
+#: wp-download_monitor.php:774
+#: wp-download_monitor.php:1020
+#: wp-download_monitor.php:3562
+#: wp-download_monitor.php:3736
+#: wp-download_monitor.php:3739
+#: wp-download_monitor.php:3756
+#: wp-download_monitor.php:3793
 msgid "downloaded"
 msgstr "staženo"
 
-#: page-addon/download-monitor-page-addon.php:137
-#: page-addon/download-monitor-page-addon.php:722
-#: wp-download_monitor.php:509
-#: wp-download_monitor.php:670
-#: wp-download_monitor.php:696
-#: wp-download_monitor.php:701
-#: wp-download_monitor.php:706
-#: wp-download_monitor.php:914
-#: wp-download_monitor.php:915
-#: wp-download_monitor.php:3412
-#: wp-download_monitor.php:3547
-#: wp-download_monitor.php:3550
-#: wp-download_monitor.php:3567
-#: wp-download_monitor.php:3604
+#: page-addon/download-monitor-page-addon.php:153
+#: page-addon/download-monitor-page-addon.php:739
+#: wp-download_monitor.php:554
+#: wp-download_monitor.php:738
+#: wp-download_monitor.php:764
+#: wp-download_monitor.php:769
+#: wp-download_monitor.php:774
+#: wp-download_monitor.php:1020
+#: wp-download_monitor.php:1021
+#: wp-download_monitor.php:3562
+#: wp-download_monitor.php:3736
+#: wp-download_monitor.php:3739
+#: wp-download_monitor.php:3756
+#: wp-download_monitor.php:3793
 msgid "times"
 msgstr "krát"
 
-#: page-addon/download-monitor-page-addon.php:279
-#: page-addon/download-monitor-page-addon.php:373
-#: page-addon/download-monitor-page-addon.php:448
-#: page-addon/download-monitor-page-addon.php:525
+#: page-addon/download-monitor-page-addon.php:295
+#: page-addon/download-monitor-page-addon.php:389
+#: page-addon/download-monitor-page-addon.php:464
+#: page-addon/download-monitor-page-addon.php:541
 #: uploader.php:283
 #: uploader.php:546
-#: wp-download_monitor.php:2363
-#: wp-download_monitor.php:3042
+#: wp-download_monitor.php:2511
+#: wp-download_monitor.php:3190
 msgid "Title"
 msgstr "Název"
 
-#: page-addon/download-monitor-page-addon.php:279
-#: page-addon/download-monitor-page-addon.php:373
-#: page-addon/download-monitor-page-addon.php:448
-#: page-addon/download-monitor-page-addon.php:525
-#: wp-download_monitor.php:1740
+#: page-addon/download-monitor-page-addon.php:295
+#: page-addon/download-monitor-page-addon.php:389
+#: page-addon/download-monitor-page-addon.php:464
+#: page-addon/download-monitor-page-addon.php:541
+#: wp-download_monitor.php:1886
 msgid "Hits"
 msgstr "Stažení"
 
-#: page-addon/download-monitor-page-addon.php:279
-#: page-addon/download-monitor-page-addon.php:373
-#: page-addon/download-monitor-page-addon.php:448
-#: page-addon/download-monitor-page-addon.php:525
-#: wp-download_monitor.php:3046
+#: page-addon/download-monitor-page-addon.php:295
+#: page-addon/download-monitor-page-addon.php:389
+#: page-addon/download-monitor-page-addon.php:464
+#: page-addon/download-monitor-page-addon.php:541
+#: wp-download_monitor.php:3194
 msgid "Date"
 msgstr "Datum"
 
-#: page-addon/download-monitor-page-addon.php:317
-#: page-addon/download-monitor-page-addon.php:318
-#: page-addon/download-monitor-page-addon.php:476
-#: page-addon/download-monitor-page-addon.php:477
-#: page-addon/download-monitor-page-addon.php:563
-#: page-addon/download-monitor-page-addon.php:564
+#: page-addon/download-monitor-page-addon.php:333
+#: page-addon/download-monitor-page-addon.php:334
+#: page-addon/download-monitor-page-addon.php:492
+#: page-addon/download-monitor-page-addon.php:493
+#: page-addon/download-monitor-page-addon.php:580
+#: page-addon/download-monitor-page-addon.php:581
 #: uploader.php:636
 #: uploader.php:637
-#: wp-download_monitor.php:3107
-#: wp-download_monitor.php:3108
+#: wp-download_monitor.php:3257
+#: wp-download_monitor.php:3258
 msgid "Previous"
 msgstr "Předchozí"
 
-#: page-addon/download-monitor-page-addon.php:330
-#: page-addon/download-monitor-page-addon.php:331
-#: page-addon/download-monitor-page-addon.php:489
-#: page-addon/download-monitor-page-addon.php:490
-#: page-addon/download-monitor-page-addon.php:576
-#: page-addon/download-monitor-page-addon.php:577
+#: page-addon/download-monitor-page-addon.php:346
+#: page-addon/download-monitor-page-addon.php:347
+#: page-addon/download-monitor-page-addon.php:505
+#: page-addon/download-monitor-page-addon.php:506
+#: page-addon/download-monitor-page-addon.php:593
+#: page-addon/download-monitor-page-addon.php:594
 #: uploader.php:650
 #: uploader.php:651
-#: wp-download_monitor.php:3121
-#: wp-download_monitor.php:3122
+#: wp-download_monitor.php:3271
+#: wp-download_monitor.php:3272
 msgid "Next"
 msgstr "Další"
 
@@ -271,20 +281,20 @@ msgstr "WordPress"
 #: uploader.php:138
 #: uploader.php:442
 #: uploader.php:454
-#: wp-download_monitor.php:177
-#: wp-download_monitor.php:1359
-#: wp-download_monitor.php:1371
-#: wp-download_monitor.php:1660
-#: wp-download_monitor.php:1672
-#: wp-download_monitor.php:2727
-#: wp-download_monitor.php:2739
-#: wp-download_monitor.php:2969
-#: wp-download_monitor.php:2981
+#: wp-download_monitor.php:192
+#: wp-download_monitor.php:1500
+#: wp-download_monitor.php:1512
+#: wp-download_monitor.php:1806
+#: wp-download_monitor.php:1818
+#: wp-download_monitor.php:2875
+#: wp-download_monitor.php:2887
+#: wp-download_monitor.php:3117
+#: wp-download_monitor.php:3129
 msgid "remove"
 msgstr "smazat"
 
 #: uploader.php:159
-#: wp-download_monitor.php:2525
+#: wp-download_monitor.php:2673
 msgid "Add New Download"
 msgstr "Nahrát nový soubor"
 
@@ -313,75 +323,75 @@ msgid "Download Information"
 msgstr "Informace o souboru"
 
 #: uploader.php:300
-#: wp-download_monitor.php:2655
-#: wp-download_monitor.php:2895
+#: wp-download_monitor.php:2803
+#: wp-download_monitor.php:3043
 msgid "Starting hits"
 msgstr "Začít s počtem kliknutí"
 
 #: uploader.php:306
 #: uploader.php:548
-#: wp-download_monitor.php:1267
-#: wp-download_monitor.php:1590
+#: wp-download_monitor.php:1408
 #: wp-download_monitor.php:1736
-#: wp-download_monitor.php:2229
-#: wp-download_monitor.php:2665
-#: wp-download_monitor.php:2908
+#: wp-download_monitor.php:1882
+#: wp-download_monitor.php:2375
+#: wp-download_monitor.php:2813
+#: wp-download_monitor.php:3056
 msgid "Category"
 msgstr "Kategorie"
 
 #: uploader.php:309
 #: uploader.php:600
-#: wp-download_monitor.php:1270
-#: wp-download_monitor.php:1594
-#: wp-download_monitor.php:1819
-#: wp-download_monitor.php:2668
-#: wp-download_monitor.php:2911
+#: wp-download_monitor.php:1411
+#: wp-download_monitor.php:1740
+#: wp-download_monitor.php:1965
+#: wp-download_monitor.php:2816
+#: wp-download_monitor.php:3059
 msgid "N/A"
 msgstr "N/A"
 
 #: uploader.php:326
-#: wp-download_monitor.php:2683
-#: wp-download_monitor.php:2926
+#: wp-download_monitor.php:2831
+#: wp-download_monitor.php:3074
 msgid "Categories are optional and allow you to group and organise simular downloads."
 msgstr "Kategorie jsou volitelné a umožní vám seskupovat a organizovat podobné soubory."
 
 #: uploader.php:333
-#: wp-download_monitor.php:1290
-#: wp-download_monitor.php:1615
-#: wp-download_monitor.php:2688
-#: wp-download_monitor.php:2931
+#: wp-download_monitor.php:1431
+#: wp-download_monitor.php:1761
+#: wp-download_monitor.php:2836
+#: wp-download_monitor.php:3079
 msgid "Separate tags with commas. Tags can be displayed on the download page or with {tags} in a custom format."
 msgstr ""
 
 #: uploader.php:336
-#: wp-download_monitor.php:1294
-#: wp-download_monitor.php:1619
-#: wp-download_monitor.php:2692
-#: wp-download_monitor.php:2935
+#: wp-download_monitor.php:1435
+#: wp-download_monitor.php:1765
+#: wp-download_monitor.php:2840
+#: wp-download_monitor.php:3083
 msgid "Thumbnail"
 msgstr ""
 
 #: uploader.php:340
-#: wp-download_monitor.php:1296
-#: wp-download_monitor.php:1624
-#: wp-download_monitor.php:2694
-#: wp-download_monitor.php:2937
+#: wp-download_monitor.php:1437
+#: wp-download_monitor.php:1770
+#: wp-download_monitor.php:2842
+#: wp-download_monitor.php:3085
 msgid "Enter URL to thumbnail image. This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
 msgstr ""
 
 #: uploader.php:343
-#: wp-download_monitor.php:1300
-#: wp-download_monitor.php:1628
-#: wp-download_monitor.php:2698
-#: wp-download_monitor.php:2941
+#: wp-download_monitor.php:1441
+#: wp-download_monitor.php:1774
+#: wp-download_monitor.php:2846
+#: wp-download_monitor.php:3089
 msgid "Member only file?"
 msgstr "Soubor jen pro přihlášené?"
 
 #: uploader.php:347
-#: wp-download_monitor.php:1301
-#: wp-download_monitor.php:1632
-#: wp-download_monitor.php:2699
-#: wp-download_monitor.php:2942
+#: wp-download_monitor.php:1442
+#: wp-download_monitor.php:1778
+#: wp-download_monitor.php:2847
+#: wp-download_monitor.php:3090
 msgid "If chosen, only logged in users will be able to access the file via a download link. It is a good idea to give the file a name which cannot be easily guessed and accessed directly. BONUS: Add a meta key called min-level to set the minimum user level needed to download the file."
 msgstr "Tato volba zpřístupní odkaz na soubor jen pro přihlášené uživatele. Je vhodné soubor pojmenovat tak, aby odkaz nebylo možné snadno uhodnout. BONUS: Vytvořte meta klíč se jménem min-level pro nastavení minimální úrovně oprávnění uživatele potřebné pro stažení souboru."
 
@@ -390,15 +400,14 @@ msgid "Upload/link to existing file"
 msgstr "Nahrát/odkaz na existující soubor"
 
 #: uploader.php:379
-#: wp-download_monitor.php:1229
-#: wp-download_monitor.php:2626
+#: wp-download_monitor.php:1363
+#: wp-download_monitor.php:2774
 msgid " (defined in php.ini)"
 msgstr " (nastaveno v php.ini)"
 
 #: uploader.php:390
-#: wp-download_monitor.php:1333
-#: wp-download_monitor.php:2754
-#: wp-download_monitor.php:2996
+#: wp-download_monitor.php:2902
+#: wp-download_monitor.php:3144
 msgid "Y-m-d H:i:s"
 msgstr "Y-m-d H:i:s"
 
@@ -407,19 +416,19 @@ msgid "Upload File"
 msgstr "Nahrát soubor"
 
 #: uploader.php:403
-#: wp-download_monitor.php:1323
-#: wp-download_monitor.php:2662
+#: wp-download_monitor.php:1464
+#: wp-download_monitor.php:2810
 msgid "Max. filesize"
 msgstr "Max. velikost"
 
 #: uploader.php:403
-#: wp-download_monitor.php:1323
-#: wp-download_monitor.php:2662
+#: wp-download_monitor.php:1464
+#: wp-download_monitor.php:2810
 msgid "bytes"
 msgstr "bytů"
 
 #: uploader.php:403
-#: wp-download_monitor.php:2662
+#: wp-download_monitor.php:2810
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed automatically."
 msgstr "Pokud již existuje soubor stejného jména ve složce pro nahrávání, bude tento soubor automaticky přejmenován."
 
@@ -432,61 +441,61 @@ msgid "File URL"
 msgstr "URL souboru"
 
 #: uploader.php:411
-#: wp-download_monitor.php:1306
-#: wp-download_monitor.php:2903
+#: wp-download_monitor.php:1447
+#: wp-download_monitor.php:3051
 msgid "Toggle File Browser"
 msgstr "Zobrazit/skrýt procházení souborů"
 
 #: uploader.php:415
 #: uploader.php:418
-#: wp-download_monitor.php:1311
-#: wp-download_monitor.php:2702
-#: wp-download_monitor.php:2945
+#: wp-download_monitor.php:1452
+#: wp-download_monitor.php:2850
+#: wp-download_monitor.php:3093
 msgid "Download Mirrors"
 msgstr "Zrcadla pro stažení"
 
 #: uploader.php:421
-#: wp-download_monitor.php:1312
-#: wp-download_monitor.php:2703
-#: wp-download_monitor.php:2946
+#: wp-download_monitor.php:1453
+#: wp-download_monitor.php:2851
+#: wp-download_monitor.php:3094
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
 msgstr "Zde můžete uvést seznam odkazů na soubor (1 odkaz na řádek). Pro stažení bude náhodně vybrán vždy jeden z těchto odkazů."
 
 #: uploader.php:423
-#: wp-download_monitor.php:1340
-#: wp-download_monitor.php:1636
-#: wp-download_monitor.php:1739
-#: wp-download_monitor.php:2707
-#: wp-download_monitor.php:2949
+#: wp-download_monitor.php:1481
+#: wp-download_monitor.php:1782
+#: wp-download_monitor.php:1885
+#: wp-download_monitor.php:2855
+#: wp-download_monitor.php:3097
 msgid "Custom fields"
 msgstr "Vlastní pole"
 
 #: uploader.php:427
-#: wp-download_monitor.php:1345
-#: wp-download_monitor.php:1646
-#: wp-download_monitor.php:2165
-#: wp-download_monitor.php:2205
-#: wp-download_monitor.php:2258
-#: wp-download_monitor.php:2277
-#: wp-download_monitor.php:2327
-#: wp-download_monitor.php:2712
-#: wp-download_monitor.php:2954
+#: wp-download_monitor.php:1486
+#: wp-download_monitor.php:1792
+#: wp-download_monitor.php:2311
+#: wp-download_monitor.php:2351
+#: wp-download_monitor.php:2404
+#: wp-download_monitor.php:2423
+#: wp-download_monitor.php:2475
+#: wp-download_monitor.php:2860
+#: wp-download_monitor.php:3102
 msgid "Name"
 msgstr "Název"
 
 #: uploader.php:428
-#: wp-download_monitor.php:1346
-#: wp-download_monitor.php:1647
-#: wp-download_monitor.php:2713
-#: wp-download_monitor.php:2955
+#: wp-download_monitor.php:1487
+#: wp-download_monitor.php:1793
+#: wp-download_monitor.php:2861
+#: wp-download_monitor.php:3103
 msgid "Value"
 msgstr "Hodnota"
 
 #: uploader.php:462
-#: wp-download_monitor.php:1378
-#: wp-download_monitor.php:1679
-#: wp-download_monitor.php:2747
-#: wp-download_monitor.php:2989
+#: wp-download_monitor.php:1519
+#: wp-download_monitor.php:1825
+#: wp-download_monitor.php:2895
+#: wp-download_monitor.php:3137
 msgid "Add Custom Field"
 msgstr "Vložit vlastní pole"
 
@@ -513,50 +522,50 @@ msgid "Insert into post"
 msgstr "Vložit do příspěvku"
 
 #: uploader.php:512
-#: wp-download_monitor.php:1722
+#: wp-download_monitor.php:1868
 msgid "Search Downloads:"
 msgstr "Hledat v souborech ke stažení:"
 
 #: uploader.php:514
-#: wp-download_monitor.php:1724
+#: wp-download_monitor.php:1870
 msgid "Search Downloads"
 msgstr "Hledání v souborech ke stažení"
 
 #: uploader.php:545
-#: wp-download_monitor.php:1733
-#: wp-download_monitor.php:2164
-#: wp-download_monitor.php:2276
-#: wp-download_monitor.php:2362
-#: wp-download_monitor.php:3041
+#: wp-download_monitor.php:1879
+#: wp-download_monitor.php:2310
+#: wp-download_monitor.php:2422
+#: wp-download_monitor.php:2510
+#: wp-download_monitor.php:3189
 msgid "ID"
 msgstr "ID"
 
 #: uploader.php:547
-#: wp-download_monitor.php:1735
-#: wp-download_monitor.php:3043
+#: wp-download_monitor.php:1881
+#: wp-download_monitor.php:3191
 msgid "File"
 msgstr "Soubor"
 
 #: uploader.php:550
-#: wp-download_monitor.php:1738
+#: wp-download_monitor.php:1884
 msgid "Member only"
 msgstr "Jen pro uživatele"
 
 #: uploader.php:551
-#: wp-download_monitor.php:2166
-#: wp-download_monitor.php:2279
+#: wp-download_monitor.php:2312
+#: wp-download_monitor.php:2425
 msgid "Action"
 msgstr "Akce"
 
 #: uploader.php:618
-#: wp-download_monitor.php:1838
-#: wp-download_monitor.php:2414
+#: wp-download_monitor.php:1984
+#: wp-download_monitor.php:2562
 msgid "Yes"
 msgstr "Ano"
 
 #: uploader.php:618
-#: wp-download_monitor.php:1838
-#: wp-download_monitor.php:2417
+#: wp-download_monitor.php:1984
+#: wp-download_monitor.php:2565
 msgid "No"
 msgstr "Ne"
 
@@ -568,248 +577,267 @@ msgstr "Přidat"
 msgid "Add Download"
 msgstr "Přidat soubor"
 
-#: wp-download_monitor.php:110
-#: wp-download_monitor.php:2262
+#: wp-download_monitor.php:117
+#: wp-download_monitor.php:2408
 msgid "Edit"
 msgstr "Upravit"
 
-#: wp-download_monitor.php:111
+#: wp-download_monitor.php:118
 msgid "Add New"
 msgstr "Přidat nový"
 
-#: wp-download_monitor.php:112
+#: wp-download_monitor.php:119
 msgid "Add Existing"
 msgstr "Přidat existující"
 
-#: wp-download_monitor.php:113
+#: wp-download_monitor.php:120
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: wp-download_monitor.php:114
+#: wp-download_monitor.php:121
 msgid "Log"
 msgstr "Log"
 
-#: wp-download_monitor.php:409
-#: wp-download_monitor.php:3749
+#: wp-download_monitor.php:432
+#, php-format
+msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
+msgstr ""
+
+#: wp-download_monitor.php:454
+#: wp-download_monitor.php:3938
 msgid "Show"
 msgstr "Zobrazit"
 
-#: wp-download_monitor.php:410
+#: wp-download_monitor.php:455
 msgid "All Downloads"
 msgstr "Všechny soubory"
 
-#: wp-download_monitor.php:411
+#: wp-download_monitor.php:456
 msgid "Downloads and categories"
 msgstr "Soubory a kategorie"
 
-#: wp-download_monitor.php:1040
+#: wp-download_monitor.php:1146
 msgid "Sure?"
 msgstr "Určitě?"
 
-#: wp-download_monitor.php:1041
+#: wp-download_monitor.php:1147
 msgid "Are you sure you want to delete"
 msgstr "Opravdu chcete smazat "
 
-#: wp-download_monitor.php:1041
+#: wp-download_monitor.php:1147
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
 msgstr "? (Pokud byl původně nahrán pomocí tohoto pluginu, bude také soubor vymazán ze serveru)"
 
-#: wp-download_monitor.php:1041
+#: wp-download_monitor.php:1147
 msgid "[yes]"
 msgstr "[ano]"
 
-#: wp-download_monitor.php:1041
+#: wp-download_monitor.php:1147
 msgid "[no]"
 msgstr "[ne]"
 
-#: wp-download_monitor.php:1063
+#: wp-download_monitor.php:1192
 msgid "Required field: <strong>Title</strong> omitted"
 msgstr "Chybí povinné pole: <strong>Název</strong>"
 
-#: wp-download_monitor.php:1064
+#: wp-download_monitor.php:1193
 msgid "Required field: <strong>File URL</strong> omitted"
 msgstr "Chybí povinné pole: <strong>URL souboru</strong>"
 
-#: wp-download_monitor.php:1066
+#: wp-download_monitor.php:1195
 msgid "Invalid <strong>hits</strong> entered"
 msgstr "Zadán neplatný <strong>počet stažení</strong>"
 
-#: wp-download_monitor.php:1141
-#: wp-download_monitor.php:1182
+#: wp-download_monitor.php:1272
+#: wp-download_monitor.php:1314
 msgid "Download edited Successfully"
 msgstr "Úprava souboru proběhla úspěšně"
 
-#: wp-download_monitor.php:1240
+#: wp-download_monitor.php:1374
 msgid "Edit Download Information"
 msgstr "Upravit informace o souboru"
 
-#: wp-download_monitor.php:1245
-#: wp-download_monitor.php:2639
-#: wp-download_monitor.php:2879
+#: wp-download_monitor.php:1379
+#: wp-download_monitor.php:2787
+#: wp-download_monitor.php:3027
 msgid "Title (required)"
 msgstr "Název (povinné)"
 
-#: wp-download_monitor.php:1261
+#: wp-download_monitor.php:1395
 msgid "Change hit count"
 msgstr "Změnit počet stažení"
 
-#: wp-download_monitor.php:1285
-#: wp-download_monitor.php:1607
+#: wp-download_monitor.php:1401
+#, fuzzy
+msgid "Change post date"
+msgstr "Změnit počet stažení"
+
+#: wp-download_monitor.php:1404
+msgid "Change the post date of the download. Was set to:"
+msgstr ""
+
+#: wp-download_monitor.php:1404
+#, fuzzy
+msgid "M jS Y @ H:i"
+msgstr "d.m.Y H:i:s"
+
+#: wp-download_monitor.php:1426
+#: wp-download_monitor.php:1753
 msgid "Categories are optional and allow you to group and organise similar downloads."
 msgstr "Kategorie jsou volitelné a slouží ke sdružování a organizování podobných souborů."
 
-#: wp-download_monitor.php:1304
+#: wp-download_monitor.php:1445
 msgid "File URL (required)"
 msgstr "URL souboru (povinné)"
 
-#: wp-download_monitor.php:1306
+#: wp-download_monitor.php:1447
 msgid "Note: changes to the file url will only work if not uploading a new file below."
 msgstr "Pozor: Změna url souboru bude fungovat jen pokud nezadáte nahrání nového souboru níže."
 
-#: wp-download_monitor.php:1316
+#: wp-download_monitor.php:1457
 msgid "Upload a new file"
 msgstr "Nahrát nový soubor"
 
-#: wp-download_monitor.php:1318
+#: wp-download_monitor.php:1459
 msgid "Here you can upload/re-upload the file from your computer."
 msgstr "Zde můžete nahrát/znovu nahrát soubor ze svého počítače."
 
-#: wp-download_monitor.php:1322
-#: wp-download_monitor.php:2661
+#: wp-download_monitor.php:1463
+#: wp-download_monitor.php:2809
 msgid "Select a file..."
 msgstr "Vyberte soubor..."
 
-#: wp-download_monitor.php:1326
+#: wp-download_monitor.php:1467
 msgid "Remove old file?"
 msgstr "Odstranit starý soubor?"
 
-#: wp-download_monitor.php:1327
+#: wp-download_monitor.php:1468
 msgid "If chosen, the old file will be deleted from the server (if it exists) before uploading the new file."
 msgstr "Touto volbou odstraníte starý soubor ze serveru (pokud existuje) před nahráním nového souboru."
 
-#: wp-download_monitor.php:1341
-#: wp-download_monitor.php:1637
-#: wp-download_monitor.php:2708
-#: wp-download_monitor.php:2950
+#: wp-download_monitor.php:1482
+#: wp-download_monitor.php:1783
+#: wp-download_monitor.php:2856
+#: wp-download_monitor.php:3098
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
 msgstr "Vlastní pole můžete použít pro zadání dalších meta dat pro soubor. Nepovinné. Jména mohou obsahovat malá písmena bez mezer (bude automaticky opraveno, např. <code>Nejake Jmeno</code> se změní na <code>nejake-jmeno</code>."
 
-#: wp-download_monitor.php:1383
-#: wp-download_monitor.php:1684
-#: wp-download_monitor.php:2300
-#: wp-download_monitor.php:2368
-#: wp-download_monitor.php:2441
+#: wp-download_monitor.php:1524
+#: wp-download_monitor.php:1830
+#: wp-download_monitor.php:2446
+#: wp-download_monitor.php:2516
+#: wp-download_monitor.php:2589
 msgid "Save Changes"
 msgstr "Uložit změny"
 
-#: wp-download_monitor.php:1420
+#: wp-download_monitor.php:1563
 msgid "Download deleted Successfully"
 msgstr "Soubor byl úspěšně smazán"
 
-#: wp-download_monitor.php:1458
+#: wp-download_monitor.php:1601
 msgid "Stats successfully reset for selected downloads"
 msgstr ""
 
-#: wp-download_monitor.php:1494
+#: wp-download_monitor.php:1640
 #, fuzzy
 msgid "Selected Downloads deleted Successfully"
 msgstr "Soubor byl úspěšně smazán"
 
-#: wp-download_monitor.php:1574
+#: wp-download_monitor.php:1720
 #, fuzzy
 msgid "Downloads edited successfully"
 msgstr "Úprava souboru proběhla úspěšně"
 
-#: wp-download_monitor.php:1584
+#: wp-download_monitor.php:1730
 #, fuzzy
 msgid "Bulk Edit Downloads"
 msgstr "Upravit soubory"
 
-#: wp-download_monitor.php:1585
+#: wp-download_monitor.php:1731
 #, fuzzy
 msgid "Editing downloads with id's:"
 msgstr "Upravit soubory"
 
-#: wp-download_monitor.php:1585
+#: wp-download_monitor.php:1731
 msgid "Adding options here will overwrite the options in ALL of the selected downloads."
 msgstr ""
 
-#: wp-download_monitor.php:1593
-#: wp-download_monitor.php:1613
-#: wp-download_monitor.php:1622
-#: wp-download_monitor.php:1630
-#: wp-download_monitor.php:1639
-#: wp-download_monitor.php:2245
+#: wp-download_monitor.php:1739
+#: wp-download_monitor.php:1759
+#: wp-download_monitor.php:1768
+#: wp-download_monitor.php:1776
+#: wp-download_monitor.php:1785
+#: wp-download_monitor.php:2391
 #, fuzzy
 msgid "No Change"
 msgstr "Uložit změny"
 
-#: wp-download_monitor.php:1614
-#: wp-download_monitor.php:1623
-#: wp-download_monitor.php:1631
+#: wp-download_monitor.php:1760
+#: wp-download_monitor.php:1769
+#: wp-download_monitor.php:1777
 #, fuzzy
 msgid "Change to -->"
 msgstr "Změnit počet stažení"
 
-#: wp-download_monitor.php:1640
+#: wp-download_monitor.php:1786
 msgid "Replace with:"
 msgstr ""
 
-#: wp-download_monitor.php:1641
+#: wp-download_monitor.php:1787
 msgid "Add/Update only (keep existing fields):"
 msgstr ""
 
-#: wp-download_monitor.php:1707
+#: wp-download_monitor.php:1853
 msgid "Edit Downloads"
 msgstr "Upravit soubory"
 
-#: wp-download_monitor.php:1712
-#: wp-download_monitor.php:1854
+#: wp-download_monitor.php:1858
+#: wp-download_monitor.php:2000
 #, fuzzy
 msgid "Actions:"
 msgstr "Akce"
 
-#: wp-download_monitor.php:1719
-#: wp-download_monitor.php:1861
+#: wp-download_monitor.php:1865
+#: wp-download_monitor.php:2007
 msgid "Apply"
 msgstr ""
 
-#: wp-download_monitor.php:1741
+#: wp-download_monitor.php:1887
 msgid "Posted"
 msgstr "Zveřejněno"
 
-#: wp-download_monitor.php:1791
+#: wp-download_monitor.php:1937
 msgid "Y/m/d"
 msgstr ""
 
-#: wp-download_monitor.php:1843
+#: wp-download_monitor.php:1989
 msgid "by"
 msgstr "od"
 
-#: wp-download_monitor.php:1849
+#: wp-download_monitor.php:1995
 msgid "No downloads found."
 msgstr "Žádný soubor nenalezen."
 
-#: wp-download_monitor.php:1883
+#: wp-download_monitor.php:2029
 #, fuzzy
 msgid "&laquo; Previous"
 msgstr "Předchozí"
 
-#: wp-download_monitor.php:1884
+#: wp-download_monitor.php:2030
 msgid "Next &raquo;"
 msgstr ""
 
-#: wp-download_monitor.php:1907
+#: wp-download_monitor.php:2053
 msgid ""
 "You are about to delete the selected items.\n"
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-#: wp-download_monitor.php:1928
+#: wp-download_monitor.php:2074
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
 msgstr "<p>Potřebujete pomoc? FAQ, návody a další informace v angličtině najdete na stránkách pluginu <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">zde</a>.</p>"
 
-#: wp-download_monitor.php:1929
+#: wp-download_monitor.php:2075
 msgid ""
 "<p>The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development\n"
 "\t    of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful to ensure continued development.</p>"
@@ -817,11 +845,11 @@ msgstr ""
 "<p>Wordpress Download monitor vytvořil <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Vývoj tohoto pluginu\n"
 "\t    stál mnoho času a úsilí, proto, prosím, nezapomeňte poskytnout finanční dar pro podporu dalšího rozvoje pluginu pokud jej považujete za užitečný.</p>"
 
-#: wp-download_monitor.php:1960
+#: wp-download_monitor.php:2106
 msgid "Download Monitor Configuration"
 msgstr "Konfigurace Download Monitoru"
 
-#: wp-download_monitor.php:1973
+#: wp-download_monitor.php:2119
 #, fuzzy
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
@@ -842,7 +870,7 @@ msgstr ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your custom url.</p>"
 
-#: wp-download_monitor.php:1984
+#: wp-download_monitor.php:2130
 #, fuzzy
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
@@ -863,107 +891,107 @@ msgstr ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url.</p>"
 
-#: wp-download_monitor.php:2007
+#: wp-download_monitor.php:2153
 msgid "<p>Options updated</p>"
 msgstr "<p>Nastavení byla uložena</p>"
 
-#: wp-download_monitor.php:2026
+#: wp-download_monitor.php:2172
 #, fuzzy
 msgid "Category updated"
 msgstr "Kategorie byla přidána"
 
-#: wp-download_monitor.php:2039
+#: wp-download_monitor.php:2185
 msgid "Category added"
 msgstr "Kategorie byla přidána"
 
-#: wp-download_monitor.php:2040
+#: wp-download_monitor.php:2186
 msgid "Category was not added. Try Recreating the download database from the configuration page."
 msgstr "Kategorii se nepodařilo přidat. Zkuste znovu vytvořit databázi download ze stránek konfigurace."
 
-#: wp-download_monitor.php:2091
+#: wp-download_monitor.php:2237
 msgid "Category deleted Successfully"
 msgstr "Kategorie byla úspěšně odstraněna."
 
-#: wp-download_monitor.php:2097
+#: wp-download_monitor.php:2243
 msgid "Database recreated"
 msgstr "Databáze byla znovu vytvořena."
 
-#: wp-download_monitor.php:2116
+#: wp-download_monitor.php:2262
 msgid "Formats updated"
 msgstr "Formáty byly upraveny."
 
-#: wp-download_monitor.php:2127
+#: wp-download_monitor.php:2273
 msgid "Format added"
 msgstr "Formát byl přidán."
 
-#: wp-download_monitor.php:2141
+#: wp-download_monitor.php:2287
 msgid "Format deleted Successfully"
 msgstr "Formát byl úspěšně smazán"
 
-#: wp-download_monitor.php:2156
+#: wp-download_monitor.php:2302
 msgid "Download Categories"
 msgstr "Kategorie Ke stažení"
 
-#: wp-download_monitor.php:2158
+#: wp-download_monitor.php:2304
 msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
 msgstr "<p>Pomocí těchto kategorií můžete třídit soubory ke stažení. Můžete pak zobrazovat skupiny souborů podle kategorií nebo odpovídající stránky Ke stažení (viz dokumentace). Pozor, pokud smažete kategorii, smažete i všechny její podkategorie.</p>"
 
-#: wp-download_monitor.php:2196
+#: wp-download_monitor.php:2342
 msgid "No categories exist"
 msgstr "Neexistují žádné kategorie."
 
-#: wp-download_monitor.php:2202
+#: wp-download_monitor.php:2348
 msgid "Add category"
 msgstr "Přidat kategorii"
 
-#: wp-download_monitor.php:2209
-#: wp-download_monitor.php:2243
+#: wp-download_monitor.php:2355
+#: wp-download_monitor.php:2389
 msgid "Parent"
 msgstr "Rodič"
 
-#: wp-download_monitor.php:2211
-#: wp-download_monitor.php:2246
+#: wp-download_monitor.php:2357
 #: wp-download_monitor.php:2392
+#: wp-download_monitor.php:2540
 msgid "None"
 msgstr "Žádný"
 
-#: wp-download_monitor.php:2223
-#: wp-download_monitor.php:2335
+#: wp-download_monitor.php:2369
+#: wp-download_monitor.php:2483
 msgid "Add"
 msgstr "Přidat"
 
-#: wp-download_monitor.php:2226
+#: wp-download_monitor.php:2372
 #, fuzzy
 msgid "Edit category"
 msgstr "Přidat kategorii"
 
-#: wp-download_monitor.php:2231
+#: wp-download_monitor.php:2377
 #, fuzzy
 msgid "Select a category"
 msgstr "Přidat kategorii"
 
-#: wp-download_monitor.php:2269
+#: wp-download_monitor.php:2415
 msgid "Custom Output Formats"
 msgstr "Vlastní výstupní formáty"
 
-#: wp-download_monitor.php:2271
+#: wp-download_monitor.php:2417
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
 msgstr "<p>Zde můžete definovat vlastní formáty pro zobrazení svých souborů ke stažení.</p>"
 
-#: wp-download_monitor.php:2278
-#: wp-download_monitor.php:2331
+#: wp-download_monitor.php:2424
+#: wp-download_monitor.php:2479
 msgid "Format"
 msgstr "Formát"
 
-#: wp-download_monitor.php:2295
+#: wp-download_monitor.php:2441
 msgid "No formats exist"
 msgstr "Neexistuje žádný formát"
 
-#: wp-download_monitor.php:2301
+#: wp-download_monitor.php:2447
 msgid "Add format"
 msgstr "Přidat formát"
 
-#: wp-download_monitor.php:2302
+#: wp-download_monitor.php:2448
 #, fuzzy
 msgid ""
 "<p>Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities.</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
@@ -975,6 +1003,8 @@ msgid ""
 "\t                \t<li><code>{title}</code> - Title of download</li>\n"
 "\t                \t<li><code>{size}</code> - Filesize of download</li>\n"
 "\t                \t<li><code>{category,\"before\",\"after\"}</code> or <code>{category}</code> - Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
+"\t                \t<li><code>{category_other,\"before\",\"after\"}</code> or <code>{category_other}</code> - Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html.</li>\n"
+"\t                \t<li><code>{category_ID}</code> - Download Category ID.</li>\n"
 "\t                \t<li><code>{hits}</code> - Current hit count</li>\n"
 "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</code> - Formatted hit count depending on hits. <code>%</code> replaced with hit count.</li>\n"
 "\t                \t<li><code>{image_url}</code> - URL of the download image</li>\n"
@@ -1010,11 +1040,11 @@ msgstr ""
 "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Staženo {hits} krát\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
 "\t                "
 
-#: wp-download_monitor.php:2340
+#: wp-download_monitor.php:2488
 msgid "Custom Download URL"
 msgstr "Vlastní URL souborů ke stažení"
 
-#: wp-download_monitor.php:2342
+#: wp-download_monitor.php:2490
 #, fuzzy
 msgid ""
 "<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
@@ -1026,249 +1056,249 @@ msgstr ""
 "                        <p>Ponechte prázdné pro výchozí nastavení (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>\n"
 "                        <p>Pokud tuto hodnotu vyplníte, zkontrolujte, zda na vašem serveru neexistuje složka stejného jména a zda neexistuje příspěvek nebo stránka tohoto jména. Konflikt by mohl způsobit problém při přesměrování na download.php.</p>"
 
-#: wp-download_monitor.php:2348
+#: wp-download_monitor.php:2496
 msgid "Without Custom URL:"
 msgstr "Bez vlastního URL:"
 
-#: wp-download_monitor.php:2353
+#: wp-download_monitor.php:2501
 msgid "With Custom URL (downloads/ID):"
 msgstr "S vlastním URL (downloads/ID):"
 
-#: wp-download_monitor.php:2359
+#: wp-download_monitor.php:2507
 msgid "Custom URL"
 msgstr "Vlastní URL"
 
-#: wp-download_monitor.php:2364
+#: wp-download_monitor.php:2512
 msgid "Filename"
 msgstr "Název souboru"
 
-#: wp-download_monitor.php:2373
+#: wp-download_monitor.php:2521
 msgid "General Options"
 msgstr "Obecná nastavení"
 
-#: wp-download_monitor.php:2378
+#: wp-download_monitor.php:2526
 msgid "\"Download not found\" redirect URL"
 msgstr "Url pro přesměrování pro \"Soubor nenalezen\""
 
-#: wp-download_monitor.php:2379
-#: wp-download_monitor.php:2383
+#: wp-download_monitor.php:2527
+#: wp-download_monitor.php:2531
 msgid "Leave blank for no redirect."
 msgstr "Ponechte prázdné pokud nechcete přesměrovat."
 
-#: wp-download_monitor.php:2382
+#: wp-download_monitor.php:2530
 msgid "Member-only files non-member redirect"
 msgstr "Přesměrování anonymních uživatelů pro soubory jen pro uživatele"
 
-#: wp-download_monitor.php:2383
+#: wp-download_monitor.php:2531
 msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
 msgstr ""
 
-#: wp-download_monitor.php:2386
+#: wp-download_monitor.php:2534
 msgid "Download image path"
 msgstr "Cesta k obrázku pro soubor"
 
-#: wp-download_monitor.php:2387
+#: wp-download_monitor.php:2535
 msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
 msgstr "Obrázek se zobrazí pokud použijete značku <code>#image</code> a značku <code>{image_url}</code> na této stránce. Použijte absolutní url (např. <code>http://yoursite.com/image.gif</code>)."
 
-#: wp-download_monitor.php:2390
+#: wp-download_monitor.php:2538
 msgid "Default output format"
 msgstr "Výchozí formát zobrazení"
 
-#: wp-download_monitor.php:2409
+#: wp-download_monitor.php:2557
 #, fuzzy
 msgid "Log Downloads"
 msgstr "Ke stažení"
 
-#: wp-download_monitor.php:2422
+#: wp-download_monitor.php:2570
 #, fuzzy
 msgid "File Browser Root"
 msgstr "Zobrazit/skrýt procházení souborů"
 
-#: wp-download_monitor.php:2423
+#: wp-download_monitor.php:2571
 msgid "The root directory the file browser can display."
 msgstr ""
 
-#: wp-download_monitor.php:2446
-#: wp-download_monitor.php:2451
+#: wp-download_monitor.php:2594
+#: wp-download_monitor.php:2599
 msgid "Recreate Download Database"
 msgstr "Znovu vytvořit databázi Download"
 
-#: wp-download_monitor.php:2448
+#: wp-download_monitor.php:2596
 msgid "<p>This will delete the old download monitor tables and recreate them. You should only do this as a last resort if experiencing database errors after updating the plugin. Download monitor will attempt to re-add any downloads currently in the database.</p>"
 msgstr "<p>Tato volba smaže všechny tabulky download monitoru a znovu je vytvoří. Použijte tuto volbu jako poslední možnost v případě chyb databáze po updatu pluginu. Download monitor se pokusí znovu vložit všechny existující položky do databáze.</p>"
 
-#: wp-download_monitor.php:2449
+#: wp-download_monitor.php:2597
 msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
 msgstr "<p>VAROVÁNÍ: MŮŽE DOJÍT K VYMAZÁNÍ VŠECH DAT Z DATABÁZE; NAPŘED ZÁLOHUJTE VAŠI DATABÁZI!</p>"
 
-#: wp-download_monitor.php:2544
-#: wp-download_monitor.php:2812
+#: wp-download_monitor.php:2692
+#: wp-download_monitor.php:2960
 msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
 msgstr "<div class=\"error\">Chybí povinné pole: <strong>Název</strong></div>"
 
-#: wp-download_monitor.php:2546
-#: wp-download_monitor.php:2814
+#: wp-download_monitor.php:2694
+#: wp-download_monitor.php:2962
 msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
 msgstr "<div class=\"error\">Zadán neplatný <strong>počet stažení</strong></div>"
 
-#: wp-download_monitor.php:2611
-#: wp-download_monitor.php:2612
-#: wp-download_monitor.php:2863
-#: wp-download_monitor.php:2864
+#: wp-download_monitor.php:2759
+#: wp-download_monitor.php:2760
+#: wp-download_monitor.php:3011
+#: wp-download_monitor.php:3012
 msgid "Download added Successfully"
 msgstr "Soubor byl úspěšně přidán."
 
-#: wp-download_monitor.php:2617
-#: wp-download_monitor.php:2870
+#: wp-download_monitor.php:2765
+#: wp-download_monitor.php:3018
 msgid "<div class=\"error\">Error saving to database</div>"
 msgstr "<div class=\"error\">Chyba zápisu do databáze</div>"
 
-#: wp-download_monitor.php:2753
+#: wp-download_monitor.php:2901
 msgid "Upload &amp; save"
 msgstr "Soubor &amp; uložit"
 
-#: wp-download_monitor.php:2793
+#: wp-download_monitor.php:2941
 msgid "Add Existing Download"
 msgstr "Přidat existující soubor"
 
-#: wp-download_monitor.php:2815
+#: wp-download_monitor.php:2963
 msgid "<div class=\"error\">No file selected</div>"
 msgstr "<div class=\"error\">Nebyl vybrán žádný soubor</div>"
 
-#: wp-download_monitor.php:2901
+#: wp-download_monitor.php:3049
 msgid "Url"
 msgstr "Url"
 
-#: wp-download_monitor.php:2995
+#: wp-download_monitor.php:3143
 msgid "Save"
 msgstr "Uložit"
 
-#: wp-download_monitor.php:3036
+#: wp-download_monitor.php:3184
 msgid "Download Logs"
 msgstr "Protokoly stahování"
 
-#: wp-download_monitor.php:3037
+#: wp-download_monitor.php:3185
 msgid "Clear Log"
 msgstr "Smazat log"
 
-#: wp-download_monitor.php:3044
+#: wp-download_monitor.php:3192
 msgid "User"
 msgstr "Uživatel"
 
-#: wp-download_monitor.php:3045
+#: wp-download_monitor.php:3193
 msgid "IP Address"
 msgstr "IP adresa"
 
-#: wp-download_monitor.php:3075
+#: wp-download_monitor.php:3223
 msgid "jS M Y H:i:s"
 msgstr "d.m.Y H:i:s"
 
-#: wp-download_monitor.php:3095
+#: wp-download_monitor.php:3245
 msgid "No downloads logged."
 msgstr "Neexistují žádné záznamy."
 
-#: wp-download_monitor.php:3511
+#: wp-download_monitor.php:3700
 msgid "No Downloads found"
 msgstr "Žádný soubor nebyl nalezen."
 
-#: wp-download_monitor.php:3543
-#: wp-download_monitor.php:3550
-#: wp-download_monitor.php:3567
-#: wp-download_monitor.php:3604
+#: wp-download_monitor.php:3732
+#: wp-download_monitor.php:3739
+#: wp-download_monitor.php:3756
+#: wp-download_monitor.php:3793
 msgid "jS M Y"
 msgstr "d.m.Y"
 
-#: wp-download_monitor.php:3567
-#: wp-download_monitor.php:3604
+#: wp-download_monitor.php:3756
+#: wp-download_monitor.php:3793
 msgid "Added"
 msgstr "Vloženo"
 
-#: wp-download_monitor.php:3587
+#: wp-download_monitor.php:3776
 msgid "Most Popular Downloads"
 msgstr "Nejoblíbenější soubory ke stažení"
 
-#: wp-download_monitor.php:3607
+#: wp-download_monitor.php:3796
 msgid "No Downloads Found"
 msgstr "Nebyl nalezen žádný soubor"
 
-#: wp-download_monitor.php:3699
+#: wp-download_monitor.php:3888
 msgid "D j M"
 msgstr "d.m.Y"
 
-#: wp-download_monitor.php:3701
+#: wp-download_monitor.php:3890
 msgid "Previous Week"
 msgstr "Předchozí týden"
 
-#: wp-download_monitor.php:3702
+#: wp-download_monitor.php:3891
 msgid "This Week"
 msgstr "Tento týden"
 
-#: wp-download_monitor.php:3703
+#: wp-download_monitor.php:3892
 msgid "Next Week"
 msgstr "Další týden"
 
-#: wp-download_monitor.php:3724
+#: wp-download_monitor.php:3913
 msgid "F Y"
 msgstr "F Y"
 
-#: wp-download_monitor.php:3726
+#: wp-download_monitor.php:3915
 msgid "Previous 6 months"
 msgstr "Předchozích 6 měsíců"
 
-#: wp-download_monitor.php:3727
+#: wp-download_monitor.php:3916
 msgid "Last 6 months"
 msgstr "Posledních 6 měsíců"
 
-#: wp-download_monitor.php:3728
+#: wp-download_monitor.php:3917
 msgid "Next 6 months"
 msgstr "Následujících 6 měsíců"
 
-#: wp-download_monitor.php:3738
+#: wp-download_monitor.php:3927
 msgid "Weekly"
 msgstr "Týdně"
 
-#: wp-download_monitor.php:3741
+#: wp-download_monitor.php:3930
 msgid "Monthly"
 msgstr "Měsíčně"
 
-#: wp-download_monitor.php:3742
+#: wp-download_monitor.php:3931
 msgid "Select a download"
 msgstr "Vyberte soubor"
 
-#: wp-download_monitor.php:3769
+#: wp-download_monitor.php:3958
 msgid "Downloads per day for"
 msgstr "Stažení za den pro"
 
-#: wp-download_monitor.php:3772
-#: wp-download_monitor.php:3820
+#: wp-download_monitor.php:3961
+#: wp-download_monitor.php:4009
 msgid "Day"
 msgstr "Den"
 
-#: wp-download_monitor.php:3773
-#: wp-download_monitor.php:3821
+#: wp-download_monitor.php:3962
+#: wp-download_monitor.php:4010
 msgid "Number of downloads"
 msgstr "Počet stažení"
 
-#: wp-download_monitor.php:3808
+#: wp-download_monitor.php:3997
 msgid "None Found"
 msgstr "Nic nenalezeno"
 
-#: wp-download_monitor.php:3817
+#: wp-download_monitor.php:4006
 msgid "Most Downloaded"
 msgstr "Nejstahovanější"
 
-#: wp-download_monitor.php:3846
+#: wp-download_monitor.php:4035
 msgid "No stats yet"
 msgstr "Statistiky ještě nejsou k dispozici."
 
-#: wp-download_monitor.php:3858
-#: wp-download_monitor.php:3879
+#: wp-download_monitor.php:4047
+#: wp-download_monitor.php:4068
 msgid "Download Stats"
 msgstr "Statistiky stahování"
 
-#: wp-download_monitor.php:3859
-#: wp-download_monitor.php:3913
+#: wp-download_monitor.php:4048
+#: wp-download_monitor.php:4102
 msgid "Top 5 Downloads"
 msgstr "Nejlepších 5 souborů"
 
