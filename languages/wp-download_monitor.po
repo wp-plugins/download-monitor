@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-03 15:28+0100\n"
+"POT-Creation-Date: 2009-10-05 16:06+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -117,10 +117,10 @@ msgstr ""
 #: Monitor/Development/uploader.php:546
 #: Monitor/Development/wp-download_monitor.php:2511
 #: Monitor/Development/wp-download_monitor.php:3190
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:295
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:389
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:464
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:541
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:297
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:391
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:466
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:543
 msgid "Title"
 msgstr ""
 
@@ -151,9 +151,9 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:3756
 #: Monitor/Development/wp-download_monitor.php:3793
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:90
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:153
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:623
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:734
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:155
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:625
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:736
 msgid "Version"
 msgstr ""
 
@@ -473,12 +473,12 @@ msgstr ""
 #: Monitor/Development/uploader.php:637
 #: Monitor/Development/wp-download_monitor.php:3257
 #: Monitor/Development/wp-download_monitor.php:3258
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:333
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:334
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:492
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:493
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:580
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:581
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:335
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:336
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:494
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:495
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:582
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:583
 msgid "Previous"
 msgstr ""
 
@@ -487,12 +487,12 @@ msgstr ""
 #: Monitor/Development/uploader.php:651
 #: Monitor/Development/wp-download_monitor.php:3271
 #: Monitor/Development/wp-download_monitor.php:3272
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:346
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:347
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:505
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:506
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:593
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:594
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:348
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:349
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:507
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:508
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:595
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:596
 msgid "Next"
 msgstr ""
 
@@ -568,7 +568,7 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:3739
 #: Monitor/Development/wp-download_monitor.php:3756
 #: Monitor/Development/wp-download_monitor.php:3793
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:153
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:155
 msgid "downloaded"
 msgstr ""
 
@@ -585,8 +585,8 @@ msgstr ""
 #: Monitor/Development/wp-download_monitor.php:3739
 #: Monitor/Development/wp-download_monitor.php:3756
 #: Monitor/Development/wp-download_monitor.php:3793
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:153
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:739
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:155
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:741
 msgid "times"
 msgstr ""
 
@@ -611,7 +611,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:1021
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:93
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:739
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:741
 msgid "Downloaded"
 msgstr ""
 
@@ -833,10 +833,10 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:1886
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:295
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:389
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:464
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:541
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:297
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:391
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:466
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:543
 msgid "Hits"
 msgstr ""
 
@@ -1249,10 +1249,10 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:3194
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:295
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:389
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:464
-#: Monitor/Development/page-addon/download-monitor-page-addon.php:541
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:297
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:391
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:466
+#: Monitor/Development/page-addon/download-monitor-page-addon.php:543
 msgid "Date"
 msgstr ""
 

@@ -119,7 +119,7 @@ if (function_exists('get_downloads')) {
 	// Handle $exclude_cat
 	$exclude_cat_array = array();
 	if ($exclude_cat) {
-		$exclude_cat_unclean = explode(',',$exclude_cat);		
+		$exclude_cat_unclean = explode(',',$exclude_cat);	
 		foreach ($exclude_cat_unclean as $e) {
 			$e = trim($e);
 			if (is_numeric($e)) $exclude_cat_array[] = $e;
@@ -127,16 +127,18 @@ if (function_exists('get_downloads')) {
 	}
 	if (sizeof($exclude_cat_array) > 0) $exclude_cat_query = ' AND '.$wp_dlm_db_cats.'.id NOT IN ('.implode(',',$exclude_cat_array).')';
 	else $exclude_cat_query="";
-	
+
 	// Find more IDS to exlude
-	$results = $wpdb->get_results("SELECT $wp_dlm_db.id FROM $wp_dlm_db 
-	LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-	WHERE $wp_dlm_db_cats.id IN (".implode(',',$exclude_cat_array).");");
-	$new_exclude_array = array();
-	foreach ($results as $r) {
-		$new_exclude_array[] = $r->id;
+	if (sizeof($exclude_cat_array) > 0) {
+		$results = $wpdb->get_results("SELECT $wp_dlm_db.id FROM $wp_dlm_db 
+		LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
+		WHERE $wp_dlm_db_cats.id IN (".implode(',',$exclude_cat_array).");");
+		$new_exclude_array = array();
+		foreach ($results as $r) {
+			$new_exclude_array[] = $r->id;
+		}
+		$exclude_array = array_merge($exclude_array,$new_exclude_array);
 	}
-	$exclude_array = array_merge($exclude_array,$new_exclude_array);
 	if (sizeof($exclude_array) > 0) $exclude_query = ' AND '.$wp_dlm_db.'.id NOT IN ('.implode(',',$exclude_array).')';
 	else $exclude_query="";
 	
@@ -244,7 +246,7 @@ if (function_exists('get_downloads')) {
 	$category_res = $wpdb->get_results( "
 		SELECT $wp_dlm_db_cats.* 
 		FROM $wp_dlm_db_cats
-		WHERE $wp_dlm_db_cats.id NOT IN ( SELECT category_id FROM $wp_dlm_db WHERE category_id > 0 )
+		WHERE $wp_dlm_db_cats.id NOT IN ( SELECT category_id FROM $wp_dlm_db WHERE category_id > 0 ) $exclude_cat_query 
 	" );
 	if ($category_res) foreach($category_res as $c) {
 		$thiscat = array();
@@ -751,7 +753,9 @@ if (function_exists('get_downloads')) {
 					<h'.$base_heading_level.'>'.$tags_widget_text.'</h'.$base_heading_level.'><ul>';
 					
 					// Get tags
-					$tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags' AND download_id NOT IN (".implode(',',$exclude_array).")" );				
+					if (sizeof($exclude_array) > 0 ) $tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags' AND download_id NOT IN (".implode(',',$exclude_array).")" );		
+					else $tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags';" );		
+							
 					
 					if (!empty($tags)) {
 						$tags_array = array();
