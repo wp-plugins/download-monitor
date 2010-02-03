@@ -2,34 +2,16 @@
 
 if(file_exists('../../../wp-load.php')) {
 	require_once("../../../wp-load.php");
-} else if(file_exists('../../wp-load.php')) {
-	require_once("../../wp-load.php");
-} else if(file_exists('../wp-load.php')) {
-	require_once("../wp-load.php");
-} else if(file_exists('wp-load.php')) {
-	require_once("wp-load.php");
-} else if(file_exists('../../../../wp-load.php')) {
-	require_once("../../../../wp-load.php");
 } else if(file_exists('../../../../wp-load.php')) {
 	require_once("../../../../wp-load.php");
 } else {
-
 	if(file_exists('../../../wp-config.php')) {
 		require_once("../../../wp-config.php");
-	} else if(file_exists('../../wp-config.php')) {
-		require_once("../../wp-config.php");
-	} else if(file_exists('../wp-config.php')) {
-		require_once("../wp-config.php");
-	} else if(file_exists('wp-config.php')) {
-		require_once("wp-config.php");
-	} else if(file_exists('../../../../wp-config.php')) {
-		require_once("../../../../wp-config.php");
 	} else if(file_exists('../../../../wp-config.php')) {
 		require_once("../../../../wp-config.php");
 	} else {
 		exit;
 	}
-
 }
 
 if (!function_exists('readfile_chunked')) {
@@ -60,6 +42,32 @@ if (!function_exists('readfile_chunked')) {
 	} 
 }
 
+if (!function_exists('remote_filesize')) {
+	function remote_filesize($url, $user = "", $pw = "")
+	{
+		ob_start();
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		curl_setopt($ch, CURLOPT_NOBODY, 1);
+	 
+		if(!empty($user) && !empty($pw))
+		{
+			$headers = array('Authorization: Basic ' .  base64_encode("$user:$pw"));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		}
+	 
+		$ok = curl_exec($ch);
+		curl_close($ch);
+		$head = ob_get_contents();
+		ob_end_clean();
+	 
+		$regex = '/Content-Length:\s([0-9].+?)\s/';
+		$count = preg_match($regex, $head, $matches);
+	 
+		return isset($matches[1]) ? $matches[1] : "";
+	}
+}
+
 global $wp_db_version;
 if ($wp_db_version < 8201) {
 	// Pre 2.6 compatibility (BY Stephen Rider)
@@ -78,9 +86,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 		
 	global $table_prefix,$wpdb,$user_ID;	
 	// set table name	
-	$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
-	$wp_dlm_db_stats = $table_prefix."DLM_STATS";
-	$wp_dlm_db_log = $table_prefix."DLM_LOG";
+	$wp_dlm_db = $table_prefix."download_monitor_files";
+	$wp_dlm_db_stats = $table_prefix."download_monitor_stats";
+	$wp_dlm_db_log = $table_prefix."download_monitor_log";
 	
 	$id = stripslashes($_GET['id']);
 	
@@ -103,10 +111,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			break;
 		}
 	}
-	if (isset($id) && $go==true) {
-		// set table name	
-		$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
-		
+	if (isset($id) && $go==true) {		
 		switch ($downloadtype) {
 					case ("Title") :
 							// select a download
@@ -188,7 +193,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   
 		   		// Log download details
 		   		if (get_option('wp_dlm_log_downloads')=='yes') {
-					$timestamp = current_time('timestamp');					
+					$timestamp = current_time('timestamp', 1);					
 					$ipAddress = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
 					$user = $user_ID;
 					if (empty($user)) $user = '0';				
@@ -209,7 +214,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   		$loop = 0;
 			   		$linkValidator = new linkValidator();
 			   		while ($checking) { 						
-						$linkValidator->linkValidator($thefile);
+						$linkValidator->linkValidator($thefile, true, false);
 						if (!$linkValidator->status()) {
 						
 							// Failed - use another mirror
@@ -252,8 +257,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				
 				if (isset($force)) {} else {
 					if ($d->members) $force=1; else $force=0;
-				}
-
+				}				
+				
 				if ($force==1) {				
 
 					$filename = basename($thefile);
@@ -389,7 +394,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						case "mxu":		$ctype="video/vnd.mpegurl";				break; 
 						case "avi":		$ctype="video/x-msvideo";				break; 
 						case "movie":	$ctype="video/x-sgi-movie";				break; 
-						case "ice":		$ctype="x-conference-xcooltalk" ;		break;
+						case "ice":		$ctype="x-conference-xcooltalk" ;		break;						
+						case "jad":		$ctype="text/vnd.sun.j2me.app-descriptor" ;		break;
+						case "cod":		$ctype="application/vnd.rim.cod" ;		break;
 						//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files) - if you want to serve these types of files just zip then or give them another extension! This is mainly to protect users who don't know what they are doing :)
 						case "php":
 						case "htm":
@@ -403,44 +410,60 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						default: 		$ctype="application/octet-stream";
 					}						
 
-					if(	ini_get('zlib.output_compression')) ini_set('zlib.output_compression', 'Off');
-					if(	!ini_get('safe_mode')) set_time_limit(0);
-					@ob_end_clean();
+					@ini_set('zlib.output_compression', 'Off');
+					set_time_limit(0);
+					session_start();					
+					session_cache_limiter('none');					
 					
 					// START jidd.jimisaacs.com
 					$urlparsed = parse_url($thefile);
 					$isURI = array_key_exists('scheme', $urlparsed);
-					$localURI = (bool) strstr($thefile, get_bloginfo('url'));
+					$localURI = (bool) strstr($thefile, get_bloginfo('url')); /* Local TO WORDPRESS!! */
+							
+					/* Debug
+					echo "
+						URL Parsed: $urlparsed\n
+						isUrl:		$isURI\n
+						localURL:	$localURI\n
+						BloginfoURL: ".get_bloginfo('url')."\n
+						BloginfoWPURL:	".get_bloginfo('wpurl')."\n
+						ABSPATH: ".ABSPATH." 
+					";
+					exit; */
 					
 					// Deal with remote file or local file					
-					//if (strstr($thefile, get_bloginfo('url'))) {
 					if( $isURI && $localURI || !$isURI && !$localURI ) {
-						// Local File URI
+					
+						/* Had some problems with strange wordpress setups/files on server but on within wordpress installation SO lets try this:
+							Does the download contain the wpurl or url? */
 						if( $localURI ) {
 							// the URI is local, replace the WordPress url OR blog url with WordPress's absolute path.
 							$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
 							$path = preg_replace( $patterns, '', $thefile );
 							// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
-							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );
+							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );							
 						// Local File System path
 						} else if( !path_is_absolute( $thefile ) ) { 
-							// the path is relative, append it to the WordPress absolute path.
-							$thefile = path_join( ABSPATH, $thefile );
+							//$thefile = path_join( ABSPATH, $thefile );
+							// Get the absolute path
+							if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
+							$dir_path = $_SERVER['DOCUMENT_ROOT'];
+							// Now substitute the domain for the absolute path in the file url
+							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join($dir_path, $thefile ));
 						}
 						// If the path wasn't a URI and not absolute, then it made it all the way to here without manipulation, so now we do this...
 						// By the way, realpath() returns NOTHING if is does not exist.
 						$thefile = realpath( $thefile );
 						// now do a long condition check, it should not be emtpy, a directory, and should be readable.
 						$willDownload = empty($thefile) ? false : !is_file($thefile) ? false : is_readable($thefile);
-						//if ( file_exists($thefile) && is_readable($thefile) ) {
-						if ( $willDownload ) {
+						
+						if ( $willDownload ) {							
 						// END jidd.jimisaacs.com					
-							header("Pragma: public");
-							header("Expires: -1");
-							header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
-							header("Content-Type: application/force-download");
+							header("Pragma: no-cache");
+							header("Expires: 0");
+							header("Cache-Control: no-store, no-cache, must-revalidate");
+							header("Robots: none");
 							header("Content-Type: ".$ctype."");	;
-							header("Content-Type: application/download");
 							header("Content-Description: File Transfer");						
 							header("Content-Disposition: attachment; filename=\"".$filename."\";");
 							header("Content-Transfer-Encoding: binary");
@@ -448,6 +471,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							if ($size) {						
 								header("Content-Length: ".$size);
 							}
+							@ob_end_flush();
 							@readfile_chunked($thefile);
 							exit;
 						}			
@@ -456,16 +480,14 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					} elseif ( $isURI && ini_get('allow_url_fopen')  ) {
 					// END jidd.jimisaacs.com
 						// Remote File						
-						header("Pragma: public");
-						header("Expires: -1");
-						header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
-						header("Content-Type: application/force-download");
+						header("Pragma: no-cache");
+						header("Expires: 0");
+						header("Cache-Control: no-store, no-cache, must-revalidate");
+						header("Robots: none");
 						header("Content-Type: ".$ctype."");	;
-						header("Content-Type: application/download");
 						header("Content-Description: File Transfer");						
 						header("Content-Disposition: attachment; filename=\"".$filename."\";");
-						header("Content-Transfer-Encoding: binary");
-						
+						header("Content-Transfer-Encoding: binary");						
 						// Get filesize
 						$filesize = 0;
 						if (function_exists('get_headers')) {
@@ -474,25 +496,12 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							$filesize = $ary_header['Content-Length'];
 						} else if (function_exists('curl_init')) {
 							// Curl Method
-							ob_start();
-							$ch = curl_init($thefile);
-							curl_setopt($ch, CURLOPT_HEADER, 1);
-							curl_setopt($ch, CURLOPT_NOBODY, 1);
-							if(!empty($user) && !empty($pw)) {
-							$headers = array('Authorization: Basic ' . base64_encode("$user:$pw"));
-							curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-							}
-							$ok = curl_exec($ch);
-							curl_close($ch);
-							$head = ob_get_contents();
-							ob_end_clean();
-							$regex = '/Content-Length:\s([0-9].+?)\s/';
-							$count = preg_match($regex, $head, $matches);
-							if (isset($matches[1])) $filesize = $matches[1];
+							$filesize = remote_filesize($thefile);
 						}
-						if ($file_size > 0) {						
+						if (isset($file_size) && $file_size > 0) {						
 							header("Content-Length: ".$file_size);
 						}
+						@ob_end_flush();
 						@readfile_chunked($thefile);
 						exit;
 					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
@@ -508,6 +517,23 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							
 				}
 				
+				if( !strstr('://', $thefile ) ) { 
+				
+					$pageURL = "";
+					$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+				
+					if ($_SERVER["SERVER_PORT"] != "80") {
+						$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
+					} else {
+						$pageURL .= $_SERVER["SERVER_NAME"];
+					}		
+					
+					if (!strstr(get_bloginfo('url'),'www.')) $pageURL = str_replace('www.','', $pageURL );
+					
+					if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
+					$dir_path = $_SERVER['DOCUMENT_ROOT'];
+					$thefile = str_replace( $dir_path, $pageURL, $thefile );
+				}
 				$location= 'Location: '.$thefile;
 				header($location);
         	    exit;					
