@@ -1,11 +1,11 @@
-#file_browser {
-	border: 2px solid #999;
+#file_browser, #file_browser2, #file_browser_thumbnail {
+	border: 1px solid #DFDFDF;
 	height: 250px;
 	overflow: auto;
 	padding: 4px 8px;
 	background: #fff;
 	margin: 4px 0;
-	width: 302px;
+	width: 342px;
 }
 
 UL.jqueryFileTree {

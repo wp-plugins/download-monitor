@@ -21,6 +21,9 @@ form#download-page-search {
 	-webkit-border-radius: 4px;
 	margin: 8px 0 16px !important;
 }
+form#download-page-search br {
+	display: none;
+}
 div.download-info.single {
 	overflow:hidden;
 }
@@ -97,6 +100,7 @@ div#download-page-featured li:before, div#download-page-tags li:before {
 	content: "";
 }
 div#download-page-featured li {
+	clear: left;
 	float: left;
 	list-style: none;
 	width: 47%;
@@ -105,6 +109,7 @@ div#download-page-featured li {
 	border-right:1px dotted #ddd;
 }
 div#download-page-featured li.alternate {
+	clear: none;
 	float: right;
 	border: 0;
 	padding: 0 !important;

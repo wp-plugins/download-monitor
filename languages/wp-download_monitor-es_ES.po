@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-03 20:30+0100\n"
+"POT-Creation-Date: 2010-02-03 20:31+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -11,62 +11,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-KeywordsList: __;_e\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
 "X-Poedit-SearchPath-0: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development\n"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:149
 msgid "You must be logged in to download this file."
-msgstr "Musíte se přihlásit pro stažení tohoto souboru."
+msgstr "Debes estar contectado para descargar este archivo."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:166
 msgid "You do not have permission to download this file."
-msgstr "Ke stažení tohoto souboru nemáte oprávnění."
+msgstr "No tienes permiso para descargar este archivo."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:510
 msgid "Forcing the download of externally hosted files is not supported by this server."
-msgstr ""
+msgstr "Este servidor no soporta la descarga forzada de archivos alojados externamente."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:516
-#, fuzzy
 msgid "Download path is invalid!"
-msgstr "Statistiky stahování"
+msgstr "¡La ruta de descarga no es válida!"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:549
 msgid "Download does not exist!"
-msgstr "Tento soubor neexistuje!"
+msgstr "¡La descarga no existe!"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:159
 #, php-format
 msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
-msgstr ""
+msgstr "%1$s%2$s, %3$s @ %4$s : %5$s"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:229
 msgid "Add Download"
-msgstr "Přidat soubor"
+msgstr "Añadir Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:253
 #: Monitor/Development/admin/dashboard.php:123
 msgid "Show"
-msgstr "Zobrazit"
+msgstr "Mostrar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:254
 msgid "All Downloads"
-msgstr "Všechny soubory"
+msgstr "Todas las Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:255
 msgid "Downloads and categories"
-msgstr "Soubory a kategorie"
+msgstr "Descargas y Categorías"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:260
@@ -74,7 +71,7 @@ msgstr "Soubory a kategorie"
 #: Monitor/Development/uploader.php:807
 #: Monitor/Development/wp-download_monitor.php:103
 msgid "Downloads"
-msgstr "Ke stažení"
+msgstr "Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:273
@@ -88,7 +85,7 @@ msgstr "Ke stažení"
 #: Monitor/Development/admin/admin.php:1108
 #: Monitor/Development/admin/admin.php:1343
 msgid "Categories"
-msgstr "Kategorie"
+msgstr "Categorías"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:30
 #: Monitor/Development/init.php:32
@@ -122,7 +119,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:590
 #: Monitor/Development/admin/admin.php:1432
 msgid "Version"
-msgstr "Verze"
+msgstr "Versión"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:51
@@ -137,7 +134,7 @@ msgstr "Verze"
 #: Monitor/Development/shortcodes.php:59
 #: Monitor/Development/shortcodes.php:134
 msgid "downloaded"
-msgstr "staženo"
+msgstr "descargado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:51
@@ -153,18 +150,18 @@ msgstr "staženo"
 #: Monitor/Development/shortcodes.php:59
 #: Monitor/Development/shortcodes.php:134
 msgid "times"
-msgstr "krát"
+msgstr "veces"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:77
 #: Monitor/Development/admin/admin.php:1341
 msgid "Download"
-msgstr "Ke stažení"
+msgstr "Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:180
 msgid "Downloaded"
-msgstr "Staženo"
+msgstr "Descargado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:219
@@ -172,48 +169,47 @@ msgstr "Staženo"
 #: Monitor/Development/legacy_shortcodes.php:243
 #: Monitor/Development/legacy_shortcodes.php:280
 msgid "jS M Y"
-msgstr "d.m.Y"
+msgstr "jS M Y"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:243
 #: Monitor/Development/legacy_shortcodes.php:280
 msgid "Added"
-msgstr "Vloženo"
+msgstr "Añadido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:263
 msgid "Most Popular Downloads"
-msgstr "Nejoblíbenější soubory ke stažení"
+msgstr "Descargas más populares"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:283
 msgid "No Downloads Found"
-msgstr "Nebyl nalezen žádný soubor"
+msgstr "No se han encontrado Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/shortcodes.php:152
 msgid "No Downloads found"
-msgstr "Žádný soubor nebyl nalezen."
+msgstr "No se han encontrado Descargas."
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:80
 #: Monitor/Development/uploader.php:83
 msgid "Blue"
-msgstr "Modrý"
+msgstr "Azul"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:81
 #: Monitor/Development/uploader.php:84
 msgid "Gray"
-msgstr "Šedý"
+msgstr "Gris"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:93
-#, fuzzy
 msgid "You do not have permission to upload files/downloads."
-msgstr "Nemáte oprávnění nahrávat soubory."
+msgstr "No tienes permiso para subir archivos/descargas."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:101
 msgid "Uploads"
-msgstr "Nahrané soubory"
+msgstr "Subidas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:101
@@ -234,28 +230,28 @@ msgstr "WordPress"
 #: Monitor/Development/admin/admin.php:1250
 #: Monitor/Development/admin/admin.php:1262
 msgid "remove"
-msgstr "smazat"
+msgstr "eliminar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:267
 #: Monitor/Development/admin/add_new.php:66
 msgid "Add New Download"
-msgstr "Nahrát nový soubor"
+msgstr "Añadir Nueva Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:268
 msgid "View Downloads"
-msgstr "Zobrazit soubory ke stažení"
+msgstr "Ver Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:309
 msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
-msgstr "<div id=\"media-upload-error\">Povinné pole: <strong>Název</strong> chybí</div>"
+msgstr "<div id=\"media-upload-error\">Campo obligatorio: <strong>Título</strong> omitido</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:311
 msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
-msgstr "<div id=\"media-upload-error\">Zadána neplatná hodnota pro <strong>kliknutí</strong></div>"
+msgstr "<div id=\"media-upload-error\">Número de <strong>descargas</strong> erróneo</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:353
@@ -267,12 +263,12 @@ msgstr ""
 #: Monitor/Development/uploader.php:451
 #, fuzzy
 msgid "<div id=\"media-upload-error\">Error saving to database</div>"
-msgstr "<div class=\"error\">Chyba zápisu do databáze</div>"
+msgstr "<div class=\"error\">Error al guardar en la base de datos</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:461
 msgid "Download Information"
-msgstr "Informace o souboru"
+msgstr "Información de Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:467
@@ -281,53 +277,53 @@ msgstr "Informace o souboru"
 #: Monitor/Development/admin/config.php:264
 #: Monitor/Development/admin/logs.php:52
 msgid "Title"
-msgstr "Název"
+msgstr "Título"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:473
 #: Monitor/Development/admin/add_new.php:272
 #: Monitor/Development/admin/admin.php:596
 msgid "Description"
-msgstr "Popis"
+msgstr "Descripción"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:484
 #: Monitor/Development/admin/add_new.php:276
 msgid "Starting hits"
-msgstr "Začít s počtem kliknutí"
+msgstr "Descargas iniciales"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:490
 #: Monitor/Development/admin/add_new.php:282
 msgid "Select a file..."
-msgstr "Vyberte soubor..."
+msgstr "Seleccionar un archivo..."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:521
 #: Monitor/Development/admin/add_new.php:247
 #: Monitor/Development/admin/admin.php:566
 msgid " (defined in php.ini)"
-msgstr " (nastaveno v php.ini)"
+msgstr "(definido en php.ini)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:532
 #: Monitor/Development/admin/add_new.php:286
 msgid "Upload File"
-msgstr "Nahrát soubor"
+msgstr "Archivo Subido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
 #: Monitor/Development/admin/admin.php:620
 msgid "Max. filesize"
-msgstr "Max. velikost"
+msgstr "Tamaño máximo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
 #: Monitor/Development/admin/admin.php:620
 msgid "bytes"
-msgstr "bytů"
+msgstr "bytes"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
@@ -335,7 +331,7 @@ msgstr "bytů"
 #: Monitor/Development/admin/admin.php:620
 #, fuzzy
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
-msgstr "Pokud již existuje soubor stejného jména ve složce pro nahrávání, bude tento soubor automaticky přejmenován."
+msgstr "Si existe un archivo con el mismo nombre en la carpeta de subidas, este fichero será renombrado automáticamente."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:536
@@ -352,7 +348,7 @@ msgstr ""
 #: Monitor/Development/admin/add_new.php:293
 #, fuzzy
 msgid "Enter file URL"
-msgstr "URL souboru"
+msgstr "URL Archivo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:538
@@ -363,7 +359,7 @@ msgstr "URL souboru"
 #: Monitor/Development/admin/admin.php:734
 #: Monitor/Development/admin/admin.php:1206
 msgid "Toggle File Browser"
-msgstr "Zobrazit/skrýt procházení souborů"
+msgstr "Conmutar Navegador Archivos"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:540
@@ -376,14 +372,14 @@ msgstr "Y-m-d H:i:s"
 #: Monitor/Development/uploader.php:550
 #, fuzzy
 msgid "Mirrors"
-msgstr "Zrcadla pro stažení"
+msgstr "Mirrors de Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:554
 #: Monitor/Development/admin/add_new.php:303
 #: Monitor/Development/admin/admin.php:636
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
-msgstr "Zde můžete uvést seznam odkazů na soubor (1 odkaz na řádek). Pro stažení bude náhodně vybrán vždy jeden z těchto odkazů."
+msgstr "Opcionalmente mostrar lista de urls de mirrors aquí (1 por línea). Download monitor aleatoriamente escogerá uno de estos servidores cuando active la descarga."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:598
@@ -393,7 +389,7 @@ msgstr "Zde můžete uvést seznam odkazů na soubor (1 odkaz na řádek). Pro s
 #: Monitor/Development/admin/admin.php:1155
 #, fuzzy
 msgid "+ Add New Category"
-msgstr "Přidat kategorii"
+msgstr "Añadir categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:601
@@ -412,7 +408,7 @@ msgstr "Přidat kategorii"
 #: Monitor/Development/admin/config.php:172
 #: Monitor/Development/admin/config.php:228
 msgid "Name"
-msgstr "Název"
+msgstr "Nombre"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:605
@@ -423,7 +419,7 @@ msgstr "Název"
 #: Monitor/Development/admin/categories.php:156
 #: Monitor/Development/admin/categories.php:190
 msgid "Parent"
-msgstr "Rodič"
+msgstr "Superior"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:607
@@ -435,7 +431,7 @@ msgstr "Rodič"
 #: Monitor/Development/admin/categories.php:193
 #: Monitor/Development/admin/config.php:321
 msgid "None"
-msgstr "Žádný"
+msgstr "Ninguna"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:619
@@ -446,7 +442,7 @@ msgstr "Žádný"
 #: Monitor/Development/admin/categories.php:170
 #: Monitor/Development/admin/config.php:236
 msgid "Add"
-msgstr "Přidat"
+msgstr "Añadir"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:624
@@ -457,7 +453,7 @@ msgstr "Přidat"
 #: Monitor/Development/admin/admin.php:1180
 #: Monitor/Development/admin/admin.php:1344
 msgid "Tags"
-msgstr "Značky"
+msgstr "Etiquetas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:630
@@ -476,7 +472,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1194
 #, fuzzy
 msgid "No Tags Found"
-msgstr "Nebyl nalezen žádný soubor"
+msgstr "No se han encontrado Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:644
@@ -484,21 +480,22 @@ msgstr "Nebyl nalezen žádný soubor"
 #: Monitor/Development/admin/admin.php:722
 #: Monitor/Development/admin/admin.php:1201
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatura"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:647
 #: Monitor/Development/admin/add_new.php:393
 #, fuzzy
 msgid "Upload thumbnail"
-msgstr "Nahrát soubor"
+msgstr "Archivo Subido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:650
 #: Monitor/Development/admin/add_new.php:394
 #: Monitor/Development/admin/admin.php:727
+#, fuzzy
 msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
-msgstr ""
+msgstr "Inserta URL de la imagen en miniatura. Ésta se mostrará en la página de descargas o con {thumbnail} en formato personalizado (se mostrará un contenedor si no se establece)."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:653
@@ -513,7 +510,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:742
 #: Monitor/Development/admin/admin.php:1211
 msgid "Member only file?"
-msgstr "Soubor jen pro přihlášené?"
+msgstr "¿Fichero sólo para miembros?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:664
@@ -523,7 +520,7 @@ msgstr "Soubor jen pro přihlášené?"
 #: Monitor/Development/admin/admin.php:1215
 #, fuzzy
 msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file."
-msgstr "Tato volba zpřístupní odkaz na soubor jen pro přihlášené uživatele. Je vhodné soubor pojmenovat tak, aby odkaz nebylo možné snadno uhodnout. BONUS: Vytvořte meta klíč se jménem min-level pro nastavení minimální úrovně oprávnění uživatele potřebné pro stažení souboru."
+msgstr "Si se selecciona, sólo los usuarios conectados podrán acceder a este fichero con un enlace de descarga. Es buena idea dar al fichero un nombre que no sea fácilmente adivinado y que pueda ser accedido directamente. EXTRA: añade un campo personalizado llamado \"min-level\" para establecer el nivel mínimo de usuario necesario para descargar el archivo."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:667
@@ -533,7 +530,7 @@ msgstr "Tato volba zpřístupní odkaz na soubor jen pro přihlášené uživate
 #: Monitor/Development/admin/admin.php:1218
 #, fuzzy
 msgid "Force Download?"
-msgstr "Ke stažení"
+msgstr "Registro Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:671
@@ -552,7 +549,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1226
 #: Monitor/Development/admin/admin.php:1347
 msgid "Custom fields"
-msgstr "Vlastní pole"
+msgstr "Campos personalizados"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:681
@@ -561,7 +558,7 @@ msgstr "Vlastní pole"
 #: Monitor/Development/admin/admin.php:766
 #: Monitor/Development/admin/admin.php:1237
 msgid "Value"
-msgstr "Hodnota"
+msgstr "Valor"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:715
@@ -570,7 +567,7 @@ msgstr "Hodnota"
 #: Monitor/Development/admin/admin.php:798
 #: Monitor/Development/admin/admin.php:1269
 msgid "Add Custom Field"
-msgstr "Vložit vlastní pole"
+msgstr "Añadir Campo Personalizado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:715
@@ -589,46 +586,46 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1280
 #, fuzzy
 msgid "None found."
-msgstr "Nic nenalezeno"
+msgstr "No se han encontrado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:733
 msgid "Save new download"
-msgstr "Uložit nový soubor"
+msgstr "Guardar nueva descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:741
 msgid "Insert new download into post"
-msgstr "Vložit nový soubor do příspěvku"
+msgstr "Insertar nueva descarga en la entrada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:743
 #: Monitor/Development/uploader.php:789
 msgid "Insert into post using format:"
-msgstr "Vložit do příspěvku s použitím formátu: "
+msgstr "Insertar en la entrada usando el formato:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:744
 #: Monitor/Development/uploader.php:792
 msgid "Default"
-msgstr "Výchozí"
+msgstr "Por defecto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:757
 msgid "Insert into post"
-msgstr "Vložit do příspěvku"
+msgstr "Insertar en la entrada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:779
 #: Monitor/Development/admin/admin.php:1329
 msgid "Search Downloads:"
-msgstr "Hledat v souborech ke stažení:"
+msgstr "Buscar Descargas:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:781
 #: Monitor/Development/admin/admin.php:1331
 msgid "Search Downloads"
-msgstr "Hledání v souborech ke stažení"
+msgstr "Buscar descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:812
@@ -645,27 +642,27 @@ msgstr "ID"
 #: Monitor/Development/admin/admin.php:1342
 #: Monitor/Development/admin/logs.php:53
 msgid "File"
-msgstr "Soubor"
+msgstr "Archivo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:817
 #: Monitor/Development/admin/admin.php:1345
 msgid "Member only"
-msgstr "Jen pro uživatele"
+msgstr "Sólo miembros"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:818
 #: Monitor/Development/admin/admin.php:1346
 #, fuzzy
 msgid "Force Download"
-msgstr "Ke stažení"
+msgstr "Registro Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:819
 #: Monitor/Development/admin/categories.php:107
 #: Monitor/Development/admin/config.php:174
 msgid "Action"
-msgstr "Akce"
+msgstr "Acción"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:887
@@ -684,7 +681,7 @@ msgstr "N/A"
 #: Monitor/Development/admin/config.php:299
 #: Monitor/Development/admin/config.php:343
 msgid "Yes"
-msgstr "Ano"
+msgstr "Sí"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:906
@@ -695,25 +692,24 @@ msgstr "Ano"
 #: Monitor/Development/admin/config.php:302
 #: Monitor/Development/admin/config.php:346
 msgid "No"
-msgstr "Ne"
+msgstr "No"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:911
 msgid "Insert"
-msgstr "Přidat"
+msgstr "Insertar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:935
 #: Monitor/Development/admin/admin.php:1508
-#, fuzzy
 msgid "&laquo; Previous"
-msgstr "Předchozí"
+msgstr "&laquo; Anterior"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:936
 #: Monitor/Development/admin/admin.php:1509
 msgid "Next &raquo;"
-msgstr ""
+msgstr "Siguiente &raquo;"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:104
@@ -721,34 +717,34 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1481
 #: Monitor/Development/admin/categories.php:209
 msgid "Edit"
-msgstr "Upravit"
+msgstr "Editar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:105
 msgid "Add New"
-msgstr "Přidat nový"
+msgstr "Añadir Nuevo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:106
 #, fuzzy
 msgid "Add Directory"
-msgstr "Přidat kategorii"
+msgstr "Añadir categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:110
 msgid "Configuration"
-msgstr "Nastavení"
+msgstr "Configuración"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:111
 msgid "Log"
-msgstr "Log"
+msgstr "Registro"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:43
 #, fuzzy
 msgid "Add From Directory"
-msgstr "Přidat kategorii"
+msgstr "Añadir categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:45
@@ -759,19 +755,19 @@ msgstr ""
 #: Monitor/Development/admin/add_directory.php:59
 #, fuzzy
 msgid "<div class=\"error\">No folder selected</div>"
-msgstr "<div class=\"error\">Nebyl vybrán žádný soubor</div>"
+msgstr "<div class=\"error\">No se ha seleccionado archivo</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:215
 #, fuzzy
 msgid "Downloads added Successfully"
-msgstr "Soubor byl úspěšně přidán."
+msgstr "Descarga añadida satisfactoriamente"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:217
 #, fuzzy
 msgid "No files found"
-msgstr "Žádný soubor nebyl nalezen."
+msgstr "No se han encontrado Descargas."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:226
@@ -782,7 +778,7 @@ msgstr ""
 #: Monitor/Development/admin/add_directory.php:228
 #, fuzzy
 msgid "Toggle Folder Browser"
-msgstr "Zobrazit/skrýt procházení souborů"
+msgstr "Conmutar Navegador Archivos"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:233
@@ -800,7 +796,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:761
 #: Monitor/Development/admin/admin.php:1227
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
-msgstr "Vlastní pole můžete použít pro zadání dalších meta dat pro soubor. Nepovinné. Jména mohou obsahovat malá písmena bez mezer (bude automaticky opraveno, např. <code>Nejake Jmeno</code> se změní na <code>nejake-jmeno</code>."
+msgstr "Los campos personalizados pueden ser utilizados para añadir metadatos extra a una descarga. Déjalo en blanco para no añadir ninguno. El nombre debe estar en minúscula sin espacios (se cambiaría automáticamente, p.e. <code>Un Nombre</code> se convertirá en <code>un-nombre</code>."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:389
@@ -810,23 +806,23 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:88
 msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
-msgstr "<div class=\"error\">Chybí povinné pole: <strong>Název</strong></div>"
+msgstr "<div class=\"error\">Campo requerido: <strong>Título</strong> omitido</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:90
 msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
-msgstr "<div class=\"error\">Zadán neplatný <strong>počet stažení</strong></div>"
+msgstr "<div class=\"error\">Número de <strong>descargas</strong> erróneo</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:232
 #: Monitor/Development/admin/add_new.php:233
 msgid "Download added Successfully"
-msgstr "Soubor byl úspěšně přidán."
+msgstr "Descarga añadida satisfactoriamente"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:238
 msgid "<div class=\"error\">Error saving to database</div>"
-msgstr "<div class=\"error\">Chyba zápisu do databáze</div>"
+msgstr "<div class=\"error\">Error al guardar en la base de datos</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:260
@@ -834,131 +830,129 @@ msgstr "<div class=\"error\">Chyba zápisu do databáze</div>"
 #: Monitor/Development/admin/admin.php:613
 #, fuzzy
 msgid "(required)"
-msgstr "Název (povinné)"
+msgstr "Título (requerido)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:302
 #: Monitor/Development/admin/admin.php:635
 msgid "Download Mirrors"
-msgstr "Zrcadla pro stažení"
+msgstr "Mirrors de Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:477
 msgid "Upload &amp; save"
-msgstr "Soubor &amp; uložit"
+msgstr "Subir y guardar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:106
 #: Monitor/Development/admin/admin.php:318
 msgid "Are you sure you want to delete"
-msgstr "Opravdu chcete smazat "
+msgstr "¿Estás seguro de querer borrar?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:317
 msgid "Sure?"
-msgstr "Určitě?"
+msgstr "¿Seguro?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:318
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
-msgstr "? (Pokud byl původně nahrán pomocí tohoto pluginu, bude také soubor vymazán ze serveru)"
+msgstr "?(Si fue subido originalmente por este plugin, esto también eliminará el archivo del servidor)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:318
 msgid "[yes]"
-msgstr "[ano]"
+msgstr "[sí]"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:318
 msgid "[no]"
-msgstr "[ne]"
+msgstr "[no]"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:363
 msgid "Required field: <strong>Title</strong> omitted"
-msgstr "Chybí povinné pole: <strong>Název</strong>"
+msgstr "Campo Obligatorio: <strong>Título</strong> omitido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:364
 #, fuzzy
 msgid "Required field: <strong>THE FILE</strong> omitted"
-msgstr "Chybí povinné pole: <strong>Název</strong>"
+msgstr "Campo Obligatorio: <strong>Título</strong> omitido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:366
 msgid "Invalid <strong>hits</strong> entered"
-msgstr "Zadán neplatný <strong>počet stažení</strong>"
+msgstr "Insertado <strong>descargas</strong> erróneo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:448
 msgid "<div class=\"error\">No file selected</div>"
-msgstr "<div class=\"error\">Nebyl vybrán žádný soubor</div>"
+msgstr "<div class=\"error\">No se ha seleccionado archivo</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:506
 msgid "Download edited Successfully"
-msgstr "Úprava souboru proběhla úspěšně"
+msgstr "Descarga editada Satisfactoriamente"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:577
 msgid "Edit Download Information"
-msgstr "Upravit informace o souboru"
+msgstr "Editar información de Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:584
 msgid "Title (required)"
-msgstr "Název (povinné)"
+msgstr "Título (requerido)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:600
 msgid "Change hit count"
-msgstr "Změnit počet stažení"
+msgstr "Cambiar contador de descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:606
-#, fuzzy
 msgid "Change post date"
-msgstr "Změnit počet stažení"
+msgstr "Cambiar fecha inserción"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:609
 msgid "Change the post date of the download. Was set to:"
-msgstr ""
+msgstr "Cambiar la fecha de la publicación de la descarga. Antes era:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:609
-#, fuzzy
 msgid "M jS Y @ H:i"
-msgstr "d.m.Y H:i:s"
+msgstr "M jS Y @ H:i"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:613
 #, fuzzy
 msgid "The File"
-msgstr "Soubor"
+msgstr "Archivo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:617
 #, fuzzy
 msgid "Upload New File"
-msgstr "Nahrát soubor"
+msgstr "Archivo Subido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:619
 msgid "Remove old file?"
-msgstr "Odstranit starý soubor?"
+msgstr "¿Eliminar archivo antiguo?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:626
 #, fuzzy
 msgid "Edit File URL"
-msgstr "URL souboru"
+msgstr "URL Archivo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:726
 #, fuzzy
 msgid "Upload new thumbnail"
-msgstr "Nahrát nový soubor"
+msgstr "Subir un nuevo archivo."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:733
@@ -972,46 +966,42 @@ msgstr ""
 #: Monitor/Development/admin/config.php:269
 #: Monitor/Development/admin/config.php:370
 msgid "Save Changes"
-msgstr "Uložit změny"
+msgstr "Guardar Cambios"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:855
 msgid "Download deleted Successfully"
-msgstr "Soubor byl úspěšně smazán"
+msgstr "Descarga borrada con éxito"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:893
 msgid "Stats successfully reset for selected downloads"
-msgstr ""
+msgstr "Estadísticas reiniciadas con éxito para las descargas seleccionadas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:935
-#, fuzzy
 msgid "Selected Downloads deleted Successfully"
-msgstr "Soubor byl úspěšně smazán"
+msgstr "Descargas seleccionadas borradas con éxito"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1090
-#, fuzzy
 msgid "Downloads edited successfully"
-msgstr "Úprava souboru proběhla úspěšně"
+msgstr "Descargas editadas con éxito"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1100
-#, fuzzy
 msgid "Bulk Edit Downloads"
-msgstr "Upravit soubory"
+msgstr "Editar descargas en bloque"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1101
-#, fuzzy
 msgid "Editing downloads with id's:"
-msgstr "Upravit soubory"
+msgstr "Editar descargas con ids:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1101
 msgid "Adding options here will overwrite the options in ALL of the selected downloads."
-msgstr ""
+msgstr "Añadir opciones aquí sobreescribirá las opciones en TODAS las descargas seleccionadas."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1111
@@ -1021,15 +1011,14 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1220
 #: Monitor/Development/admin/admin.php:1229
 #: Monitor/Development/admin/categories.php:192
-#, fuzzy
 msgid "No Change"
-msgstr "Uložit změny"
+msgstr "No cambiar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1112
 #, fuzzy
 msgid "Change to &darr;"
-msgstr "Změnit počet stažení"
+msgstr "Cambiar a -->"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1184
@@ -1038,43 +1027,42 @@ msgstr "Změnit počet stažení"
 #: Monitor/Development/admin/admin.php:1221
 #, fuzzy
 msgid "Change to &rarr;"
-msgstr "Změnit počet stažení"
+msgstr "Cambiar a -->"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1230
 msgid "Replace with:"
-msgstr ""
+msgstr "Reemplazar por:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1231
 msgid "Add/Update only (keep existing fields):"
-msgstr ""
+msgstr "Añadir/Actualizar sólo (matener campos existentes):"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1311
 msgid "Edit Downloads"
-msgstr "Upravit soubory"
+msgstr "Editar Descargas:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1319
 #: Monitor/Development/admin/admin.php:1478
-#, fuzzy
 msgid "Actions:"
-msgstr "Akce"
+msgstr "Acciones:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1321
 #: Monitor/Development/admin/admin.php:1480
 #, fuzzy
 msgid "Bulk Actions"
-msgstr "Akce"
+msgstr "Acciones:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1323
 #: Monitor/Development/admin/admin.php:1482
 #, fuzzy
 msgid "Delete"
-msgstr "Výchozí"
+msgstr "Por defecto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1324
@@ -1086,32 +1074,32 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1326
 #: Monitor/Development/admin/admin.php:1485
 msgid "Apply"
-msgstr ""
+msgstr "Aplicar"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1348
 msgid "Hits"
-msgstr "Stažení"
+msgstr "Veces descargado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1349
 msgid "Posted"
-msgstr "Zveřejněno"
+msgstr "Publicado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1412
 msgid "Y/m/d"
-msgstr ""
+msgstr "Y/m/d"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1469
 msgid "by"
-msgstr "od"
+msgstr "por"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1473
 msgid "No downloads found."
-msgstr "Žádný soubor nenalezen."
+msgstr "No se han encontrado descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1532
@@ -1119,12 +1107,14 @@ msgid ""
 "You are about to delete the selected items.\n"
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
+"Vas a borrar los elementos seleccionados.\n"
+"'Cancel' para parar, 'OK' para borrar."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1547
 #, fuzzy
 msgid "Download Monitor News"
-msgstr "Zrcadla pro stažení"
+msgstr "Mirrors de Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1569
@@ -1142,7 +1132,7 @@ msgstr "F j, Y"
 #: Monitor/Development/admin/admin.php:1580
 #, fuzzy
 msgid "No items found."
-msgstr "Žádný soubor nenalezen."
+msgstr "No se han encontrado descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1586
@@ -1153,7 +1143,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1588
 #, fuzzy
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
-msgstr "<p>Potřebujete pomoc? FAQ, návody a další informace v angličtině najdete na stránkách pluginu <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">zde</a>.</p>"
+msgstr "<p>¿Necesitas ayuda? Puedes encontrar las FAQ, instrucciones de uso y otras indicaciones en la página del plugin <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">aquí</a>.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1589
@@ -1164,13 +1154,13 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1591
 #, fuzzy
 msgid "Download Monitor on Blue-Anvil"
-msgstr "Konfigurace Download Monitoru"
+msgstr "Configuración de Download Monitor"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1592
 #, fuzzy
 msgid "Download Monitor Documentation"
-msgstr "Konfigurace Download Monitoru"
+msgstr "Configuración de Download Monitor"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1593
@@ -1181,15 +1171,15 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1598
 #, fuzzy
 msgid "Support Download Monitor"
-msgstr "Zrcadla pro stažení"
+msgstr "Mirrors de Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1600
 #, fuzzy
 msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
 msgstr ""
-"<p>Wordpress Download monitor vytvořil <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Vývoj tohoto pluginu\n"
-"\t    stál mnoho času a úsilí, proto, prosím, nezapomeňte poskytnout finanční dar pro podporu dalšího rozvoje pluginu pokud jej považujete za užitečný.</p>"
+"<p>El plugin de Wordpress Download monitor fue creado por <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. El desarrollo\n"
+"\t    de este plugin ha llevado un gran tiempo y esfuerzo, por lo que no olvides donar si lo encuentras útil para asegurar la continuación en su desarrollo.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1602
@@ -1199,69 +1189,65 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:38
 msgid "Download Categories"
-msgstr "Kategorie Ke stažení"
+msgstr "Categorías de Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:40
 msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
-msgstr "<p>Pomocí těchto kategorií můžete třídit soubory ke stažení. Můžete pak zobrazovat skupiny souborů podle kategorií nebo odpovídající stránky Ke stažení (viz dokumentace). Pozor, pokud smažete kategorii, smažete i všechny její podkategorie.</p>"
+msgstr "<p>Puedes categorizar las descargas usando estas categorías. Después puedes mostrar grupos de descargas usando las etiquetas de categoría o una página de descargas dedicada (ver documentación). Ten en cuenta, que al borrar una categoría también se eliminarán sus subcategorías.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:62
-#, fuzzy
 msgid "Category updated"
-msgstr "Kategorie byla přidána"
+msgstr "Categoría actualizada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:75
 msgid "Category added"
-msgstr "Kategorie byla přidána"
+msgstr "Categoría añadida"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:76
 msgid "Category was not added. Try Recreating the download database from the configuration page."
-msgstr "Kategorii se nepodařilo přidat. Zkuste znovu vytvořit databázi download ze stránek konfigurace."
+msgstr "La categoría no se ha añadido. Intenta restaurar la base de datos de descargas desde la página de configuración."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:97
 msgid "Category deleted Successfully"
-msgstr "Kategorie byla úspěšně odstraněna."
+msgstr "Categoría borrada con éxito"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:143
 msgid "No categories exist"
-msgstr "Neexistují žádné kategorie."
+msgstr "No existen categorías"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:149
 msgid "Add category"
-msgstr "Přidat kategorii"
+msgstr "Añadir categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:173
-#, fuzzy
 msgid "Edit category"
-msgstr "Přidat kategorii"
+msgstr "Editar categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:176
 msgid "Category"
-msgstr "Kategorie"
+msgstr "Categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:178
-#, fuzzy
 msgid "Select a category"
-msgstr "Přidat kategorii"
+msgstr "Selecionar una categoría"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:41
 msgid "Download Monitor Configuration"
-msgstr "Konfigurace Download Monitoru"
+msgstr "Configuración de Download Monitor"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:54
-#, fuzzy
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
 "\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
@@ -1272,18 +1258,17 @@ msgid ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
 msgstr ""
-"<p>Url souborů ke stažení bylo změněno - musíte <strong>znovu uložit nastavení trvalých odkazů</strong> (Nastavení -> Trvalé odkazy) aby \n"
-"\t\t\t\t\t\tse změny projevily na stránkách vašeho blogu.</p>\n"
-"\t\t\t\t\t\t<p>Pokud WordPress nemá oprávnění měnit váš soubor .htaccess, přidejte tento text do souboru \n"
-"\t\t\t\t\t.htaccess před řádek \"# BEGIN WordPress\":</p>\n"
+"<p>URL de Descarga actualizada - Tienes que <strong>re-guardar tus parámetros de Enlaces Permanentes</strong> (Opciones/configuración -> Enlaces Permanentes) para \n"
+"\t\t\t\t\t\tque los cambios se reflejen en tu blog.</p>\n"
+"\t\t\t\t\t\t<p>Si tu archivo .htaccess no puede ser escrito por WordPress, añade lo siguiente a tu \n"
+"\t\t\t\t\tarchivo .htaccess antes de la línea \"# BEGIN WordPress\":</p>\n"
 "\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
 "\t\t\t\t\t\tRewriteEngine on<br/>\n"
-"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
-"\t\t\t\t\t\t<p>replacing \"download/\" with your custom url.</p>"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *tu carpeta wp-content */plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>reemplazando \"download/\" con tu url personalizada y \"*your wp-content dir*\" con tu directorio wp-content.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:65
-#, fuzzy
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
 "\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
@@ -1294,72 +1279,72 @@ msgid ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
 msgstr ""
-"<p>URL souborů ke stažení bylo změněno - musíte <strong>uložit nastavení trvalých odkazů</strong> (Nastavení -> Trvalé odkazy) \n"
-"\t\t\t\t\t\taby se změny projevily ve vašem blogu.</p>\n"
-"\t\t\t\t\t\t<p>Pokud WordPress nemá oprávnění zapisovat do vašeho souboru .htaccess, odstraňte následující řádky ze souboru \n"
-"\t\t\t\t\t.htaccess pokud existují před řádkem \"# BEGIN WordPress\":</p>\n"
+"<p>URL de Descarga acualizada - Tienes que <strong>volver a guardar la configuración de enlaces permanentes</strong> (Opciones/configuración -> Enlaces Permanentes) para \n"
+"\t\t\t\t\t\tmostrar los cambios en tu blog.</p>\n"
+"\t\t\t\t\t\t<p>Si tu archivo .htaccess no puede ser escrito por WordPress, añade lo siguiente a tu \n"
+"\t\t\t\t\tarchivo .htaccess antes de la línea \"# BEGIN WordPress\":</p>\n"
 "\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
 "\t\t\t\t\t\tRewriteEngine on<br/>\n"
-"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
-"\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url.</p>"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *tu carpeta wp-content */plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>reemplazando \"download/\" con tu url personalizada y \"*your wp-content dir*\" con tu directorio wp-content.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:94
 msgid "<p>Options updated</p>"
-msgstr "<p>Nastavení byla uložena</p>"
+msgstr "<p>Opciones actualizadas</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:100
 #, fuzzy
 msgid "Database Upgraded"
-msgstr "Databáze byla znovu vytvořena."
+msgstr "Base de datos restaurada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:105
 #, fuzzy
 msgid "Database Cleaned"
-msgstr "Databáze byla znovu vytvořena."
+msgstr "Base de datos restaurada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:124
 msgid "Formats updated"
-msgstr "Formáty byly upraveny."
+msgstr "Formatos actualizados"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:135
 msgid "Format added"
-msgstr "Formát byl přidán."
+msgstr "Formato añadido"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:149
 msgid "Format deleted Successfully"
-msgstr "Formát byl úspěšně smazán"
+msgstr "Formato borrado con éxito"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:164
 msgid "Custom Output Formats"
-msgstr "Vlastní výstupní formáty"
+msgstr "Formatos de salida personalizados"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:166
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
-msgstr "<p>Zde můžete definovat vlastní formáty pro zobrazení svých souborů ke stažení.</p>"
+msgstr "<p>Esto te permite definir formatos del tipo que desees para mostrar tus descargas.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:173
 #: Monitor/Development/admin/config.php:232
 msgid "Format"
-msgstr "Formát"
+msgstr "Formato"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:190
 msgid "No formats exist"
-msgstr "Neexistuje žádný formát"
+msgstr "No existen formatos"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:196
 msgid "Add format"
-msgstr "Přidat formát"
+msgstr "Añadir formato"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:197
@@ -1375,7 +1360,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:200
 #, fuzzy
 msgid "ID of download"
-msgstr "Ke stažení"
+msgstr "Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:201
@@ -1386,7 +1371,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:202
 #, fuzzy
 msgid "Version of download"
-msgstr "Počet stažení"
+msgstr "Número de descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:203
@@ -1397,13 +1382,13 @@ msgstr ""
 #: Monitor/Development/admin/config.php:204
 #, fuzzy
 msgid "Title of download"
-msgstr "Počet stažení"
+msgstr "Número de descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:205
 #, fuzzy
 msgid "Filesize of download"
-msgstr "Počet stažení"
+msgstr "Número de descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:206
@@ -1442,7 +1427,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:211
 #, fuzzy
 msgid "Current hit count"
-msgstr "Změnit počet stažení"
+msgstr "Cambiar contador de descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:212
@@ -1488,7 +1473,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:220
 #, fuzzy
 msgid "Custom field value"
-msgstr "Vlastní pole"
+msgstr "Campos personalizados"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:221
@@ -1504,7 +1489,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:224
 #, fuzzy
 msgid "Example Format"
-msgstr "Formát"
+msgstr "Formato"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:224
@@ -1514,45 +1499,45 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:241
 msgid "Custom Download URL"
-msgstr "Vlastní URL souborů ke stažení"
+msgstr "URL de Descarga Personalizada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:243
-#, fuzzy
 msgid ""
 "<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
 "            \t\n"
 "                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
 "                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
 msgstr ""
-"<p>Zadejte vlastní URL souborů ke stažení, např. <code>download/</code>. Můžete také určit tvar URL pro soubor, např. volba \"Název souboru\" vytvoří odkaz ve tvaru <code>http://yoursite.com/download/filename.zip</code>.</p>\n"
-"                        <p>Ponechte prázdné pro výchozí nastavení (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>\n"
-"                        <p>Pokud tuto hodnotu vyplníte, zkontrolujte, zda na vašem serveru neexistuje složka stejného jména a zda neexistuje příspěvek nebo stránka tohoto jména. Konflikt by mohl způsobit problém při přesměrování na download.php.</p>"
+"<p>Establecer una url personalizada para tus descargass, p.e. <code>descargas/</code>. Puedes elegir cómo enlazar a la descarga en su url, p.e. seleccionando \"nombrearchivo\" haría aparecer el enlace como <code>http://tu-sitio.com/descargas/nombrearchivo.zip</code>. Esta opción sólo funcionará si estás usando los enlaces permanentes de wordpress (que no sean los iniciales).</p>\n"
+"            \t\n"
+"                        <p>Deja esta opción en blanco para utilizar la ruta de descarga por defecto (<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>Si rellenas esta opción asegúrate de que el directorio personalizado no existe en el servidor ni coincide con la url de una página o post, ya que esto podría causar problemas redirigiendo a download.php.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:249
 msgid "Without Custom URL:"
-msgstr "Bez vlastního URL:"
+msgstr "Sin URL personalizada:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:254
 msgid "With Custom URL (downloads/ID):"
-msgstr "S vlastním URL (downloads/ID):"
+msgstr "Con URL personalizada (descargas/ID):"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:260
 msgid "Custom URL"
-msgstr "Vlastní URL"
+msgstr "URL Personalizada"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:265
 msgid "Filename"
-msgstr "Název souboru"
+msgstr "Nombre archivo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:274
 msgid "General Options"
-msgstr "Obecná nastavení"
+msgstr "Opciones Generales"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:280
@@ -1572,55 +1557,53 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:307
 msgid "\"Download not found\" redirect URL"
-msgstr "Url pro přesměrování pro \"Soubor nenalezen\""
+msgstr "URL de redirección \"Descarga no encontrada\""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:308
 #: Monitor/Development/admin/config.php:312
 msgid "Leave blank for no redirect."
-msgstr "Ponechte prázdné pokud nechcete přesměrovat."
+msgstr "Dejar en blanco para no redirigir."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:311
 msgid "Member-only files non-member redirect"
-msgstr "Přesměrování anonymních uživatelů pro soubory jen pro uživatele"
+msgstr "Redirección de \"no miembros\" para archivos de \"sólo miembros\""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:312
 msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
-msgstr ""
+msgstr "Nota: <code>{referrer}</code> será reemplazado con la url actual. Útil si se envía al usuario a la página de ingreso y después de vuelta a descargas :) p.e. <code>http://tu-dominio.com/wp-login.php?redirect_to={referrer}</code>."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:315
 msgid "Download image path"
-msgstr "Cesta k obrázku pro soubor"
+msgstr "Ruta de imagen de descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:316
 msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
-msgstr "Obrázek se zobrazí pokud použijete značku <code>#image</code> a značku <code>{image_url}</code> na této stránce. Použijte absolutní url (např. <code>http://yoursite.com/image.gif</code>)."
+msgstr "Esta imagen se usa cuando utilices la etiqueta de descarga <code>#image</code> y la etiqueta <code>{image_url}</code> en esta página. Por favor, usa una url absoluta (p.e. <code>http://tu-sitio.com/imagen.gif</code>)."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:319
 msgid "Default output format"
-msgstr "Výchozí formát zobrazení"
+msgstr "Formato de salida por defecto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:338
-#, fuzzy
 msgid "Log Downloads"
-msgstr "Ke stažení"
+msgstr "Registro Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:351
-#, fuzzy
 msgid "File Browser Root"
-msgstr "Zobrazit/skrýt procházení souborů"
+msgstr "Raiz del Explorador de Archivos"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:352
 msgid "The root directory the file browser can display."
-msgstr ""
+msgstr "El directorio raiz que puede mostrar el explorador de archivos."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:375
@@ -1651,7 +1634,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:384
 #, fuzzy
 msgid "Upgraded Successfully? Cleanup!"
-msgstr "Formát byl úspěšně smazán"
+msgstr "Formato borrado con éxito"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:385
@@ -1661,7 +1644,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:386
 msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
-msgstr "<p>VAROVÁNÍ: MŮŽE DOJÍT K VYMAZÁNÍ VŠECH DAT Z DATABÁZE; NAPŘED ZÁLOHUJTE VAŠI DATABÁZI!</p>"
+msgstr "<p>ATENCIÓN: ESTO PUEDE BORRAR LOS DATOS DE DESCARGAS DE LA BASE DE DATOS; ¡HAGA UNA COPIA DE SEGURIDAD DE LA BASE DE DATOS ANTES!</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:388
@@ -1671,22 +1654,22 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:72
 msgid "D j M"
-msgstr "d.m.Y"
+msgstr "D j M"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:74
 msgid "Previous Week"
-msgstr "Předchozí týden"
+msgstr "Semana anterior"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:75
 msgid "This Week"
-msgstr "Tento týden"
+msgstr "Esta semana"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:76
 msgid "Next Week"
-msgstr "Další týden"
+msgstr "Siguiente Semana"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:97
@@ -1696,123 +1679,123 @@ msgstr "F Y"
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:99
 msgid "Previous 6 months"
-msgstr "Předchozích 6 měsíců"
+msgstr "6 meses anteriores"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:100
 msgid "Last 6 months"
-msgstr "Posledních 6 měsíců"
+msgstr "Últimos 6 meses"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:101
 msgid "Next 6 months"
-msgstr "Následujících 6 měsíců"
+msgstr "Siguientes 6 meses"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:111
 msgid "Weekly"
-msgstr "Týdně"
+msgstr "Semanalmente"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:114
 msgid "Monthly"
-msgstr "Měsíčně"
+msgstr "Mensualmente"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:115
 msgid "Select a download"
-msgstr "Vyberte soubor"
+msgstr "Seleccionar una descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:143
 msgid "Downloads per day for"
-msgstr "Stažení za den pro"
+msgstr "Descargas por día para"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:146
 #: Monitor/Development/admin/dashboard.php:194
 msgid "Day"
-msgstr "Den"
+msgstr "Día"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:147
 #: Monitor/Development/admin/dashboard.php:195
 msgid "Number of downloads"
-msgstr "Počet stažení"
+msgstr "Número de descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:182
 msgid "None Found"
-msgstr "Nic nenalezeno"
+msgstr "No se han encontrado"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:191
 msgid "Most Downloaded"
-msgstr "Nejstahovanější"
+msgstr "Más Descargados"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:222
 msgid "No stats yet"
-msgstr "Statistiky ještě nejsou k dispozici."
+msgstr "No hay estadísticas aún"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:234
 #: Monitor/Development/admin/dashboard.php:255
 msgid "Download Stats"
-msgstr "Statistiky stahování"
+msgstr "Estadísticas de Descarga"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:235
 #: Monitor/Development/admin/dashboard.php:289
 msgid "Top 5 Downloads"
-msgstr "Nejlepších 5 souborů"
+msgstr "5 Más Descargadas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:45
 msgid "Download Logs"
-msgstr "Protokoly stahování"
+msgstr "Registros de Descargas"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:47
 msgid "Clear Log"
-msgstr "Smazat log"
+msgstr "Limpiar Registro"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:54
 msgid "User"
-msgstr "Uživatel"
+msgstr "Usuario"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:55
 msgid "IP Address"
-msgstr "IP adresa"
+msgstr "Dirección IP"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:56
 msgid "Date"
-msgstr "Datum"
+msgstr "Fecha"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:85
 msgid "jS M Y H:i:s"
-msgstr "d.m.Y H:i:s"
+msgstr "jS M Y H:i:s"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:107
 msgid "No downloads logged."
-msgstr "Neexistují žádné záznamy."
+msgstr "No hay descargas registradas."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:119
 #: Monitor/Development/admin/logs.php:120
 msgid "Previous"
-msgstr "Předchozí"
+msgstr "Anterior"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:133
 #: Monitor/Development/admin/logs.php:134
 msgid "Next"
-msgstr "Další"
+msgstr "Siguiente"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/classes/downloadable_file.class.php:235
@@ -1820,53 +1803,53 @@ msgstr "Další"
 #: Monitor/Development/classes/downloadable_file.class.php:266
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:55
 msgid "Other"
-msgstr "Ostatní"
+msgstr "Otro"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/classes/downloadable_file.class.php:253
 #, fuzzy
 msgid "Uncategorized"
-msgstr "Kategorie"
+msgstr "Categorías"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:53
 msgid "Popular Downloads"
-msgstr "Nejoblíbenější soubory ke stažení"
+msgstr "Descargas populares"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:57
 msgid "Go"
-msgstr "Najít"
+msgstr "Adelante"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:58
 msgid "Results found for "
-msgstr "Výsledky hledání "
+msgstr "Resultados encontrados para"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:59
 msgid "No downloads were found."
-msgstr "Žádný soubor nenalezen."
+msgstr "No se han encontrado descargas."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:60
 msgid "No download found matching given ID."
-msgstr "Žádný soubor neodpovídá zadanému ID."
+msgstr "No se ha encontrado descarga que coincida con la ID proporcionada."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:67
 msgid " time"
-msgstr "krát"
+msgstr " vez"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:68
 msgid " times"
-msgstr "krát"
+msgstr " veces"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:69
 msgid "Date posted"
-msgstr "Datum zveřejnění"
+msgstr "Fecha publicación"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:70
@@ -1876,83 +1859,86 @@ msgstr "F j, Y"
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:72
 msgid "Read More"
-msgstr "Další"
+msgstr "Leer más"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:73
 msgid "Sub-Categories:"
-msgstr "Podkategorie:"
+msgstr "Subcategorías"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:74
 msgid "Sort by:"
-msgstr "Řadit podle:"
+msgstr "Ordenar por:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:75
 msgid "Downloads tagged:"
-msgstr "Soubory označené:"
-
-#~ msgid "Search Downloads: "
-#~ msgstr "Hledat v souborech ke stažení:"
+msgstr "Descargas etiquetadas:"
 
 #~ msgid "<div id=\"media-upload-error\">No file selected</div>"
-#~ msgstr "<div id=\"media-upload-error\">Nebyl vybrán žádný soubor</div>"
+#~ msgstr "<div id=\"media-upload-error\">No se ha seleccionado fichero</div>"
 
 #~ msgid ""
 #~ "<div id=\"media-upload-error\">Error saving to database - check downloads "
 #~ "table exists.</div>"
 #~ msgstr ""
-#~ "<div id=\"media-upload-error\">Chyba zápisu do databáze - zkontrolujte, "
-#~ "zda existuje tabulka downloads.</div>"
+#~ "<div id=\"media-upload-error\">Error al guardar a la base de datos - "
+#~ "Comprueba que existe la tabla downloads.</div>"
 
 #~ msgid ""
 #~ "Categories are optional and allow you to group and organise simular "
 #~ "downloads."
 #~ msgstr ""
-#~ "Kategorie jsou volitelné a umožní vám seskupovat a organizovat podobné "
-#~ "soubory."
+#~ "Las categorías son opcionales y te permiten agrupar y organizar descargas "
+#~ "similares."
+
+#~ msgid ""
+#~ "Separate tags with commas. Tags can be displayed on the download page or "
+#~ "with {tags} in a custom format."
+#~ msgstr ""
+#~ "Separa etiquetas con comas. Las etiquetas pueden ser mostradas en la "
+#~ "página de descarga o con {tags} en formato personalizado."
 
 #~ msgid "Upload/link to existing file"
-#~ msgstr "Nahrát/odkaz na existující soubor"
+#~ msgstr "Subida/enlace a fichero existente"
 
 #~ msgid "&mdash; OR &mdash;"
-#~ msgstr "&mdash; NEBO &mdash;"
+#~ msgstr "&mdash; O &mdash;"
 
 #~ msgid "Add Existing"
-#~ msgstr "Přidat existující"
+#~ msgstr "Añadir Existente"
 
 #~ msgid "Required field: <strong>File URL</strong> omitted"
-#~ msgstr "Chybí povinné pole: <strong>URL souboru</strong>"
+#~ msgstr "Campo Obligatorio: <strong>URL archivo</strong> omitido"
 
 #~ msgid ""
 #~ "Categories are optional and allow you to group and organise similar "
 #~ "downloads."
 #~ msgstr ""
-#~ "Kategorie jsou volitelné a slouží ke sdružování a organizování podobných "
-#~ "souborů."
+#~ "Las categorías son opcionales y te permiten agrupar y organizar descargas "
+#~ "similares."
 
 #~ msgid "File URL (required)"
-#~ msgstr "URL souboru (povinné)"
+#~ msgstr "URL archivo (requerido)"
 
 #~ msgid ""
 #~ "Note: changes to the file url will only work if not uploading a new file "
 #~ "below."
 #~ msgstr ""
-#~ "Pozor: Změna url souboru bude fungovat jen pokud nezadáte nahrání nového "
-#~ "souboru níže."
+#~ "Nota: cambios de la url del archivo sólo funcionarán si no subes un nuevo "
+#~ "fichero abajo."
 
 #~ msgid "Here you can upload/re-upload the file from your computer."
-#~ msgstr "Zde můžete nahrát/znovu nahrát soubor ze svého počítače."
+#~ msgstr "Aquí puedes subir/re-subir el archivo desde tu ordenador."
 
 #~ msgid ""
 #~ "If chosen, the old file will be deleted from the server (if it exists) "
 #~ "before uploading the new file."
 #~ msgstr ""
-#~ "Touto volbou odstraníte starý soubor ze serveru (pokud existuje) před "
-#~ "nahráním nového souboru."
+#~ "Si se elige, el antiguo archivo será borrado del servidor (si existe) "
+#~ "antes de subir el nuevo archivo."
 
-#, fuzzy
 #~ msgid ""
 #~ "<p>Use the following tags in your custom formats: <em>note</em> if you "
 #~ "use <code>\"</code> (quote) characters within the special attributes e.g. "
@@ -2008,49 +1994,65 @@ msgstr "Soubory označené:"
 #~ "{hits} times\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
 #~ "\t                "
 #~ msgstr ""
-#~ "<p>Můžete použít tyto značky ve svých formátech: <em>pozor</em> pokud "
-#~ "použijete <code>\"</code> (uvozovky) uvnitř parametrů, např. <code>\"před"
-#~ "\"</code> musíte předřadit obrácené lomítko nebo použít HTML entitu.</"
-#~ "p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
-#~ "\t                \t<li><code>{url}</code> - Url souboru (bez hyperlinku)"
-#~ "</li>\n"
-#~ "\t                \t<li><code>{version}</code> - Verze souboru</li>\n"
-#~ "\t                \t<li><code>{version,\"před\",\"po\"}</code> - Verze "
-#~ "souboru. Pokud není zadána, nezobrazí se. Místo \"před\" použijte úvodní "
-#~ "text/html a místo \"po\" zadejte koncový text/html.</li>\n"
-#~ "\t                \t<li><code>{title}</code> - Název souboru</li>\n"
-#~ "\t                \t<li><code>{size}</code> - Velikost souboru</li>\n"
-#~ "\t                \t<li><code>{category,\"před\",\"po\"}</code> nebo "
-#~ "<code>{category}</code> - Kategorie. Místo \"před\" použijte úvodní text/"
-#~ "html a místo \"po\" zadejte koncový text/html.</li>\n"
-#~ "\t                \t<li><code>{hits}</code> - Aktuální počet stažení</"
+#~ "<p>Utiliza las siguientes etiquetas en tus formatos personalizados: "
+#~ "<em>nota</em> Si usas caracteres<code>\"</code> (comillas) dentro de los "
+#~ "atributos especiales p.e. . <code>\"antes\"</code> deberías escaparlos o "
+#~ "usar entidades html.</p><ul style=\"margin-left:16px;margin-bottom:12px;"
+#~ "\">\n"
+#~ "\t                \t<li><code>{url}</code> - Url o descarga (no incluye "
+#~ "hipervínculo)</li>\n"
+#~ "\t                \t<li><code>{id}</code> - ID de descarga</li>\n"
+#~ "\t                \t<li><code>{user}</code> - Nombre de usuario de quien "
+#~ "publicara la descarga</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Versión de descarga</"
 #~ "li>\n"
-#~ "\t                \t<li><code>{hits,\"žádný\",\"1 stažení\",\"% stažení\"}"
-#~ "</code> - Formátovaný počet stažení závislý na aktuálním počtu. <code>%</"
-#~ "code> bude nahrazeno aktuálním počtem stažení.</li>\n"
-#~ "\t                \t<li><code>{image_url}</code> - URL obrázku</li>\n"
-#~ "\t                \t<li><code>{description,\"před\",\"po\"}</code> nebo "
-#~ "<code>{description}</code> - Popis souboru. Nezobrazí se pokud není "
-#~ "nastaven. Místo \"před\" použijte úvodní text/html a místo \"po\" zadejte "
-#~ "koncový text/html.</li>\n"
-#~ "\t                \t<li><code>{description-autop,\"před\",\"po\"}</code> "
-#~ "nebo <code>{description-autop}</code> - Popis formátovaný pomocí autop "
-#~ "(dvojí konec řádku převádí na konec odstavce)</li>\n"
-#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Datum zveřejnění. "
-#~ "Druhý argument je formát data</li>\n"
-#~ "\t                \t<li><code>{meta-<em>název</em>}</code> - Hodnota "
-#~ "vlastního pole</li>\n"
-#~ "\t                \t<li><code>{meta-autop-<em>název</em>}</code> - "
-#~ "Hodnota vlastního pole formátovaná pomocí autop</li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Versión de descarga. No se muestra si no se establece. Sustituye \"before"
+#~ "\" con texto/html de apertura y \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Título de la descarga</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{size}</code> - Tamaño de la descarga</li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> o "
+#~ "<code>{category}</code> - Categoría de Descarga. Reemplaza \"before\" con "
+#~ "texto/html de apertura y  \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{category_other,\"before\",\"after\"}</"
+#~ "code> o <code>{category_other}</code> - Categoría de Descarga (pero si no "
+#~ "se establece categoría se establece \"otra\". Reemplaza \"before\" con "
+#~ "texto/html de apertura y  \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{category_ID}</code> - ID de categoría de "
+#~ "Descarga.</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Contador de descargas "
+#~ "actual</li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Contador de descargas formateado dependiendo de los accesos. "
+#~ "<code>%</code> se reemplaza con número de accesos.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - URL de la imagen de "
+#~ "descarga</li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> o "
+#~ "<code>{description}</code> - Descripción que le diste a la descarga. No "
+#~ "aparece si no ha sido establecidaReemplaza \"before\" con texto/html de "
+#~ "apertura y  \"after\" con texto/html de cierre.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> o <code>{description-autop}</code> - Descripción formateada con "
+#~ "autop (convierte los dobles saltos de línea en párrafos)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Fecha "
+#~ "publicación. El segundo argumento es para el formato de fecha.</li>\n"
+#~ "\t                \t<li><code>{tags}</code> - Etiquetas de salida</li>\n"
+#~ "\t                \t<li><code>{thumbnail}</code> - URL de miniatura de "
+#~ "salida (o contenedor)</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Valor de campo "
+#~ "personalizado</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Valor de "
+#~ "campo personalizado formateado con autop</li>\n"
 #~ "\t                </ul>\n"
-#~ "\t                \t<p><strong>Příklad vlastního formátu -</strong> odkaz "
-#~ "a popis souboru s počtem stažení v titulku:</p>\n"
-#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Staženo {hits} "
-#~ "krát\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
+#~ "\t                \t<p><strong>Formato Ejemplo -</strong> Enlace con "
+#~ "descripción de descarga con sus accesos en título:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Descargado "
+#~ "{hits} veces\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
 #~ "\t                "
 
 #~ msgid "Recreate Download Database"
-#~ msgstr "Znovu vytvořit databázi Download"
+#~ msgstr "Restaurar Base de Datos de Descargas"
 
 #~ msgid ""
 #~ "<p>This will delete the old download monitor tables and recreate them. "
@@ -2058,16 +2060,20 @@ msgstr "Soubory označené:"
 #~ "after updating the plugin. Download monitor will attempt to re-add any "
 #~ "downloads currently in the database.</p>"
 #~ msgstr ""
-#~ "<p>Tato volba smaže všechny tabulky download monitoru a znovu je vytvoří. "
-#~ "Použijte tuto volbu jako poslední možnost v případě chyb databáze po "
-#~ "updatu pluginu. Download monitor se pokusí znovu vložit všechny "
-#~ "existující položky do databáze.</p>"
+#~ "<p>Esto borrará las nuevas tablas de download monitor y las volverá a "
+#~ "crear. Sólo debes usar esto como último recurso si experimentas errores "
+#~ "de base de datos después de actualizar el plugin. Download monitor "
+#~ "intentará reinsertar cualquier descarga que exista actualmente en la base "
+#~ "de datos.</p>"
 
 #~ msgid "Add Existing Download"
-#~ msgstr "Přidat existující soubor"
+#~ msgstr "Añadir Descarga Existente"
 
 #~ msgid "Url"
 #~ msgstr "Url"
 
 #~ msgid "Save"
-#~ msgstr "Uložit"
+#~ msgstr "Guardar"
+
+#~ msgid "Search Downloads: "
+#~ msgstr "Buscar Descargas:"

@@ -2,7 +2,7 @@
 /*  
 	Wordpress Download Monitor Add-on: Download Page
 	
-	Copyright 2006  Michael Jolley  (email : jolley.small.at.googlemail.com)
+	Copyright 2010  Michael Jolley  (email : jolley.small.at.googlemail.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,36 +19,10 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-################################################################################
-// Vars and version
-################################################################################
+global $wp_dlm_root;
 
-global $wp_db_version;
-if ($wp_db_version < 8201) {
-	// Pre 2.6 compatibility (BY Stephen Rider)
-	if ( ! defined( 'WP_CONTENT_URL' ) ) {
-		if ( defined( 'WP_SITEURL' ) ) define( 'WP_CONTENT_URL', WP_SITEURL . '/wp-content' );
-		else define( 'WP_CONTENT_URL', get_option( 'url' ) . '/wp-content' );
-	}
-	if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
-	if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
-	if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
-}
+$wp_dlmp_root = $wp_dlm_root.'page-addon/';
 
-global $table_prefix;
-$wp_dlmp_root = WP_PLUGIN_URL."/download-monitor/page-addon";
-$wp_dlm_db = $table_prefix."DLM_DOWNLOADS";
-$wp_dlm_db_cats = $table_prefix."DLM_CATS";
-$wp_dlm_db_formats = $table_prefix."DLM_FORMATS";
-$wp_dlm_db_stats = $table_prefix."DLM_STATS";
-$wp_dlm_db_log = $table_prefix."DLM_LOG";
-$wp_dlm_db_meta = $table_prefix."DLM_META";
-$dlm_url = get_option('wp_dlm_url');
-
-$def_format = get_option('wp_dlm_default_format');
-
-load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
-		
 ################################################################################
 // Styles and Javascript
 ################################################################################
@@ -56,10 +30,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 function wp_dlmp_styles() {
 	if (function_exists('wp_register_style') && function_exists('wp_enqueue_style') ) {
 		global $wp_dlmp_root;
-	    $myStyleFile = $wp_dlmp_root.'/styles.css';
+	    $myStyleFile = $wp_dlmp_root.'styles.css';
 	    
-	    if ( is_ssl() )
-			$myStyleFile = str_replace( 'http://', 'https://', $myStyleFile );
+	    if ( is_ssl() ) $myStyleFile = str_replace( 'http://', 'https://', $myStyleFile );
 	    
 	    wp_register_style('wp_dlmp_styles', $myStyleFile);
 	    wp_enqueue_style( 'wp_dlmp_styles');
@@ -78,9 +51,9 @@ if (function_exists('get_downloads')) {
 
 	// DEFINE STRINGS (translate these if needed)
 	$popular_text 			= __('Popular Downloads','wp-download_monitor');
-	$tags_widget_text 				= __('Tags','wp-download_monitor');
+	$tags_widget_text 		= __('Tags','wp-download_monitor');
 	$uncategorized 			= __('Other','wp-download_monitor');
-	$search_text 			= __('Search Downloads: ','wp-download_monitor');
+	$search_text 			= __('Search Downloads:','wp-download_monitor');
 	$search_submit_text 	= __('Go','wp-download_monitor');
 	$search_results_text 	= __('Results found for ','wp-download_monitor');
 	$nonefound 				= __('No downloads were found.','wp-download_monitor');
@@ -89,7 +62,7 @@ if (function_exists('get_downloads')) {
 	$desc_heading 			= __('Description','wp-download_monitor');
 	$version_text 			= __('Version','wp-download_monitor');
 	$category_text 			= __('Categories','wp-download_monitor');
-	$tags_text 				= __('Tags','wp-download_monitor');
+	$single_tags_text 				= __('Tags','wp-download_monitor');
 	$hits_text 				= __('Downloaded','wp-download_monitor');
 	$hits_text2 			= __(' time','wp-download_monitor');
 	$hits_text2_p 			= __(' times','wp-download_monitor');
@@ -102,7 +75,7 @@ if (function_exists('get_downloads')) {
 	$tags_text 				= __('Downloads tagged:','wp-download_monitor');
 	// END DEFINE STRINGS
 
-	global $wpdb, $wp_dlm_db, $wp_dlm_db_cats, $post, $wp_dlmp_root, $wp_dlm_db_meta;
+	global $wpdb, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $post, $wp_dlmp_root, $wp_dlm_db_meta, $download_taxonomies;
 
 	// Handle $exclude
 	$exclude_array = array();
@@ -114,7 +87,10 @@ if (function_exists('get_downloads')) {
 		}
 	}	
 	if (sizeof($exclude_array) > 0) $exclude_query = ' AND '.$wp_dlm_db.'.id NOT IN ('.implode(',',$exclude_array).')';
-	else $exclude_query="";
+	else {
+		$exclude_query="";
+		$exclude_array[] = 0;
+	}
 	
 	// Handle $exclude_cat
 	$exclude_cat_array = array();
@@ -125,14 +101,26 @@ if (function_exists('get_downloads')) {
 			if (is_numeric($e)) $exclude_cat_array[] = $e;
 		}
 	}
-	if (sizeof($exclude_cat_array) > 0) $exclude_cat_query = ' AND '.$wp_dlm_db_cats.'.id NOT IN ('.implode(',',$exclude_cat_array).')';
-	else $exclude_cat_query="";
+	$category_array = array();
+	if (sizeof($download_taxonomies->categories)>0) {
+		foreach ($download_taxonomies->categories as $category) {
+			if (!in_array($category->id, $exclude_cat_array)) {
+				$category_array[$category->id] = $category;
+			}
+		}
+	}
 
 	// Find more IDS to exlude
 	if (sizeof($exclude_cat_array) > 0) {
-		$results = $wpdb->get_results("SELECT $wp_dlm_db.id FROM $wp_dlm_db 
-		LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-		WHERE $wp_dlm_db_cats.id IN (".implode(',',$exclude_cat_array).");");
+	
+		$results = $wpdb->get_results("
+		SELECT $wp_dlm_db.id 
+		FROM $wp_dlm_db 		
+		LEFT JOIN $wp_dlm_db_relationships ON( $wp_dlm_db.id = $wp_dlm_db_relationships.download_id )
+		LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+		WHERE $wp_dlm_db_taxonomies.id IN (".implode(',',$exclude_cat_array).")
+		AND $wp_dlm_db_taxonomies.taxonomy = 'category';");
+		
 		$new_exclude_array = array();
 		foreach ($results as $r) {
 			$new_exclude_array[] = $r->id;
@@ -143,12 +131,18 @@ if (function_exists('get_downloads')) {
 	else $exclude_query="";
 	
 	// Handle Formats
-	if (!$format && isset($def_format) && $def_format>0) {
+	global $download_formats_names_array, $def_format;
+	$format = trim($format);
+	if (!$format && $def_format>0) {
 		$format = wp_dlm_get_custom_format($def_format);
 	} elseif ($format>0 && is_numeric($format) ) {
 		$format = wp_dlm_get_custom_format($format);
 	} else {
-		$format = html_entity_decode($format);
+		if (isset($download_formats_names_array) && is_array($download_formats_names_array) && in_array($format,$download_formats_names_array)) {
+			$format = wp_dlm_get_custom_format_by_name($format);
+		} else {
+			$format = html_entity_decode($format);
+		}
 	}	
 	// Default is none set/no defaults
 	if (empty($format) || $format=='0') {
@@ -163,103 +157,29 @@ if (function_exists('get_downloads')) {
 		global $post;
 		$querystring = explode('?', get_permalink( $post->ID ));
 		$add = '?';
-		if ($querystring[1]) {
+		if (isset($querystring[1])) {
 			$add .= $querystring[1].'&amp;';
 		}
 		$add .= $append;
 		return $querystring[0].$add;
 	}
 	}
-	if (!function_exists('get_parent_cats')) {
-	function get_parent_cats($current_id, $show_arrow = false) {
-		global $wp_dlm_db_cats,$wpdb;
-		$names_array = array();
-		$sql = sprintf("SELECT * FROM %s WHERE id=%s ORDER BY id LIMIT 1;",
-			$wpdb->escape( $wp_dlm_db_cats ),
-			$wpdb->escape( $current_id ));	
-		$cat = $wpdb->get_row($sql);
-		if (!empty($cat) ) {
-		
-			if ($show_arrow) $arrow = '&laquo;&nbsp;'; else $arrow="";
-			
-			$names_array[] = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat->id))).'">'.$arrow.$cat->name.'</a>';
-			
-			if ( $cat->parent > 0 ) $return_array = get_parent_cats($cat->parent, $show_arrow);
-		}
-		if (is_array($return_array))	
-			return array_merge($names_array,$return_array);
-		else
-			return $names_array;
-	}
-	}
-	if (!function_exists('get_children_cats_ids')) {
-	function get_children_cats_ids($current_id, $godeep = true) {
-		global $wp_dlm_db_cats,$wpdb;
-		
-		$ids_array = array();
-		$return_array = array();
-		
-		if ($current_id>0) {
-		
-			$sql = sprintf("SELECT * FROM %s WHERE parent=%s ORDER BY id;",
-				$wpdb->escape( $wp_dlm_db_cats ),
-				$wpdb->escape( $current_id ));	
-			$cats = $wpdb->get_results($sql);
-			
-			if (!empty($cats) ) {
-				foreach ($cats as $cat) {			
-					$ids_array[] = $cat->id;			
-					if ($godeep && $current_id!==$cat->id) $return_array = $return_array + get_children_cats_ids($cat->id, true);
-				}
-			}
-			
-		}
-		if (sizeof($return_array)>0)	
-			return array_merge($ids_array,$return_array);
-		else
-			return $ids_array;
-	}
-	}
-	
-	// Load cats and put into array
-	$category_array = array();
-	$category_array_name = array();
-	$category_res = $wpdb->get_results( "
-		SELECT $wp_dlm_db_cats.*, COUNT($wp_dlm_db.ID) as count
-		FROM $wp_dlm_db_cats, $wp_dlm_db
-		WHERE $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-		$exclude_query $exclude_cat_query 
-		GROUP BY $wp_dlm_db_cats.id 
-	" );
-	if ($category_res) foreach($category_res as $c) {
-		$thiscat = array();
-		$thiscat['count'] = $c->count;
-		$thiscat['id'] = $c->id;
-		$thiscat['name'] = $c->name;
-		$thiscat['parent'] = $c->parent;
-		$thiscat['direct_children'] = get_children_cats_ids($thiscat['id'], false);
-		$thiscat['children'] = get_children_cats_ids($thiscat['id']);
-		$category_array[$c->id] = $thiscat;
-		$category_array_name[strtolower($c->name)] = $c->id;
-	}
-	// Repeat for empty cats
-	$category_res = $wpdb->get_results( "
-		SELECT $wp_dlm_db_cats.* 
-		FROM $wp_dlm_db_cats
-		WHERE $wp_dlm_db_cats.id NOT IN ( SELECT category_id FROM $wp_dlm_db WHERE category_id > 0 ) $exclude_cat_query 
-	" );
-	if ($category_res) foreach($category_res as $c) {
-		$thiscat = array();
-		$thiscat['count'] = 0;
-		$thiscat['id'] = $c->id;
-		$thiscat['name'] = $c->name;
-		$thiscat['parent'] = $c->parent;
-		$thiscat['direct_children'] = get_children_cats_ids($thiscat['id'], false);
-		$thiscat['children'] = get_children_cats_ids($thiscat['id']);
-		$category_array[$c->id] = $thiscat;
-		$category_array_name[strtolower($c->name)] = $c->id;
-	}
-	// End load cats
+    if (!function_exists('output_chain')) {
+    function get_chain($cat, $chain = array()) {
+    	global $download_taxonomies;
+   		
+   		$chain[] = '<a href="'.wp_dlmp_append_url(	'category='.urlencode(strtolower($cat->id))	).'">&laquo; '.$cat->name.'</a>';
+   		if ($cat->parent>0) $chain = get_chain($download_taxonomies->categories[$cat->parent], $chain);
+   		
+   		return $chain;
+   		
+    }
+    function no_chain($chain = array()) {
+
+   		return $chain;
+   		
+    }
+    }
 	
 	// START PAGE OUTPUT
 	$page = '';
@@ -269,28 +189,41 @@ if (function_exists('get_downloads')) {
 	if ($post && is_page()) $fields = '<input type="hidden" name="page_id" value="'.$post->ID.'" />';
 	if ($post && is_single()) $fields = '<input type="hidden" name="p" value="'.$post->ID.'" />';
 	
+	$dlsearch = '';
+	if (isset($_GET['dlsearch'])) $dlsearch = $_GET['dlsearch'];
+	
 	$page .= '<div id="download-page">
 		<form id="download-page-search" action="" method="get">
-			<p>'.$fields.'<label for="dlsearch">'.$search_text.'</label><input type="text" name="dlsearch" id="dlsearch" value="'.$_GET['dlsearch'].'" /> <input type="submit" value="'.$search_submit_text.'" /></p>
-		</form>';
+			<p><label for="dlsearch">'.$search_text.'</label> <input type="text" name="dlsearch" id="dlsearch" value="'.$dlsearch.'" /><input class="search_submit" type="submit" value="'.$search_submit_text.'" />'.$fields.'</p></form>';
 		
-	if ($_GET['dlsearch']) {
-		// Search View
+	if (isset($_GET['dlsearch'])) {
+	
+		##########################################################################################################################################################################################
+		## Search View
+		##########################################################################################################################################################################################
+		
 		$page .= '<h'.$base_heading_level.'>'.$search_results_text.'<em>"'.$_GET['dlsearch'].'"</em> <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 
 		$orderby = '';
+		if (!isset($_GET['sortby'])) $_GET['sortby'] = 0;
 		// Sorting Options
 			switch (trim(strtolower($_GET['sortby']))) {
 				case 'hits' :
 					$sort_hits = 'class="active"';
+					$sort_date = '';
+					$sort_title = '';
 					$orderby = 'ORDER BY '.$wp_dlm_db.'.hits DESC';
 				break;
 				case 'date' :
 					$sort_date = 'class="active"';
+					$sort_hits = '';
+					$sort_title = '';
 					$orderby = 'ORDER BY '.$wp_dlm_db.'.postDate DESC';
 				break;
 				default :
 					$sort_title = 'class="active"';
+					$sort_date = '';
+					$sort_hits = '';
 					$orderby = 'ORDER BY '.$wp_dlm_db.'.title ASC';
 				break;
 			}					
@@ -304,20 +237,35 @@ if (function_exists('get_downloads')) {
 			if(!isset($_GET['dlpage'])) $dlpage = 1; else $dlpage = $_GET['dlpage']; 
 			$from = (($dlpage * $per_page) - $per_page); 
 			$paged_query = 'LIMIT '.$from.','.$per_page.'';
-			$total = $wpdb->get_var("SELECT COUNT($wp_dlm_db.id) 
+			$total = $wpdb->get_var("SELECT COUNT(DISTINCT $wp_dlm_db.id) 
 				FROM $wp_dlm_db  
-				LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-				WHERE (title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%') 
-				$exclude_query $exclude_cat_query
+				LEFT JOIN $wp_dlm_db_relationships ON( $wp_dlm_db.id = $wp_dlm_db_relationships.download_id )
+				LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+				WHERE 
+					(
+					title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' 
+					OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					OR $wp_dlm_db_taxonomies.name LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					OR file_description LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					)
+				AND $wp_dlm_db.id NOT IN (".implode(',',$exclude_array).")
 			;");
 			$total_pages = ceil($total / $per_page);
 		// End Pagination Calc
 
-		$downloads = $wpdb->get_results( "SELECT $wp_dlm_db.* 
+		$downloads = $wpdb->get_results( "SELECT DISTINCT $wp_dlm_db.* 
 				FROM $wp_dlm_db  
-				LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-				WHERE (title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%') 
-				$exclude_query $exclude_cat_query $orderby $paged_query;" );			
+				LEFT JOIN $wp_dlm_db_relationships ON( $wp_dlm_db.id = $wp_dlm_db_relationships.download_id )
+				LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+				WHERE 
+					(
+					title LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%' 
+					OR filename LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					OR $wp_dlm_db_taxonomies.name LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					OR file_description LIKE '%".$wpdb->escape($_REQUEST['dlsearch'])."%'
+					)
+				AND $wp_dlm_db.id NOT IN (".implode(',',$exclude_array).")
+				$orderby $paged_query;" );			
 			
 		if (!empty($downloads)) {
 		    $page .= '<ul>';
@@ -356,16 +304,28 @@ if (function_exists('get_downloads')) {
 		
 	}
 	elseif (isset($_GET['category'])) {
-	
-		// Single Category view
+		
+		##########################################################################################################################################################################################
+		## Single Category view
+		##########################################################################################################################################################################################
+		
 		$category = $wpdb->escape(trim(urldecode(strtolower($_GET['category']))));
 		$downloads = "";	        
 		$total_pages = "";
 		$dlpage = "";
 		
 		if (($category==strtolower($uncategorized) || $category==0) && $show_uncategorized) {
-
-			$count = $wpdb->get_var( "SELECT COUNT(id) FROM $wp_dlm_db WHERE category_id = 0 $exclude_query" );
+		
+			$count = $wpdb->get_var("
+				SELECT COUNT(DISTINCT $wp_dlm_db.id) 
+				FROM $wp_dlm_db 
+				WHERE $wp_dlm_db.id NOT IN (
+					SELECT download_id FROM $wp_dlm_db_relationships
+					LEFT JOIN $wp_dlm_db_taxonomies ON $wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id
+					WHERE $wp_dlm_db_taxonomies.taxonomy = 'category'
+				)
+				$exclude_query;
+			");
 							
 			$page .= '<h'.$base_heading_level.'>'.ucwords($uncategorized).' ('.$count.') <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 
@@ -394,94 +354,97 @@ if (function_exists('get_downloads')) {
 			// End Sorting Options
 			
 			// Pagination Calc
-				$paged_query = "";
 				if(!isset($_GET['dlpage'])) $dlpage = 1; else $dlpage = $_GET['dlpage']; 
 				$from = (($dlpage * $per_page) - $per_page); 
-				$paged_query = 'LIMIT '.$from.','.$per_page.'';
-				$total = $wpdb->get_var("SELECT COUNT($wp_dlm_db.id) 
-					FROM $wp_dlm_db 
-					LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-					WHERE $wp_dlm_db.category_id = 0 $exclude_query
-				;");
-				$total_pages = ceil($total / $per_page);
+				$total_pages = ceil($count / $per_page);
 			// End Pagination Calc
 			
 			$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$per_page.'&orderby='.$orderby.'&order='.$order.'&offset='.$from.'&category=none" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');
 			
 		} else {
 			
-			// $cat = $category_array[$category_array_name[$category]];
-			$cat = $category_array[$category];
+			if ($category_array[$category]) $cat = $category_array[$category];
 			
-			if ($cat['id']>0) {
-			
-				$cat_breadcrumb = implode(' ', array_slice(get_parent_cats($cat['id'], true), 1) );
+			if ($cat->id >0) {
 				
+		        $chain = $download_taxonomies->do_something_to_cat_parents($cat->id, 'get_chain', 'no_chain');
+		        if (is_array($chain) && sizeof($chain)>0) $cat_breadcrumb = implode(' ', $chain);
+								
 				// Count = children too
-				$count = $cat['count'];
-				foreach ($cat['children'] as $child) {
-					$count += $category_array[$child]['count'];
-				}			
+				$in_cats = $cat->decendents;
+				$in_cats[] = $cat->id;
+				$count = $wpdb->get_var("
+					SELECT COUNT(DISTINCT $wp_dlm_db_relationships.download_id) 
+					FROM $wp_dlm_db_relationships 
+					LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+					WHERE $wp_dlm_db_taxonomies.id IN (".implode(',',$in_cats).")
+					AND $wp_dlm_db_relationships.download_id NOT IN (".implode(',',$exclude_array).")
+					AND $wp_dlm_db_taxonomies.taxonomy = 'category';
+				");
+				if (!isset($cat_breadcrumb)) $cat_breadcrumb = '';
+				$page .= '<h'.$base_heading_level.'>'.wptexturize($cat->name).' ('.$count.') <small>'.$cat_breadcrumb.' <a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 				
-				$page .= '<h'.$base_heading_level.'>'.wptexturize($cat['name']).' ('.$count.') <small>'.$cat_breadcrumb.' <a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
-				
-				$query_in = "";
-				if (sizeof($cat['children']) > 0) {
-					$query_in = $cat['id'].','.implode(',',$cat['children']);
+				if (sizeof($cat->decendents) > 0) {
 					$page .= '<p class="subcats"><strong>'.$subcat_text.'</strong> ';
 					$subcats = array();
-					foreach ($cat['direct_children'] as $child_cat) {
-						if ($category_array[$child_cat]['name']) {
-							$scount = $category_array[$child_cat]['count'];
-							foreach ($category_array[$child_cat]['children'] as $child) {
-								$scount += $category_array[$child]['count'];
-							}	
-							$subcats[] = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($category_array[$child_cat]['id']))).'">'.wptexturize($category_array[$child_cat]['name']).' ('.$scount.')</a>';
+					foreach ($cat->direct_decendents as $child_cat) {
+						if ($category_array[$child_cat]->name) {
+							$sub_in_cats = $category_array[$child_cat]->decendents;
+							$sub_in_cats[] = $category_array[$child_cat]->id;
+							$scount = $wpdb->get_var("
+								SELECT COUNT(DISTINCT $wp_dlm_db_relationships.download_id) 
+								FROM $wp_dlm_db_relationships 
+								LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+								WHERE $wp_dlm_db_taxonomies.id IN (".implode(',',$sub_in_cats).")
+								AND $wp_dlm_db_relationships.download_id NOT IN (".implode(',',$exclude_array).")
+								AND $wp_dlm_db_taxonomies.taxonomy = 'category';
+							");	
+							if ($scount>0) 		
+								$subcats[] = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($category_array[$child_cat]->id))).'">'.wptexturize($category_array[$child_cat]->name).' ('.$scount.')</a>';
 						}					
 					}
 					$page .= implode(' | ', $subcats).'</p>';
-				} else {
-					$query_in = $cat['id'];
 				}
 				
 				$orderby = '';
+				if (!isset($_GET['sortby'])) $_GET['sortby'] = 0;
 				// Sorting Options
 					switch (trim(strtolower($_GET['sortby']))) {
 						case 'hits' :
 							$sort_hits = 'class="active"';
+							$sort_date = '';
+							$sort_title = '';
 							$orderby = 'hits';
 							$order = 'desc';
 						break;
 						case 'date' :
 							$sort_date = 'class="active"';
+							$sort_hits = '';
+							$sort_title = '';
 							$orderby = 'postdate';
 							$order = 'desc';
 						break;
 						default :
 							$sort_title = 'class="active"';
+							$sort_hits = '';
+							$sort_date = '';
 							$orderby = 'title';
 							$order = 'asc';
 						break;
 					}					
-					$sort_options = array('<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat['id'])).'&sortby=title').'" '.$sort_title.'>'.__('Title','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat['id'])).'&sortby=hits').'" '.$sort_hits.'>'.__('Hits','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat['id'])).'&sortby=date').'" '.$sort_date.'>'.__('Date','wp-download_monitor').'</a>');
+					$sort_options = array('<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat->id)).'&sortby=title').'" '.$sort_title.'>'.__('Title','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat->id)).'&sortby=hits').'" '.$sort_hits.'>'.__('Hits','wp-download_monitor').'</a>', '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat->id)).'&sortby=date').'" '.$sort_date.'>'.__('Date','wp-download_monitor').'</a>');
 					$page .= '<p class="sorting"><strong>'.$sort_text.'</strong> ';
 					$page .= implode(' | ', $sort_options).'</p>';
 				// End Sorting Options
 				
 				// Pagination Calc
-					$paged_query = "";
 					if(!isset($_GET['dlpage'])) $dlpage = 1; else $dlpage = $_GET['dlpage']; 
 					$from = (($dlpage * $per_page) - $per_page); 
 					$paged_query = 'LIMIT '.$from.','.$per_page.'';
-					$total = $wpdb->get_var("SELECT COUNT($wp_dlm_db.id) 
-						FROM $wp_dlm_db 
-						LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-						WHERE $wp_dlm_db.category_id IN (".$query_in.") $exclude_query
-					;");
-					$total_pages = ceil($total / $per_page);
+					$total_pages = ceil($count / $per_page);
 				// End Pagination Calc
 
-				$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$per_page.'&orderby='.$orderby.'&order='.$order.'&offset='.$from.'&category='.$cat['id'].'" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');			
+				$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$per_page.'&orderby='.$orderby.'&order='.$order.'&offset='.$from.'&category='.$cat->id.'" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');			
 			}
 		}
 		
@@ -491,20 +454,20 @@ if (function_exists('get_downloads')) {
 			
 				if($dlpage > 1){ 
 					$prev = ($dlpage - 1); 
-					$page .= "<li><a href=\"".wp_dlmp_append_url('category='.urlencode(strtolower($cat['id'])).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$prev.'')."\">&laquo; ".__('Previous',"wp-download_monitor")."</a></li>"; 
+					$page .= "<li><a href=\"".wp_dlmp_append_url('category='.urlencode(strtolower($cat->id)).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$prev.'')."\">&laquo; ".__('Previous',"wp-download_monitor")."</a></li>"; 
 				} else $page .= "<li><span class='current page-numbers'>&laquo; ".__('Previous',"wp-download_monitor")."</span></li>";
 
 				for($i = 1; $i <= $total_pages; $i++){ 
 					if(($dlpage) == $i){ 
 						$page .= "<li><span class='page-numbers current'>$i</span></li>"; 
 					} else { 
-						$page .= "<li><a href=\"".wp_dlmp_append_url('category='.urlencode(strtolower($cat['id'])).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$i.'')."\">$i</a></li>"; 
+						$page .= "<li><a href=\"".wp_dlmp_append_url('category='.urlencode(strtolower($cat->id)).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$i.'')."\">$i</a></li>"; 
 					} 
 				} 
 
 				if($dlpage < $total_pages){ 
 					$next = ($dlpage + 1); 
-					$page .= "<li><a href=\"".wp_dlmp_append_url('category='.urlencode(strtolower($cat['id'])).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$next.'')."\">".__('Next',"wp-download_monitor")." &raquo;</a></li>"; 
+					$page .= "<li><a href=\"".wp_dlmp_append_url('category='.urlencode(strtolower($cat->id)).'&sortby='.strtolower($_GET['sortby']).'&dlpage='.$next.'')."\">".__('Next',"wp-download_monitor")." &raquo;</a></li>"; 
 				} else $page .= "<li><span class='current page-numbers'>".__('Next',"wp-download_monitor")." &raquo;</span></li>";
 				
 				$page .= '</ul>';
@@ -514,7 +477,10 @@ if (function_exists('get_downloads')) {
 	}
 	elseif (isset($_GET['dltag'])) {
 		
-		// Tag View
+		##########################################################################################################################################################################################
+		## Tag View
+		##########################################################################################################################################################################################
+		
 		$tag = urldecode(strtolower(trim($_GET['dltag'])));
 			
 		if ($tag) {
@@ -522,20 +488,27 @@ if (function_exists('get_downloads')) {
 			$page .= '<h'.$base_heading_level.'>'.$tags_text.' '.$tag.' <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 								
 			$orderby = '';
+			if (!isset($_GET['sortby'])) $_GET['sortby'] = 0;
 			// Sorting Options
 				switch (trim(strtolower($_GET['sortby']))) {
 					case 'hits' :
 						$sort_hits = 'class="active"';
+						$sort_date = '';
+						$sort_title = '';
 						$orderby = 'hits';
 						$order = 'desc';
 					break;
 					case 'date' :
 						$sort_date = 'class="active"';
+						$sort_hits = '';
+						$sort_title = '';
 						$orderby = 'postdate';
 						$order = 'desc';
 					break;
 					default :
 						$sort_title = 'class="active"';
+						$sort_date = '';
+						$sort_hits = '';
 						$orderby = 'title';
 						$order = 'asc';
 					break;
@@ -546,29 +519,19 @@ if (function_exists('get_downloads')) {
 			// End Sorting Options
 				
 			// Pagination Calc
-				$paged_query = "";
 				if(!isset($_GET['dlpage'])) $dlpage = 1; else $dlpage = $_GET['dlpage']; 
 				$from = (($dlpage * $per_page) - $per_page); 
-				$paged_query = 'LIMIT '.$from.','.$per_page.'';
-								
-				$tagged = $wpdb->get_results( "SELECT * FROM $wp_dlm_db LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id INNER JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id WHERE $wp_dlm_db_meta.meta_name = 'tags' $exclude_query $exclude_cat_query;");
-								
-				$postIDS = array();
-				foreach ($tagged as $t) {
-					$my_tags = explode(',', $t->meta_value );
-					$my_clean_tags = array();
-					foreach ($my_tags as $mtag) {
-						$my_clean_tags[] = trim(strtolower($mtag));
-					}
-					if (in_array(trim(strtolower($tag)), $my_clean_tags)) $postIDS[] = $t->download_id;
-				}
-				$tagswhere = ' '.$wp_dlm_db.'.id IN ('.implode(',',$postIDS).') ';
+				 
+				$count = $wpdb->get_var("
+					SELECT COUNT(DISTINCT $wp_dlm_db_relationships.download_id) 
+					FROM $wp_dlm_db_relationships 
+					LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+					WHERE $wp_dlm_db_taxonomies.name = '$tag'  
+					AND $wp_dlm_db_relationships.download_id NOT IN (".implode(',',$exclude_array).") 
+					AND $wp_dlm_db_taxonomies.taxonomy = 'tag';
+				");
 				
-				$total = $wpdb->get_var("SELECT COUNT($wp_dlm_db.id) 
-					FROM $wp_dlm_db 
-					WHERE $tagswhere
-				;");				
-				$total_pages = ceil($total / $per_page);
+				$total_pages = ceil($count / $per_page);
 			// End Pagination Calc
 			
 			$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$per_page.'&orderby='.$orderby.'&order='.$order.'&offset='.$from.'&tags='.$tag.'" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');			
@@ -601,50 +564,51 @@ if (function_exists('get_downloads')) {
 			
 		}		
 	}
-	elseif ($_GET['did'] && is_numeric($_GET['did']) && $_GET['did']>0) {
+	elseif (isset($_GET['did']) && is_numeric($_GET['did']) && $_GET['did']>0) {
 		
-		// Single Download View
-		$download = $wpdb->get_row( "SELECT $wp_dlm_db.*, $wp_dlm_db_cats.name as cat_name, $wp_dlm_db_cats.parent as cat_parent
-			FROM $wp_dlm_db  
-			LEFT JOIN $wp_dlm_db_cats ON $wp_dlm_db.category_id = $wp_dlm_db_cats.id 
-			WHERE $wp_dlm_db.id = ".$wpdb->escape($_GET['did'])." $exclude_query LIMIT 1;" );
-			
-		if (!empty($download)) {
+		##########################################################################################################################################################################################
+		## Single Download View
+		##########################################################################################################################################################################################
 		
-			// Load meta and put into array
-			$meta = array();
-			$meta_res = $wpdb->get_results( $wpdb->prepare( "SELECT meta_name, meta_value FROM $wp_dlm_db_meta WHERE download_id = %s" , $download->id ) );
-			if ($meta_res) foreach($meta_res as $m) {
-				$meta[$m->meta_name] = stripslashes($m->meta_value);
-			}
-			// End load meta
+		$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE $wp_dlm_db.id = ".$wpdb->escape($_GET['did'])." $exclude_query LIMIT 1;" );
 			
-			if ($download->cat_name) $catname = trim($download->cat_name); 
+		if (!empty($d)) {
+		
+			$download = new downloadable_file($d);
+					
+			if ($download->category) $catname = trim($download->category); 
 				else $catname = ucwords($uncategorized);		
 	        $date = date("jS M Y", strtotime($download->date));
 	        if ($download->dlversion) $version = __('Version',"wp-download_monitor").' '.$download->dlversion; 
 	        	else $version = '';
 	        if ($download->file_description) $desc = do_shortcode(wptexturize(wpautop($download->file_description))); 
 	        	else $desc = "";
-	        if (!$thumbnail_url = $meta['thumbnail']) $thumbnail_url = $wp_dlmp_root.'/thumbnail.gif';
+	        $thumbnail_url = $download->thumbnail;
 	        
 	        // Gen category breadcrumb
-	        $cat_breadcrumb = implode(' ', get_parent_cats($download->category_id, true));
-	        if (empty($cat_breadcrumb)) $cat_breadcrumb = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($uncategorized)).'').'">&laquo;&nbsp;'.ucwords($uncategorized).'</a>';
+	        if ($download->category_id) {
 	        
-	        $page .= '<div class="download-info single '.$alttext.'">	        		
+		        $chain[] = '<a href="'.wp_dlmp_append_url(	'category='.urlencode(strtolower($download_taxonomies->categories[$download->category_id]->id))	).'">&laquo; '.$download_taxonomies->categories[$download->category_id]->name.'</a>';
+		        $chain = $download_taxonomies->do_something_to_cat_parents($download->category_id, 'get_chain', 'no_chain', $chain);
+		        $cat_breadcrumb = implode(' ', $chain);
+
+	        } else $cat_breadcrumb = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($uncategorized)).'').'">&laquo;&nbsp;'.ucwords($uncategorized).'</a>';
+	        
+	        $page .= '<div class="download-info single">	        		
 	        		
 		           	<div class="side-section">
 		        		<p><img src="'.$thumbnail_url.'" class="download-image" alt="'.strip_tags($download->title).'" title="'.strip_tags($download->title).'" width="112" /></p>';
 		        		
-		    if (!$meta['hide_download_button']) $page .= '<p><a href="'.do_shortcode('[download id="'.$download->id.'" format="{url}"]').'" class="download-button">'.$dbutton_text.'</a></p>';
+		    if (!isset($download->meta['hide_download_button'])) $page .= '<p><a href="'.do_shortcode('[download id="'.$download->id.'" format="{url}"]').'" class="download-button">'.$dbutton_text.'</a></p>';
 		       
-		    if ($meta['post_id'] && is_numeric($meta['post_id']))		      		
-		    	$page .= '<p><a href="'.get_permalink($meta['post_id']).'" class="more-button">'.$readmore_text.'</a></p>';
+		    if (isset($download->meta['post_id']) && is_numeric($download->meta['post_id']))		      		
+		    	$page .= '<p><a href="'.get_permalink($download->meta['post_id']).'" class="more-button">'.$readmore_text.'</a></p>';
 		        		
 		        		// Special additional content meta field
-		        		$extra = $meta['side_content'];
-		        		if ($extra) $page .= '<div class="extra">'.stripslashes($extra).'</div>';
+		        		if (isset($download->meta['side_content'])) {
+		        			$extra = $download->meta['side_content'];
+		        			if ($extra) $page .= '<div class="extra">'.$extra.'</div>';
+		        		}
 		  
 		    $page .= '
 		        	</div>
@@ -661,47 +625,50 @@ if (function_exists('get_downloads')) {
 	        
 	        $custom_field_data[] = array($posted_text, date($posted_text2, strtotime($download->postDate)));
 	        
-	        if (!$meta['hide_hits']) {
+	        if (!isset($download->meta['hide_hits'])) {
 		        if ($download->hits==1) 
 	 				$custom_field_data[] = array($hits_text, $download->hits.$hits_text2);
 	 			else
 	 				$custom_field_data[] = array($hits_text, $download->hits.$hits_text2_p);
 			}
 			
-	        if ($download->cat_name) {
-	        	$cats = array();
-	        	$cats = get_parent_cats($download->category_id);
-	        	$custom_field_data[] = array($category_text, implode(' &mdash; ', $cats));
-	        } 	        
-	        
-	        $show_custom_fields = $meta['include_fields'];
-	        if ($show_custom_fields) $show_custom_fields = explode(',',$show_custom_fields);	        
-	        if (sizeof($show_custom_fields)>0) {
-	        	// Get each custom field's value ready to output
-	        	foreach ($show_custom_fields as $field) {
-	        		$value = $meta[$field];
-	        		if (!empty($value)) {
-	        			// Special handling for tags
-	        			if ($field=='tags') {
-	        				$tags = explode(',', $value);
-	        				$tags_after = array();
-	        				foreach ($tags as $tag) {
-	        					$tag = trim($tag);
-	        					$tags_after[] = '<a href="'.wp_dlmp_append_url('dltag='.urlencode(strtolower($tag))).'">'.$tag.'</a>';
-	        				}
-	        				$custom_field_data[] = array(ucfirst(str_replace('-',' ',$field)), implode(', ',$tags_after));
-	        			} else $custom_field_data[] = array(ucfirst(str_replace('-',' ',$field)), $value);
-	        		}
+	        if ($download->categories) {
+	        	$names = array();
+	        	foreach ($download->categories as $cat) {
+	        		$names[] = '<a href="'.wp_dlmp_append_url(	'category='.urlencode(strtolower($cat['id']))	).'">'.$cat['name'].'</a>';
 	        	}
+	        	$custom_field_data[] = array($category_text, implode(', ', $names));
+	        } 	
+	        
+	        if ($download->tags) {
+	        	$names = array();
+	        	foreach ($download->tags as $tag) {
+	        		$names[] = '<a href="'.wp_dlmp_append_url(	'dltag='.urlencode(strtolower($tag['name']))	).'">'.$tag['name'].'</a>';
+	        	}
+	        	$custom_field_data[] = array($single_tags_text, implode(', ', $names));
+	        }         
+	        
+	        if (isset($download->meta['include_fields'])) {
+		        $show_custom_fields = $download->meta['include_fields'];
+		        if ($show_custom_fields) $show_custom_fields = explode(',',$show_custom_fields);	        
+		        if (sizeof($show_custom_fields)>0) {
+		        	// Get each custom field's value ready to output
+		        	foreach ($show_custom_fields as $field) {
+		        		$value = $download->meta[$field];
+		        		if (!empty($value)) {
+		        			$custom_field_data[] = array(ucfirst(str_replace('-',' ',$field)), $value);
+		        		}
+		        	}
+		        }
 	        }
 	            
 	        if (sizeof($custom_field_data)>0) {
 	        	// Output
 	        	 $page .= '<table class="download-meta" cellspacing="0" style="width:100%"><thead><tr><th scope="col">Attribute</th><th style="text-align:right" scope="col">Value</th></tr></thead><tbody>';
 	        	 	foreach($custom_field_data as $field) {
-	        	 		 $page .= '<tr><th scope="row">'.$field[0].'</td><td style="text-align:right">'.$field[1].'</td></tr>';
+	        	 		 $page .= '<tr><th scope="row">'.$field[0].'</th><td style="text-align:right">'.$field[1].'</td></tr>';
 	        	 	}
-	        	 $page .= '</table>';
+	        	 $page .= '</tbody></table>';
 	        }
 	        
 	        // Show Description
@@ -721,6 +688,10 @@ if (function_exists('get_downloads')) {
 	}
 	else {
 		
+		##########################################################################################################################################################################################
+		## Front View
+		##########################################################################################################################################################################################
+		
 		if ($pop_count>0) {
 			// Front view
 			$page .= '<div id="download-page-featured">
@@ -736,7 +707,7 @@ if (function_exists('get_downloads')) {
 					        if ($d->version) $version = __('Version',"wp-download_monitor").' '.$d->version; else $version = '';
 					        if ($d->desc) $desc = do_shortcode(wptexturize(wpautop(current(explode('<!--more-->', $d->desc))))); else $desc = "";
 					        $thumbnail_url = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='thumbnail' LIMIT 1" , $d->id ) );
-					        if (!$thumbnail_url) $thumbnail_url = $wp_dlmp_root.'/thumbnail.gif';
+					        if (!$thumbnail_url) $thumbnail_url = $wp_dlmp_root.'thumbnail.gif';
 					        
 					        $page .= '<li class="'.$alttext.'"><a href="'.wp_dlmp_append_url('did='.$d->id).'" title="'.$version.' '.__('Downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" ><img src="'.$thumbnail_url.'" class="download-thumbnail" alt="'.strip_tags($d->title).'" title="'.strip_tags($d->title).'"  /> <span>'.$d->title.'</span></a></li>';
 					        
@@ -753,45 +724,31 @@ if (function_exists('get_downloads')) {
 					<h'.$base_heading_level.'>'.$tags_widget_text.'</h'.$base_heading_level.'><ul>';
 					
 					// Get tags
-					if (sizeof($exclude_array) > 0 ) $tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags' AND download_id NOT IN (".implode(',',$exclude_array).")" );		
-					else $tags = $wpdb->get_col( "SELECT meta_value FROM $wp_dlm_db_meta WHERE meta_name = 'tags';" );		
-							
+					$tags = $download_taxonomies->used_tags;			
 					
 					if (!empty($tags)) {
-						$tags_array = array();
-						foreach ($tags as $taggroup) {
-							 $these_tags = explode(',', $taggroup);							 
-							 $tags_array = array_merge($these_tags, $tags_array);
+						
+						$sized_tags = array();
+						foreach ($tags as $tag) {
+							$sized_tags[$tag->name] = $tag->size;
 						}
 						
-						$tags_array = array_map('trim', $tags_array);
-						
-						$tags_array_clean = array();
-						
-						foreach ($tags_array as $value) {
-							if (empty($value) || $value == "") continue;
-							$tags_array_clean[] = $value;
-						}
-												
-						//$tags = array_unique($tags_array_clean);
-						$tags = array_count_values($tags_array_clean);
-						$max = max($tags);
-						$min = min($tags);	
+						$max = max($sized_tags);
+						$min = min($sized_tags);	
 						$div = $max-$min;
 						if (!$div) $div = 1;			
 						
 						$multiplier = (200-80)/($div); 
 						
-						asort($tags);
+						asort($sized_tags);
 						
-						$tags = array_reverse($tags);
+						$sized_tags = array_reverse($sized_tags);
 						
-						$tags = array_slice($tags, 0, $show_tags);	
+						$sized_tags = array_slice($sized_tags, 0, $show_tags);	
 						
-						ksort($tags);		  
+						ksort($sized_tags);		  
    
-						foreach ($tags as $tag=>$count) {
-							//$count = $tag_counts[$tag];
+						foreach ($sized_tags as $tag=>$count) {
 							$size = 80 + (($max-($max-($count-$min)))*$multiplier);
 							$page .= '<li style="font-size:'.$size.'%"><a href="'.wp_dlmp_append_url('dltag='.urlencode(strtolower($tag))).'">'.$tag.'</a></li>';
 						}
@@ -807,21 +764,31 @@ if (function_exists('get_downloads')) {
 		if (sizeof($category_array)>0) {
 			$alt = -1;
 			foreach ($category_array as $cat) {
-			
-				if ($cat['parent']>0) continue;
+				if ($cat->parent>0) continue;
 			
 				// Count = children too
-				$count = $cat['count'];
-				foreach ($cat['children'] as $child) {
-					$count += $category_array[$child]['count'];
-				}
-			
+				$in_cats = $cat->decendents;
+				$in_cats[] = $cat->id;
+
+				$count = $wpdb->get_var("
+					SELECT COUNT(DISTINCT $wp_dlm_db_relationships.download_id) 
+					FROM $wp_dlm_db_relationships 
+					LEFT JOIN $wp_dlm_db_taxonomies ON($wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id)
+					WHERE $wp_dlm_db_taxonomies.id IN (".implode(',',$in_cats).")
+					AND $wp_dlm_db_relationships.download_id NOT IN (".implode(',',$exclude_array).")
+					AND $wp_dlm_db_taxonomies.taxonomy = 'category';
+				");
+
+				if ($count==0) continue;
+				
 				if ($alt==1) $alttext = 'alternate'; else $alttext = '';
 				$page .= '<div class="category '.$alttext.'"><div class="inner">';
-				$page .= '<h'.$base_heading_level.'><a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat['id']))).'">'.wptexturize($cat['name']).' ('.$count.') &raquo;</a></h'.$base_heading_level.'>';
+				$page .= '<h'.$base_heading_level.'><a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($cat->id))).'">'.wptexturize($cat->name).' ('.$count.') &raquo;</a></h'.$base_heading_level.'>';
 				if ($pop_cat_count>0) {
 					$page .= '<ol>';
-					$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby=hits&order=desc&category='.$cat['id'].'" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');
+					
+					$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby=hits&order=desc&category='.$cat->id.'" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');
+					
 					$page .= '</ol>';
 				}
 				$page .= '</div></div>';
@@ -832,7 +799,16 @@ if (function_exists('get_downloads')) {
 			
 				if ($alt==1) $alttext = 'alternate'; else $alttext = '';
 				
-				$count = $wpdb->get_var( "SELECT COUNT(id) FROM $wp_dlm_db WHERE category_id = 0 $exclude_query" );
+				$count = $wpdb->get_var("
+					SELECT COUNT(DISTINCT $wp_dlm_db.id) 
+					FROM $wp_dlm_db 
+					WHERE $wp_dlm_db.id NOT IN (
+						SELECT download_id FROM $wp_dlm_db_relationships
+						LEFT JOIN $wp_dlm_db_taxonomies ON $wp_dlm_db_relationships.taxonomy_id = $wp_dlm_db_taxonomies.id
+						WHERE $wp_dlm_db_taxonomies.taxonomy = 'category'
+					)
+					$exclude_query;
+				");
 				
 				if ($count>0) {
 					
@@ -841,7 +817,7 @@ if (function_exists('get_downloads')) {
 					
 					if ($pop_cat_count>0) {
 						$page .= '<ol>';
-						$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby=hits&order=desc&category=none" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');
+						$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby=hits&order=desc&category=none" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}', $format)).'"]');
 						$page .= '</ol>';
 					}
 					$page .= '</div></div>';
