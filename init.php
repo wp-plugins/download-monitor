@@ -171,7 +171,7 @@ function wp_dlm_upgrade() {
 
 	global $wpdb, $table_prefix,$wp_dlm_db,$wp_dlm_db_taxonomies,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta,$wp_dlm_db_relationships;
  	
- 	//$wpdb->hide_errors();
+ 	$wpdb->hide_errors();
 
  	// Get Collation
 	$collate = "";
