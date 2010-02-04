@@ -25,6 +25,28 @@ Author URI: http://blue-anvil.com
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+// INIT ON ACTIVATE FOR FRESH INSTALLS/UPGRADES POST 3.3
+function wp_dlm_activate() {
+
+	global $wp_roles;
+	$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
+	$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
+	$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
+	
+	global $dlm_build;
+	$wp_dlm_build = get_option('wp_dlm_build');
+	if ( !empty($wp_dlm_build) && $wp_dlm_build!=$dlm_build && ($wp_dlm_build<20100205 || !is_numeric($wp_dlm_build)) ) {
+		// THESE VERSIONS NEED A BACKUP + UPGRADE
+	} else {
+		wp_dlm_update();
+		wp_dlm_init();
+	}
+	
+}
+register_activation_hook( __FILE__, 'wp_dlm_activate' );
+
 ################################################################################
 // Vars and version
 ################################################################################
@@ -41,7 +63,7 @@ Author URI: http://blue-anvil.com
 		if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 	}
 	
-	$dlm_build="20100204";
+	$dlm_build="20100205";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
@@ -179,28 +201,6 @@ function wp_dlm_init_hooks() {
 	}
 }
 add_action('init','wp_dlm_init_hooks',1);
-
-// INIT ON ACTIVATE FOR FRESH INSTALLS/UPGRADES POST 3.3
-function wp_dlm_activate() {
-
-	global $wp_roles;
-	$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
-	$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
-	$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
-	$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
-	$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
-	
-	global $dlm_build;
-	$wp_dlm_build = get_option('wp_dlm_build');
-	if ( !empty($wp_dlm_build) && $wp_dlm_build!=$dlm_build && ($wp_dlm_build<20100204 || !is_numeric($wp_dlm_build)) ) {
-		// THESE VERSIONS NEED A MANUAL BACKUP + UPGRADE
-	} else {
-		wp_dlm_update();
-		wp_dlm_init();
-	}
-	
-}
-register_activation_hook( __FILE__, 'wp_dlm_activate' );
 
 ################################################################################
 // Addons

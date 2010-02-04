@@ -171,7 +171,7 @@ function wp_dlm_upgrade() {
 
 	global $wpdb, $table_prefix,$wp_dlm_db,$wp_dlm_db_taxonomies,$wp_dlm_db_formats,$wpdb,$wp_dlm_db_stats,$wp_dlm_db_log,$wp_dlm_db_meta,$wp_dlm_db_relationships;
  	
- 	$wpdb->hide_errors();
+ 	//$wpdb->hide_errors();
 
  	// Get Collation
 	$collate = "";
@@ -189,11 +189,16 @@ function wp_dlm_upgrade() {
 	$wp_dlm_db_meta_old = $table_prefix."DLM_META";
 	
 	// Rename old tables
-	$wpdb->query("ALTER TABLE $wp_dlm_db_old RENAME $wp_dlm_db;");
+	$wpdb->query( "RENAME TABLE $wp_dlm_db_old TO $wp_dlm_db;" );
+	$wpdb->query( "RENAME TABLE $wp_dlm_db_formats_old TO $wp_dlm_db_formats;" );
+	$wpdb->query( "RENAME TABLE $wp_dlm_db_stats_old TO $wp_dlm_db_stats;" );
+	$wpdb->query( "RENAME TABLE $wp_dlm_db_log_old TO $wp_dlm_db_log;" );
+	$wpdb->query( "RENAME TABLE $wp_dlm_db_meta_old TO $wp_dlm_db_meta;" );
+	/*$wpdb->query("ALTER TABLE $wp_dlm_db_old RENAME $wp_dlm_db;");
 	$wpdb->query("ALTER TABLE $wp_dlm_db_formats_old RENAME $wp_dlm_db_formats;");
 	$wpdb->query("ALTER TABLE $wp_dlm_db_stats_old RENAME $wp_dlm_db_stats;");
 	$wpdb->query("ALTER TABLE $wp_dlm_db_log_old RENAME $wp_dlm_db_log;");
-	$wpdb->query("ALTER TABLE $wp_dlm_db_meta_old RENAME $wp_dlm_db_meta;");
+	$wpdb->query("ALTER TABLE $wp_dlm_db_meta_old RENAME $wp_dlm_db_meta;");*/
 
 	// Create new taxonomy table
 	$sql = "CREATE TABLE IF NOT EXISTS ".$wp_dlm_db_taxonomies." (				
