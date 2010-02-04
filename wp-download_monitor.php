@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.3.1
+Version: 3.3.3.2
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -179,6 +179,28 @@ function wp_dlm_init_hooks() {
 	}
 }
 add_action('init','wp_dlm_init_hooks',1);
+
+// INIT ON ACTIVATE FOR FRESH INSTALLS/UPGRADES POST 3.3
+function wp_dlm_activate() {
+
+	global $wp_roles;
+	$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
+	$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
+	$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
+	$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
+	
+	global $dlm_build;
+	$wp_dlm_build = get_option('wp_dlm_build');
+	if ( !empty($wp_dlm_build) && $wp_dlm_build!=$dlm_build && ($wp_dlm_build<20100204 || !is_numeric($wp_dlm_build)) ) {
+		// THESE VERSIONS NEED A MANUAL BACKUP + UPGRADE
+	} else {
+		wp_dlm_update();
+		wp_dlm_init();
+	}
+	
+}
+register_activation_hook( __FILE__, 'wp_dlm_activate' );
 
 ################################################################################
 // Addons
