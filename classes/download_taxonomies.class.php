@@ -46,38 +46,20 @@ class download_taxonomies {
 		
 		$this->find_category_family();
 		$this->filter_unused_tags();
-		
 	}	
 	
 	function find_category_family() {
 		foreach ($this->categories as $cat) {
-			//if ($cat->parent==0) {				
-				// Starting at top level cats
-				$cat->decendents = $this->find_decendents($cat->id);
-			//}
-			$cat->direct_decendents = $this->find_direct_decendents($cat->id);
+			if ($cat->parent>0) $this->categories[$cat->parent]->direct_decendents[] = $cat->id;
+			$cat->decendents = $this->find_decendents($cat->id);
 		}
 	}
-	
 	function find_decendents($id = 0, $decendents = array()) {
 		if ($id>0) {
 			foreach ($this->categories as $cat) {
 				if ($cat->parent==$id) {					
 					$subdecendents = $this->find_decendents($cat->id);
 					$decendents = array_merge($subdecendents, $decendents);
-					$decendents[] = $cat->id;
-					//$cat->decendents = $decendents;
-				}
-			}		
-		}		
-		return $decendents;
-	}
-	
-	function find_direct_decendents($id = 0) {
-		$decendents = array();
-		if ($id>0) {
-			foreach ($this->categories as $cat) {
-				if ($cat->parent==$id) {					
 					$decendents[] = $cat->id;
 				}
 			}		
@@ -175,6 +157,7 @@ class download_category {
 		$this->name = $name;
 		$this->parent = $parent;
 		$cat->decendents = array();
+		$cat->direct_decendents = array();
 		$this->size = $size;
 	}
 	

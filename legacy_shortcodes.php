@@ -193,7 +193,7 @@ function wp_dlm_parse_downloads($data) {
 	
 	} // End if [download_cat# found
 	
-	return do_shortcode($data);		
+	return $data;		
 
 } 
 

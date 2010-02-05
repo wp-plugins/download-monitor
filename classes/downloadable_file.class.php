@@ -288,7 +288,7 @@ class downloadable_file {
 		// Filetype Icons
 		$fpatts[] = "{filetype_icon}";
 		$icon = '<img alt="'.$filetype.'" title="'.$filetype.'" class="download-icon" src="'.$wp_dlm_root.'img/filetype_icons/';
-		switch $filetype :
+		switch ($filetype) :
 			case "pdf" :
 				$icon .= 'document-pdf';
 			break;
