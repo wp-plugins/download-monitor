@@ -18,6 +18,8 @@ From version 3.3 a new database structure is being used so ensure you backup you
 
 For older versions of wordpress use the older Download Monitor version 2.2.3 which is available from http://wordpress.org/extend/plugins/download-monitor/download/ (tested and working in Wordpress 2.0 and 2.3).
 
+Plugin contains filetype icons from the Fugue Icon Pack by Yusuke Kamiyamane (http://pinvoke.com).
+
 = Features =
 
 *	Built in Download Page function with built in sorting, pagination, and search. This was going to be a paid addon but i'm too nice - so please donate if you use it!
@@ -34,7 +36,7 @@ For older versions of wordpress use the older Download Monitor version 2.2.3 whi
 *	Admin for managing downloads and also changing hit counts - just in case you change servers or import old downloads that already have stats.
 *	Custom URL's/URL hider using mod_rewrite.
 
-= Sustainable Plugin Development Ñ and Your Privacy =
+= Sustainable Plugin Development - and Your Privacy =
 
 Download Monitor is a participant in the Sustainable Plugins Sponsorship Network (SPSN) - http://pluginsponsors.com/. The SPSN model offers modest sponsorships to plugin authors in return for a small amount of screen real estate on plugin options pages. The SPSN sponsor messages can be switched altogether: just visit the Config page.
 
@@ -69,7 +71,8 @@ Need it in a different language? Some users have been kind enough to provide som
 *	French translation by Ma‘l ILLOUZ - http://www.cobestran.com/telechargements/
 *	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
 *	Albanian translation by Romeo - http://www.romeolab.com/download-monitor-plugin-shqip
-*	Hebrew translation by David Tayar - http://davidt.net/,216
+*	Hebrew translation by David Tayar - http://davidt.net/
+*	German translation (included) by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
 
 == Installation ==
 
@@ -101,6 +104,12 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.4 =
+*	Changed 'descendants' finder code
+*	Updated a classname on download page to prevent a conflict with another plugin
+*	German translation by Frank Weichbrodt added
+*	{filetype_icon} added + icons
 
 = 3.3.3 =
 *	Multiple Category Support

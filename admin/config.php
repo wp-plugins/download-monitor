@@ -220,6 +220,7 @@ function wp_dlm_config() {
 	                	<li><code>{meta-<em>key</em>}</code> - <?php _e('Custom field value',"wp-download_monitor"); ?></li>
 	                	<li><code>{meta-autop-<em>key</em>}</code> - <?php _e('Custom field value formatted with autop',"wp-download_monitor"); ?></li>
 	                	<li><code>{filetype}</code> - <?php _e('File extension (e.g. "zip")',"wp-download_monitor"); ?></li>
+	                	<li><code>{filetype_icon}</code> - <?php _e('File extension icon (16x16)',"wp-download_monitor"); ?></li>
 	                </ul>
 	                <p><strong><?php _e('Example Format',"wp-download_monitor"); ?> -</strong> <?php _e('Link and description of download with hits in title:',"wp-download_monitor"); ?></p>
 	                <p><code>&lt;a href="{url}" title="Downloaded {hits} times"&gt;{title}&lt;/a&gt; - {description}</code></p>

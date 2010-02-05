@@ -384,8 +384,7 @@ if (function_exists('get_downloads')) {
 				if (!isset($cat_breadcrumb)) $cat_breadcrumb = '';
 				$page .= '<h'.$base_heading_level.'>'.wptexturize($cat->name).' ('.$count.') <small>'.$cat_breadcrumb.' <a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 				
-				if (sizeof($cat->decendents) > 0) {
-					$page .= '<p class="subcats"><strong>'.$subcat_text.'</strong> ';
+				if (sizeof($cat->decendents) > 0) {					
 					$subcats = array();
 					foreach ($cat->direct_decendents as $child_cat) {
 						if ($category_array[$child_cat]->name) {
@@ -399,11 +398,13 @@ if (function_exists('get_downloads')) {
 								AND $wp_dlm_db_relationships.download_id NOT IN (".implode(',',$exclude_array).")
 								AND $wp_dlm_db_taxonomies.taxonomy = 'category';
 							");	
-							if ($scount>0) 		
-								$subcats[] = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($category_array[$child_cat]->id))).'">'.wptexturize($category_array[$child_cat]->name).' ('.$scount.')</a>';
+							if ($scount>0) $subcats[] = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($category_array[$child_cat]->id))).'">'.wptexturize($category_array[$child_cat]->name).' ('.$scount.')</a>';
 						}					
 					}
-					$page .= implode(' | ', $subcats).'</p>';
+					if (sizeof($subcats)>0) :
+						$page .= '<p class="subcats"><strong>'.$subcat_text.'</strong> ';
+						$page .= implode(' | ', $subcats).'</p>';
+					endif;
 				}
 				
 				$orderby = '';
@@ -673,7 +674,7 @@ if (function_exists('get_downloads')) {
 	        
 	        // Show Description
 	        if ($desc) {	
-		        $page .= '<div class="info">
+		        $page .= '<div class="download-desc">
 		        			<h'.($base_heading_level+1).' class="download-desc-heading">'.$desc_heading.'</h'.($base_heading_level+1).'>
 		        			'.$desc.'
 		        		</div>';
@@ -832,6 +833,8 @@ if (function_exists('get_downloads')) {
 	}
 	
 	$page .= '</div>';
+	
+	$page .= "\n<!-- Download Page powered by WordPress Download Monitor (http://blue-anvil.com). Fugue icons by Yusuke Kamiyamane (http://pinvoke.com). -->";
 	
 	return $page;
 }

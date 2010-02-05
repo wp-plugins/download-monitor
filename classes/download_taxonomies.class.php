@@ -51,10 +51,10 @@ class download_taxonomies {
 	
 	function find_category_family() {
 		foreach ($this->categories as $cat) {
-			if ($cat->parent==0) {				
+			//if ($cat->parent==0) {				
 				// Starting at top level cats
 				$cat->decendents = $this->find_decendents($cat->id);
-			}
+			//}
 			$cat->direct_decendents = $this->find_direct_decendents($cat->id);
 		}
 	}
@@ -63,9 +63,10 @@ class download_taxonomies {
 		if ($id>0) {
 			foreach ($this->categories as $cat) {
 				if ($cat->parent==$id) {					
-					$decendents = $this->find_decendents($cat->id, $decendents);
+					$subdecendents = $this->find_decendents($cat->id);
+					$decendents = array_merge($subdecendents, $decendents);
 					$decendents[] = $cat->id;
-					$cat->decendents = $decendents;
+					//$cat->decendents = $decendents;
 				}
 			}		
 		}		

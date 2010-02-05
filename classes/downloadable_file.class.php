@@ -278,8 +278,125 @@ class downloadable_file {
 		$filetype = trim(strtolower(substr(strrchr($filetype,"."),1)));	
 		if ($filetype) 
 			$fsubs[] = $filetype;	
-		else 
+		else {
 			$fsubs[] = __('N/A',"wp-download_monitor");
+			$filetype = __('File',"wp-download_monitor");
+		}
+		
+		global $wp_dlm_root;
+		
+		// Filetype Icons
+		$fpatts[] = "{filetype_icon}";
+		$icon = '<img alt="'.$filetype.'" title="'.$filetype.'" class="download-icon" src="'.$wp_dlm_root.'img/filetype_icons/';
+		switch $filetype :
+			case "pdf" :
+				$icon .= 'document-pdf';
+			break;
+			case "m4r":
+			case "au":
+			case "snd":
+			case "mid":
+			case "midi":
+			case "kar":
+			case "mpga":
+			case "mp2":
+			case "mp3":
+			case "aif":
+			case "aiff":
+			case "aifc":
+			case "m3u":
+			case "ram":
+			case "rm":
+			case "rpm":
+			case "ra":
+			case "wav":
+				$icon .= 'document-music';
+			break;
+			case "mpeg": 
+			case "mpg":
+			case "mpe":
+			case "qt":
+			case "mov":
+			case "mxu":
+			case "avi":
+			case "movie":			
+				$icon .= 'document-film';
+			break;
+			case "zip":
+			case "gz":
+			case "rar":
+			case "sit":
+			case "tar":
+				$icon .= 'document-zipper';
+			case "xls":
+			case "tsv":	
+			case "csv":	
+				$icon .= 'document-excel';
+			break;
+			case "doc":
+				$icon .= 'document-word-text';
+			break;
+			case "ai":
+				$icon .= 'document-illustrator';
+			break;
+			case "swf":
+				$icon .= 'document-flash-movie';
+			break;			
+			case "eps":
+			case "ps":
+			case "bmp":
+			case "gif":	
+			case "ief":
+			case "jpeg":
+			case "jpg":
+			case "jpe":
+			case "png":
+			case "tiff":
+			case "tif":
+			case "djv":	
+			case "wbmp":
+			case "ras":
+			case "pnm":
+			case "pbm":
+			case "pgm":
+			case "ppm":
+			case "rgb":
+			case "xbm":
+			case "xpm":
+			case "xwd":
+				$icon .= 'document-image';
+			break;
+			case "psd" :
+				$icon .= 'document-photoshop';
+			break;
+			case "ppt" :
+				$icon .= 'document-powerpoint';
+			break;
+			case "js":
+			case "css":
+			case "as":
+			case "htm":
+			case "htaccess":
+			case "sql":
+			case "html":			
+			case "php":
+			case "xml":
+			case "xsl":
+				$icon .= 'document-code';
+			break;
+			case "rtx": 
+			case "rtf":
+				$icon .= 'document-text-image';
+			break;
+			case "txt":	
+				$icon .= 'document-text';
+			break;
+			default :
+				$icon .= 'document';
+			break;
+		endswitch;
+		$icon .= '.png" />';
+		$fsubs[] = $icon;
 			
 		// Hits (special) {hits, none, one, many)
 		preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
