@@ -86,50 +86,6 @@ function dlm_sponsors() {
 }
 
 ################################################################################
-// File size formatting
-################################################################################
-
-function wp_dlm_get_size($thefile) {
-	
-	$urlparsed = parse_url($thefile);
-	$isURI = array_key_exists('scheme', $urlparsed);
-	$localURI = (bool) strstr($thefile, get_bloginfo('url')); /* Local TO WORDPRESS!! */
-					
-	if( $localURI ) {
-		// the URI is local, replace the WordPress url OR blog url with WordPress's absolute path.
-		$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
-		$path = preg_replace( $patterns, '', $thefile );
-		// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
-		$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );							
-	// Local File System path
-	} else if( !path_is_absolute( $thefile ) ) { 
-		//$thefile = path_join( ABSPATH, $thefile );
-		// Get the absolute path
-		if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
-		$dir_path = $_SERVER['DOCUMENT_ROOT'];
-		// Now substitute the domain for the absolute path in the file url
-		$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join($dir_path, $thefile ));
-	} else {
-		$thefile = str_replace(get_bloginfo('wpurl'), ABSPATH, $thefile);
-	}
-						
-	if (file_exists($thefile)) {
-		$size = filesize($thefile);
-		if ($size) {
-		$bytes = array('bytes','KB','MB','GB','TB');
-		  foreach($bytes as $val) {
-		   if($size > 1024){
-			$size = $size / 1024;
-		   }else{
-			break;
-		   }
-		  }
-		  return round($size, 2)." ".$val;
-		}
-	}
-}
-
-################################################################################
 // For Changing dates. Modified from touch_time() function
 ################################################################################
 

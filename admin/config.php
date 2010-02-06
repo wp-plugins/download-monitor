@@ -96,8 +96,7 @@ function wp_dlm_config() {
 					$show=true;
 				break;	
 				case "upgrade" :
-					wp_dlm_upgrade();
-					echo '<div id="message" class="updated fade"><p><strong>'.__('Database Upgraded',"wp-download_monitor").'</strong></p></div>';
+					wp_dlm_upgrade();					
 					$show=true;				
 				break;			
 				case "cleanup" :

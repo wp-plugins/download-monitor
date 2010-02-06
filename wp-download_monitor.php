@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-	global $wp_db_version, $wpdb, $table_prefix;
+	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $meta_data, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $download_data, $download_data_array;
 	
 	if ($wp_db_version < 8201) {
 		// Pre 2.6 compatibility (BY Stephen Rider)
@@ -42,9 +42,7 @@ Author URI: http://blue-anvil.com
 		if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 	}
 	
-	global $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $meta_data, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $download_data, $download_data_array;
-	
-	$dlm_build="20100205";
+	$dlm_build="20100206";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
@@ -78,39 +76,17 @@ Author URI: http://blue-anvil.com
 	
 	load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
 	
-// INIT ON ACTIVATE FOR FRESH INSTALLS/UPGRADES POST 3.3
-	function wp_dlm_activate() {
-	
-		global $wp_roles;
-		$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
-		$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
-		$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
-		$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
-		$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
-		
-		global $dlm_build;
-		$wp_dlm_build = get_option('wp_dlm_build');
-		if ( !empty($wp_dlm_build) && $wp_dlm_build!=$dlm_build && ($wp_dlm_build<20100205 || !is_numeric($wp_dlm_build)) ) {
-			// THESE VERSIONS NEED A BACKUP + UPGRADE
-		} else {
-			wp_dlm_update();
-			wp_dlm_init();
-		}
-		
-	}
-	register_activation_hook( __FILE__, 'wp_dlm_activate' );
-
 ################################################################################
 // Includes
 ################################################################################
 
-	include(WP_PLUGIN_DIR.'/download-monitor/functions.inc.php');				/* Various functions used throughout */
-	include(WP_PLUGIN_DIR.'/download-monitor/init.php');						/* Inits the DB/Handles updates */
-	include(WP_PLUGIN_DIR.'/download-monitor/legacy_shortcodes.php');			/* Old Style shortcodes */
-	include(WP_PLUGIN_DIR.'/download-monitor/shortcodes.php');					/* New Style shortcodes */
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/admin.php');					/* Admin Interface */
-	include(WP_PLUGIN_DIR.'/download-monitor/classes/downloadable_file.class.php');		/* Download Class */
-	include(WP_PLUGIN_DIR.'/download-monitor/classes/download_taxonomies.class.php');		/* Taxonomy Class */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/functions.inc.php');				/* Various functions used throughout */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/init.php');						/* Inits the DB/Handles updates */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/legacy_shortcodes.php');			/* Old Style shortcodes */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/shortcodes.php');					/* New Style shortcodes */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/admin.php');					/* Admin Interface */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/downloadable_file.class.php');		/* Download Class */
+	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/download_taxonomies.class.php');		/* Taxonomy Class */
 	
 ################################################################################
 // Pre-fetch data before its needed to lessen queries later
@@ -133,9 +109,7 @@ Author URI: http://blue-anvil.com
 			$download_data_array[$download->id] = $download;
 		}
 	
-	} else {
-		wp_dlm_activate();
-	}
+	} 
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
@@ -189,7 +163,13 @@ RewriteRule ^'.$offset.$dlm_url.'([^/]+)$ '.WP_PLUGIN_URL.'/download-monitor/dow
 if (!empty($dlm_url)) add_filter('mod_rewrite_rules', 'wp_dlm_rewrite');
 	
 function wp_dlm_init_hooks() {
-	global $wpdb,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_taxonomies, $wp_dlm_db_exists;
+	global $wpdb,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_taxonomies, $wp_dlm_db_exists, $dlm_build;
+	
+	$wp_dlm_build = get_option('wp_dlm_build');
+	
+	if (((isset($_GET['activate']) && $_GET['activate']==true)) || ($dlm_build != $wp_dlm_build)) {
+		wp_dlm_init_or_upgrade();
+	}
 	
 	if (is_admin()) wp_enqueue_script('jquery-ui-sortable');
 	
@@ -210,6 +190,11 @@ function wp_dlm_init_hooks() {
 	}
 }
 add_action('init','wp_dlm_init_hooks',1);
+
+function wp_dlm_activate() {
+	wp_dlm_init_or_upgrade();		
+}
+register_activation_hook( __FILE__, 'wp_dlm_activate' );
 
 ################################################################################
 // Addons

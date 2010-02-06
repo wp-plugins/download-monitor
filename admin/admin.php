@@ -23,12 +23,12 @@
 // INCLUDES
 ################################################################################
 
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/config.php');
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/add_new.php');
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/add_directory.php');
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/categories.php');
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/logs.php');
-	include(WP_PLUGIN_DIR.'/download-monitor/admin/dashboard.php');
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/config.php');
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/add_new.php');
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/add_directory.php');
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/categories.php');
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/logs.php');
+	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/dashboard.php');
 
 ################################################################################
 // ADMIN HEADER
@@ -36,10 +36,6 @@
 
 function wp_dlm_head() {
 	global $wp_db_version, $wp_dlm_root;
-	
-	if ((isset($_GET['activate']) && $_GET['activate']==true)) {
-		wp_dlm_init();
-	}	
 	
 	// Provide css based on wordpress version.
 	if ($wp_db_version < 9872) {

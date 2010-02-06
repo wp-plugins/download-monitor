@@ -166,7 +166,7 @@ class downloadable_file {
 			$thefile = str_replace(get_bloginfo('wpurl'), ABSPATH, $thefile);
 		}
 							
-		if (file_exists($thefile)) {
+		if (@file_exists($thefile)) {
 			$size = filesize($thefile);
 			if ($size) {
 			$bytes = array('bytes','KB','MB','GB','TB');
@@ -328,6 +328,7 @@ class downloadable_file {
 			case "sit":
 			case "tar":
 				$icon .= 'document-zipper';
+			break;
 			case "xls":
 			case "tsv":	
 			case "csv":	
