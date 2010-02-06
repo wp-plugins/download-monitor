@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.9.1
-Stable tag: 3.3.3.3
+Stable tag: 3.3.3.4
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -73,6 +73,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Albanian translation by Romeo - http://www.romeolab.com/download-monitor-plugin-shqip
 *	Hebrew translation by David Tayar - http://davidt.net/
 *	German translation (included) by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
+*	German translation (2, included) by Michael Fitzen - http://www.be-infected.de/
 
 == Installation ==
 
@@ -105,10 +106,11 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 == Changelog ==
 
-= 3.3.4 =
+= 3.3.3.4 =
 *	Changed 'descendants' finder code
 *	Updated a classname on download page to prevent a conflict with another plugin
 *	German translation by Frank Weichbrodt added
+*	Another German translation by Michael Fitzen added
 *	{filetype_icon} added + icons
 
 = 3.3.3 =

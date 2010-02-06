@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-03 20:30+0100\n"
+"POT-Creation-Date: 2010-02-06 16:34+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -39,67 +39,75 @@ msgid "Download does not exist!"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:159
+#: Monitor/Development/functions.inc.php:115
 #, php-format
 msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:229
+#: Monitor/Development/functions.inc.php:185
 msgid "Add Download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:253
+#: Monitor/Development/functions.inc.php:209
 #: Monitor/Development/admin/dashboard.php:123
 msgid "Show"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:254
+#: Monitor/Development/functions.inc.php:210
 msgid "All Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:255
+#: Monitor/Development/functions.inc.php:211
 msgid "Downloads and categories"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:260
-#: Monitor/Development/functions.inc.php:285
+#: Monitor/Development/functions.inc.php:216
+#: Monitor/Development/functions.inc.php:241
 #: Monitor/Development/uploader.php:807
-#: Monitor/Development/wp-download_monitor.php:103
+#: Monitor/Development/wp-download_monitor.php:105
 msgid "Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/functions.inc.php:273
+#: Monitor/Development/functions.inc.php:229
 #: Monitor/Development/legacy_shortcodes.php:264
 #: Monitor/Development/uploader.php:557
 #: Monitor/Development/uploader.php:815
-#: Monitor/Development/wp-download_monitor.php:108
+#: Monitor/Development/wp-download_monitor.php:110
 #: Monitor/Development/admin/add_directory.php:239
 #: Monitor/Development/admin/add_new.php:306
-#: Monitor/Development/admin/admin.php:639
-#: Monitor/Development/admin/admin.php:1108
-#: Monitor/Development/admin/admin.php:1343
+#: Monitor/Development/admin/admin.php:635
+#: Monitor/Development/admin/admin.php:1104
+#: Monitor/Development/admin/admin.php:1339
 msgid "Categories"
 msgstr ""
 
-#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:30
-#: Monitor/Development/init.php:32
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
+#: Monitor/Development/init.php:31
 msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
 msgstr ""
 
-#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:30
-#: Monitor/Development/init.php:32
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
+#: Monitor/Development/init.php:31
 msgid "click here"
 msgstr ""
 
-#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:30
-#: Monitor/Development/init.php:32
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
+#: Monitor/Development/init.php:31
 msgid "to run the update script"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:224
+msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:322
+msgid "Database Upgraded"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
@@ -116,8 +124,8 @@ msgstr ""
 #: Monitor/Development/shortcodes.php:134
 #: Monitor/Development/uploader.php:478
 #: Monitor/Development/admin/add_new.php:266
-#: Monitor/Development/admin/admin.php:590
-#: Monitor/Development/admin/admin.php:1432
+#: Monitor/Development/admin/admin.php:586
+#: Monitor/Development/admin/admin.php:1428
 msgid "Version"
 msgstr ""
 
@@ -154,7 +162,7 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:77
-#: Monitor/Development/admin/admin.php:1341
+#: Monitor/Development/admin/admin.php:1337
 msgid "Download"
 msgstr ""
 
@@ -224,11 +232,11 @@ msgstr ""
 #: Monitor/Development/admin/add_directory.php:361
 #: Monitor/Development/admin/add_new.php:438
 #: Monitor/Development/admin/add_new.php:449
-#: Monitor/Development/admin/admin.php:258
-#: Monitor/Development/admin/admin.php:779
-#: Monitor/Development/admin/admin.php:791
-#: Monitor/Development/admin/admin.php:1250
-#: Monitor/Development/admin/admin.php:1262
+#: Monitor/Development/admin/admin.php:254
+#: Monitor/Development/admin/admin.php:775
+#: Monitor/Development/admin/admin.php:787
+#: Monitor/Development/admin/admin.php:1246
+#: Monitor/Development/admin/admin.php:1258
 msgid "remove"
 msgstr ""
 
@@ -281,7 +289,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:473
 #: Monitor/Development/admin/add_new.php:272
-#: Monitor/Development/admin/admin.php:596
+#: Monitor/Development/admin/admin.php:592
 msgid "Description"
 msgstr ""
 
@@ -300,7 +308,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:521
 #: Monitor/Development/admin/add_new.php:247
-#: Monitor/Development/admin/admin.php:566
+#: Monitor/Development/admin/admin.php:562
 msgid " (defined in php.ini)"
 msgstr ""
 
@@ -313,21 +321,21 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
-#: Monitor/Development/admin/admin.php:620
+#: Monitor/Development/admin/admin.php:616
 msgid "Max. filesize"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
-#: Monitor/Development/admin/admin.php:620
+#: Monitor/Development/admin/admin.php:616
 msgid "bytes"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
-#: Monitor/Development/admin/admin.php:620
+#: Monitor/Development/admin/admin.php:616
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
 msgstr ""
 
@@ -336,8 +344,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:652
 #: Monitor/Development/admin/add_new.php:290
 #: Monitor/Development/admin/add_new.php:397
-#: Monitor/Development/admin/admin.php:623
-#: Monitor/Development/admin/admin.php:730
+#: Monitor/Development/admin/admin.php:619
+#: Monitor/Development/admin/admin.php:726
 msgid "OR"
 msgstr ""
 
@@ -352,9 +360,9 @@ msgstr ""
 #: Monitor/Development/uploader.php:654
 #: Monitor/Development/admin/add_new.php:294
 #: Monitor/Development/admin/add_new.php:401
-#: Monitor/Development/admin/admin.php:627
-#: Monitor/Development/admin/admin.php:734
-#: Monitor/Development/admin/admin.php:1206
+#: Monitor/Development/admin/admin.php:623
+#: Monitor/Development/admin/admin.php:730
+#: Monitor/Development/admin/admin.php:1202
 msgid "Toggle File Browser"
 msgstr ""
 
@@ -373,7 +381,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:554
 #: Monitor/Development/admin/add_new.php:303
-#: Monitor/Development/admin/admin.php:636
+#: Monitor/Development/admin/admin.php:632
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
 msgstr ""
 
@@ -381,8 +389,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:598
 #: Monitor/Development/admin/add_directory.php:279
 #: Monitor/Development/admin/add_new.php:346
-#: Monitor/Development/admin/admin.php:679
-#: Monitor/Development/admin/admin.php:1155
+#: Monitor/Development/admin/admin.php:675
+#: Monitor/Development/admin/admin.php:1151
 msgid "+ Add New Category"
 msgstr ""
 
@@ -393,14 +401,14 @@ msgstr ""
 #: Monitor/Development/admin/add_directory.php:335
 #: Monitor/Development/admin/add_new.php:349
 #: Monitor/Development/admin/add_new.php:423
-#: Monitor/Development/admin/admin.php:682
-#: Monitor/Development/admin/admin.php:765
-#: Monitor/Development/admin/admin.php:1158
-#: Monitor/Development/admin/admin.php:1236
+#: Monitor/Development/admin/admin.php:678
+#: Monitor/Development/admin/admin.php:761
+#: Monitor/Development/admin/admin.php:1154
+#: Monitor/Development/admin/admin.php:1232
 #: Monitor/Development/admin/categories.php:106
 #: Monitor/Development/admin/categories.php:152
 #: Monitor/Development/admin/categories.php:205
-#: Monitor/Development/admin/config.php:172
+#: Monitor/Development/admin/config.php:171
 #: Monitor/Development/admin/config.php:228
 msgid "Name"
 msgstr ""
@@ -409,8 +417,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:605
 #: Monitor/Development/admin/add_directory.php:286
 #: Monitor/Development/admin/add_new.php:353
-#: Monitor/Development/admin/admin.php:686
-#: Monitor/Development/admin/admin.php:1162
+#: Monitor/Development/admin/admin.php:682
+#: Monitor/Development/admin/admin.php:1158
 #: Monitor/Development/admin/categories.php:156
 #: Monitor/Development/admin/categories.php:190
 msgid "Parent"
@@ -420,8 +428,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:607
 #: Monitor/Development/admin/add_directory.php:288
 #: Monitor/Development/admin/add_new.php:355
-#: Monitor/Development/admin/admin.php:688
-#: Monitor/Development/admin/admin.php:1164
+#: Monitor/Development/admin/admin.php:684
+#: Monitor/Development/admin/admin.php:1160
 #: Monitor/Development/admin/categories.php:158
 #: Monitor/Development/admin/categories.php:193
 #: Monitor/Development/admin/config.php:321
@@ -432,8 +440,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:619
 #: Monitor/Development/admin/add_directory.php:300
 #: Monitor/Development/admin/add_new.php:367
-#: Monitor/Development/admin/admin.php:700
-#: Monitor/Development/admin/admin.php:1176
+#: Monitor/Development/admin/admin.php:696
+#: Monitor/Development/admin/admin.php:1172
 #: Monitor/Development/admin/categories.php:170
 #: Monitor/Development/admin/config.php:236
 msgid "Add"
@@ -444,9 +452,9 @@ msgstr ""
 #: Monitor/Development/uploader.php:816
 #: Monitor/Development/admin/add_directory.php:304
 #: Monitor/Development/admin/add_new.php:371
-#: Monitor/Development/admin/admin.php:704
-#: Monitor/Development/admin/admin.php:1180
-#: Monitor/Development/admin/admin.php:1344
+#: Monitor/Development/admin/admin.php:700
+#: Monitor/Development/admin/admin.php:1176
+#: Monitor/Development/admin/admin.php:1340
 msgid "Tags"
 msgstr ""
 
@@ -454,8 +462,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:630
 #: Monitor/Development/admin/add_directory.php:306
 #: Monitor/Development/admin/add_new.php:373
-#: Monitor/Development/admin/admin.php:706
-#: Monitor/Development/admin/admin.php:1185
+#: Monitor/Development/admin/admin.php:702
+#: Monitor/Development/admin/admin.php:1181
 msgid "Separate tags with commas."
 msgstr ""
 
@@ -463,16 +471,16 @@ msgstr ""
 #: Monitor/Development/uploader.php:638
 #: Monitor/Development/admin/add_directory.php:315
 #: Monitor/Development/admin/add_new.php:382
-#: Monitor/Development/admin/admin.php:715
-#: Monitor/Development/admin/admin.php:1194
+#: Monitor/Development/admin/admin.php:711
+#: Monitor/Development/admin/admin.php:1190
 msgid "No Tags Found"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:644
 #: Monitor/Development/admin/add_new.php:389
-#: Monitor/Development/admin/admin.php:722
-#: Monitor/Development/admin/admin.php:1201
+#: Monitor/Development/admin/admin.php:718
+#: Monitor/Development/admin/admin.php:1197
 msgid "Thumbnail"
 msgstr ""
 
@@ -485,7 +493,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:650
 #: Monitor/Development/admin/add_new.php:394
-#: Monitor/Development/admin/admin.php:727
+#: Monitor/Development/admin/admin.php:723
 msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
 msgstr ""
 
@@ -499,8 +507,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:660
 #: Monitor/Development/admin/add_directory.php:322
 #: Monitor/Development/admin/add_new.php:409
-#: Monitor/Development/admin/admin.php:742
-#: Monitor/Development/admin/admin.php:1211
+#: Monitor/Development/admin/admin.php:738
+#: Monitor/Development/admin/admin.php:1207
 msgid "Member only file?"
 msgstr ""
 
@@ -508,8 +516,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:664
 #: Monitor/Development/admin/add_directory.php:323
 #: Monitor/Development/admin/add_new.php:410
-#: Monitor/Development/admin/admin.php:743
-#: Monitor/Development/admin/admin.php:1215
+#: Monitor/Development/admin/admin.php:739
+#: Monitor/Development/admin/admin.php:1211
 msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file."
 msgstr ""
 
@@ -517,8 +525,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:667
 #: Monitor/Development/admin/add_directory.php:326
 #: Monitor/Development/admin/add_new.php:413
-#: Monitor/Development/admin/admin.php:746
-#: Monitor/Development/admin/admin.php:1218
+#: Monitor/Development/admin/admin.php:742
+#: Monitor/Development/admin/admin.php:1214
 msgid "Force Download?"
 msgstr ""
 
@@ -526,8 +534,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:671
 #: Monitor/Development/admin/add_directory.php:327
 #: Monitor/Development/admin/add_new.php:414
-#: Monitor/Development/admin/admin.php:747
-#: Monitor/Development/admin/admin.php:1222
+#: Monitor/Development/admin/admin.php:743
+#: Monitor/Development/admin/admin.php:1218
 msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
 msgstr ""
 
@@ -535,9 +543,9 @@ msgstr ""
 #: Monitor/Development/uploader.php:676
 #: Monitor/Development/admin/add_directory.php:330
 #: Monitor/Development/admin/add_new.php:418
-#: Monitor/Development/admin/admin.php:760
-#: Monitor/Development/admin/admin.php:1226
-#: Monitor/Development/admin/admin.php:1347
+#: Monitor/Development/admin/admin.php:756
+#: Monitor/Development/admin/admin.php:1222
+#: Monitor/Development/admin/admin.php:1343
 msgid "Custom fields"
 msgstr ""
 
@@ -545,8 +553,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:681
 #: Monitor/Development/admin/add_directory.php:336
 #: Monitor/Development/admin/add_new.php:424
-#: Monitor/Development/admin/admin.php:766
-#: Monitor/Development/admin/admin.php:1237
+#: Monitor/Development/admin/admin.php:762
+#: Monitor/Development/admin/admin.php:1233
 msgid "Value"
 msgstr ""
 
@@ -554,8 +562,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:715
 #: Monitor/Development/admin/add_directory.php:369
 #: Monitor/Development/admin/add_new.php:457
-#: Monitor/Development/admin/admin.php:798
-#: Monitor/Development/admin/admin.php:1269
+#: Monitor/Development/admin/admin.php:794
+#: Monitor/Development/admin/admin.php:1265
 msgid "Add Custom Field"
 msgstr ""
 
@@ -563,8 +571,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:715
 #: Monitor/Development/admin/add_directory.php:369
 #: Monitor/Development/admin/add_new.php:457
-#: Monitor/Development/admin/admin.php:798
-#: Monitor/Development/admin/admin.php:1269
+#: Monitor/Development/admin/admin.php:794
+#: Monitor/Development/admin/admin.php:1265
 msgid "Toggle Existing Custom Fields"
 msgstr ""
 
@@ -572,8 +580,8 @@ msgstr ""
 #: Monitor/Development/uploader.php:726
 #: Monitor/Development/admin/add_directory.php:380
 #: Monitor/Development/admin/add_new.php:468
-#: Monitor/Development/admin/admin.php:809
-#: Monitor/Development/admin/admin.php:1280
+#: Monitor/Development/admin/admin.php:805
+#: Monitor/Development/admin/admin.php:1276
 msgid "None found."
 msgstr ""
 
@@ -606,21 +614,21 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:779
-#: Monitor/Development/admin/admin.php:1329
+#: Monitor/Development/admin/admin.php:1325
 msgid "Search Downloads:"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:781
-#: Monitor/Development/admin/admin.php:1331
+#: Monitor/Development/admin/admin.php:1327
 msgid "Search Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:812
-#: Monitor/Development/admin/admin.php:1340
+#: Monitor/Development/admin/admin.php:1336
 #: Monitor/Development/admin/categories.php:105
-#: Monitor/Development/admin/config.php:171
+#: Monitor/Development/admin/config.php:170
 #: Monitor/Development/admin/config.php:263
 #: Monitor/Development/admin/logs.php:51
 msgid "ID"
@@ -628,43 +636,43 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:814
-#: Monitor/Development/admin/admin.php:1342
+#: Monitor/Development/admin/admin.php:1338
 #: Monitor/Development/admin/logs.php:53
 msgid "File"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:817
-#: Monitor/Development/admin/admin.php:1345
+#: Monitor/Development/admin/admin.php:1341
 msgid "Member only"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:818
-#: Monitor/Development/admin/admin.php:1346
+#: Monitor/Development/admin/admin.php:1342
 msgid "Force Download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:819
 #: Monitor/Development/admin/categories.php:107
-#: Monitor/Development/admin/config.php:174
+#: Monitor/Development/admin/config.php:173
 msgid "Action"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:887
 #: Monitor/Development/uploader.php:898
-#: Monitor/Development/admin/admin.php:1443
-#: Monitor/Development/admin/admin.php:1454
+#: Monitor/Development/admin/admin.php:1439
+#: Monitor/Development/admin/admin.php:1450
 msgid "N/A"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:906
 #: Monitor/Development/uploader.php:909
-#: Monitor/Development/admin/admin.php:1461
-#: Monitor/Development/admin/admin.php:1464
+#: Monitor/Development/admin/admin.php:1457
+#: Monitor/Development/admin/admin.php:1460
 #: Monitor/Development/admin/config.php:285
 #: Monitor/Development/admin/config.php:299
 #: Monitor/Development/admin/config.php:343
@@ -674,8 +682,8 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:906
 #: Monitor/Development/uploader.php:909
-#: Monitor/Development/admin/admin.php:1461
-#: Monitor/Development/admin/admin.php:1464
+#: Monitor/Development/admin/admin.php:1457
+#: Monitor/Development/admin/admin.php:1460
 #: Monitor/Development/admin/config.php:288
 #: Monitor/Development/admin/config.php:302
 #: Monitor/Development/admin/config.php:346
@@ -689,41 +697,41 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:935
-#: Monitor/Development/admin/admin.php:1508
+#: Monitor/Development/admin/admin.php:1504
 msgid "&laquo; Previous"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:936
-#: Monitor/Development/admin/admin.php:1509
+#: Monitor/Development/admin/admin.php:1505
 msgid "Next &raquo;"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:104
-#: Monitor/Development/admin/admin.php:1322
-#: Monitor/Development/admin/admin.php:1481
+#: Monitor/Development/wp-download_monitor.php:106
+#: Monitor/Development/admin/admin.php:1318
+#: Monitor/Development/admin/admin.php:1477
 #: Monitor/Development/admin/categories.php:209
 msgid "Edit"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:105
+#: Monitor/Development/wp-download_monitor.php:107
 msgid "Add New"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:106
+#: Monitor/Development/wp-download_monitor.php:108
 msgid "Add Directory"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:110
+#: Monitor/Development/wp-download_monitor.php:112
 msgid "Configuration"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/wp-download_monitor.php:111
+#: Monitor/Development/wp-download_monitor.php:113
 msgid "Log"
 msgstr ""
 
@@ -775,8 +783,8 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:331
 #: Monitor/Development/admin/add_new.php:419
-#: Monitor/Development/admin/admin.php:761
-#: Monitor/Development/admin/admin.php:1227
+#: Monitor/Development/admin/admin.php:757
+#: Monitor/Development/admin/admin.php:1223
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
 msgstr ""
 
@@ -809,13 +817,13 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:260
 #: Monitor/Development/admin/add_new.php:282
-#: Monitor/Development/admin/admin.php:613
+#: Monitor/Development/admin/admin.php:609
 msgid "(required)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:302
-#: Monitor/Development/admin/admin.php:635
+#: Monitor/Development/admin/admin.php:631
 msgid "Download Mirrors"
 msgstr ""
 
@@ -825,324 +833,324 @@ msgid "Upload &amp; save"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:106
-#: Monitor/Development/admin/admin.php:318
+#: Monitor/Development/admin/admin.php:102
+#: Monitor/Development/admin/admin.php:314
 msgid "Are you sure you want to delete"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:317
+#: Monitor/Development/admin/admin.php:313
 msgid "Sure?"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:318
+#: Monitor/Development/admin/admin.php:314
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:318
+#: Monitor/Development/admin/admin.php:314
 msgid "[yes]"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:318
+#: Monitor/Development/admin/admin.php:314
 msgid "[no]"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:363
+#: Monitor/Development/admin/admin.php:359
 msgid "Required field: <strong>Title</strong> omitted"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:364
+#: Monitor/Development/admin/admin.php:360
 msgid "Required field: <strong>THE FILE</strong> omitted"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:366
+#: Monitor/Development/admin/admin.php:362
 msgid "Invalid <strong>hits</strong> entered"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:448
+#: Monitor/Development/admin/admin.php:444
 msgid "<div class=\"error\">No file selected</div>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:506
+#: Monitor/Development/admin/admin.php:502
 msgid "Download edited Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:577
+#: Monitor/Development/admin/admin.php:573
 msgid "Edit Download Information"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:584
+#: Monitor/Development/admin/admin.php:580
 msgid "Title (required)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:600
+#: Monitor/Development/admin/admin.php:596
 msgid "Change hit count"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:606
+#: Monitor/Development/admin/admin.php:602
 msgid "Change post date"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:609
+#: Monitor/Development/admin/admin.php:605
 msgid "Change the post date of the download. Was set to:"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:609
+#: Monitor/Development/admin/admin.php:605
 msgid "M jS Y @ H:i"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:613
+#: Monitor/Development/admin/admin.php:609
 msgid "The File"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:617
+#: Monitor/Development/admin/admin.php:613
 msgid "Upload New File"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:619
+#: Monitor/Development/admin/admin.php:615
 msgid "Remove old file?"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:626
+#: Monitor/Development/admin/admin.php:622
 msgid "Edit File URL"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:726
+#: Monitor/Development/admin/admin.php:722
 msgid "Upload new thumbnail"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:733
+#: Monitor/Development/admin/admin.php:729
 msgid "Edit thumbnail URL"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:817
-#: Monitor/Development/admin/admin.php:1288
-#: Monitor/Development/admin/config.php:195
+#: Monitor/Development/admin/admin.php:813
+#: Monitor/Development/admin/admin.php:1284
+#: Monitor/Development/admin/config.php:194
 #: Monitor/Development/admin/config.php:269
 #: Monitor/Development/admin/config.php:370
 msgid "Save Changes"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:855
+#: Monitor/Development/admin/admin.php:851
 msgid "Download deleted Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:893
+#: Monitor/Development/admin/admin.php:889
 msgid "Stats successfully reset for selected downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:935
+#: Monitor/Development/admin/admin.php:931
 msgid "Selected Downloads deleted Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1090
+#: Monitor/Development/admin/admin.php:1086
 msgid "Downloads edited successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1100
+#: Monitor/Development/admin/admin.php:1096
 msgid "Bulk Edit Downloads"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1101
+#: Monitor/Development/admin/admin.php:1097
 msgid "Editing downloads with id's:"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1101
+#: Monitor/Development/admin/admin.php:1097
 msgid "Adding options here will overwrite the options in ALL of the selected downloads."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1111
-#: Monitor/Development/admin/admin.php:1183
-#: Monitor/Development/admin/admin.php:1204
-#: Monitor/Development/admin/admin.php:1213
-#: Monitor/Development/admin/admin.php:1220
-#: Monitor/Development/admin/admin.php:1229
+#: Monitor/Development/admin/admin.php:1107
+#: Monitor/Development/admin/admin.php:1179
+#: Monitor/Development/admin/admin.php:1200
+#: Monitor/Development/admin/admin.php:1209
+#: Monitor/Development/admin/admin.php:1216
+#: Monitor/Development/admin/admin.php:1225
 #: Monitor/Development/admin/categories.php:192
 msgid "No Change"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1112
+#: Monitor/Development/admin/admin.php:1108
 msgid "Change to &darr;"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1184
-#: Monitor/Development/admin/admin.php:1205
-#: Monitor/Development/admin/admin.php:1214
-#: Monitor/Development/admin/admin.php:1221
+#: Monitor/Development/admin/admin.php:1180
+#: Monitor/Development/admin/admin.php:1201
+#: Monitor/Development/admin/admin.php:1210
+#: Monitor/Development/admin/admin.php:1217
 msgid "Change to &rarr;"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1230
+#: Monitor/Development/admin/admin.php:1226
 msgid "Replace with:"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1231
+#: Monitor/Development/admin/admin.php:1227
 msgid "Add/Update only (keep existing fields):"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1311
+#: Monitor/Development/admin/admin.php:1307
 msgid "Edit Downloads"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1315
+#: Monitor/Development/admin/admin.php:1474
+msgid "Actions:"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/admin.php:1317
+#: Monitor/Development/admin/admin.php:1476
+msgid "Bulk Actions"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1319
 #: Monitor/Development/admin/admin.php:1478
-msgid "Actions:"
-msgstr ""
-
-#: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1321
-#: Monitor/Development/admin/admin.php:1480
-msgid "Bulk Actions"
-msgstr ""
-
-#: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1323
-#: Monitor/Development/admin/admin.php:1482
 msgid "Delete"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1324
-#: Monitor/Development/admin/admin.php:1483
+#: Monitor/Development/admin/admin.php:1320
+#: Monitor/Development/admin/admin.php:1479
 msgid "Reset Stats"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1326
-#: Monitor/Development/admin/admin.php:1485
+#: Monitor/Development/admin/admin.php:1322
+#: Monitor/Development/admin/admin.php:1481
 msgid "Apply"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1348
+#: Monitor/Development/admin/admin.php:1344
 msgid "Hits"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1349
+#: Monitor/Development/admin/admin.php:1345
 msgid "Posted"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1412
+#: Monitor/Development/admin/admin.php:1408
 msgid "Y/m/d"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1469
+#: Monitor/Development/admin/admin.php:1465
 msgid "by"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1473
+#: Monitor/Development/admin/admin.php:1469
 msgid "No downloads found."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1532
+#: Monitor/Development/admin/admin.php:1528
 msgid ""
 "You are about to delete the selected items.\n"
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1547
+#: Monitor/Development/admin/admin.php:1543
 msgid "Download Monitor News"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1569
+#: Monitor/Development/admin/admin.php:1565
 #, php-format
 msgid "%s ago"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1571
+#: Monitor/Development/admin/admin.php:1567
 msgid "F jS Y"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1580
+#: Monitor/Development/admin/admin.php:1576
 msgid "No items found."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1586
+#: Monitor/Development/admin/admin.php:1582
 msgid "Links, Help &amp; Support"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1588
+#: Monitor/Development/admin/admin.php:1584
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1589
+#: Monitor/Development/admin/admin.php:1585
 msgid "<p>You can also find documentation and support at the following locations:</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1591
+#: Monitor/Development/admin/admin.php:1587
 msgid "Download Monitor on Blue-Anvil"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1592
+#: Monitor/Development/admin/admin.php:1588
 msgid "Download Monitor Documentation"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1593
+#: Monitor/Development/admin/admin.php:1589
 msgid "Support Forum"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1598
+#: Monitor/Development/admin/admin.php:1594
 msgid "Support Download Monitor"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1600
+#: Monitor/Development/admin/admin.php:1596
 msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/admin.php:1602
+#: Monitor/Development/admin/admin.php:1598
 msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
 msgstr ""
 
@@ -1238,187 +1246,187 @@ msgid "<p>Options updated</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:100
-msgid "Database Upgraded"
-msgstr ""
-
-#: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:105
+#: Monitor/Development/admin/config.php:104
 msgid "Database Cleaned"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:124
+#: Monitor/Development/admin/config.php:123
 msgid "Formats updated"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:135
+#: Monitor/Development/admin/config.php:134
 msgid "Format added"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:149
+#: Monitor/Development/admin/config.php:148
 msgid "Format deleted Successfully"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:164
+#: Monitor/Development/admin/config.php:163
 msgid "Custom Output Formats"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:166
+#: Monitor/Development/admin/config.php:165
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:173
+#: Monitor/Development/admin/config.php:172
 #: Monitor/Development/admin/config.php:232
 msgid "Format"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:190
+#: Monitor/Development/admin/config.php:189
 msgid "No formats exist"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:196
+#: Monitor/Development/admin/config.php:195
 msgid "Add format"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:197
+#: Monitor/Development/admin/config.php:196
 msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:199
+#: Monitor/Development/admin/config.php:198
 msgid "Url of download (does not include hyperlink)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:200
+#: Monitor/Development/admin/config.php:199
 msgid "ID of download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:201
+#: Monitor/Development/admin/config.php:200
 msgid "Username of whoever posted download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:202
+#: Monitor/Development/admin/config.php:201
 msgid "Version of download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:203
+#: Monitor/Development/admin/config.php:202
 msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:204
+#: Monitor/Development/admin/config.php:203
 msgid "Title of download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:205
+#: Monitor/Development/admin/config.php:204
 msgid "Filesize of download"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:206
+#: Monitor/Development/admin/config.php:205
 msgid "Outputs comma separated list of categories."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:207
+#: Monitor/Development/admin/config.php:206
 msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:207
 #: Monitor/Development/admin/config.php:208
-#: Monitor/Development/admin/config.php:209
+#: Monitor/Development/admin/config.php:213
 #: Monitor/Development/admin/config.php:214
-#: Monitor/Development/admin/config.php:215
 msgid "or"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:208
+#: Monitor/Development/admin/config.php:207
 msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:209
+#: Monitor/Development/admin/config.php:208
 msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:210
+#: Monitor/Development/admin/config.php:209
 msgid "(Top Level/First) Download Category ID."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:211
+#: Monitor/Development/admin/config.php:210
 msgid "Current hit count"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:212
+#: Monitor/Development/admin/config.php:211
 msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:213
+#: Monitor/Development/admin/config.php:212
 msgid "URL of the download image"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:214
+#: Monitor/Development/admin/config.php:213
 msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:215
+#: Monitor/Development/admin/config.php:214
 msgid "Description formatted with autop (converts double line breaks to paragraphs)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:216
+#: Monitor/Development/admin/config.php:215
 msgid "Date posted. Second argument is for date format."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:217
+#: Monitor/Development/admin/config.php:216
 msgid "Outputs comma separated list of tags."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:218
+#: Monitor/Development/admin/config.php:217
 msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:219
+#: Monitor/Development/admin/config.php:218
 msgid "Output thumbnail URL (or placeholder)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:220
+#: Monitor/Development/admin/config.php:219
 msgid "Custom field value"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:221
+#: Monitor/Development/admin/config.php:220
 msgid "Custom field value formatted with autop"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
-#: Monitor/Development/admin/config.php:222
+#: Monitor/Development/admin/config.php:221
 msgid "File extension (e.g. \"zip\")"
+msgstr ""
+
+#: /Users/mike/Desktop/Plugin Dev/Download
+#: Monitor/Development/admin/config.php:222
+msgid "File extension icon (16x16)"
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
