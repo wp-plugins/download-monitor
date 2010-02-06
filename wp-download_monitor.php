@@ -62,6 +62,8 @@ Author URI: http://blue-anvil.com
 	else
 		$downloadurl = get_bloginfo('url').'/'.$dlm_url;
 		
+	load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
+	
 	$wp_dlm_db_exists = false;
 	
 	// Check tables exist
@@ -74,8 +76,14 @@ Author URI: http://blue-anvil.com
 		}
 	}
 	
-	load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
-	
+	$meta_data = '';
+	$download_taxonomies = '';
+	$download_formats = '';
+	$download_formats_array = '';
+	$download_formats_names_array = '';
+	$download_data = '';
+	$download_data_array = '';
+
 ################################################################################
 // Includes
 ################################################################################
@@ -86,30 +94,7 @@ Author URI: http://blue-anvil.com
 	include_once(WP_PLUGIN_DIR.'/download-monitor/shortcodes.php');					/* New Style shortcodes */
 	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/admin.php');					/* Admin Interface */
 	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/downloadable_file.class.php');		/* Download Class */
-	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/download_taxonomies.class.php');		/* Taxonomy Class */
-	
-################################################################################
-// Pre-fetch data before its needed to lessen queries later
-################################################################################	
-	
-	if ($wp_dlm_db_exists==true) {
-	
-		$meta_data 				= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_meta;" );
-		$download_taxonomies	= new download_taxonomies();
-		$download_formats 		= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_formats;" );
-		$download_formats_array = array();
-		$download_formats_names_array = array();
-		if ($download_formats) foreach ($download_formats as $format) {
-			$download_formats_array[$format->id] = $format;
-			$download_formats_names_array[] = $format->name;
-		}
-		$download_data 			= $wpdb->get_results( "SELECT * FROM $wp_dlm_db;" );
-		$download_data_array = array();
-		if ($download_data) foreach ($download_data as $download) {
-			$download_data_array[$download->id] = $download;
-		}
-	
-	} 
+	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/download_taxonomies.class.php');		/* Taxonomy Class */ 
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
@@ -163,7 +148,8 @@ RewriteRule ^'.$offset.$dlm_url.'([^/]+)$ '.WP_PLUGIN_URL.'/download-monitor/dow
 if (!empty($dlm_url)) add_filter('mod_rewrite_rules', 'wp_dlm_rewrite');
 	
 function wp_dlm_init_hooks() {
-	global $wpdb,$wp_dlm_db,$wp_dlm_db_formats,$wp_dlm_db_taxonomies, $wp_dlm_db_exists, $dlm_build;
+
+	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $meta_data, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $download_data, $download_data_array;
 	
 	$wp_dlm_build = get_option('wp_dlm_build');
 	
@@ -174,6 +160,26 @@ function wp_dlm_init_hooks() {
 	if (is_admin()) wp_enqueue_script('jquery-ui-sortable');
 	
 	if ($wp_dlm_db_exists==true) {
+
+		################################################################################
+		// Pre-fetch data before its needed to lessen queries later
+		################################################################################
+	
+		$meta_data 				= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_meta;" );
+		$download_taxonomies	= new download_taxonomies();
+		$download_formats 		= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_formats;" );
+		$download_formats_array = array();
+		$download_formats_names_array = array();
+		if ($download_formats) foreach ($download_formats as $format) {
+			$download_formats_array[$format->id] = $format;
+			$download_formats_names_array[] = $format->name;
+		}
+		$download_data 			= $wpdb->get_results( "SELECT * FROM $wp_dlm_db;" );
+		$download_data_array = array();
+		if ($download_data) foreach ($download_data as $download) {
+			$download_data_array[$download->id] = $download;
+		}
+	
 		add_filter('the_content', 'wp_dlm_parse_downloads',1); 
 		add_filter('the_excerpt', 'wp_dlm_parse_downloads',1);
 		add_filter('the_meta_key', 'wp_dlm_parse_downloads',1);

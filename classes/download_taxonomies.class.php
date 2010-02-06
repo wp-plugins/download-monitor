@@ -51,10 +51,18 @@ class download_taxonomies {
 	function find_category_family() {
 		foreach ($this->categories as $cat) {
 			if ($cat->parent>0) $this->categories[$cat->parent]->direct_decendents[] = $cat->id;
-			$cat->decendents = $this->find_decendents($cat->id);
+			
+			$parent = $cat->parent;
+			
+			while (	$parent > 0	) {
+				$this->categories[$parent]->decendents[] = $cat->id;
+				$parent = $this->categories[$parent]->parent;
+			}
+			
+			//$cat->decendents = $this->find_decendents($cat->id);
 		}
 	}
-	function find_decendents($id = 0, $decendents = array()) {
+	/*function find_decendents($id = 0, $decendents = array()) {
 		if ($id>0) {
 			foreach ($this->categories as $cat) {
 				if ($cat->parent==$id) {					
@@ -65,7 +73,7 @@ class download_taxonomies {
 			}		
 		}		
 		return $decendents;
-	}
+	}*/
 	
 	function filter_unused_tags() {
 		
