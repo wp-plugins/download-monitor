@@ -463,15 +463,15 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							header("Expires: 0");
 							header("Cache-Control: no-store, no-cache, must-revalidate");
 							header("Robots: none");
-							header("Content-Type: ".$ctype."");	;
+							header("Content-Type: ".$ctype."");
 							header("Content-Description: File Transfer");						
 							header("Content-Disposition: attachment; filename=\"".$filename."\";");
 							header("Content-Transfer-Encoding: binary");
 							$size = @filesize($thefile);
-							if ($size) {						
+							if (isset($size) && $size>0) {						
 								header("Content-Length: ".$size);
 							}
-							@ob_end_flush();
+							@ob_end_clean();
 							@readfile_chunked($thefile);
 							exit;
 						}			
@@ -484,24 +484,34 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						header("Expires: 0");
 						header("Cache-Control: no-store, no-cache, must-revalidate");
 						header("Robots: none");
-						header("Content-Type: ".$ctype."");	;
+						header("Content-Type: ".$ctype."");
 						header("Content-Description: File Transfer");						
-						header("Content-Disposition: attachment; filename=\"".$filename."\";");
-						header("Content-Transfer-Encoding: binary");						
+						//header("Content-Disposition: attachment; filename=\"".$filename."\";");
+						header("Content-Transfer-Encoding: binary");
+			
 						// Get filesize
 						$filesize = 0;
+						$header_filename = '';
 						if (function_exists('get_headers')) {
 							// php5 method
-							$ary_header = get_headers($thefile, 1);    
-							$filesize = $ary_header['Content-Length'];
+							$ary_header = get_headers($thefile, 1);   
+							if ((array_key_exists("Content-Length", $ary_header))) 
+								$filesize = $ary_header["Content-Length"];
+							if ((array_key_exists("Content-Disposition", $ary_header))) 
+								$header_filename = $ary_header["Content-Disposition"];
 						} else if (function_exists('curl_init')) {
 							// Curl Method
 							$filesize = remote_filesize($thefile);
 						}
-						if (isset($file_size) && $file_size > 0) {						
-							header("Content-Length: ".$file_size);
+						if (isset($filesize) && $filesize > 0) {						
+							header("Content-Length: ".$filesize);
 						}
-						@ob_end_flush();
+						if (isset($header_filename) && !empty($header_filename)) {							
+							header("Content-Disposition: ".$header_filename.";");
+						} else {
+							header("Content-Disposition: attachment; filename=\"".$filename."\";");
+						}
+						@ob_end_clean();
 						@readfile_chunked($thefile);
 						exit;
 					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
@@ -517,9 +527,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							
 				}
 				
-				if( !strstr('://', $thefile ) ) { 
+				if( !strstr($thefile, 'http://') && !strstr($thefile,'https://') ) { 
 				
-					$pageURL = "";
 					$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 				
 					if ($_SERVER["SERVER_PORT"] != "80") {
@@ -549,4 +558,3 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
    	wp_die(__('Download does not exist!',"wp-download_monitor"), __('Download does not exist!',"wp-download_monitor"));
    }
    exit();
-?>

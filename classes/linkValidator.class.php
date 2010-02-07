@@ -1,4 +1,5 @@
 <?php
+
 /**
 * Link validator v0.3
 *	by: me@daantje.nl
@@ -255,6 +256,3 @@ class linkValidator {
 		return $this->lastStatus;
 	}
 }
-
-
-?>

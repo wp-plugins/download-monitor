@@ -36,11 +36,13 @@ class download_taxonomies {
 		$this->used_tags = array();
 		
 		foreach ($taxonomy_data as $taxonomy) {
-			if ($taxonomy->taxonomy=='tag') {
-				$this->tags[$taxonomy->id] = new download_tag($taxonomy->id, $taxonomy->name, $taxonomy->count);
-			} 
-			if ($taxonomy->taxonomy=='category') {
-				$this->categories[$taxonomy->id] = new download_category($taxonomy->id, $taxonomy->name, $taxonomy->parent, $taxonomy->count);
+			if (!empty($taxonomy->name) && $taxonomy->id>0) {
+				if ($taxonomy->taxonomy=='tag') {
+					$this->tags[$taxonomy->id] = new download_tag($taxonomy->id, $taxonomy->name, $taxonomy->count);
+				} 
+				if ($taxonomy->taxonomy=='category') {
+					$this->categories[$taxonomy->id] = new download_category($taxonomy->id, $taxonomy->name, $taxonomy->parent, $taxonomy->count);
+				}
 			}
 		}
 		

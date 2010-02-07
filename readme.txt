@@ -49,7 +49,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Chinese translation - http://hpyer.cn/wordpress-plugin-download-monitor.html
 *	Danish translation - http://wordpress.blogos.dk/2009/03/18/download-monitor-v3/ (version 3) | http://wordpress.blogos.dk/2008/03/14/wpdm-2-0-1-dansk/ (version 2)
 *	Japanese translation - http://rp.exadge.com/2008/03/15/wp-download_monitor_v203_ja/
-*	Italian translation - http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/
+*	Italian translation by Gianni Diurno - http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/
 *	Portuguese translation - http://www.viz.com.br/plugin-wp-download-monitor.html
 *	Hebrew translation - http://www.cynican.com/plugins-i-translated/wordpress-download-monitor/
 *	French translation - http://themes-du.net/download-monitor-pour-compter-les-telechargements-sur-wordpress/
@@ -105,6 +105,13 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.3.5 = 
+*	Forced init script to only run when in admin
+*	Wrapped 'add_cap' functions in a check to prevent errors on activation when wp_roles is not available.
+*	Updated download.php with better handling of relative>absolute urls
+*	Bug in download.php where arguments were wrong way round in strstr functions
+*	Made external download (when forced) work
 
 = 3.3.3.4 =
 *	Changed 'descendants' finder code

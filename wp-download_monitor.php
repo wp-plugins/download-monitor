@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.3.4
+Version: 3.3.3.5
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -42,7 +42,7 @@ Author URI: http://blue-anvil.com
 		if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 	}
 	
-	$dlm_build="20100206";
+	$dlm_build="20100207";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
@@ -153,9 +153,11 @@ function wp_dlm_init_hooks() {
 	
 	$wp_dlm_build = get_option('wp_dlm_build');
 	
-	if (((isset($_GET['activate']) && $_GET['activate']==true)) || ($dlm_build != $wp_dlm_build)) {
-		wp_dlm_init_or_upgrade();
-	}
+	if (is_admin()) :
+		if (((isset($_GET['activate']) && $_GET['activate']==true)) || ($dlm_build != $wp_dlm_build)) {
+			wp_dlm_init_or_upgrade();
+		}
+	endif;
 	
 	if (is_admin()) wp_enqueue_script('jquery-ui-sortable');
 	
@@ -195,7 +197,7 @@ function wp_dlm_init_hooks() {
 		add_filter('widget_title', 'do_shortcode',11);
 	}
 }
-add_action('init','wp_dlm_init_hooks',1);
+add_action('init','wp_dlm_init_hooks');
 
 function wp_dlm_activate() {
 	wp_dlm_init_or_upgrade();		
