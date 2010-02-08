@@ -93,7 +93,7 @@ function dlm_addnew() {
 		$thumbnail = $_POST['thumbnail'];
 		
 		if ($thumbnail) {
-			if( !strstr('://', $thumbnail ) ) { 
+			if( !strstr($thumbnail, '://' ) ) { 
 			
 				$pageURL = "";
 				$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
@@ -154,9 +154,9 @@ function dlm_addnew() {
 		
 		//save to db
 		if ( empty($errors ) ) {
-		
+	
 			// Add download							
-			$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members, mirrors, file_description) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+			$query_add = sprintf("INSERT INTO %s (`title`, `filename`, `dlversion`, `postDate`, `hits`, `user`, `members`, `mirrors`, `file_description`) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')",
 			$wpdb->escape( $wp_dlm_db ),
 			$wpdb->escape( $_POST['title'] ),
 			$wpdb->escape( $filename ),

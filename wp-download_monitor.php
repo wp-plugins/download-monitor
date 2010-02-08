@@ -42,7 +42,7 @@ Author URI: http://blue-anvil.com
 		if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 	}
 	
-	$dlm_build="20100207";
+	$dlm_build="20100208";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	

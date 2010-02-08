@@ -311,7 +311,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 					if (!is_numeric($_POST['dlhits'] )) $errors=__('<div id="media-upload-error">Invalid <strong>hits</strong> entered</div>',"wp-download_monitor");
 						
 					if ($thumbnail) {
-						if( !strstr('://', $thumbnail ) ) { 
+						if( !strstr($thumbnail, '://') ) { 
 						
 							$pageURL = "";
 							$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
@@ -374,7 +374,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 					if ( empty($errors ) ) {
 					
 						// Add download							
-						$query_add = sprintf("INSERT INTO %s (title, filename, dlversion, postDate, hits, user, members, mirrors, file_description) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+						$query_add = sprintf("INSERT INTO %s (`title`, `filename`, `dlversion`, `postDate`, `hits`, `user`, `members`, `mirrors`, `file_description`) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s')",
 						$wpdb->escape( $wp_dlm_db ),
 						$wpdb->escape( $_POST['title'] ),
 						$wpdb->escape( $filename ),

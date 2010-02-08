@@ -957,7 +957,7 @@ function wp_dlm_admin()
 				$thumbnail = $_POST['thumbnail'];
 				
 				if ($thumbnail) {
-					if( !strstr('://', $thumbnail ) ) { 
+					if( !strstr($thumbnail, '://' ) ) { 
 					
 						$pageURL = "";
 						$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
