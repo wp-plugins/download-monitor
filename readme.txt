@@ -68,12 +68,12 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Polish Translation (included) by Maciej Baur - http://www.baur.com.pl/?p=155
 *	Spanish (spain) translation by FraguelsRock - http://www.gremlins.es/download/16/
 *	Spanish translation by David Bravo - Dimensi—n Multimedia (included)
-*	French translation by Ma‘l ILLOUZ - http://www.cobestran.com/telechargements/
-*	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
 *	Albanian translation by Romeo - http://www.romeolab.com/download-monitor-plugin-shqip
 *	Hebrew translation by David Tayar - http://davidt.net/
 *	German translation (included) by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
 *	German translation (2, included) by Michael Fitzen - http://www.be-infected.de/
+*	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
+*	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
 
 == Installation ==
 
@@ -105,6 +105,14 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.3.5 = 
+*	Added an extra add_cap block for when it does not init correctly.
+*	Fixed a missing image in admin
+*	Added 'lang' to dl page search in case it exists in url.
+*	Change wp_load code in download.php
+*	Had to remove some of the DB prefetching, e.g. downloads+$meta_data since they were taking up wayyy to much memory. DB call less expensive in this case I believe!
+*	^ But don't despair, I added some caching via wp_cache_add
 
 = 3.3.3.5 = 
 *	Forced init script to only run when in admin

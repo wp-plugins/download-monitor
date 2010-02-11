@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.3.5
+Version: 3.3.3.6
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -29,7 +29,7 @@ Author URI: http://blue-anvil.com
 // Vars and version
 ################################################################################
 
-	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $meta_data, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $download_data, $download_data_array;
+	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank;
 	
 	if ($wp_db_version < 8201) {
 		// Pre 2.6 compatibility (BY Stephen Rider)
@@ -76,13 +76,11 @@ Author URI: http://blue-anvil.com
 		}
 	}
 	
-	$meta_data = '';
 	$download_taxonomies = '';
 	$download_formats = '';
 	$download_formats_array = '';
 	$download_formats_names_array = '';
-	$download_data = '';
-	$download_data_array = '';
+	$meta_blank = '';
 
 ################################################################################
 // Includes
@@ -101,8 +99,18 @@ Author URI: http://blue-anvil.com
 ################################################################################
 
 function wp_dlm_menu() { 
-	global $wp_dlm_root;		
-    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'/img/menu_icon.png');
+	global $wp_dlm_root;	
+	
+	global $wp_roles;
+	if (is_object($wp_roles)) :
+		$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
+		$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
+		$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
+		$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
+		$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
+	endif;
+		
+    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'img/menu_icon.png');
 	add_submenu_page(__FILE__, __('Edit','wp-download_monitor'),  __('Edit','wp-download_monitor') , 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin');
 	add_submenu_page(__FILE__, __('Add New','wp-download_monitor') , __('Add New','wp-download_monitor') , 'user_can_add_new_download', 'dlm_addnew', 'dlm_addnew');
 	add_submenu_page(__FILE__, __('Add Directory','wp-download_monitor') , __('Add Directory','wp-download_monitor') , 'user_can_add_exist_download', 'dlm_adddir', 'dlm_adddir');
@@ -149,7 +157,7 @@ if (!empty($dlm_url)) add_filter('mod_rewrite_rules', 'wp_dlm_rewrite');
 	
 function wp_dlm_init_hooks() {
 
-	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $meta_data, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $download_data, $download_data_array;
+	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank;
 	
 	$wp_dlm_build = get_option('wp_dlm_build');
 	
@@ -166,8 +174,7 @@ function wp_dlm_init_hooks() {
 		################################################################################
 		// Pre-fetch data before its needed to lessen queries later
 		################################################################################
-	
-		$meta_data 				= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_meta;" );
+		
 		$download_taxonomies	= new download_taxonomies();
 		$download_formats 		= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_formats;" );
 		$download_formats_array = array();
@@ -176,11 +183,7 @@ function wp_dlm_init_hooks() {
 			$download_formats_array[$format->id] = $format;
 			$download_formats_names_array[] = $format->name;
 		}
-		$download_data 			= $wpdb->get_results( "SELECT * FROM $wp_dlm_db;" );
-		$download_data_array = array();
-		if ($download_data) foreach ($download_data as $download) {
-			$download_data_array[$download->id] = $download;
-		}
+		$meta_blank = $wpdb->get_col( "SELECT meta_name FROM $wp_dlm_db_meta;" );
 	
 		add_filter('the_content', 'wp_dlm_parse_downloads',1); 
 		add_filter('the_excerpt', 'wp_dlm_parse_downloads',1);

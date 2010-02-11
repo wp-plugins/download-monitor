@@ -83,11 +83,14 @@ class downloadable_file {
 		
 		$download_cats = array();
 		$download_tags = array();
+		
+		$download2taxonomy_data = $wpdb->get_col( "SELECT taxonomy_id FROM $wp_dlm_db_relationships WHERE download_id = ".$wpdb->escape($this->id).";" );
 
 		if (sizeof($download_taxonomies->categories)>0) :
 		
 			foreach($download_taxonomies->categories as $tax) {
-				if (isset($download_taxonomies->download2taxonomy_ids[$this->id]) && is_array($download_taxonomies->download2taxonomy_ids[$this->id]) && in_array($tax->id, $download_taxonomies->download2taxonomy_ids[$this->id])) {
+			
+				if (isset($download2taxonomy_data) && is_array($download2taxonomy_data) && in_array($tax->id, $download2taxonomy_data)) {
 					$download_cats[] = array(
 						'name' => $tax->name,
 						'id' => $tax->id,
@@ -100,7 +103,7 @@ class downloadable_file {
 		if (sizeof($download_taxonomies->tags)>0) :
 	
 			foreach($download_taxonomies->tags as $tax) {
-				if (isset($download_taxonomies->download2taxonomy_ids[$this->id]) && is_array($download_taxonomies->download2taxonomy_ids[$this->id]) && in_array($tax->id, $download_taxonomies->download2taxonomy_ids[$this->id])) {
+				if (isset($download2taxonomy_data) && is_array($download2taxonomy_data) && in_array($tax->id, $download2taxonomy_data)) {
 					$download_tags[] = array(
 						'name' => $tax->name,
 						'id' => $tax->id,
@@ -118,25 +121,27 @@ class downloadable_file {
 	}
 	
 	function get_meta() {
-		global $meta_data, $wp_dlm_root;
+		global $wp_dlm_root, $wpdb, $wp_dlm_db_meta;
 		
 		$tags = '';
 		$this_meta = array();
 		$thumbnail = '';
 		
+		$meta_data = $wpdb->get_results( "SELECT meta_name,meta_value FROM $wp_dlm_db_meta WHERE download_id = ".$wpdb->escape($this->id).";" );
+		
 		if ($meta_data) :
 	
 			foreach($meta_data as $meta) {
-				if ($meta->download_id==$this->id && $meta->meta_name == 'thumbnail') {
+				if ($meta->meta_name == 'thumbnail') {
 					$thumbnail = stripslashes($meta->meta_value);
-				} elseif ($meta->download_id==$this->id) {
+				} else {
 					$this_meta[$meta->meta_name] = stripslashes($meta->meta_value);
 				}
 			}
 		
 		endif;
 		
-		if (!$thumbnail) $thumbnail = $wp_dlm_root.'/page-addon/thumbnail.gif';	
+		if (!$thumbnail) $thumbnail = $wp_dlm_root.'page-addon/thumbnail.gif';	
 		
 		$this->thumbnail = $thumbnail;
 		$this->meta = $this_meta;
@@ -184,7 +189,7 @@ class downloadable_file {
 	
 	function prep_download_data($format) {
 		
-		global $wp_dlm_image_url, $wpdb, $wp_dlm_db_meta, $download_taxonomies;
+		global $wp_dlm_image_url, $wp_dlm_db_meta, $download_taxonomies;
 			
 		$fpatts = array(
 			'{url}', 
@@ -481,17 +486,18 @@ class downloadable_file {
 			$meta_names = array();
 			$meta_names[] = "''";
 			foreach($this->meta as $meta_name=>$meta_value) {
-				if ($meta->download_id==$d->id) {
+				//if ($meta->download_id==$d->id) {
 					$fpatts[] = "{meta-".$meta_name."}";
 					$fsubs[] = stripslashes($meta_value);
 					$fpatts[] = "{meta-autop-".$meta_name."}";
 					$fsubs[] = wpautop(stripslashes($meta_value));
 					$meta_names[] = $meta_name;
-				}
+				//}
 			}
 			// Blank Meta
-			$meta_blank = $wpdb->get_results( "SELECT meta_name FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( ".	implode(',',$meta_names)	." );" );
-			foreach($meta_blank as $meta_name=>$meta_value) {
+			//$meta_blank = $wpdb->get_results( "SELECT meta_name FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( ".	implode(',',$meta_names)	." );" );
+			global $meta_blank;
+			foreach($meta_blank as $meta_name) {
 				$fpatts[] = "{meta-".$meta_name."}";
 				$fsubs[] = '';
 				$fpatts[] = "{meta-autop-".$meta_name."}";

@@ -1,17 +1,12 @@
 <?php
 
-if(file_exists('../../../wp-load.php')) {
-	require_once("../../../wp-load.php");
-} else if(file_exists('../../../../wp-load.php')) {
-	require_once("../../../../wp-load.php");
+$wp_root = dirname(__FILE__) .'/../../../';
+if(file_exists($wp_root . 'wp-load.php')) {
+	require_once($wp_root . "wp-load.php");
+} else if(file_exists($wp_root . 'wp-config.php')) {
+	require_once($wp_root . "wp-config.php");
 } else {
-	if(file_exists('../../../wp-config.php')) {
-		require_once("../../../wp-config.php");
-	} else if(file_exists('../../../../wp-config.php')) {
-		require_once("../../../../wp-config.php");
-	} else {
-		exit;
-	}
+	exit;
 }
 
 if (!function_exists('readfile_chunked')) {
@@ -188,7 +183,11 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					} else {
 						// Update hits
 						$wpdb->query( $wpdb->prepare( "UPDATE $wp_dlm_db_stats SET hits=%s WHERE date='%s' AND download_id=%s;", $hits+1, $today, $d->id ) );
-					}					
+					}	
+					
+					// Clear Cache
+					wp_cache_delete('download_data_'.$d->id.'_patts');
+					wp_cache_delete('download_data_'.$d->id.'_subs');				
 			   }
 			   
 		   		// Log download details

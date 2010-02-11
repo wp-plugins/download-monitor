@@ -37,9 +37,9 @@ function wp_dlm_shortcode_download( $atts ) {
 	
 	if($cached_code == false) {
 	
-		global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta, $download_data, $download_data_array;
+		global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
 	
-		if ($id>0) {
+		if ($id>0 && is_numeric($id)) {
 		
 			// Handle Formats
 			global $download_formats_names_array;
@@ -62,20 +62,32 @@ function wp_dlm_shortcode_download( $atts ) {
 			
 			$format = str_replace('\\"',"'",$format);
 			
-			// Get download info
-			if (isset($download_data_array[$id])) $d = $download_data_array[$id]; else $d = '';	
-
-			if ($d) {	
+			// Get download info	
+			
+			$fpatts = wp_cache_get('download_data_'.$id.'_patts');
+			$fsubs = wp_cache_get('download_data_'.$id.'_subs');
+			
+			if($fpatts == false || $fsubs == false) {
 				
-				$this_download = new downloadable_file($d, $format);
+				$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
+				if (isset($d) && !empty($d)) {
+					
+					$this_download = new downloadable_file($d, $format);
+					
+					$fpatts = $this_download->patts;
 				
-				$fpatts = $this_download->patts;
-				
-				$fsubs	= $this_download->subs;
-	            					
+					$fsubs	= $this_download->subs;
+					
+					// Cache patts and subs (they don't change unless downloaded) for 1 day
+					wp_cache_set('download_data_'.$id.'_patts', $fpatts, '', 86400);
+					wp_cache_set('download_data_'.$id.'_subs', $fsubs, '', 86400);
+			
+				} 
+			} 
+			
+			if ($fpatts && $fsubs) {
 				$output = str_replace( $fpatts , $fsubs , $format );
-	   			
-	   		} else $output = '[Download not found]';
+			} else $output = '[Download not found]';
 		
 		} else $output = '[Download id not defined]';
 		
@@ -139,12 +151,12 @@ function wp_dlm_shortcode_downloads( $atts ) {
 
 		foreach ($dl as $d) {
 			
-			$this_download = new downloadable_file($d, $format);
+			$d->prep_download_data($format);
+			
+			$fpatts = $d->patts;
 				
-			$fpatts = $this_download->patts;
-				
-			$fsubs	= $this_download->subs;
-						
+			$fsubs	= $d->subs;
+	
 			$output .= html_entity_decode($before).str_replace( $fpatts , $fsubs , $format ).html_entity_decode($after);
 
    		} 

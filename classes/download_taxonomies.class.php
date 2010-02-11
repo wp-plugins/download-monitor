@@ -13,18 +13,6 @@ class download_taxonomies {
 	function download_taxonomies() {
 		global $wpdb, $wp_dlm_db_relationships, $wp_dlm_db_taxonomies;
 		
-		$download2taxonomy_data 	= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_relationships;" );
-			
-		$download2taxonomy_ids = array();
-		
-		if ($download2taxonomy_data) {
-			foreach ($download2taxonomy_data as $d2t) {
-				$download2taxonomy_ids[$d2t->download_id][] = $d2t->taxonomy_id;
-			}
-		}
-		
-		$this->download2taxonomy_ids = $download2taxonomy_ids;
-		
 		$taxonomy_data = $wpdb->get_results( "SELECT $wp_dlm_db_taxonomies.*, COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
 		FROM $wp_dlm_db_taxonomies 
 		LEFT JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id
@@ -48,7 +36,7 @@ class download_taxonomies {
 		
 		$this->find_category_family();
 		$this->filter_unused_tags();
-	}	
+	}
 	
 	function find_category_family() {
 		foreach ($this->categories as $cat) {
@@ -60,40 +48,23 @@ class download_taxonomies {
 				$this->categories[$parent]->decendents[] = $cat->id;
 				$parent = $this->categories[$parent]->parent;
 			}
-			
-			//$cat->decendents = $this->find_decendents($cat->id);
 		}
 	}
-	/*function find_decendents($id = 0, $decendents = array()) {
-		if ($id>0) {
-			foreach ($this->categories as $cat) {
-				if ($cat->parent==$id) {					
-					$subdecendents = $this->find_decendents($cat->id);
-					$decendents = array_merge($subdecendents, $decendents);
-					$decendents[] = $cat->id;
-				}
-			}		
-		}		
-		return $decendents;
-	}*/
 	
 	function filter_unused_tags() {
+	
+		global $wp_dlm_db_relationships, $wpdb;
 		
-		$used_ids = array();
+		$used_ids = $wpdb->get_col( "SELECT taxonomy_id FROM $wp_dlm_db_relationships;" );
 		
-		foreach ($this->download2taxonomy_ids as $downloads) {
-			foreach ($downloads as $key=>$value) {
-				$used_ids[] = $value;
-			}
-		}
-
 		if ($this->tags) {
 			foreach ($this->tags as $tag) {
 				if (in_array($tag->id, $used_ids)) {					
 					$this->used_tags[] = $tag;
 				}
 			}		
-		}		
+		}
+				
 	}
 	
 	function get_parent_cats() {

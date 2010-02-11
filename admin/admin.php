@@ -1543,38 +1543,42 @@ function wp_dlm_admin()
     		<h3><?php _e('Download Monitor News',"wp-download_monitor"); ?></h3>
     		<div class="inside">
     		<?php
-    			if (file_exists(ABSPATH.WPINC.'/rss.php')) include_once(ABSPATH.WPINC.'/rss.php');
-    			
-				$rss = fetch_rss('http://blue-anvil.com/tag/download-monitor/feed/');
-				
-				if ( $rss && $rss->items && sizeof($rss->items) > 0 ) :
-				
-					$rss->items = array_slice($rss->items, 0, 5);
+    			if (file_exists(ABSPATH.WPINC.'/rss.php')) {
+	    			
+	    			include_once(ABSPATH.WPINC.'/rss.php');
+	    			
+					$rss = fetch_rss('http://blue-anvil.com/tag/download-monitor/feed/');
 					
-					echo '<ul>';
+					if ( $rss && $rss->items && sizeof($rss->items) > 0 ) :
 					
-					foreach ( (array) $rss->items as $item ) :
-					
-						$title = htmlentities($item['title'], ENT_QUOTES, "UTF-8");
+						$rss->items = array_slice($rss->items, 0, 5);
 						
-						$link = $item['link'];
-									
-	  					$date = strtotime($item['pubdate']);
-	  
-						if ( ( abs( time() - $date) ) < 86400 ) : // 1 Day
-							$human_date = sprintf(__('%s ago','wp-download_monitor'), human_time_diff($date));
-						else :
-							$human_date = date(__('F jS Y','wp-download_monitor'), $date);
-						endif;
-	
-						echo '<li><a href="'.$link.'">'.$title.'</a> &ndash; <span class="rss-date">'.$human_date.'</span></li>';
-					endforeach;
+						echo '<ul>';
+						
+						foreach ( (array) $rss->items as $item ) :
+						
+							$title = htmlentities($item['title'], ENT_QUOTES, "UTF-8");
+							
+							$link = $item['link'];
+										
+		  					$date = strtotime($item['pubdate']);
+		  
+							if ( ( abs( time() - $date) ) < 86400 ) : // 1 Day
+								$human_date = sprintf(__('%s ago','wp-download_monitor'), human_time_diff($date));
+							else :
+								$human_date = date(__('F jS Y','wp-download_monitor'), $date);
+							endif;
+		
+							echo '<li><a href="'.$link.'">'.$title.'</a> &ndash; <span class="rss-date">'.$human_date.'</span></li>';
+						endforeach;
+						
+						echo '</ul>';
 					
-					echo '</ul>';
+					else :
+						echo '<ul><li>'.__('No items found.','wp-download_monitor').'</li></ul>';
+					endif;
 				
-				else :
-					echo '<ul><li>'.__('No items found.','wp-download_monitor').'</li></ul>';
-				endif;
+				}
     		?>
     		</div>
     	</div>

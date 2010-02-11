@@ -163,7 +163,7 @@
 }
 .download_monitor .about h3 {
 	color: #464646;
-	background: #DFDFDF url(http://michaels-imac.local:8888/subdirwordpress/wordpress/core/wp-admin/images/gray-grad.png) repeat-x 0% 0%;
+	background: #DFDFDF url(../img/gray-grad.png) repeat-x 0% 0%;
 	text-shadow: white 0px 1px 0px;
 	border-top-left-radius: 6px 6px;
 	border-top-right-radius: 6px 6px;
