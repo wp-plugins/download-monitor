@@ -111,7 +111,7 @@ function dlm_addnew() {
 				$thumbnail = str_replace( $dir_path, $pageURL, $thumbnail );
 			}
 		}
-							
+				echo $_POST['upload'];			
 		//attempt to upload file
 		if ( empty($errors ) ) {										
 			$time = current_time('mysql');
@@ -132,8 +132,8 @@ function dlm_addnew() {
 
 			if ( !empty($errors ) ) {
 				// No File Was uploaded
-				if ( empty( $_POST['filename']) ) $errors = '<div class="error">'.__('No file selected',"wp-download_monitor").'</div>';
-				else $errors = '';
+				if ( empty( $_POST['filename'] ) && !isset($_FILES['upload']) ) $errors = '<div class="error">'.__('No file selected',"wp-download_monitor").'</div>';
+				elseif (!empty($_POST['filename'])) $errors = '';
 			}								
 		}	
 		//attempt to upload thumbnail
@@ -220,7 +220,7 @@ function dlm_addnew() {
 				// Process and save meta/custom fields
 				$index = 1;
 				$values = array();
-				if ($_POST['meta']) foreach ($_POST['meta'] as $meta) 
+				if (isset($_POST['meta']) && is_array($_POST['meta'])) foreach ($_POST['meta'] as $meta) 
 				{
 					if (trim($meta['key'])) {
 						$values[] = '("'.$wpdb->escape(strtolower((str_replace(' ','-',trim(stripslashes($meta['key'])))))).'", "'.$wpdb->escape($meta['value']).'", '.$download_insert_id.')';
@@ -291,8 +291,12 @@ function dlm_addnew() {
 								</div>
 								<div style="float:left; width:362px;">
 									<h3 style="margin:0 0 0.5em"><?php _e('Enter file URL',"wp-download_monitor"); ?></h3>
-									<input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($filename)) echo $filename; ?>" name="filename" id="filename" /><br /><a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
+									<input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($filename)) echo $filename; ?>" name="filename" id="filename" /><br />
+									<?php 
+									if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+									<a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
                         			<div id="file_browser"></div>
+                        			<?php endif; ?>
 								</div>
 								<div style="clear:both"></div>
 							</div>
@@ -398,8 +402,11 @@ function dlm_addnew() {
 							</div>
 							<div style="float:left; width:362px;">
 								<h3 style="margin:0 0 0.5em"><?php _e('Enter thumbnail URL',"wp-download_monitor"); ?></h3>
-								<input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($thumbnail)) echo $thumbnail; ?>" name="thumbnail" id="thumbnail" /><br /><a class="browsefilesthumbnail" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
+								<input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($thumbnail)) echo $thumbnail; ?>" name="thumbnail" id="thumbnail" /><br />
+								<?php if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+								<a class="browsefilesthumbnail" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
                     			<div id="file_browser_thumbnail"></div>
+                    			<?php endif; ?>
 							</div>
 							<div style="clear:both;"></div>
 						</div>
@@ -407,7 +414,7 @@ function dlm_addnew() {
                 </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
+                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
                 </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Force Download?',"wp-download_monitor"); ?></strong></th> 

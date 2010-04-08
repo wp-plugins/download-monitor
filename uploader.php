@@ -661,7 +661,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 						</th> 												
 	                    <td class="field"><input type="checkbox" id="memberonly" name="memberonly" style="vertical-align:middle; margin-top: 0.2em;" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /></td>
 	                </tr>
-	                <tr><td></td><td class="help" style="font-size:11px;"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></td></tr>
+	                <tr><td></td><td class="help" style="font-size:11px;"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></td></tr>
 	                <tr valign="middle">
 	                	<th valign="top" scope="row" class="label">
 	                    	<span class="alignleft"><label for="forcedownload"><?php _e('Force Download?',"wp-download_monitor"); ?></label></span>
@@ -836,7 +836,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 					
 					// Sort column
 					$sort = "title";
-					if ($_REQUEST['sort'] && ($_REQUEST['sort']=="id" || $_REQUEST['sort']=="filename" || $_REQUEST['sort']=="postDate")) $sort = $_REQUEST['sort'];
+					if (isset($_REQUEST['sort']) && ($_REQUEST['sort']=="id" || $_REQUEST['sort']=="filename" || $_REQUEST['sort']=="postDate")) $sort = $_REQUEST['sort'];
 					
 					$total_results = "SELECT COUNT(id) FROM $wp_dlm_db".$search.";";
 						

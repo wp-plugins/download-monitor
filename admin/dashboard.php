@@ -183,9 +183,36 @@ if ($wp_db_version > 6124) {
 	}
 	
 	function dlm_download_top_widget() {
-		global $wp_dlm_db,$wpdb,$wp_dlm_db_stats, $wp_dlm_root;			
-						
-		$downloads = $wpdb->get_results( "SELECT * FROM $wp_dlm_db ORDER BY hits DESC LIMIT 5;" );			
+		global $wp_dlm_db,$wpdb,$wp_dlm_db_stats, $wp_dlm_root, $download_taxonomies, $wp_dlm_db_relationships;			
+
+		if (isset($_POST['download_cat_id'])) $showing = (int) $_POST['download_cat_id'];
+		
+		if (isset($showing) && $showing>0) {
+		
+			$the_cats = array();
+			// Traverse through categories to get sub-cats
+			if (isset($download_taxonomies->categories[$showing])) {	
+				$the_cats = $download_taxonomies->categories[$showing]->get_decendents();
+				$the_cats[] = $showing;
+			}
+			$the_cats = implode(',',$the_cats);	
+		
+			$downloads = $wpdb->get_results( "SELECT * FROM $wp_dlm_db WHERE $wp_dlm_db.id IN ( SELECT download_id FROM $wp_dlm_db_relationships WHERE taxonomy_id IN ($the_cats) ) ORDER BY hits DESC LIMIT 5;" );	
+		} else {
+			$downloads = $wpdb->get_results( "SELECT * FROM $wp_dlm_db ORDER BY hits DESC LIMIT 5;" );	
+		}
+		
+		echo '<form action="" method="post" style="margin-bottom:8px"><select name="download_cat_id" style="width:50%;"><option value="">'.__('Select a category',"wp-download_monitor").'</option>';
+			$cats = $download_taxonomies->get_parent_cats();
+			if (!empty($cats)) {
+				foreach ( $cats as $c ) {
+					echo '<option ';
+					if ($showing==$c->id) echo 'selected="selected"';
+					echo 'value="'.$c->id.'">'.$c->name.'</option>';
+					echo get_option_children_cats($c->id, "$c->name &mdash; ", $showing, 0);
+				}
+			} 
+		echo '</select><input type="submit" value="'.__('Show',"wp-download_monitor").'" class="button" /></form>';		
 					
 		?>
 		<table class="download_chart" style="margin-bottom:0" summary="<?php _e('Most Downloaded',"wp-download_monitor"); ?>" cellpadding="0" cellspacing="0">

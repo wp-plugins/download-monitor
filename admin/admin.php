@@ -133,30 +133,35 @@ function wp_dlm_head() {
 		jQuery.noConflict();
 		(function($) { 
 		  $(function() {
-		  
+		  	
+		  	<?php if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+		  	
 		    $('#file_browser').hide().fileTree({
-		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
+		      root: '<?php echo apply_filters( 'file_browser_root', get_option('wp_dlm_file_browser_root') ); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
 		    }, function(file) {
-		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        //var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        var path = file;
 		        $('#filename, #dlfilename').val(path);
 		        $('#file_browser').slideToggle();
 		    });
 		    
 		     $('#file_browser_thumbnail').hide().fileTree({
-		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
+		      root: '<?php echo apply_filters( 'file_browser_root', get_option('wp_dlm_file_browser_root') ); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
 		    }, function(file) {
-		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        //var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        var path = file;
 		        $('#thumbnail').val(path);
 		        $('#file_browser_thumbnail').slideToggle();
 		    });
 		    
 		    $('#file_browser2').hide().fileTree({
-		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
+		      root: '<?php echo apply_filters( 'file_browser_root', get_option('wp_dlm_file_browser_root') ); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTreeDir.php',
 		    }, function(file) {
-		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        //var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        var path = file;
 		        $('#filename, #dlfilename').val(path);
 		        $('#file_browser2').slideToggle();
 		    });
@@ -170,6 +175,8 @@ function wp_dlm_head() {
 		    	$('#file_browser_thumbnail').slideToggle();
 		    	return false;
 		    });
+		    
+		    <?php endif; ?>
 		    
 		    $('a.browsetags').show().click(function(){
 		    	$('#tag-list').slideToggle();
@@ -620,8 +627,11 @@ function wp_dlm_admin()
 														</div>
 														<div style="float:left; width:362px;">
 															<h3 style="margin:0 0 0.5em"><?php _e('Edit File URL',"wp-download_monitor"); ?></h3>
-															<input type="text" style="width:360px;" class="cleardefault" value="<?php echo $dlfilename; ?>" name="dlfilename" id="dlfilename" /><br /><a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
+															<input type="text" style="width:360px;" class="cleardefault" value="<?php echo $dlfilename; ?>" name="dlfilename" id="dlfilename" /><br />
+															<?php if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+															<a class="browsefiles" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
 						                        			<div id="file_browser"></div>
+						                        			<?php endif; ?>
 														</div>
 														<div style="clear:both"></div>
 													</div>
@@ -727,8 +737,11 @@ function wp_dlm_admin()
 													</div>
 													<div style="float:left; width:362px;">
 														<h3 style="margin:0 0 0.5em"><?php _e('Edit thumbnail URL',"wp-download_monitor"); ?></h3>
-														<input type="text" style="width:360px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="thumbnail" /><br /><a class="browsefilesthumbnail" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
+														<input type="text" style="width:360px;" class="cleardefault" value="<?php echo $thumbnail; ?>" name="thumbnail" id="thumbnail" /><br />
+														<?php if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+														<a class="browsefilesthumbnail" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
 						                    			<div id="file_browser_thumbnail"></div>
+						                    			<?php endif; ?>
 													</div>
 													<div style="clear:both;"></div>
 												</div>
@@ -736,7 +749,7 @@ function wp_dlm_admin()
 						                </tr>
 						                <tr valign="top">												
 						                    <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-						                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
+						                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if ($members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
 						                </tr>
 						                <tr valign="top">												
 						                    <th scope="row"><strong><?php _e('Force Download?',"wp-download_monitor"); ?></strong></th> 
@@ -1199,8 +1212,11 @@ function wp_dlm_admin()
 		                        <select name="change_thumbnail" style="vertical-align:middle">
                             		<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
                             		<option value="1"><?php _e('Change to &rarr;',"wp-download_monitor"); ?></option>
-                            	</select><input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($thumbnail)) echo $thumbnail; ?>" name="thumbnail" id="thumbnail" /><br /><a class="browsefilesthumbnail" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
+                            	</select><input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($thumbnail)) echo $thumbnail; ?>" name="thumbnail" id="thumbnail" /><br />
+                            	<?php if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+                            	<a class="browsefilesthumbnail" style="display:none" href="#"><?php _e('Toggle File Browser',"wp-download_monitor"); ?></a>
                     			<div id="file_browser_thumbnail"></div>
+                    			<?php endif; ?>
 		                    </td> 
 		                </tr>
                         <tr valign="top">												
@@ -1208,7 +1224,7 @@ function wp_dlm_admin()
                             <td><select name="change_memberonly" style="vertical-align:middle">
                             	<option value=""><?php _e('No Change',"wp-download_monitor"); ?></option>
                             	<option value="1"><?php _e('Change to &rarr;',"wp-download_monitor"); ?></option>
-                            </select> <input type="checkbox" name="memberonly" style="vertical-align:middle" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
+                            </select> <input type="checkbox" name="memberonly" style="vertical-align:middle" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
                         </tr>
 		                <tr valign="top">												
 		                    <th scope="row"><strong><?php _e('Force Download?',"wp-download_monitor"); ?></strong></th> 

@@ -33,14 +33,16 @@ function wp_dlm_shortcode_download( $atts ) {
 	
 	$output = '';
 	
-	$cached_code = wp_cache_get('download_'.$id.'_'.$format);
+	$id = trim($id);
 	
-	if($cached_code == false) {
+	if ($id>0 && is_numeric($id)) {
 	
-		global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
-	
-		if ($id>0 && is_numeric($id)) {
+		$cached_code = wp_cache_get('download_'.$id.'_'.$format);
+
+		if($cached_code == false) {
 		
+			global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
+
 			// Handle Formats
 			global $download_formats_names_array;
 			$format = trim($format);
@@ -54,7 +56,8 @@ function wp_dlm_shortcode_download( $atts ) {
 				} else {
 					$format = html_entity_decode($format);
 				}
-			}	
+			}				
+			
 			if (empty($format) || $format=='0') {
 				$format = '<a class="downloadlink" href="{url}" title="{version,"'.__("Version","wp-download_monitor").'", ""} '.__("downloaded","wp-download_monitor").' {hits} '.__("times","wp-download_monitor").'" >{title} ({hits})</a>';	
 				
@@ -62,47 +65,89 @@ function wp_dlm_shortcode_download( $atts ) {
 			
 			$format = str_replace('\\"',"'",$format);
 			
-			// Get download info	
-			
-			$fpatts = wp_cache_get('download_data_'.$id.'_patts');
-			$fsubs = wp_cache_get('download_data_'.$id.'_subs');
-			
-			if($fpatts == false || $fsubs == false) {
+			// Get download info			
+			$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
+			if (isset($d) && !empty($d)) {
 				
-				$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
-				if (isset($d) && !empty($d)) {
-					
-					$this_download = new downloadable_file($d, $format);
-					
-					$fpatts = $this_download->patts;
+				$this_download = new downloadable_file($d, $format);
 				
-					$fsubs	= $this_download->subs;
-					
-					// Cache patts and subs (they don't change unless downloaded) for 1 day
-					wp_cache_set('download_data_'.$id.'_patts', $fpatts, '', 86400);
-					wp_cache_set('download_data_'.$id.'_subs', $fsubs, '', 86400);
+				$fpatts = $this_download->patts;
 			
-				} 
+				$fsubs	= $this_download->subs;
+		
 			} 
 			
 			if ($fpatts && $fsubs) {
 				$output = str_replace( $fpatts , $fsubs , $format );
 			} else $output = '[Download not found]';
+
+			wp_cache_set('download_'.$id.'_'.$format, $output);
 		
-		} else $output = '[Download id not defined]';
+		} else {
+			$output = $cached_code;
+		}
 		
-		wp_cache_set('download_'.$id.'_'.$format, $output);
+		if ($autop && $autop != "false") return wpautop(do_shortcode($output));
 	
-	} else {
-		$output = $cached_code;
-	}
-	
-	if ($autop && $autop != "false") return wpautop(do_shortcode($output));
+	} else $output = '[Download id not defined]';
 	
 	return do_shortcode($output);
 
 }
 add_shortcode('download', 'wp_dlm_shortcode_download');
+
+################################################################################
+// SINGLE SHORTCODE that takes a format inside
+################################################################################
+
+function wp_dlm_shortcode_download_data( $atts, $content ) {
+
+	extract(shortcode_atts(array(
+		'id' => '0',
+		'autop' => false
+	), $atts));
+	
+	$output = '';
+	
+	$id = trim($id);
+	
+	if ($id>0 && is_numeric($id)) {
+		
+		global $wpdb,$wp_dlm_root,$wp_dlm_db,$wp_dlm_db_taxonomies, $def_format, $dlm_url, $downloadurl, $downloadtype, $wp_dlm_db_meta;
+
+		// Handle Format
+		$format = html_entity_decode($content);
+		
+		// Untexturize content - adapted from wpuntexturize by Scott Reilly
+		$codes = array('&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8242;', '&#8243;');
+		$replacements = array("'", "'", '"', '"', "'", '"');
+		
+		$format = str_replace($codes, $replacements, $format);	
+		
+		// Get download info			
+		$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id = ".$wpdb->escape($id).";" );
+		if (isset($d) && !empty($d)) {
+			
+			$this_download = new downloadable_file($d, $format);
+			
+			$fpatts = $this_download->patts;
+		
+			$fsubs	= $this_download->subs;
+	
+		} 
+		
+		if ($fpatts && $fsubs) {
+			$output = str_replace( $fpatts , $fsubs , $format );
+		} else $output = '[Download not found]';
+		
+		if ($autop && $autop != "false") return wpautop(do_shortcode($output));
+	
+	} else $output = '[Download id not defined]';
+	
+	return do_shortcode(wptexturize($output));
+
+}
+add_shortcode('download_data', 'wp_dlm_shortcode_download_data');
 
 ################################################################################
 // SHORTCODE FOR MULTIPLE DOWNLOADS
@@ -167,8 +212,8 @@ function wp_dlm_shortcode_downloads( $atts ) {
 		$output = '<ul class="dlm_download_list">'.$output.'</ul>';
 	}
 	
-	if ($autop) return wpautop($output);
-	return $output;
+	if ($autop) return wpautop(do_shortcode($output));
+	return do_shortcode($output);
 
 }
 add_shortcode('downloads', 'wp_dlm_shortcode_downloads');
@@ -189,7 +234,9 @@ function get_downloads($args = null) {
 		'tags' => '',	
 		'order' => 'asc',
 		'digforcats' => 'true',
-		'exclude' => ''
+		'exclude' => '',
+		'include' => '',
+		'author' => ''
 	);
 	
 	$args = str_replace('&amp;','&',$args);
@@ -215,6 +262,19 @@ function get_downloads($args = null) {
 	if (sizeof($exclude_array) > 0) {
 		$where[] = ' '.$wp_dlm_db.'.id NOT IN ('.implode(',',$exclude_array).') ';
 	}	
+	
+	// Handle $include
+	$include_array = array();
+	if ( $r['include'] ) {
+		$include_unclean = explode(',',$r['include']);		
+		foreach ($include_unclean as $e) {
+			$e = trim($e);
+			if (is_numeric($e)) $include_array[] = $e;
+		}
+	}
+	if (sizeof($include_array) > 0) {
+		$where[] = ' '.$wp_dlm_db.'.id IN ('.implode(',',$include_array).') ';
+	}	
 		
 	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) )
 		$r['limit'] = '';
@@ -228,9 +288,11 @@ function get_downloads($args = null) {
 		$categories = explode(',',$r['category']);
 		$the_cats = array();
 		// Traverse through categories to get sub-cats
-		foreach ($categories as $cat) {			
-			if ($r['digforcats']) $the_cats = array_merge($the_cats, $download_taxonomies->categories[$cat]->get_decendents());
-			$the_cats[] = $cat;
+		foreach ($categories as $cat) {
+			if (isset($download_taxonomies->categories[$cat])) {	
+				if ($r['digforcats']) $the_cats = array_merge($the_cats, $download_taxonomies->categories[$cat]->get_decendents());
+				$the_cats[] = $cat;
+			}
 		}
 		$categories = implode(',',$the_cats);	
 
@@ -257,6 +319,11 @@ function get_downloads($args = null) {
 		) ';
 		
 	} else $tags = '';
+	
+	// Handle Author
+	if ( ! empty($r['author']) ) {
+		$where[] = ' user = "'.$wpdb->escape($r['author']).'" ';
+	}
 	
 	if ( isset($vip) && $vip==1 ) {
 	

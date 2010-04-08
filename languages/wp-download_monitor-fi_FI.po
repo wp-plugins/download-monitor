@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: download-monitor\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-08 12:10+0100\n"
+"POT-Creation-Date: 2010-04-08 12:09+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -16,13 +16,13 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:162
 msgid "You must be logged in to download this file."
-msgstr ""
+msgstr "Sinun pitää olla (rekisteröitynyt ja) kirjautunut sisään, jotta voit ladata materiaaleja."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:173
 #: Monitor/Development/download.php:183
 msgid "You do not have permission to download this file."
-msgstr ""
+msgstr "Sinulla ei ole oikeuksia ladata tätä tiedostoa."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:554
@@ -31,13 +31,14 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:560
+#, fuzzy
 msgid "Download path is invalid!"
-msgstr ""
+msgstr "Lataustilastoa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/download.php:592
 msgid "Download does not exist!"
-msgstr ""
+msgstr "Ladattavaa ei ole!"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:115
@@ -48,24 +49,24 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:185
 msgid "Add Download"
-msgstr ""
+msgstr "Lisää ladattava"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:209
 #: Monitor/Development/admin/dashboard.php:123
 #: Monitor/Development/admin/dashboard.php:215
 msgid "Show"
-msgstr ""
+msgstr "Näytä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:210
 msgid "All Downloads"
-msgstr ""
+msgstr "Kaikki ladattavat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:211
 msgid "Downloads and categories"
-msgstr ""
+msgstr "Ladattavat ja kategoriat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:216
@@ -73,7 +74,7 @@ msgstr ""
 #: Monitor/Development/uploader.php:807
 #: Monitor/Development/wp-download_monitor.php:126
 msgid "Downloads"
-msgstr ""
+msgstr "Ladattavat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/functions.inc.php:229
@@ -87,7 +88,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1117
 #: Monitor/Development/admin/admin.php:1355
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:29
 #: Monitor/Development/init.php:31
@@ -109,8 +110,9 @@ msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql 
 msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/init.php:331
+#, fuzzy
 msgid "Database Upgraded"
-msgstr ""
+msgstr "Tietokanta luotu uudelleen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:51
@@ -129,7 +131,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:593
 #: Monitor/Development/admin/admin.php:1444
 msgid "Version"
-msgstr ""
+msgstr "Versio"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:51
@@ -144,7 +146,7 @@ msgstr ""
 #: Monitor/Development/shortcodes.php:62
 #: Monitor/Development/shortcodes.php:191
 msgid "downloaded"
-msgstr ""
+msgstr "ladattu"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:51
@@ -160,18 +162,18 @@ msgstr ""
 #: Monitor/Development/shortcodes.php:62
 #: Monitor/Development/shortcodes.php:191
 msgid "times"
-msgstr ""
+msgstr " kertaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:77
 #: Monitor/Development/admin/admin.php:1353
 msgid "Download"
-msgstr ""
+msgstr "Lataa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:180
 msgid "Downloaded"
-msgstr ""
+msgstr "Ladattu"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:219
@@ -179,52 +181,53 @@ msgstr ""
 #: Monitor/Development/legacy_shortcodes.php:243
 #: Monitor/Development/legacy_shortcodes.php:280
 msgid "jS M Y"
-msgstr ""
+msgstr "jS M Y"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:243
 #: Monitor/Development/legacy_shortcodes.php:280
 msgid "Added"
-msgstr ""
+msgstr "Lisätty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:263
 msgid "Most Popular Downloads"
-msgstr ""
+msgstr "Suosikit"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/legacy_shortcodes.php:283
 msgid "No Downloads Found"
-msgstr ""
+msgstr "Latauksia ei löydy"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/shortcodes.php:209
 msgid "No Downloads found"
-msgstr ""
+msgstr "Latauksia ei löydy"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:80
 #: Monitor/Development/uploader.php:83
 msgid "Blue"
-msgstr ""
+msgstr "Sininen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:81
 #: Monitor/Development/uploader.php:84
 msgid "Gray"
-msgstr ""
+msgstr "Harmaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download Monitor/Development/uploader.php:93
+#, fuzzy
 msgid "You do not have permission to upload files/downloads."
-msgstr ""
+msgstr "Sinulla ei ole oikeutta tallentaa tiedostoja."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:101
 msgid "Uploads"
-msgstr ""
+msgstr "Tallennukset."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:101
 msgid "WordPress"
-msgstr ""
+msgstr "WordPress"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:246
@@ -240,28 +243,28 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1262
 #: Monitor/Development/admin/admin.php:1274
 msgid "remove"
-msgstr ""
+msgstr "poista"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:267
 #: Monitor/Development/admin/add_new.php:66
 msgid "Add New Download"
-msgstr ""
+msgstr "Lisää uusi ladattava"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:268
 msgid "View Downloads"
-msgstr ""
+msgstr "Näytä ladattavat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:309
 msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
-msgstr ""
+msgstr "<div id=\"media-upload-error\">Pakollinen kenttä: <strong>Otsikko</strong> puuttuu</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:311
 msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
-msgstr ""
+msgstr "<div class=\"error\">Laiton <strong>osumamäärä</strong> syötetty</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:353
@@ -271,13 +274,14 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:451
+#, fuzzy
 msgid "<div id=\"media-upload-error\">Error saving to database</div>"
-msgstr ""
+msgstr "<div class=\"error\">Virhe tietokantaan tallennuksessa</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:461
 msgid "Download Information"
-msgstr ""
+msgstr "Latauksen tiedot"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:467
@@ -286,60 +290,61 @@ msgstr ""
 #: Monitor/Development/admin/config.php:280
 #: Monitor/Development/admin/logs.php:52
 msgid "Title"
-msgstr ""
+msgstr "Otsikko"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:473
 #: Monitor/Development/admin/add_new.php:272
 #: Monitor/Development/admin/admin.php:599
 msgid "Description"
-msgstr ""
+msgstr "Kuvaus"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:484
 #: Monitor/Development/admin/add_new.php:276
 msgid "Starting hits"
-msgstr ""
+msgstr "Osumamäärä aluksi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:490
 #: Monitor/Development/admin/add_new.php:282
 msgid "Select a file..."
-msgstr ""
+msgstr "Valitse tiedosto..."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:521
 #: Monitor/Development/admin/add_new.php:247
 #: Monitor/Development/admin/admin.php:569
 msgid " (defined in php.ini)"
-msgstr ""
+msgstr "(määritelty php.ini -tiedostossa) "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:532
 #: Monitor/Development/admin/add_new.php:286
 msgid "Upload File"
-msgstr ""
+msgstr "Lataa tiedosto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
 #: Monitor/Development/admin/admin.php:623
 msgid "Max. filesize"
-msgstr ""
+msgstr "Maksimi tiedostonkoko"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
 #: Monitor/Development/admin/admin.php:623
 msgid "bytes"
-msgstr ""
+msgstr "tavua"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:534
 #: Monitor/Development/admin/add_new.php:287
 #: Monitor/Development/admin/admin.php:623
+#, fuzzy
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
-msgstr ""
+msgstr "Jos hakemistossa on jo samanniminen tiedosto, tämä tiedosto nimetään uudelleen automaattisesti."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:536
@@ -354,8 +359,9 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:537
 #: Monitor/Development/admin/add_new.php:293
+#, fuzzy
 msgid "Enter file URL"
-msgstr ""
+msgstr "Tiedoston URL"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:538
@@ -366,26 +372,27 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:742
 #: Monitor/Development/admin/admin.php:1217
 msgid "Toggle File Browser"
-msgstr ""
+msgstr "Vaihda tiedostoselaimeen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:540
 #: Monitor/Development/admin/add_directory.php:393
 #: Monitor/Development/admin/add_new.php:485
 msgid "Y-m-d H:i:s"
-msgstr ""
+msgstr "Y-m-d H:i:s"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:550
+#, fuzzy
 msgid "Mirrors"
-msgstr ""
+msgstr "Latauksen peilaukset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:554
 #: Monitor/Development/admin/add_new.php:307
 #: Monitor/Development/admin/admin.php:642
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
-msgstr ""
+msgstr "Listaa valinnaiset peilaussivujen URLit (1 per rivi). Download Monitor valitsee satunnaisesti jonkun niistä."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:598
@@ -393,8 +400,9 @@ msgstr ""
 #: Monitor/Development/admin/add_new.php:350
 #: Monitor/Development/admin/admin.php:685
 #: Monitor/Development/admin/admin.php:1164
+#, fuzzy
 msgid "+ Add New Category"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:601
@@ -413,7 +421,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:173
 #: Monitor/Development/admin/config.php:202
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:605
@@ -424,7 +432,7 @@ msgstr ""
 #: Monitor/Development/admin/categories.php:156
 #: Monitor/Development/admin/categories.php:190
 msgid "Parent"
-msgstr ""
+msgstr "Vanhempi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:607
@@ -436,7 +444,7 @@ msgstr ""
 #: Monitor/Development/admin/categories.php:193
 #: Monitor/Development/admin/config.php:337
 msgid "None"
-msgstr ""
+msgstr "Ei mitään"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:619
@@ -447,7 +455,7 @@ msgstr ""
 #: Monitor/Development/admin/categories.php:170
 #: Monitor/Development/admin/config.php:210
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:624
@@ -458,7 +466,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1189
 #: Monitor/Development/admin/admin.php:1356
 msgid "Tags"
-msgstr ""
+msgstr "Tagit"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:630
@@ -475,8 +483,9 @@ msgstr ""
 #: Monitor/Development/admin/add_new.php:386
 #: Monitor/Development/admin/admin.php:721
 #: Monitor/Development/admin/admin.php:1203
+#, fuzzy
 msgid "No Tags Found"
-msgstr ""
+msgstr "Latauksia ei löydy"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:644
@@ -489,8 +498,9 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:647
 #: Monitor/Development/admin/add_new.php:397
+#, fuzzy
 msgid "Upload thumbnail"
-msgstr ""
+msgstr "Lataa tiedosto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:650
@@ -512,7 +522,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:751
 #: Monitor/Development/admin/admin.php:1223
 msgid "Member only file?"
-msgstr ""
+msgstr "Vain rekisteröityneille?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:664
@@ -520,8 +530,9 @@ msgstr ""
 #: Monitor/Development/admin/add_new.php:417
 #: Monitor/Development/admin/admin.php:752
 #: Monitor/Development/admin/admin.php:1227
+#, fuzzy
 msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
-msgstr ""
+msgstr "Jos valittuna, vain sisäänkirjautuneet käyttäjät voivat ladata tiedostoja. Hyvä idea on nimetä tiedostot niin, että nimiä ei voi arvata helposti. BONUS: Lisää meta-avain \"min-level\" asettaaksesi minimitason, jolla käyttäjän pitää olla ladatakseen tiedoston."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:667
@@ -529,8 +540,9 @@ msgstr ""
 #: Monitor/Development/admin/add_new.php:420
 #: Monitor/Development/admin/admin.php:755
 #: Monitor/Development/admin/admin.php:1230
+#, fuzzy
 msgid "Force Download?"
-msgstr ""
+msgstr "Etsi ladattavista"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:671
@@ -549,7 +561,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1238
 #: Monitor/Development/admin/admin.php:1359
 msgid "Custom fields"
-msgstr ""
+msgstr "Kustomoidut kentät"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:681
@@ -558,7 +570,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:775
 #: Monitor/Development/admin/admin.php:1249
 msgid "Value"
-msgstr ""
+msgstr "Arvo"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:715
@@ -567,7 +579,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:807
 #: Monitor/Development/admin/admin.php:1281
 msgid "Add Custom Field"
-msgstr ""
+msgstr "Lisää kustomoitu kenttä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:715
@@ -584,47 +596,48 @@ msgstr ""
 #: Monitor/Development/admin/add_new.php:475
 #: Monitor/Development/admin/admin.php:818
 #: Monitor/Development/admin/admin.php:1292
+#, fuzzy
 msgid "None found."
-msgstr ""
+msgstr "Ei löydy"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:733
 msgid "Save new download"
-msgstr ""
+msgstr "Tallenna uusi ladattava"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:741
 msgid "Insert new download into post"
-msgstr ""
+msgstr "Lisää uusi ladattava artikkeliin"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:743
 #: Monitor/Development/uploader.php:789
 msgid "Insert into post using format:"
-msgstr ""
+msgstr "Lisää artikkeliin käyttäen formaattia: "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:744
 #: Monitor/Development/uploader.php:792
 msgid "Default"
-msgstr ""
+msgstr "Oletus"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:757
 msgid "Insert into post"
-msgstr ""
+msgstr "Lisää artikkeliin"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:779
 #: Monitor/Development/admin/admin.php:1341
 msgid "Search Downloads:"
-msgstr ""
+msgstr "Etsi ladattavista:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:781
 #: Monitor/Development/admin/admin.php:1343
 msgid "Search Downloads"
-msgstr ""
+msgstr "Etsi ladattavista"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:812
@@ -634,33 +647,34 @@ msgstr ""
 #: Monitor/Development/admin/config.php:279
 #: Monitor/Development/admin/logs.php:51
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:814
 #: Monitor/Development/admin/admin.php:1354
 #: Monitor/Development/admin/logs.php:53
 msgid "File"
-msgstr ""
+msgstr "Tiedosto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:817
 #: Monitor/Development/admin/admin.php:1357
 msgid "Member only"
-msgstr ""
+msgstr "Vain rekisteröityneille"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:818
 #: Monitor/Development/admin/admin.php:1358
+#, fuzzy
 msgid "Force Download"
-msgstr ""
+msgstr "Etsi ladattavista"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:819
 #: Monitor/Development/admin/categories.php:107
 #: Monitor/Development/admin/config.php:175
 msgid "Action"
-msgstr ""
+msgstr "Toiminto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:887
@@ -668,7 +682,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1455
 #: Monitor/Development/admin/admin.php:1466
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:906
@@ -680,7 +694,7 @@ msgstr ""
 #: Monitor/Development/admin/config.php:359
 #: Monitor/Development/admin/config.php:372
 msgid "Yes"
-msgstr ""
+msgstr "Kyllä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:906
@@ -692,24 +706,24 @@ msgstr ""
 #: Monitor/Development/admin/config.php:362
 #: Monitor/Development/admin/config.php:375
 msgid "No"
-msgstr ""
+msgstr "Ei"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:911
 msgid "Insert"
-msgstr ""
+msgstr "Lisää"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:935
 #: Monitor/Development/admin/admin.php:1520
 msgid "&laquo; Previous"
-msgstr ""
+msgstr "&laquo; Edellinen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/uploader.php:936
 #: Monitor/Development/admin/admin.php:1521
 msgid "Next &raquo;"
-msgstr ""
+msgstr "Seuraava &raquo;"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:127
@@ -717,32 +731,34 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1493
 #: Monitor/Development/admin/categories.php:209
 msgid "Edit"
-msgstr ""
+msgstr "Muokkaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:128
 msgid "Add New"
-msgstr ""
+msgstr "Lisää uusi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:129
+#, fuzzy
 msgid "Add Directory"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:133
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurointi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/wp-download_monitor.php:134
 msgid "Log"
-msgstr ""
+msgstr "Loki"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:43
+#, fuzzy
 msgid "Add From Directory"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:45
@@ -751,18 +767,21 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:59
+#, fuzzy
 msgid "<div class=\"error\">No folder selected</div>"
-msgstr ""
+msgstr "<div class=\"error\">Tiedostoa ei valittu</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:215
+#, fuzzy
 msgid "Downloads added Successfully"
-msgstr ""
+msgstr "Ladattava lisätty onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:217
+#, fuzzy
 msgid "No files found"
-msgstr ""
+msgstr "Latauksia ei löydy"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:226
@@ -771,8 +790,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:230
+#, fuzzy
 msgid "Toggle Folder Browser"
-msgstr ""
+msgstr "Vaihda tiedostoselaimeen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:236
@@ -790,7 +810,7 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:770
 #: Monitor/Development/admin/admin.php:1239
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
-msgstr ""
+msgstr "Kustomoituja kenttiä voidaan käyttää lisäämään metatietoa ladattavaan. Voi jättää tyhjäksi. Metatiedon nimen pitää olla pienillä kirjaimilla kirjoitettu eikä siinä saa olla välilyöntejä. Korjaus tehdään automaattisesti, esim. <code>Some Name</code> muuttuu <code>some-name</code>."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_directory.php:392
@@ -800,112 +820,115 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:88
 msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
-msgstr ""
+msgstr "<div class=\"error\">Pakollinen kenttä: <strong>Otsikko</strong> puuttuu</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:90
 msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
-msgstr ""
+msgstr "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:232
 #: Monitor/Development/admin/add_new.php:233
 msgid "Download added Successfully"
-msgstr ""
+msgstr "Ladattava lisätty onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:238
 msgid "<div class=\"error\">Error saving to database</div>"
-msgstr ""
+msgstr "<div class=\"error\">Virhe tietokantaan tallennuksessa</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:260
 #: Monitor/Development/admin/add_new.php:282
 #: Monitor/Development/admin/admin.php:616
+#, fuzzy
 msgid "(required)"
-msgstr ""
+msgstr "Otsikko (pakollinen)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:306
 #: Monitor/Development/admin/admin.php:641
 msgid "Download Mirrors"
-msgstr ""
+msgstr "Latauksen peilaukset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/add_new.php:484
 msgid "Upload &amp; save"
-msgstr ""
+msgstr "Lataa &amp; tallenna"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:102
 #: Monitor/Development/admin/admin.php:321
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Oletko varma, että haluat poistaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:320
 msgid "Sure?"
-msgstr ""
+msgstr "Oletko varma?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:321
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
-msgstr ""
+msgstr "? (Jos tiedosto on alunperin ladattu tämän pluginin toimesta, se poistetaan palvelimelta)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:321
 msgid "[yes]"
-msgstr ""
+msgstr "[kyllä]"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:321
 msgid "[no]"
-msgstr ""
+msgstr "[ei]"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:366
 msgid "Required field: <strong>Title</strong> omitted"
-msgstr ""
+msgstr "Pakollinen kenttä: <strong>Otsikko</strong> puuttuu"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:367
+#, fuzzy
 msgid "Required field: <strong>THE FILE</strong> omitted"
-msgstr ""
+msgstr "Pakollinen kenttä: <strong>Otsikko</strong> puuttuu"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:369
 msgid "Invalid <strong>hits</strong> entered"
-msgstr ""
+msgstr "Väärä <strong>osumamäärä</strong> syötetty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:451
 msgid "<div class=\"error\">No file selected</div>"
-msgstr ""
+msgstr "<div class=\"error\">Tiedostoa ei valittu</div>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:509
 msgid "Download edited Successfully"
-msgstr ""
+msgstr "Ladattava muokattu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:580
 msgid "Edit Download Information"
-msgstr ""
+msgstr "Muokkaa ladattavan tietoja"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:587
 msgid "Title (required)"
-msgstr ""
+msgstr "Otsikko (pakollinen)"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:603
 msgid "Change hit count"
-msgstr ""
+msgstr "Muuta osumamäärää"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:609
+#, fuzzy
 msgid "Change post date"
-msgstr ""
+msgstr "Muuta osumamäärää"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:612
@@ -914,33 +937,38 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:612
+#, fuzzy
 msgid "M jS Y @ H:i"
-msgstr ""
+msgstr "jS M Y H:i:s"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:616
+#, fuzzy
 msgid "The File"
-msgstr ""
+msgstr "Tiedosto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:620
+#, fuzzy
 msgid "Upload New File"
-msgstr ""
+msgstr "Lataa tiedosto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:622
 msgid "Remove old file?"
-msgstr ""
+msgstr "Poista vanha tiedosto?"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:629
+#, fuzzy
 msgid "Edit File URL"
-msgstr ""
+msgstr "Tiedoston URL"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:732
+#, fuzzy
 msgid "Upload new thumbnail"
-msgstr ""
+msgstr "Lataa uusi tiedosto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:739
@@ -954,12 +982,12 @@ msgstr ""
 #: Monitor/Development/admin/config.php:285
 #: Monitor/Development/admin/config.php:399
 msgid "Save Changes"
-msgstr ""
+msgstr "Tallenna muutokset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:864
 msgid "Download deleted Successfully"
-msgstr ""
+msgstr "Ladattu tiedosto poistettu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:902
@@ -968,23 +996,27 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:944
+#, fuzzy
 msgid "Selected Downloads deleted Successfully"
-msgstr ""
+msgstr "Ladattu tiedosto poistettu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1099
+#, fuzzy
 msgid "Downloads edited successfully"
-msgstr ""
+msgstr "Ladattava muokattu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1109
+#, fuzzy
 msgid "Bulk Edit Downloads"
-msgstr ""
+msgstr "Muokkaa ladattavia"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1110
+#, fuzzy
 msgid "Editing downloads with id's:"
-msgstr ""
+msgstr "Muokkaa ladattavia"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1110
@@ -999,8 +1031,9 @@ msgstr ""
 #: Monitor/Development/admin/admin.php:1232
 #: Monitor/Development/admin/admin.php:1241
 #: Monitor/Development/admin/categories.php:192
+#, fuzzy
 msgid "No Change"
-msgstr ""
+msgstr "Tallenna muutokset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1121
@@ -1028,25 +1061,28 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1323
 msgid "Edit Downloads"
-msgstr ""
+msgstr "Muokkaa ladattavia"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1331
 #: Monitor/Development/admin/admin.php:1490
+#, fuzzy
 msgid "Actions:"
-msgstr ""
+msgstr "Toiminto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1333
 #: Monitor/Development/admin/admin.php:1492
+#, fuzzy
 msgid "Bulk Actions"
-msgstr ""
+msgstr "Toiminto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1335
 #: Monitor/Development/admin/admin.php:1494
+#, fuzzy
 msgid "Delete"
-msgstr ""
+msgstr "Oletus"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1336
@@ -1063,12 +1099,12 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1360
 msgid "Hits"
-msgstr ""
+msgstr "Osumia"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1361
 msgid "Posted"
-msgstr ""
+msgstr "Lisätty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1424
@@ -1078,12 +1114,12 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1481
 msgid "by"
-msgstr ""
+msgstr "tekijä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1485
 msgid "No downloads found."
-msgstr ""
+msgstr "Ei ladattavaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1544
@@ -1094,8 +1130,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1559
+#, fuzzy
 msgid "Download Monitor News"
-msgstr ""
+msgstr "Latauksen peilaukset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1583
@@ -1105,13 +1142,15 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1585
+#, fuzzy
 msgid "F jS Y"
-msgstr ""
+msgstr "F j, Y"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1594
+#, fuzzy
 msgid "No items found."
-msgstr ""
+msgstr "Ei ladattavaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1602
@@ -1120,8 +1159,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1604
+#, fuzzy
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
-msgstr ""
+msgstr "<p>Tarvitsetko apua? FAQ, käyttöohjeet ja muuta tietoa löytyy <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">pluginin sivulta</a>.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1605
@@ -1130,13 +1170,15 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1607
+#, fuzzy
 msgid "Download Monitor on Blue-Anvil"
-msgstr ""
+msgstr "Download Monitor konfugurointi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1608
+#, fuzzy
 msgid "Download Monitor Documentation"
-msgstr ""
+msgstr "Download Monitor konfugurointi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1609
@@ -1145,13 +1187,15 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1614
+#, fuzzy
 msgid "Support Download Monitor"
-msgstr ""
+msgstr "Latauksen peilaukset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1616
+#, fuzzy
 msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
-msgstr ""
+msgstr "<p>Wordpress Download Monitor pluginin on luonut <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Kehittäminen on vaatinut paljon aikaa ja vaivaa. Jos koet pluginin hyödylliseksi, harkitse lahjoituksen tekemistä pitääksesi kehitystyön käynnissä.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/admin.php:1618
@@ -1161,63 +1205,66 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:38
 msgid "Download Categories"
-msgstr ""
+msgstr "Ladattavien kategoriat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:40
 msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
-msgstr ""
+msgstr "<p>Voit lajitella ladattavia tiedostoja kategorioilla. Voit myös ryhmitellä ladattavia käyttäen kategoriatageja tai käyttämällä erillistä lataussivua (ks. dokumentaatio). Huomaa, että kategorian poistaminen tuhoaa myös sen 'lapset'.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:62
+#, fuzzy
 msgid "Category updated"
-msgstr ""
+msgstr "Kategoria lisätty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:75
 msgid "Category added"
-msgstr ""
+msgstr "Kategoria lisätty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:76
 msgid "Category was not added. Try Recreating the download database from the configuration page."
-msgstr ""
+msgstr "Kategoriaa ei lisätty. Yritä luoda ladattavien tietokanta uudelleen konfigurointisivulta."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:97
 msgid "Category deleted Successfully"
-msgstr ""
+msgstr "Kategoria poistettu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:143
 msgid "No categories exist"
-msgstr ""
+msgstr "Ei kategorioita"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:149
 msgid "Add category"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:173
+#, fuzzy
 msgid "Edit category"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:176
 msgid "Category"
-msgstr ""
+msgstr "Kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/categories.php:178
 #: Monitor/Development/admin/dashboard.php:205
+#, fuzzy
 msgid "Select a category"
-msgstr ""
+msgstr "Lisää kategoria"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:41
 msgid "Download Monitor Configuration"
-msgstr ""
+msgstr "Download Monitor konfugurointi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:54
@@ -1231,6 +1278,14 @@ msgid ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
 msgstr ""
+"<p>Latauksen URL päivitetty - Sinun pitää <strong>päivittää Osoiterakenteesi</strong> (Asetukset -> Osoiterakenne) \n"
+"\t\t\t\t\t\tjotta muutokset astuvat voimaan.</p>\n"
+"\t\t\t\t\t\t<p>Jos WordPress ei voi päivittää .htaccess -tiedostoa, lisää seuraavat rivit siihen käsin\n"
+"\t\t\t\t\t\"# BEGIN WordPress\" rivin yläpuolelle:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>muuta \"download/\" custom url:iksi ja \"*your wp-content dir*\" wp-content hakemistolla.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:65
@@ -1244,57 +1299,66 @@ msgid ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
 msgstr ""
+"<p>Latauksen URL päivitetty - Sinun pitää <strong>päivittää Osoiterakenteesi</strong> (Asetukset -> Osoiterakenne) \n"
+"\t\t\t\t\t\tjotta muutokset astuvat voimaan.</p>\n"
+"\t\t\t\t\t\t<p>Jos WordPress ei voi päivittää .htaccess -tiedostoa, lisää seuraavat rivit siihen käsin\n"
+"\t\t\t\t\t\"# BEGIN WordPress\" rivin yläpuolelle:</p>\n"
+"\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
+"\t\t\t\t\t\tRewriteEngine on<br/>\n"
+"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>muuta \"download/\" custom url:iksi ja \"*your wp-content dir*\" wp-content hakemistolla.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:96
 msgid "<p>Options updated</p>"
-msgstr ""
+msgstr "<p>Asetukset päivitetty</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:106
+#, fuzzy
 msgid "Database Cleaned"
-msgstr ""
+msgstr "Tietokanta luotu uudelleen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:125
 msgid "Formats updated"
-msgstr ""
+msgstr "Formaatit päivitetty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:136
 msgid "Format added"
-msgstr ""
+msgstr "Formaatti lisätty"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:150
 msgid "Format deleted Successfully"
-msgstr ""
+msgstr "Formaatti poistettu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:165
 msgid "Custom Output Formats"
-msgstr ""
+msgstr "Kustomoidut formaatit"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:167
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
-msgstr ""
+msgstr "<p>Voit määritellä formaatteja, joilla tulostat tietoa ladattavista miten haluat.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:174
 #: Monitor/Development/admin/config.php:206
 msgid "Format"
-msgstr ""
+msgstr "Formaatti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:191
 msgid "No formats exist"
-msgstr ""
+msgstr "Ei määriteltyjä formaatteja"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:198
 msgid "Add format"
-msgstr ""
+msgstr "Lisää formaatti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:212
@@ -1313,8 +1377,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:217
+#, fuzzy
 msgid "ID of download"
-msgstr ""
+msgstr "Lataa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:218
@@ -1323,8 +1388,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:219
+#, fuzzy
 msgid "Version of download"
-msgstr ""
+msgstr "Latauksien määrä "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:220
@@ -1333,13 +1399,15 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:221
+#, fuzzy
 msgid "Title of download"
-msgstr ""
+msgstr "Latauksien määrä "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:222
+#, fuzzy
 msgid "Filesize of download"
-msgstr ""
+msgstr "Latauksien määrä "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:223
@@ -1376,8 +1444,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:228
+#, fuzzy
 msgid "Current hit count"
-msgstr ""
+msgstr "Muuta osumamäärää"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:229
@@ -1421,8 +1490,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:237
+#, fuzzy
 msgid "Custom field value"
-msgstr ""
+msgstr "Kustomoidut kentät"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:238
@@ -1472,7 +1542,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:257
 msgid "Custom Download URL"
-msgstr ""
+msgstr "Kustomoitu lataus-URL"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:259
@@ -1482,31 +1552,35 @@ msgid ""
 "                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
 "                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
 msgstr ""
+"<p>Aseta kustomoitu URL ladattaville, esim. <code>download/</code>. Voit myös valita miten ladattavaan linkitetään URLissa, esim. valitsemalla \"filename\" linkki näyttäisi tältä <code>http://yoursite.com/download/filename.zip</code>. Tämä asetus toimii vain jos käytät WordPressin osoiterakennetta (muu kuin oletus).</p>\n"
+"            \t\n"
+"                        <p>Jos jätät tämä tyhjäksi käytetään oletuspolkua(<code>/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>Jos käytät tätä, varmista että hakemisto ei ole jo olemassa eikä URL osoita sivuun tai artikkeliin, koska se voisi aiheuttaa ongelmia download.php:lle ohjaamisessa.</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:265
 msgid "Without Custom URL:"
-msgstr ""
+msgstr "Ilman kustomoitua URLia:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:270
 msgid "With Custom URL (downloads/ID):"
-msgstr ""
+msgstr "Custom URL:illa (ladattavat/ID):"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:276
 msgid "Custom URL"
-msgstr ""
+msgstr "Custom URL"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:281
 msgid "Filename"
-msgstr ""
+msgstr "Tiedoston nimi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:290
 msgid "General Options"
-msgstr ""
+msgstr "Yleiset asetukset"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:296
@@ -1526,53 +1600,56 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:323
 msgid "\"Download not found\" redirect URL"
-msgstr ""
+msgstr "\"Ladattavaa tiedostoa ei löydy\" uudelleenohjaus-URL"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:324
 #: Monitor/Development/admin/config.php:328
 msgid "Leave blank for no redirect."
-msgstr ""
+msgstr "Jätä tyhjäksi, jos ei uudelleenohjata."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:327
 msgid "Member-only files non-member redirect"
-msgstr ""
+msgstr "Vain rekisteröityneille käyttäjille tarkoitettujen tiedostojen ei-rekisteröityneen käyttäjän uudelleenohjaus"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:328
 msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
-msgstr ""
+msgstr "Huom: <code>{referrer}</code> korvataan tämänhetkisellä URLilla. Käyttökelpoinen, jos käyttäjä lähetetään sisäänkirjautumissivulle ja sieltä takaisin tiedoston lataukseen :) esim. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:331
 msgid "Download image path"
-msgstr ""
+msgstr "Ladattavien kuvien polku"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:332
 msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
-msgstr ""
+msgstr "Tätä kuvaa käytetään kun käytät <code>#image</code> lataustagia ja  <code>{image_url}</code> tagia sivulla. Käytä absoluuttista URLia (esim. <code>http://yoursite.com/image.gif</code>)."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:335
 msgid "Default output format"
-msgstr ""
+msgstr "Oletustulostusmuoto"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:354
+#, fuzzy
 msgid "Log Downloads"
-msgstr ""
+msgstr "Ladattavat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:367
+#, fuzzy
 msgid "Enable File Browser"
-msgstr ""
+msgstr "Vaihda tiedostoselaimeen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:380
+#, fuzzy
 msgid "File Browser Root"
-msgstr ""
+msgstr "Vaihda tiedostoselaimeen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:381
@@ -1606,8 +1683,9 @@ msgstr ""
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:413
+#, fuzzy
 msgid "Upgraded Successfully? Cleanup!"
-msgstr ""
+msgstr "Formaatti poistettu onnistuneesti"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:414
@@ -1617,7 +1695,7 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:415
 msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
-msgstr ""
+msgstr "<p>VAROITUS: Tämä voi tuhota ladattavien tiedot tietokannasta. Ota varmuuskopio ensin!</p>"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/config.php:417
@@ -1627,154 +1705,155 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:72
 msgid "D j M"
-msgstr ""
+msgstr "D j M"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:74
 msgid "Previous Week"
-msgstr ""
+msgstr "Viime viikko"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:75
 msgid "This Week"
-msgstr ""
+msgstr "Tämä viikko"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:76
 msgid "Next Week"
-msgstr ""
+msgstr "Seuraava viikko"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:97
 msgid "F Y"
-msgstr ""
+msgstr "F Y"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:99
 msgid "Previous 6 months"
-msgstr ""
+msgstr "Edelliset 6 kuukautta"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:100
 msgid "Last 6 months"
-msgstr ""
+msgstr "Viimeiset 6 kuukautta"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:101
 msgid "Next 6 months"
-msgstr ""
+msgstr "Seuraavat 6 kuukautta"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:111
 msgid "Weekly"
-msgstr ""
+msgstr "Viikottain"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:114
 msgid "Monthly"
-msgstr ""
+msgstr "Kuukausittai "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:115
 msgid "Select a download"
-msgstr ""
+msgstr "Valitse lataus"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:143
 msgid "Downloads per day for"
-msgstr ""
+msgstr "Latauksia per päivä "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:146
 #: Monitor/Development/admin/dashboard.php:221
 msgid "Day"
-msgstr ""
+msgstr "Päivä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:147
 #: Monitor/Development/admin/dashboard.php:222
 msgid "Number of downloads"
-msgstr ""
+msgstr "Latauksien määrä "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:182
 msgid "None Found"
-msgstr ""
+msgstr "Ei löydy"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:218
 msgid "Most Downloaded"
-msgstr ""
+msgstr "Eniten ladattu"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:249
 msgid "No stats yet"
-msgstr ""
+msgstr "Tilastoa ei vielä ole"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:261
 #: Monitor/Development/admin/dashboard.php:282
 msgid "Download Stats"
-msgstr ""
+msgstr "Lataustilastoa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/dashboard.php:262
 #: Monitor/Development/admin/dashboard.php:316
 msgid "Top 5 Downloads"
-msgstr ""
+msgstr "Top 5 ladatut"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/log_to_csv.php:41
 #: Monitor/Development/admin/logs.php:85
 msgid "jS M Y H:i:s"
-msgstr ""
+msgstr "jS M Y H:i:s"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:45
 msgid "Download Logs"
-msgstr ""
+msgstr "Lataa lokit"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:47
+#, fuzzy
 msgid "Download CSV"
-msgstr ""
+msgstr "Lataa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:47
 msgid "Clear Log"
-msgstr ""
+msgstr "Tyhjennä loki"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:54
 msgid "User"
-msgstr ""
+msgstr "Käyttäjä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:55
 msgid "IP Address"
-msgstr ""
+msgstr "IP-osoite"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:56
 msgid "Date"
-msgstr ""
+msgstr "Pvm"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:107
 msgid "No downloads logged."
-msgstr ""
+msgstr "Lokissa ei latauksia."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:119
 #: Monitor/Development/admin/logs.php:120
 msgid "Previous"
-msgstr ""
+msgstr "Edellinen"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/admin/logs.php:133
 #: Monitor/Development/admin/logs.php:134
 msgid "Next"
-msgstr ""
+msgstr "Seuraava"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/classes/downloadable_file.class.php:285
@@ -1782,12 +1861,13 @@ msgstr ""
 #: Monitor/Development/classes/downloadable_file.class.php:316
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:55
 msgid "Other"
-msgstr ""
+msgstr "Muu"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/classes/downloadable_file.class.php:303
+#, fuzzy
 msgid "Uncategorized"
-msgstr ""
+msgstr "Kategoriat"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/classes/downloadable_file.class.php:335
@@ -1797,65 +1877,233 @@ msgstr ""
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:53
 msgid "Popular Downloads"
-msgstr ""
+msgstr "Suosikit"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:57
 msgid "Go"
-msgstr ""
+msgstr "Etsi"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:58
 msgid "Results found for "
-msgstr ""
+msgstr "Hakutulokset "
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:59
 msgid "No downloads were found."
-msgstr ""
+msgstr "Ladattavia ei löytynyt."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:60
 msgid "No download found matching given ID."
-msgstr ""
+msgstr "Ei ladattavia annetulla ID:llä."
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:67
 msgid " time"
-msgstr ""
+msgstr "kerta"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:68
 msgid " times"
-msgstr ""
+msgstr "kertaa"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:69
 msgid "Date posted"
-msgstr ""
+msgstr "Tallennuspäivä"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:70
 msgid "F j, Y"
-msgstr ""
+msgstr "F j, Y"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:72
 msgid "Read More"
-msgstr ""
+msgstr "Lue lisää"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:73
 msgid "Sub-Categories:"
-msgstr ""
+msgstr "Alakategiriat:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:74
 msgid "Sort by:"
-msgstr ""
+msgstr "Lajittele:"
 
 #: /Users/mike/Desktop/Plugin Dev/Download
 #: Monitor/Development/page-addon/download-monitor-page-addon.php:75
 msgid "Downloads tagged:"
-msgstr ""
+msgstr "Ladattavat, joissa tag:"
 
+#~ msgid "<div id=\"media-upload-error\">No file selected</div>"
+#~ msgstr "<div id=\"media-upload-error\">Tiedostoa ei valittu</div>"
+
+#~ msgid ""
+#~ "<div id=\"media-upload-error\">Error saving to database - check downloads "
+#~ "table exists.</div>"
+#~ msgstr ""
+#~ "<div id=\"media-upload-error\">Virhe tallennettaessa tietokantaan - "
+#~ "tarkista, että tietokantataulu on olemassa.</div>"
+
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise simular "
+#~ "downloads."
+#~ msgstr ""
+#~ "Kategoriat ovat valinnaisia ja antavat sinulle mahdollisuuden ryhmitellä "
+#~ "ja järjestää ladattavia."
+
+#~ msgid "Upload/link to existing file"
+#~ msgstr "Lataa/linkitä olemassaolevaan tiedostoon"
+
+#~ msgid "&mdash; OR &mdash;"
+#~ msgstr "&mdash; TAI &mdash;"
+
+#~ msgid "Add Existing"
+#~ msgstr "Lisää olemassaoleva"
+
+#~ msgid "Required field: <strong>File URL</strong> omitted"
+#~ msgstr "Pakollinen kenttä: <strong>Tiedoston URL</strong> puuttuu"
+
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise similar "
+#~ "downloads."
+#~ msgstr ""
+#~ "Kategoriat ovat valinnaisia ja antavat sinulle mahdollisuuden ryhmitellä "
+#~ "ja järjestää ladattavia."
+
+#~ msgid "File URL (required)"
+#~ msgstr "Tiedoston URL (pakollinen)"
+
+#~ msgid ""
+#~ "Note: changes to the file url will only work if not uploading a new file "
+#~ "below."
+#~ msgstr ""
+#~ "Huom: muutokset tiedoston URLiin ovat mahdollisia vain jos et ole "
+#~ "lataamassa uutta tiedostoa."
+
+#~ msgid "Here you can upload/re-upload the file from your computer."
+#~ msgstr "Tässä voit ladata (uudelleen) tiedoston tietokoneeltasi."
+
+#~ msgid ""
+#~ "If chosen, the old file will be deleted from the server (if it exists) "
+#~ "before uploading the new file."
+#~ msgstr ""
+#~ "Jos valittuna, vanha tiedosto poistetaan palvelimelta ennen uuden "
+#~ "lataamista."
+
+#~ msgid ""
+#~ "<p>Use the following tags in your custom formats: <em>note</em> if you "
+#~ "use <code>\"</code> (quote) characters within the special attributes e.g. "
+#~ "<code>\"before\"</code> you should either escape them or use html "
+#~ "entities.</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
+#~ "\t                \t<li><code>{url}</code> - Url of download (does not "
+#~ "include hyperlink)</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Version of download</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Version of download. Not outputted if none set. Replace \"before\" with "
+#~ "preceding text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Title of download</li>\n"
+#~ "\t                \t<li><code>{size}</code> - Filesize of download</li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> or "
+#~ "<code>{category}</code> - Download Category. Replace \"before\" with "
+#~ "preceding text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Current hit count</li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Formatted hit count depending on hits. <code>%</code> replaced "
+#~ "with hit count.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - URL of the download "
+#~ "image</li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> "
+#~ "or <code>{description}</code> - Description you gave download. Not "
+#~ "outputted if none set. Replace \"before\" with preceding text/html and "
+#~ "\"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> or <code>{description-autop}</code> - Description formatted with "
+#~ "autop (converts double line breaks to paragraphs)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Date posted. "
+#~ "Second argument is for date format.</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Custom field "
+#~ "value</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Custom "
+#~ "field value formatted with autop</li>\n"
+#~ "\t                </ul>\n"
+#~ "\t                \t<p><strong>Example Format -</strong> Link and "
+#~ "description of download with hits in title:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Downloaded "
+#~ "{hits} times\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
+#~ "\t                "
+#~ msgstr ""
+#~ "<p>Käytä seuraavia tageja kustomoiduissa formaateissa: <em>Huom</em> jos "
+#~ "käytät <code>\"</code> (lainausmerkkiä) attribuuteissa esim. <code>"
+#~ "\"before\"</code> sinun pitää käyttää escape-merkkiä tai merkin html "
+#~ "entiteettiä.</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
+#~ "\t                \t<li><code>{url}</code> - Ladattavan URL (ei sisällä "
+#~ "linkkiä)</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Ladattavan versio </li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Ladattavan versio. Ei tulosteta, jos ei ole asetettu. Korvaa \"before\" "
+#~ "ennen versiota tulevalla tekstillä/html:llä text/html ja \"after\" "
+#~ "version jälkeen tulevalla tekstillä/html:llä.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Ladattavan otsikko</li>\n"
+#~ "\t                \t<li><code>{size}</code> - Ladattavan tiedoston koko</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> tai "
+#~ "<code>{category}</code> - Ladattavan kategoria. Korvaa \"before\" ennen "
+#~ "versiota tulevalla tekstillä/html:llä ja \"after\" version jälkeen "
+#~ "tulevalla tekstillä/html:llä.</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Latausten määrä</li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Muotoiltu osumamäärä riippuen latausten lukumäärästä. <code>%</"
+#~ "code> korvaantuu latausten määrällä.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - Ladattavan kuvan URL</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> "
+#~ "tai <code>{description}</code> - Ladattavan kuvaus. Ei tulosteta, jos ei "
+#~ "asetettu. Korvaa \"before\" ennen tulevalla tekstillä/html:llä ja \"after"
+#~ "\" jälkeen tulevalla tekstillä/html:llä.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> or <code>{description-autop}</code> - Ladattavan kuvaus muotoiltu "
+#~ "autop'illa (muuttaa tuplarivinvaihdot kappaleiksi)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Latauspvm. Tonen "
+#~ "argumentti on pvm:n formaatille.</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Custom kentän "
+#~ "arvo</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Custom "
+#~ "kentän arvo muotoiltuna autop'illa</li>\n"
+#~ "\t                </ul>\n"
+#~ "\t                \t<p><strong>Esimerkkiformaatti -</strong> Linkki sekä "
+#~ "ladattavan kuvaus latausten määrällä otsikossa:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Downloaded "
+#~ "{hits} times\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
+#~ "\t                "
+
+#~ msgid "Recreate Download Database"
+#~ msgstr "Luo ladattavien tietokanta uudelleen"
+
+#~ msgid ""
+#~ "<p>This will delete the old download monitor tables and recreate them. "
+#~ "You should only do this as a last resort if experiencing database errors "
+#~ "after updating the plugin. Download monitor will attempt to re-add any "
+#~ "downloads currently in the database.</p>"
+#~ msgstr ""
+#~ "<p>Tämä tuhoaa vanhat Download Monitor taulut tietokannasta ja luo ne "
+#~ "uudestaan. Käytä tätä vain viimeisenä keinona, jos saat "
+#~ "tietokantavirheitä pluginin päivityksen jälkeen. Download Monitor yrittää "
+#~ "lisätä tällä hetkellä tietokannassa olevat ladattavat automaattisesti.</p>"
+
+#~ msgid "Add Existing Download"
+#~ msgstr "Lisää olemassaoleva ladattava"
+
+#~ msgid "Url"
+#~ msgstr "URL"
+
+#~ msgid "Save"
+#~ msgstr "Tallenna"
+
+#~ msgid "Search Downloads: "
+#~ msgstr "Etsi ladattavista:"

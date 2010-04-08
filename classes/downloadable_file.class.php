@@ -151,39 +151,84 @@ class downloadable_file {
 		$thefile = $this->filename;
 		$urlparsed = parse_url($thefile);
 		$isURI = array_key_exists('scheme', $urlparsed);
-		$localURI = (bool) strstr($thefile, get_bloginfo('url')); /* Local TO WORDPRESS!! */
-						
-		if( $localURI ) {
-			// the URI is local, replace the WordPress url OR blog url with WordPress's absolute path.
-			$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
-			$path = preg_replace( $patterns, '', $thefile );
-			// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
-			$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );							
-		// Local File System path
-		} else if( !path_is_absolute( $thefile ) ) { 
-			//$thefile = path_join( ABSPATH, $thefile );
-			// Get the absolute path
-			if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
-			$dir_path = $_SERVER['DOCUMENT_ROOT'];
-			// Now substitute the domain for the absolute path in the file url
-			$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join($dir_path, $thefile ));
-		} else {
-			$thefile = str_replace(get_bloginfo('wpurl'), ABSPATH, $thefile);
-		}
-							
-		if (@file_exists($thefile)) {
-			$size = filesize($thefile);
-			if ($size) {
-			$bytes = array('bytes','KB','MB','GB','TB');
-			  foreach($bytes as $val) {
-			   if($size > 1024){
-				$size = $size / 1024;
-			   }else{
-				break;
-			   }
-			  }
-			  $this->size = round($size, 2)." ".$val;
+		$localURI = (bool) strstr($thefile, get_bloginfo('wpurl')); /* Local TO WORDPRESS!! */
+		
+		$filesize = '';
+		
+		if( $isURI && $localURI || !$isURI && !$localURI ) {
+					
+			if( $localURI ) {
+				// the URI is local, replace the WordPress url OR blog url with WordPress's absolute path.
+				//$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
+				$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|');
+				$path = preg_replace( $patterns, '', $thefile );
+				// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
+				$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );
+				
+				if (@file_exists($thefile)) {
+					$filesize = filesize($thefile);
+				}					
+			// Local File System path
+			} elseif( !path_is_absolute( $thefile ) ) { 
+				//$thefile = path_join( ABSPATH, $thefile );
+				// Get the absolute path
+				if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
+				$dir_path = $_SERVER['DOCUMENT_ROOT'];
+				// Now substitute the domain for the absolute path in the file url
+				$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join($dir_path, $thefile ));
+				
+				if (@file_exists($thefile)) {
+					$filesize = filesize($thefile);
+				}
+			} else {
+				if (@file_exists($thefile)) {
+					$filesize = filesize($thefile);
+				}
+			}		
+		} elseif ( $isURI && ini_get('allow_url_fopen')  ) {
+			// Absolute path outside of wordpress
+			if (!function_exists('remote_filesize')) {
+				function remote_filesize($url)
+				{
+					ob_start();
+					$ch = curl_init($url);
+					curl_setopt($ch, CURLOPT_HEADER, 1);
+					curl_setopt($ch, CURLOPT_NOBODY, 1);
+				 
+					$ok = curl_exec($ch);
+					curl_close($ch);
+					$head = ob_get_contents();
+					ob_end_clean();
+				 
+					$regex = '/Content-Length:\s([0-9].+?)\s/';
+					$count = preg_match($regex, $head, $matches);
+				 
+					return isset($matches[1]) ? $matches[1] : "";
+				}
+			}			
+			if (function_exists('get_headers')) {
+				$ary_header = @get_headers($thefile, 1);   
+				if (is_array($ary_header) && (array_key_exists("Content-Length", $ary_header))) {
+					$filesize = $ary_header["Content-Length"];
+				}
+			} else if (function_exists('curl_init')) {
+				$filesize = remote_filesize($thefile);
+			} else {
+				$filesize = @filesize($thefile);
 			}
+		}
+						
+		
+		if ($filesize) {
+			$bytes = array('bytes','KB','MB','GB','TB');
+			foreach($bytes as $val) {
+				if($filesize > 1024){
+					$filesize = $filesize / 1024;
+			    } else {
+					break;
+			   	}
+			}
+			$this->size = round($filesize, 2)." ".$val;
 		}
 	}
 	
@@ -275,6 +320,21 @@ class downloadable_file {
 				}
 			}
 			$fsubs[] = implode(', ', $cats);
+		}
+		
+		// Mirrors
+		preg_match("/{mirror-([0-9]+)-url}/", $format, $match);
+		if ($match) {
+			$fpatts[] = $match[0];
+			$mirrors = trim($this->mirrors);
+			if (!empty($mirrors)) {			   
+				$mirrors = explode("\n",$mirrors);
+				if (isset($mirrors[($match[1]-1)])) { 
+					$fsubs[] = $mirrors[($match[1]-1)];
+				} else {
+					$fsubs[] = __('#Mirror-not-found',"wp-download_monitor");
+				}
+			}
 		}
 		
 		// Filetype

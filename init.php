@@ -51,6 +51,12 @@ function wp_dlm_init_or_upgrade() {
 	
 	// Permissions need to be set for sure
 	global $wp_roles;
+	
+
+	if (class_exists('WP_Roles')) 	
+		if ( ! isset( $wp_roles ) )
+			$wp_roles = new WP_Roles();	
+	
 	if (is_object($wp_roles)) :
 		$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
 		$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
@@ -67,6 +73,7 @@ function wp_dlm_init_or_upgrade() {
 	add_option('wp_dlm_image_url',WP_PLUGIN_URL."/download-monitor/img/download.gif",'no');
 	add_option('wp_dlm_log_downloads', 'yes', '', 'no');
 	add_option('wp_dlm_file_browser_root', ABSPATH, 'no');
+	add_option('wp_dlm_enable_file_browser', 'yes', '', 'no');
 
 	global $dlm_build;
 	$wp_dlm_build = get_option('wp_dlm_build');

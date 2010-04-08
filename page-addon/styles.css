@@ -146,7 +146,7 @@ div#download-page-featured h3, #download-page-categories h3, div#download-page-t
 }
 #download-page-categories .category {
 	float: left;
-	width: 48%;;
+	width: 48%;
 	clear: both;
 	border:1px solid #ddd;
 	-moz-border-radius: 4px;

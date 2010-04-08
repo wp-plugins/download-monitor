@@ -10,46 +10,57 @@ if(file_exists($wp_root . 'wp-load.php')) {
 }
 
 if (!function_exists('readfile_chunked')) {
-	// from php.net comments -chrisputnam at gmail dot com
-	function readfile_chunked($filename,$retbytes=true) {
-	   $chunksize = 1*(1024*1024); // how many bytes per chunk
-	   $buffer = '';
-	   $cnt =0;
-	   $handle = fopen($filename, 'rb');
-	   if ($handle === false) {
-	       return false;
-	   }
-	   while (!feof($handle)) {
-	       $buffer = fread($handle, $chunksize);
-	       echo $buffer;
-	       ob_flush();
-	       flush();
-	       if ($retbytes) {
-	           $cnt += strlen($buffer);
-	       }
-	   }
-	       $status = fclose($handle);
-	   if ($retbytes && $status) {
-	       return $cnt; // return num. bytes delivered like readfile() does.
-	   }
-	   return $status;
-	
-	} 
+	function readfile_chunked($filename, $size = '', $retbytes = TRUE) {
+		$chunk_size = 1024*1024;
+		$buffer = '';
+		$cnt =0;
+
+		$handle = fopen($filename, 'rb');
+		if ($handle === false) {
+			return false;
+		}
+
+		//check if http_range is sent by browser (or download manager)
+		if(isset($_SERVER['HTTP_RANGE']) && $size>0) {
+			list($a, $range)=explode("=",$_SERVER['HTTP_RANGE']);
+			str_replace($range, "-", $range);
+			
+			$size2=$size-1;
+			$new_length=$size2-$range;
+			
+			header("Accept-Ranges: bytes");
+			header("HTTP/1.1 206 Partial Content");
+			header("Content-Length: $new_length");
+			header("Content-Range: bytes $range$size2/$size");
+			
+			fseek($fp,$range);
+		}	
+
+		while (!feof($handle) && connection_status()==0) {
+			set_time_limit(0);
+			$buffer = fread($handle, $chunk_size);
+			echo $buffer;
+			ob_flush();
+			flush();
+			if ($retbytes) {
+				$cnt += strlen($buffer);
+			}
+		}
+		$status = fclose($handle);
+		if ($retbytes && $status) {
+			return $cnt;
+		}
+		return $status;
+	}
 }
 
 if (!function_exists('remote_filesize')) {
-	function remote_filesize($url, $user = "", $pw = "")
+	function remote_filesize($url)
 	{
 		ob_start();
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 		curl_setopt($ch, CURLOPT_NOBODY, 1);
-	 
-		if(!empty($user) && !empty($pw))
-		{
-			$headers = array('Authorization: Basic ' .  base64_encode("$user:$pw"));
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		}
 	 
 		$ok = curl_exec($ch);
 		curl_close($ch);
@@ -125,10 +136,17 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 		$d = $wpdb->get_row($query_select_1);
 		if (!empty($d) && is_numeric($d->id) ) {
 					
-				// FIXED:1.6 - Admin downloads don't count
 				if (isset($user_ID)) {
-					$user_info = get_userdata($user_ID);
-					$level = $user_info->user_level;
+				
+					$theroles = array();
+				
+					$user = new WP_User( $user_ID );					
+					if ( !empty( $user->roles ) && is_array( $user->roles ) ) {
+						foreach ( $user->roles as $role )
+							$theroles[] = $role;
+					}
+					
+					$level = $user->user_level;
 				}
 
 				// Check permissions
@@ -146,24 +164,28 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					exit();
 				}
 								
-				// Min-level add-on
+				// Min-level/req-role addon
 				if ($d->members && isset($user_ID)) {
 					$minLevel = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='min-level' LIMIT 1" , $d->id ) );
 					if ($minLevel) {
 						if ($level < $minLevel) {
-							$url = get_option('wp_dlm_member_only');
-							if (!empty($url)) {
-								$url = 'Location: '.$url;
-								header( $url );
-								exit();
-		   					} else {
-		   						@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
-		   						wp_die(__('You do not have permission to download this file.',"wp-download_monitor"),__('You do not have permission to download this file.',"wp-download_monitor"));
-		   					}
+							@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+		   					wp_die(__('You do not have permission to download this file.',"wp-download_monitor"),__('You do not have permission to download this file.',"wp-download_monitor"));
+							exit();
+						}
+					}
+					$reqRole = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='req-role' LIMIT 1" , $d->id ) );
+					if ($reqRole) {
+						$roles = explode(',', $reqRole);
+						$roles = array_map('trim', $roles);
+						if (	sizeof(array_intersect($roles, $theroles))	== 0	) {
+							@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+								wp_die(__('You do not have permission to download this file.',"wp-download_monitor"),__('You do not have permission to download this file.',"wp-download_monitor"));
 							exit();
 						}
 					}
 				}
+				
 				
 				if ($level!=10) {
 					$hits = $d->hits;
@@ -184,10 +206,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						// Update hits
 						$wpdb->query( $wpdb->prepare( "UPDATE $wp_dlm_db_stats SET hits=%s WHERE date='%s' AND download_id=%s;", $hits+1, $today, $d->id ) );
 					}	
-					
-					// Clear Cache
-					wp_cache_delete('download_data_'.$d->id.'_patts');
-					wp_cache_delete('download_data_'.$d->id.'_subs');				
+				
 			   }
 			   
 		   		// Log download details
@@ -412,12 +431,13 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					@ini_set('zlib.output_compression', 'Off');
 					set_time_limit(0);
 					session_start();					
-					session_cache_limiter('none');					
+					session_cache_limiter('none');		
+					@set_magic_quotes_runtime(0);			
 					
 					// START jidd.jimisaacs.com
 					$urlparsed = parse_url($thefile);
 					$isURI = array_key_exists('scheme', $urlparsed);
-					$localURI = (bool) strstr($thefile, get_bloginfo('url')); /* Local TO WORDPRESS!! */
+					$localURI = (bool) strstr($thefile, get_bloginfo('wpurl')); /* Local TO WORDPRESS!! */
 							
 					/* Debug
 					echo "
@@ -437,7 +457,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							Does the download contain the wpurl or url? */
 						if( $localURI ) {
 							// the URI is local, replace the WordPress url OR blog url with WordPress's absolute path.
-							$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
+							//$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
+							$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|');
 							$path = preg_replace( $patterns, '', $thefile );
 							// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
 							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );							
@@ -460,18 +481,26 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						// END jidd.jimisaacs.com					
 							header("Pragma: no-cache");
 							header("Expires: 0");
-							header("Cache-Control: no-store, no-cache, must-revalidate");
+							header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 							header("Robots: none");
 							header("Content-Type: ".$ctype."");
 							header("Content-Description: File Transfer");						
-							header("Content-Disposition: attachment; filename=\"".$filename."\";");
+							
+							if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+							    // workaround for IE filename bug with multiple periods / multiple dots in filename
+							    $iefilename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+							    header("Content-Disposition: attachment; filename=\"".$iefilename."\";");
+							} else {
+							    header("Content-Disposition: attachment; filename=\"".$filename."\";");
+							}
+							
 							header("Content-Transfer-Encoding: binary");
 							$size = @filesize($thefile);
 							if (isset($size) && $size>0) {						
 								header("Content-Length: ".$size);
 							}
 							@ob_end_clean();
-							@readfile_chunked($thefile);
+							@readfile_chunked($thefile, $size);
 							exit;
 						}			
 					// START jidd.jimisaacs.com
@@ -481,11 +510,10 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						// Remote File						
 						header("Pragma: no-cache");
 						header("Expires: 0");
-						header("Cache-Control: no-store, no-cache, must-revalidate");
+						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 						header("Robots: none");
 						header("Content-Type: ".$ctype."");
 						header("Content-Description: File Transfer");						
-						//header("Content-Disposition: attachment; filename=\"".$filename."\";");
 						header("Content-Transfer-Encoding: binary");
 			
 						// Get filesize
@@ -493,14 +521,16 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						$header_filename = '';
 						if (function_exists('get_headers')) {
 							// php5 method
-							$ary_header = get_headers($thefile, 1);   
-							if ((array_key_exists("Content-Length", $ary_header))) 
+							$ary_header = @get_headers($thefile, 1);   
+							if (is_array($ary_header) && (array_key_exists("Content-Length", $ary_header))) 
 								$filesize = $ary_header["Content-Length"];
-							if ((array_key_exists("Content-Disposition", $ary_header))) 
+							if (is_array($ary_header) && (array_key_exists("Content-Disposition", $ary_header))) 
 								$header_filename = $ary_header["Content-Disposition"];
 						} else if (function_exists('curl_init')) {
 							// Curl Method
 							$filesize = remote_filesize($thefile);
+						} else {
+							$filesize = @filesize($thefile);
 						}
 						if (isset($filesize) && $filesize > 0) {						
 							header("Content-Length: ".$filesize);
@@ -508,10 +538,15 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						if (isset($header_filename) && !empty($header_filename)) {							
 							header("Content-Disposition: ".$header_filename.";");
 						} else {
-							header("Content-Disposition: attachment; filename=\"".$filename."\";");
+							if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+							    $iefilename = preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1);
+							    header("Content-Disposition: attachment; filename=\"".$iefilename."\";");
+							} else {
+							    header("Content-Disposition: attachment; filename=\"".$filename."\";");
+							}							
 						}
 						@ob_end_clean();
-						@readfile_chunked($thefile);
+						@readfile_chunked($thefile, $filesize);
 						exit;
 					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
 						

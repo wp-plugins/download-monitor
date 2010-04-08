@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.3.6
+Version: 3.3.3.7
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -40,9 +40,17 @@ Author URI: http://blue-anvil.com
 		if ( ! defined( 'WP_CONTENT_DIR' ) ) define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
 		if ( ! defined( 'WP_PLUGIN_URL' ) ) define( 'WP_PLUGIN_URL', WP_CONTENT_URL. '/plugins' );
 		if ( ! defined( 'WP_PLUGIN_DIR' ) ) define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
+		
+		if (!function_exists('admin_url')) {
+			function admin_url($path='') {
+				$site = get_bloginfo('wpurl').'/wp-admin/';
+				if ($path) $site = $site.$path;	
+				return str_replace('//','/',$site);	
+			}
+		}
 	}
 	
-	$dlm_build="20100208";
+	$dlm_build="20100320";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
@@ -102,6 +110,11 @@ function wp_dlm_menu() {
 	global $wp_dlm_root;	
 	
 	global $wp_roles;
+	
+	if (class_exists('WP_Roles')) 	
+		if ( ! isset( $wp_roles ) )
+			$wp_roles = new WP_Roles();
+	
 	if (is_object($wp_roles)) :
 		$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
 		$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );

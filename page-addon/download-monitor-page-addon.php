@@ -45,7 +45,7 @@ add_action('wp_print_styles', 'wp_dlmp_styles');
 // DOWNLOAD PAGE OUTPUT FUNCTION
 ################################################################################
 
-function wp_dlmp_output( $base_heading_level = '3', $pop_count = 4, $pop_cat_count = 4, $show_uncategorized = true, $per_page = 20, $format = '', $exclude = '', $exclude_cat = '', $show_tags = 0 )
+function wp_dlmp_output( $base_heading_level = '3', $pop_count = 4, $pop_cat_count = 4, $show_uncategorized = true, $per_page = 20, $format = '', $exclude = '', $exclude_cat = '', $show_tags = 0, $default_order = 'title' )
 {
 if (function_exists('get_downloads')) {
 
@@ -164,7 +164,7 @@ if (function_exists('get_downloads')) {
 		return $querystring[0].$add;
 	}
 	}
-    if (!function_exists('output_chain')) {
+    if (!function_exists('get_chain')) {
     function get_chain($cat, $chain = array()) {
     	global $download_taxonomies;
    		
@@ -206,7 +206,7 @@ if (function_exists('get_downloads')) {
 		$page .= '<h'.$base_heading_level.'>'.$search_results_text.'<em>"'.$_GET['dlsearch'].'"</em> <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 
 		$orderby = '';
-		if (!isset($_GET['sortby'])) $_GET['sortby'] = 0;
+		if (!isset($_GET['sortby'])) $_GET['sortby'] = $default_order;
 		// Sorting Options
 			switch (trim(strtolower($_GET['sortby']))) {
 				case 'hits' :
@@ -331,6 +331,7 @@ if (function_exists('get_downloads')) {
 			$page .= '<h'.$base_heading_level.'>'.ucwords($uncategorized).' ('.$count.') <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 
 			$orderby = '';
+			if (!isset($_GET['sortby'])) $_GET['sortby'] = $default_order;
 			// Sorting Options
 				switch (trim(strtolower($_GET['sortby']))) {
 					case 'hits' :
@@ -409,7 +410,7 @@ if (function_exists('get_downloads')) {
 				}
 				
 				$orderby = '';
-				if (!isset($_GET['sortby'])) $_GET['sortby'] = 0;
+				if (!isset($_GET['sortby'])) $_GET['sortby'] = $default_order;
 				// Sorting Options
 					switch (trim(strtolower($_GET['sortby']))) {
 						case 'hits' :
@@ -490,7 +491,7 @@ if (function_exists('get_downloads')) {
 			$page .= '<h'.$base_heading_level.'>'.$tags_text.' '.$tag.' <small><a href="'.get_permalink( $post->ID ).'">&laquo;&nbsp;'.$main_page_back_text.'</a></small></h'.$base_heading_level.'>';
 								
 			$orderby = '';
-			if (!isset($_GET['sortby'])) $_GET['sortby'] = 0;
+			if (!isset($_GET['sortby'])) $_GET['sortby'] = $default_order;
 			// Sorting Options
 				switch (trim(strtolower($_GET['sortby']))) {
 					case 'hits' :
@@ -856,10 +857,11 @@ function wp_dlmp_shortcode_download_page( $atts ) {
 		'format' => '',
 		'exclude' => '',
 		'exclude_cat' => '',
-		'show_tags' => '0'
+		'show_tags' => '0',
+		'default_order' => 'title'
 	), $atts));
 	
-	$output = wp_dlmp_output($base_heading_level, $pop_count, $pop_cat_count, $show_uncategorized, $per_page, $format, $exclude, $exclude_cat, $show_tags);
+	$output = wp_dlmp_output($base_heading_level, $pop_count, $pop_cat_count, $show_uncategorized, $per_page, $format, $exclude, $exclude_cat, $show_tags, $default_order);
 	return $output;
 
 }

@@ -3,8 +3,8 @@ Contributors: jolley_small
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
-Tested up to: 2.9.1
-Stable tag: 3.3.3.5
+Tested up to: 2.9.2
+Stable tag: 3.3.3.7
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -74,6 +74,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	German translation (2, included) by Michael Fitzen - http://www.be-infected.de/
 *	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
 *	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
+*	Finish translation (included) by Ari Kontiainen
 
 == Installation ==
 
@@ -105,6 +106,25 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.3.7 = 
+*	Added {mirror_1_url} {mirror_2_url} etc for custom formats.
+*	Removed cache for download info as it cannot support using different formats in succession
+*	New download_data shortcode lets you add the format inline example: [download_data id="1"]<a href="{url}">{title}</a>[/download_data]
+*	Decendents glitch in get_downloads
+*	Improved upload error messages on add page
+*	Tidied up config page and added some example custom formats
+*	Attempt to make wp_roles exist if not loaded
+*	Added option to disable the file/folder browser
+*	Top 5 Downloads widget shows downloads per category
+*	file_browser_root filter added
+*	Filesize tweakage
+*	Include option added to get_downloads
+*	req-role option as a replacement to min-level. Comma separate values.
+*	Download logs as CSV file
+*	Mod to paths shown when using file browser
+*	Added new download page option - default_order which can be 'title', 'hits' or 'date'.
+*	Added 'author' option to get_downloads - use user name e.g. [downloads query="author=admin"]
 
 = 3.3.3.5 = 
 *	Added an extra add_cap block for when it does not init correctly.

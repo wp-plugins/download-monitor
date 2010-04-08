@@ -225,8 +225,11 @@ function dlm_adddir() {
                 <tr valign="top">
                     <th scope="row"><strong><?php _e('Directory (relative paths only)',"wp-download_monitor"); ?>:</strong></th> 
                     <td>
-                        <input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($filename)) echo $filename; ?>" name="filename" id="filename" /><br/><a class="browsefiles" style="display:none" href="#"><?php _e('Toggle Folder Browser',"wp-download_monitor"); ?></a>
+                        <input type="text" style="width:360px;" class="cleardefault" value="<?php if (isset($filename)) echo $filename; ?>" name="filename" id="filename" /><br/>
+                        <?php if (get_option('wp_dlm_enable_file_browser')!=='no') : ?>
+                        <a class="browsefiles" style="display:none" href="#"><?php _e('Toggle Folder Browser',"wp-download_monitor"); ?></a>
                         <div id="file_browser2"></div>
+                        <?php endif; ?>
                     </td> 
                 </tr>
                 <tr valign="top">
@@ -320,7 +323,7 @@ function dlm_adddir() {
                 </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Member only file?',"wp-download_monitor"); ?></strong></th> 
-                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
+                    <td><input type="checkbox" name="memberonly" style="vertical-align:top" <?php if (isset($members) && $members==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file.',"wp-download_monitor"); ?></span></td>
                 </tr>
                 <tr valign="top">												
                     <th scope="row"><strong><?php _e('Force Download?',"wp-download_monitor"); ?></strong></th> 
