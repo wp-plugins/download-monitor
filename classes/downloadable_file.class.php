@@ -212,14 +212,14 @@ class downloadable_file {
 					$filesize = $ary_header["Content-Length"];
 				}
 			} else if (function_exists('curl_init')) {
-				$filesize = remote_filesize($thefile);
+				$filesize = remote_filesize($thefile); // I wonder, is this returning something non-numeric?
 			} else {
 				$filesize = @filesize($thefile);
 			}
 		}
 						
 		
-		if ($filesize) {
+		if ($filesize && is_numeric($filesize)) {
 			$bytes = array('bytes','KB','MB','GB','TB');
 			foreach($bytes as $val) {
 				if($filesize > 1024){

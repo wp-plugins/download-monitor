@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.9.2
-Stable tag: 3.3.3.7
+Stable tag: 3.3.3.8
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -106,6 +106,11 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.3.8 = 
+
+*	Updated German translation
+*	Fatal error: Unsupported operand types in /var/www/wp-content/plugins/download-monitor/classes/downloadable_file.class.php on line 226 glitch should be fixed
 
 = 3.3.3.7 = 
 *	Added {mirror_1_url} {mirror_2_url} etc for custom formats.

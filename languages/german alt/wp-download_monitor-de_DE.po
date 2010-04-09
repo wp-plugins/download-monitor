@@ -1,32 +1,36 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-download_monitor-de_DE\n"
+"Project-Id-Version: Download Monitor 3.3.3.3\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/download-monitor\n"
 "POT-Creation-Date: 2010-02-04 16:40+0000\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Michael Fitzen <email@be-infected.de>\n"
-"Language-Team: infected\n"
+"Last-Translator: Frank Weichbrodt\n"
+"Language-Team: Frank Weichbrodt <frank.weichbrodt@web.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: GERMAN\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: admin/add_directory.php:43
 msgid "Add From Directory"
-msgstr "Dateien aus Verzeichnis hinzufügen"
+msgstr "Aus Verzeichnis hinzufügen"
 
 #: admin/add_directory.php:45
 msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
-msgstr "Dieses Feature ermöglicht es, mehrere Dateien innerhalb eines Verzeichnisses (<strong>auf Deinem Server</strong>) hochzuladen. Dabei wird versucht auch Unterverzeichnisse auszulesen. Ebenso wird versucht aussagekräftige Titel automatisch zu generieren. Eine nachträgliche Bearbeitung ist möglich."
+msgstr "Dieses Funktion fügt mehrere Downloads auf einmal aus einem Verzeichnis <strong>auf Deinem Server</strong> hinzu. Sie versucht, auch Unterverzeichnisse zu lesen und relevante Titel für jeden Download zu finden. Titel und Zusatzinformationen können später geändert bearbeitet werden."
 
 #: admin/add_directory.php:59
 msgid "<div class=\"error\">No folder selected</div>"
-msgstr "<div class=\"error\">Kein Verzeichnis ausgewählt</div>"
+msgstr "<div class=\"error\">Kein Order ausgewählt</div>"
 
 #: admin/add_directory.php:215
 msgid "Downloads added Successfully"
-msgstr "Downloads erfolgreich hinzugefügt"
+msgstr "Download erfolgreich hinzugefügt"
 
 #: admin/add_directory.php:217
 msgid "No files found"
@@ -34,11 +38,11 @@ msgstr "Keine Dateien gefunden"
 
 #: admin/add_directory.php:226
 msgid "Directory (relative paths only)"
-msgstr "Verzeichnis (nur relative Pfadangaben)"
+msgstr "Verzeichnis (relativer Pfad)"
 
 #: admin/add_directory.php:228
 msgid "Toggle Folder Browser"
-msgstr "Verzeichnis-Browser auf-/zuklappen"
+msgstr "Datei-Browser umschalten"
 
 #: admin/add_directory.php:233
 msgid "Extensions"
@@ -46,7 +50,7 @@ msgstr "Erweiterungen"
 
 #: admin/add_directory.php:235
 msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
-msgstr "Dateierweiterungen die berücksichtigt werden sollen (getrennt durch Kommata) eintragen, oder leer lassen wenn keine Einschränkung gewünscht. Beispiel: zip,gif,jpg"
+msgstr "Kommagetrennte Liste mit zu suchenden Dateierweiterungen. Wenn leer, werden alle importiert. Beispiel: zip,gif,jpg"
 
 #: admin/add_directory.php:239
 #: admin/add_new.php:306
@@ -60,7 +64,7 @@ msgstr "Dateierweiterungen die berücksichtigt werden sollen (getrennt durch Kom
 #: uploader.php:815
 #: wp-download_monitor.php:108
 msgid "Categories"
-msgstr "Kategorien"
+msgstr "Kategorien:"
 
 #: admin/add_directory.php:279
 #: admin/add_new.php:346
@@ -96,7 +100,7 @@ msgstr "Name"
 #: admin/categories.php:190
 #: uploader.php:605
 msgid "Parent"
-msgstr "Übergeordnete Kategorie"
+msgstr "Untergruppe von"
 
 #: admin/add_directory.php:288
 #: admin/add_new.php:355
@@ -137,7 +141,7 @@ msgstr "Tags"
 #: admin/admin.php:1185
 #: uploader.php:630
 msgid "Separate tags with commas."
-msgstr "Tags durch Kommata trennen."
+msgstr "Schlagwörter, mit Komma getrennt"
 
 #: admin/add_directory.php:315
 #: admin/add_new.php:382
@@ -145,7 +149,7 @@ msgstr "Tags durch Kommata trennen."
 #: admin/admin.php:1194
 #: uploader.php:638
 msgid "No Tags Found"
-msgstr "Keine Tags gefunden"
+msgstr "Keine Schlagwörter gefunden"
 
 #: admin/add_directory.php:322
 #: admin/add_new.php:409
@@ -161,7 +165,7 @@ msgstr "Nur für Mitglieder?"
 #: admin/admin.php:1215
 #: uploader.php:664
 msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level to set the minimum user level needed to download the file."
-msgstr "Wenn ausgewählt, ist es nur angemeldeten Usern möglich die Datei per Downloadlink aufzurufen. Das Verwenden eines benutzerdef. Feldes mit der Bezeichnung <em>min-level</em> für eine Beschränkung je nach Userlevel ist ebenso möglich."
+msgstr "Wenn aktiviert, haben nur angemeldete Benutzer Zugriff auf den Download-Link. Es sollte jedoch ein Dateiname verwendet werden, der nicht einfach erraten werden kann und somit den Direktzugriff ermöglicht. Du kansst auch eine Benutzerfeld mit dem Namen \"min-level\" hinzufügen, um die minimale Benutzerstufe für den Download festzulegen."
 
 #: admin/add_directory.php:326
 #: admin/add_new.php:413
@@ -169,7 +173,7 @@ msgstr "Wenn ausgewählt, ist es nur angemeldeten Usern möglich die Datei per D
 #: admin/admin.php:1218
 #: uploader.php:667
 msgid "Force Download?"
-msgstr "Download erzwingen?"
+msgstr "Download forcieren?"
 
 #: admin/add_directory.php:327
 #: admin/add_new.php:414
@@ -177,7 +181,7 @@ msgstr "Download erzwingen?"
 #: admin/admin.php:1222
 #: uploader.php:671
 msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
-msgstr "Wenn ausgewählt, wird Download Monitor versuchen den Download der Datei zu erzwingen, bevor ein Redirect durchgeführt wird. Diese Einstellung funktioniert nicht auf allen Servern (bitte erst testen) und meistens nur dann wenn die Datei auf dem lokalen Server liegt."
+msgstr "Wenn aktiviert, wird Download Monitor versuchen, den Download zu forcieren, statt auf ihn umzuleiten. Diese Einstellung ist nicht kompatibel mit allen Servern, teste es vorher aus."
 
 #: admin/add_directory.php:330
 #: admin/add_new.php:418
@@ -186,14 +190,14 @@ msgstr "Wenn ausgewählt, wird Download Monitor versuchen den Download der Datei
 #: admin/admin.php:1347
 #: uploader.php:676
 msgid "Custom fields"
-msgstr "Benutzerdefinierte Felder"
+msgstr "Benutzerfelder"
 
 #: admin/add_directory.php:331
 #: admin/add_new.php:419
 #: admin/admin.php:761
 #: admin/admin.php:1227
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
-msgstr "Benutzerdefinierte Felder können benutzt werden um dem Download zusätzliche Metadaten hinzuzufügen (leer lassen falls unerwünscht).  Großbuchstaben und Leerzeichen werden automatisch durch Kleinbuchstaben und Bindestriche ersetzt. Beispiel: <code>Ein Name</code> wird zu <code>ein-name</code>"
+msgstr "Benutzerfelder können dazu verwendet werden, einem Download Metadaten hinzuzufügen. Werden sie leer gelassen, werden keine Metadaten hinzugefügt. Der Name sollte nur Kleinbuchstaben ohne Leerzeichen enthalten (wird automatisch geändert, z.B. <code>Ein Name</code> wird zu <code>ein-name</code> )."
 
 #: admin/add_directory.php:336
 #: admin/add_new.php:424
@@ -216,7 +220,7 @@ msgstr "Wert"
 #: uploader.php:695
 #: uploader.php:707
 msgid "remove"
-msgstr "Entfernen"
+msgstr "entfernen"
 
 #: admin/add_directory.php:369
 #: admin/add_new.php:457
@@ -224,7 +228,7 @@ msgstr "Entfernen"
 #: admin/admin.php:1269
 #: uploader.php:715
 msgid "Add Custom Field"
-msgstr "Benutzerdefiniertes Feld hinzufügen"
+msgstr "Benutzerfeld hinzufügen"
 
 #: admin/add_directory.php:369
 #: admin/add_new.php:457
@@ -232,7 +236,7 @@ msgstr "Benutzerdefiniertes Feld hinzufügen"
 #: admin/admin.php:1269
 #: uploader.php:715
 msgid "Toggle Existing Custom Fields"
-msgstr "Vorhandene benutzerdef. Felder auf-/zuklappen"
+msgstr "Vorhandene Benutzerfelder umschalten"
 
 #: admin/add_directory.php:380
 #: admin/add_new.php:468
@@ -244,13 +248,13 @@ msgstr "Nichts gefunden."
 
 #: admin/add_directory.php:389
 msgid "Scan &amp; Add"
-msgstr "Durchsuchen &amp; Hinzufügen"
+msgstr "Scannen &amp; hinzufügen"
 
 #: admin/add_directory.php:390
 #: admin/add_new.php:478
 #: uploader.php:540
 msgid "Y-m-d H:i:s"
-msgstr "d.m.Y H:i:s"
+msgstr "Y-m-d H:i:s"
 
 #: admin/add_new.php:66
 #: uploader.php:267
@@ -259,16 +263,16 @@ msgstr "Neuen Download hinzufügen"
 
 #: admin/add_new.php:88
 msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
-msgstr "<div class=\"error\">Erforderliches Feld: <strong>Titel</strong> vergessen</div>"
+msgstr "<div class=\"error\">Pflichtfeld: <strong>Titel</strong> nicht ausgefüllt</div>"
 
 #: admin/add_new.php:90
 msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
-msgstr "<div class=\"error\">Ungültige <strong>Klicks</strong> eingegeben</div>"
+msgstr "<div class=\"error\">Ungültiger <strong>Zähler</strong> eingegeben</div>"
 
 #: admin/add_new.php:135
 #: uploader.php:353
 msgid "No file selected"
-msgstr "Keine Datei ausgwählt"
+msgstr "Keine Datei ausgewählt"
 
 #: admin/add_new.php:232
 #: admin/add_new.php:233
@@ -277,13 +281,13 @@ msgstr "Download erfolgreich hinzugefügt"
 
 #: admin/add_new.php:238
 msgid "<div class=\"error\">Error saving to database</div>"
-msgstr "<div class=\"error\">Fehler beim Speichern in der Datenbank</div>"
+msgstr "<div class=\"error\">Fehler beim Speichern in die Datenbank</div>"
 
 #: admin/add_new.php:247
 #: admin/admin.php:566
 #: uploader.php:521
 msgid " (defined in php.ini)"
-msgstr " (in der php.ini festgelegt)"
+msgstr " (Vorgabe aus php.ini)"
 
 #: admin/add_new.php:260
 #: admin/config.php:264
@@ -301,7 +305,7 @@ msgstr "Titel"
 #: admin/add_new.php:282
 #: admin/admin.php:613
 msgid "(required)"
-msgstr "(erforderlich)"
+msgstr "(wird benötigt)"
 
 #: admin/add_new.php:266
 #: admin/admin.php:590
@@ -335,23 +339,23 @@ msgstr "Beschreibung"
 #: admin/add_new.php:276
 #: uploader.php:484
 msgid "Starting hits"
-msgstr "Klicks (Anfangswert)"
+msgstr "Zähler starten bei"
 
 #: admin/add_new.php:282
 #: uploader.php:490
 msgid "Select a file..."
-msgstr "Datei wählen..."
+msgstr "Datei auswählen..."
 
 #: admin/add_new.php:286
 #: uploader.php:532
 msgid "Upload File"
-msgstr "Datei hochladen"
+msgstr "Datei aktualisieren"
 
 #: admin/add_new.php:287
 #: admin/admin.php:620
 #: uploader.php:534
 msgid "Max. filesize"
-msgstr "Max. Dateigröße"
+msgstr "Maximale Dateigröße"
 
 #: admin/add_new.php:287
 #: admin/admin.php:620
@@ -363,7 +367,7 @@ msgstr "Bytes"
 #: admin/admin.php:620
 #: uploader.php:534
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
-msgstr "Wenn eine Datei mit dem gleichen Namen bereits existiert, wird diese Datei umbenannt."
+msgstr "Sollte eine Datei mit dem gleichen Namen bereits im Upload-Verzeichnis vorhanden sein, wird diese Datei umbenannt."
 
 #: admin/add_new.php:290
 #: admin/add_new.php:397
@@ -377,7 +381,7 @@ msgstr "ODER"
 #: admin/add_new.php:293
 #: uploader.php:537
 msgid "Enter file URL"
-msgstr "Datei-URL eingeben"
+msgstr "Datei URL"
 
 #: admin/add_new.php:294
 #: admin/add_new.php:401
@@ -387,41 +391,41 @@ msgstr "Datei-URL eingeben"
 #: uploader.php:538
 #: uploader.php:654
 msgid "Toggle File Browser"
-msgstr "Dateibrowser auf-/zuklappen"
+msgstr "Datei-Browser umschalten"
 
 #: admin/add_new.php:302
 #: admin/admin.php:635
 msgid "Download Mirrors"
-msgstr "Download Mirrors"
+msgstr "Download-Mirrors"
 
 #: admin/add_new.php:303
 #: admin/admin.php:636
 #: uploader.php:554
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
-msgstr "Alternativ kann hier eine Liste mit Mirrors (1 pro Zeile) erstellt werden. Download Monitor wird daraus einen zufälligen Mirror ermitteln um die Datei bereitzustellen."
+msgstr "Optional: Hier können Sie zusätzliche URL eintragen (1 URL pro Zeile). Download Monitor nutzt dann per Zufall eine dieser URL für den Download."
 
 #: admin/add_new.php:389
 #: admin/admin.php:722
 #: admin/admin.php:1201
 #: uploader.php:644
 msgid "Thumbnail"
-msgstr "Vorschaubild"
+msgstr "Thumbnail"
 
 #: admin/add_new.php:393
 #: uploader.php:647
 msgid "Upload thumbnail"
-msgstr "Vorschaubild hochladen"
+msgstr "Thumbnail hochladen"
 
 #: admin/add_new.php:394
 #: admin/admin.php:727
 #: uploader.php:650
 msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
-msgstr "Dieses Bild wird auf einer Downloadseite oder durch den {thumbnail} Tag in einem benutzerdefinierten Ausgabeformat angezeigt. Wenn kein Bild hinterlegt wurde, wird ein Platzhalter verwendet."
+msgstr "Dies wird auf der Downloadseite oder mit dem Platzhalter {thumbnail} im benutzerdefinierten Format angezeigt."
 
 #: admin/add_new.php:400
 #: uploader.php:653
 msgid "Enter thumbnail URL"
-msgstr "URL des Vorschaubildes eingeben"
+msgstr "Thumbnail-URL eintragen"
 
 #: admin/add_new.php:477
 msgid "Upload &amp; save"
@@ -430,7 +434,7 @@ msgstr "Hochladen &amp; Speichern"
 #: admin/admin.php:106
 #: admin/admin.php:318
 msgid "Are you sure you want to delete"
-msgstr "Wirklich löschen?"
+msgstr "Download löschen. Sind Sie sicher?"
 
 #: admin/admin.php:317
 msgid "Sure?"
@@ -438,63 +442,63 @@ msgstr "Sicher?"
 
 #: admin/admin.php:318
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
-msgstr "? (Wenn die Datei ursprünglich mit Hilfe dieses Plugins hochgeladen wurde, wird die Datei ebenfalls vom Server gelöscht)"
+msgstr "? (Wenn ursprünglich mit diesem Plugin  hochgeladen, wird die Datei auch von Server entfernt)"
 
 #: admin/admin.php:318
 msgid "[yes]"
-msgstr "[JA]"
+msgstr "[ja]"
 
 #: admin/admin.php:318
 msgid "[no]"
-msgstr "[NEIN]"
+msgstr "[nein]"
 
 #: admin/admin.php:363
 msgid "Required field: <strong>Title</strong> omitted"
-msgstr "Erforderliches Feld: <strong>Titel</strong> vergessen"
+msgstr "Pflichtfeld: <strong>Titel</strong> nicht ausgefüllt"
 
 #: admin/admin.php:364
 msgid "Required field: <strong>THE FILE</strong> omitted"
-msgstr "Erforderliches Feld: <strong>DIE DATEI</strong> vergessen"
+msgstr "Pflichtfeld <strong>Datei</strong> nicht ausgefüllt."
 
 #: admin/admin.php:366
 msgid "Invalid <strong>hits</strong> entered"
-msgstr "Ungültige <strong>Klicks</strong> eingegeben"
+msgstr "Ungültigen <strong>Zählerstand</strong> eingegeben"
 
 #: admin/admin.php:448
 msgid "<div class=\"error\">No file selected</div>"
-msgstr "<div class=\"error\">Keine Datei ausgewählt!</div>"
+msgstr "<div class=\"error\">Keine Datei ausgewählt</div>"
 
 #: admin/admin.php:506
 msgid "Download edited Successfully"
-msgstr "Download erfolgreich bearbeitet"
+msgstr "Download Änderung erfolgreich"
 
 #: admin/admin.php:577
 msgid "Edit Download Information"
-msgstr "Download-Informationen bearbeiten"
+msgstr "Ändere Download Informationen"
 
 #: admin/admin.php:584
 msgid "Title (required)"
-msgstr "Titel (erforderlich)"
+msgstr "Titel (wird benötigt)"
 
 #: admin/admin.php:600
 msgid "Change hit count"
-msgstr "Gezählte Klicks ändern"
+msgstr "Zähler ändern"
 
 #: admin/admin.php:606
 msgid "Change post date"
-msgstr "Datum der Veröffentlichung ändern"
+msgstr "Veröffentlichungsdatum ändern"
 
 #: admin/admin.php:609
 msgid "Change the post date of the download. Was set to:"
-msgstr "Ändern des Veröffentlichungsdatums. War gesetzt auf:"
+msgstr "Das Veröffentlichungsdatum ändern auf:"
 
 #: admin/admin.php:609
 msgid "M jS Y @ H:i"
-msgstr "d.m.Y @ H:i"
+msgstr "jS M Y H:i:s"
 
 #: admin/admin.php:613
 msgid "The File"
-msgstr "Die Datei"
+msgstr "Datei"
 
 #: admin/admin.php:617
 msgid "Upload New File"
@@ -502,19 +506,19 @@ msgstr "Neue Datei hochladen"
 
 #: admin/admin.php:619
 msgid "Remove old file?"
-msgstr "Alte Datei entfernen?"
+msgstr "Alte Dateien entfernen?"
 
 #: admin/admin.php:626
 msgid "Edit File URL"
-msgstr "Datei-URL bearbeiten"
+msgstr "Datei URL ändern"
 
 #: admin/admin.php:726
 msgid "Upload new thumbnail"
-msgstr "Neues Vorschaubild hochladen"
+msgstr "Neues Thumbnail hochladen"
 
 #: admin/admin.php:733
 msgid "Edit thumbnail URL"
-msgstr "URL des Vorschaubildes bearbeiten"
+msgstr "Thumbnail-URL ändern"
 
 #: admin/admin.php:817
 #: admin/admin.php:1288
@@ -522,7 +526,7 @@ msgstr "URL des Vorschaubildes bearbeiten"
 #: admin/config.php:269
 #: admin/config.php:370
 msgid "Save Changes"
-msgstr "Änderungen speichern"
+msgstr "Speichere Änderungen"
 
 #: admin/admin.php:855
 msgid "Download deleted Successfully"
@@ -530,27 +534,27 @@ msgstr "Download erfolgreich gelöscht"
 
 #: admin/admin.php:893
 msgid "Stats successfully reset for selected downloads"
-msgstr "Statistiken der ausgewählten Downloads erfolgreich zurückgesetzt"
+msgstr "Statistik wurde erfolgreich zurückgesetzt"
 
 #: admin/admin.php:935
 msgid "Selected Downloads deleted Successfully"
-msgstr "Ausgewählte Downloads erfolgreich gelöscht"
+msgstr "Downloads erfolgreich gelöscht"
 
 #: admin/admin.php:1090
 msgid "Downloads edited successfully"
-msgstr "Downloads erfolgreich bearbeitet"
+msgstr "Downloads erfolgreich geändert"
 
 #: admin/admin.php:1100
 msgid "Bulk Edit Downloads"
-msgstr "Massenbearbeitung von Downloads"
+msgstr "Downloads ändern"
 
 #: admin/admin.php:1101
 msgid "Editing downloads with id's:"
-msgstr "Bearbeitung der Downloads mit den ID´s:"
+msgstr "Downloads ändern:"
 
 #: admin/admin.php:1101
 msgid "Adding options here will overwrite the options in ALL of the selected downloads."
-msgstr "Das Ändern der Einstellungen an dieser Stelle überschreibt die Einstellungen ALLER ausgewählten Downloads"
+msgstr "Das Ändern von Optionen überschreibt diese in allen selektierten Downloads."
 
 #: admin/admin.php:1111
 #: admin/admin.php:1183
@@ -564,14 +568,14 @@ msgstr "Keine Änderungen"
 
 #: admin/admin.php:1112
 msgid "Change to &darr;"
-msgstr "Geändert zu &darr;"
+msgstr "Ändern &darr;"
 
 #: admin/admin.php:1184
 #: admin/admin.php:1205
 #: admin/admin.php:1214
 #: admin/admin.php:1221
 msgid "Change to &rarr;"
-msgstr "Geändert zu &rarr;"
+msgstr "Ändern &rarr;"
 
 #: admin/admin.php:1230
 msgid "Replace with:"
@@ -579,28 +583,28 @@ msgstr "Ersetzen mit:"
 
 #: admin/admin.php:1231
 msgid "Add/Update only (keep existing fields):"
-msgstr "Nur Hinzufügen/Aktualisieren (existierende Felder beibehalten):"
+msgstr "Hinzufügen/Ändern (behalte vorhandene Felder):"
 
 #: admin/admin.php:1311
 msgid "Edit Downloads"
-msgstr "Downloads bearbeiten"
+msgstr "Downloads ändern"
 
 #: admin/admin.php:1319
 #: admin/admin.php:1478
 msgid "Actions:"
-msgstr "Aktionen:"
+msgstr "Aktion:"
 
 #: admin/admin.php:1321
 #: admin/admin.php:1480
 msgid "Bulk Actions"
-msgstr "Aktionen"
+msgstr "Aktion:"
 
 #: admin/admin.php:1322
 #: admin/admin.php:1481
 #: admin/categories.php:209
 #: wp-download_monitor.php:104
 msgid "Edit"
-msgstr "Datei bearbeiten"
+msgstr "Ändern"
 
 #: admin/admin.php:1323
 #: admin/admin.php:1482
@@ -610,23 +614,23 @@ msgstr "Löschen"
 #: admin/admin.php:1324
 #: admin/admin.php:1483
 msgid "Reset Stats"
-msgstr "Statistiken zurücksetzen"
+msgstr "Statistik zurücksetzen"
 
 #: admin/admin.php:1326
 #: admin/admin.php:1485
 msgid "Apply"
-msgstr "Anwenden"
+msgstr "Übernehmen"
 
 #: admin/admin.php:1329
 #: page-addon/download-monitor-page-addon.php:56
 #: uploader.php:779
 msgid "Search Downloads:"
-msgstr "Downloads durchsuchen:"
+msgstr "Suche Downloads:"
 
 #: admin/admin.php:1331
 #: uploader.php:781
 msgid "Search Downloads"
-msgstr "Downloads durchsuchen"
+msgstr "Suche Downloads"
 
 #: admin/admin.php:1340
 #: admin/categories.php:105
@@ -657,7 +661,7 @@ msgstr "Nur für Mitglieder"
 #: admin/admin.php:1346
 #: uploader.php:818
 msgid "Force Download"
-msgstr "Download erzwingen"
+msgstr "Download forcieren"
 
 #: admin/admin.php:1348
 #: page-addon/download-monitor-page-addon.php:230
@@ -665,15 +669,15 @@ msgstr "Download erzwingen"
 #: page-addon/download-monitor-page-addon.php:435
 #: page-addon/download-monitor-page-addon.php:516
 msgid "Hits"
-msgstr "Klicks"
+msgstr "Zähler"
 
 #: admin/admin.php:1349
 msgid "Posted"
-msgstr "Veröffentlicht"
+msgstr "veröffentlicht"
 
 #: admin/admin.php:1412
 msgid "Y/m/d"
-msgstr "d.m.Y"
+msgstr "Y/m/d"
 
 #: admin/admin.php:1443
 #: admin/admin.php:1454
@@ -681,7 +685,7 @@ msgstr "d.m.Y"
 #: uploader.php:887
 #: uploader.php:898
 msgid "N/A"
-msgstr "Nicht verfügbar"
+msgstr "k.A."
 
 #: admin/admin.php:1461
 #: admin/admin.php:1464
@@ -705,7 +709,7 @@ msgstr "Nein"
 
 #: admin/admin.php:1469
 msgid "by"
-msgstr "Von"
+msgstr "von"
 
 #: admin/admin.php:1473
 msgid "No downloads found."
@@ -714,20 +718,20 @@ msgstr "Keine Downloads gefunden."
 #: admin/admin.php:1508
 #: uploader.php:935
 msgid "&laquo; Previous"
-msgstr "&laquo; Zurück"
+msgstr "&laquo; Vorherige"
 
 #: admin/admin.php:1509
 #: uploader.php:936
 msgid "Next &raquo;"
-msgstr "Vor &raquo;"
+msgstr "Nächste &raquo;"
 
 #: admin/admin.php:1532
 msgid ""
 "You are about to delete the selected items.\n"
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
-"Du bist dabei die ausgewählten Einträge zu löschen.\n"
-"  'Abbrechen' oder, 'OK' zum Löschen."
+"Du bist dabei, die markierten Einträge zu löschen.\n"
+" 'Abbrechen' für Stop, 'OK' zum Löschen."
 
 #: admin/admin.php:1547
 msgid "Download Monitor News"
@@ -736,11 +740,11 @@ msgstr "Download Monitor News"
 #: admin/admin.php:1569
 #, php-format
 msgid "%s ago"
-msgstr "vor %s"
+msgstr "%s zuvor"
 
 #: admin/admin.php:1571
 msgid "F jS Y"
-msgstr "F jS Y"
+msgstr "F j, Y"
 
 #: admin/admin.php:1580
 msgid "No items found."
@@ -752,19 +756,19 @@ msgstr "Links, Hilfe &amp; Support"
 
 #: admin/admin.php:1588
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
-msgstr "<p>Hilfe benötigt? FAQ, Gebrauchsanweisung und andere Notizen können auf der WordPress.org <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">Pluginseite</a> gefunden werden (englisch).</p>"
+msgstr "<p>Brauchen Sie Hilfe? FAQ, Gebrauchsanweisung und weitere Informationen finden Sie <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">hier</a> auf unserer Plugin-Seite.</p>"
 
 #: admin/admin.php:1589
 msgid "<p>You can also find documentation and support at the following locations:</p>"
-msgstr "<p>Dokumentation und Support kann an folgenden Stellen gefunden werden:</p>"
+msgstr "<p>Dokumentationen und Support findest Du auch auf folgenden Seiten:</p>"
 
 #: admin/admin.php:1591
 msgid "Download Monitor on Blue-Anvil"
-msgstr "Download Monitor auf Blue-Anvil"
+msgstr "Download-Monitor auf Blue-Anvil"
 
 #: admin/admin.php:1592
 msgid "Download Monitor Documentation"
-msgstr "Download Monitor Dokumentation"
+msgstr "Download-Monitor Dokumentation"
 
 #: admin/admin.php:1593
 msgid "Support Forum"
@@ -772,27 +776,29 @@ msgstr "Support Forum"
 
 #: admin/admin.php:1598
 msgid "Support Download Monitor"
-msgstr "Download Monitor unterstützen"
+msgstr "Download-Monitor unterstützen"
 
 #: admin/admin.php:1600
 msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
-msgstr "Das Wordpress Plugin Download Monitor wurde erstellt von <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Die Entwicklung dieses Plugins hat eine Menge Zeit beansprucht. Es wäre nett, wenn Du dies mit einer kleinen Spende honorieren würdest."
+msgstr ""
+"<p>Das Wordpress-Download-Monitor-Plugin wurde von <a href=\"http://blue-anvil.com/\">Mike Jolley</a> entwickelt. Für die Entwicklung\n"
+"\t    dieses Plugins wurde sehr viel Zeit aufgewendet. Sollten Sie mit dem Plugin zufrieden sein, würden wir uns über eine Spende freuen um die Weiterentwicklung zu gewährleisten.</p>"
 
 #: admin/admin.php:1602
 msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
-msgstr "Es gibt noch andere Wege die Weiterentwicklung von Download Monitor für die Zukunft zu gewährleisten. Lasse die gesponserten Mitteilung aktiviert, bewerte das Plugin auf wordpress.org (wenn es Dir gefällt), verlinke das Plugin, berichte anderen davon und und und... All dies kann dazu beitragen, dass das Plugin stetig weiterentwickelt wird."
+msgstr "Es gibt auch andere Möglichkeiten der Unterstützung von Download Monitor, um sicherzustellen, dass er auch in Zukunft weiterentwickelt und supportet wird. Lasse die Sponsoren-Meldung aktiviert, bewerte das Plugin auf wordpress.org (wenn Du möchstest), empfehle Download Monitor weiter, verlinke zu ihm oder helfe beim Verbessern des Codes."
 
 #: admin/categories.php:38
 msgid "Download Categories"
-msgstr "Download Kategorien"
+msgstr "Download Kategorie"
 
 #: admin/categories.php:40
 msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
-msgstr "<p>Hier können Downloads kategorisiert werden. Anhand dieser Kategorien können die Dateien gruppiert und auf einer separaten Downloadseite angezeigt werden (siehe Dokumentation). <strong>Bitte beachten:</strong> Beim Löschen von Kategorien werden auch deren Unterkategorien gelöscht.</p>"
+msgstr "<p>Sie können Downloads in Kategorien unterteilen und dann Gruppen von Downloads unter Verwendung dieser Kategorien anzeigen oder auf einer eigenen Download-Seite bereitstellen (siehe Dokumentation). Achtung: Das Löschen einer Kategorie löscht auch dessen Unterkategorien.</p>"
 
 #: admin/categories.php:62
 msgid "Category updated"
-msgstr "Kategorie aktualisiert"
+msgstr "Kategorie geändert"
 
 #: admin/categories.php:75
 msgid "Category added"
@@ -800,7 +806,7 @@ msgstr "Kategorie hinzugefügt"
 
 #: admin/categories.php:76
 msgid "Category was not added. Try Recreating the download database from the configuration page."
-msgstr "Kategorie wurde nicht hinzugefügt. Versuche die Download Datenbank auf der Konfigurationsseite wiederherzustellen."
+msgstr "Die Kategorie wurde nicht hinzugefügt. Versuche, die Datenbank auf der Konfiguration-Seite wiederherzustellen."
 
 #: admin/categories.php:97
 msgid "Category deleted Successfully"
@@ -814,7 +820,7 @@ msgstr "Aktion"
 
 #: admin/categories.php:143
 msgid "No categories exist"
-msgstr "Keine Kategorien vorhanden"
+msgstr "Keine Kategorie vorhanden"
 
 #: admin/categories.php:149
 msgid "Add category"
@@ -822,7 +828,7 @@ msgstr "Kategorie hinzufügen"
 
 #: admin/categories.php:173
 msgid "Edit category"
-msgstr "Kategorie bearbeiten"
+msgstr "Kategorie ändern"
 
 #: admin/categories.php:176
 msgid "Category"
@@ -830,11 +836,11 @@ msgstr "Kategorie"
 
 #: admin/categories.php:178
 msgid "Select a category"
-msgstr "Kategorie wählen"
+msgstr "Kategorie auswählen"
 
 #: admin/config.php:41
 msgid "Download Monitor Configuration"
-msgstr "Download Monitor Konfiguration"
+msgstr "Download Monitor Einstellungen"
 
 #: admin/config.php:54
 msgid ""
@@ -847,14 +853,14 @@ msgid ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
 msgstr ""
-"<p>Download URL aktualisiert - Permalinks müssen <strong>in den WP-Permalink Einstellungen aktualisiert werden</strong> (Options/settings -> Permalinks), damit \n"
-"\t\t\t\t\t\tdie Änderungen wirksam werden.</p>\n"
-"\t\t\t\t\t\t<p>Wenn die .htaccess Datei nicht beschreibbar ist, füge Folgendes manuell über \n"
-"\t\t\t\t\tder Zeile \"# BEGIN WordPress\" ein:</p>\n"
+"<p>Download URL aktualisiert - Sie müssen die <strong>Permalinks neu speichern</strong> (Einstellungen -> Permalinks) damit \n"
+"\t\t\t\t\t\tdie Änderung wirksam wird.</p>\n"
+"\t\t\t\t\t\t<p>Sollte Ihre .htaccess Datei nicht durch WordPress verwaltet werden können, fügen Sie Folgendes in der \n"
+"\t\t\t\t\t.htaccess Datei unterhalb \"# BEGIN WordPress\" Zeile ein:</p>\n"
 "\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
 "\t\t\t\t\t\tRewriteEngine on<br/>\n"
-"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
-"\t\t\t\t\t\t<p>Ersetze \"download/\" mit der benutzerdefinierten URL und \"*your wp-content dir*\" mit Deiner wp-content URL (sofern geändert).</p>"
+"\t\t\t\t\t\tRewriteRule ^download/(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>Ersetze \"download/\" mit der benutzerdefinierten URL.</p>"
 
 #: admin/config.php:65
 msgid ""
@@ -867,14 +873,14 @@ msgid ""
 "\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\t\t\t\t\t\t<p>replacing \"download/\" with your previous custom url and \"*your wp-content dir*\" with your wp-content directory.</p>"
 msgstr ""
-"<p>Download URL aktualisiert - Permalinks müssen <strong>in den WP-Permalink Einstellungen aktualisiert werden</strong> (Options/settings -> Permalinks), damit \n"
-"\t\t\t\t\t\tdie Änderungen wirksam werden.</p>\n"
-"\t\t\t\t\t\t<p>Wenn die .htaccess Datei nicht beschreibbar ist, füge Folgendes manuell über \n"
-"\t\t\t\t\tder Zeile \"# BEGIN WordPress\" ein:</p>\n"
+"<p>Download URL aktualisiert - Sie müssen die <strong>Permalinks neu speichern</strong> (Einstellungen -> Permalinks) damit \n"
+"\t\t\t\t\t\tdie Änderung wirksam wird.</p>\n"
+"\t\t\t\t\t\t<p>Sollte Ihre .htaccess Datei nicht durch WordPress verwaltet werden können, entfernen Sie Folgendes in der \n"
+"\t\t\t\t\t.htaccess Datei (Falls vorhanden) unterhalb der \"# BEGIN WordPress\" Zeile:</p>\n"
 "\t\t\t\t\t\t<p>Options +FollowSymLinks<br/>\n"
 "\t\t\t\t\t\tRewriteEngine on<br/>\n"
-"\t\t\t\t\t\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
-"\t\t\t\t\t\t<p>Ersetze \"download/\" mit der vorherigen benutzerdefinierten URL und \"*your wp-content dir*\" mit Deiner wp-content URL (sofern geändert).</p>"
+"\t\t\t\t\t\tRewriteRule ^download/(.*) wp-content/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
+"\t\t\t\t\t\t<p>Ersetze \"download/\" mit der benutzerdefinierten URL.</p>"
 
 #: admin/config.php:94
 msgid "<p>Options updated</p>"
@@ -886,27 +892,27 @@ msgstr "Datenbank aktualisiert"
 
 #: admin/config.php:105
 msgid "Database Cleaned"
-msgstr "Datenbank bereinigt"
+msgstr "Datenbank gesäubert"
 
 #: admin/config.php:124
 msgid "Formats updated"
-msgstr "Formate aktualisiert"
+msgstr "Format aktualisiert"
 
 #: admin/config.php:135
 msgid "Format added"
-msgstr "Formate hinzugefügt"
+msgstr "Format hinzugefügt"
 
 #: admin/config.php:149
 msgid "Format deleted Successfully"
-msgstr "Formate erfolgreich gelöscht"
+msgstr "Format erfolgreich gelöscht"
 
 #: admin/config.php:164
 msgid "Custom Output Formats"
-msgstr "Benutzerdefinierte Ausgabeformate"
+msgstr "Benutzerspezifische Ausgabeformate"
 
 #: admin/config.php:166
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
-msgstr "<p>Bietet die Möglichkeit das Ausgabeformat für Downloads beliebig anzupassen.</p>"
+msgstr "<p>Erstellen Sie eigene Ausgabeformate für Downloads.</p>"
 
 #: admin/config.php:173
 #: admin/config.php:232
@@ -923,11 +929,11 @@ msgstr "Format hinzufügen"
 
 #: admin/config.php:197
 msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
-msgstr "Benutze die folgenden Tags in Deinen Ausgabeformaten: <em>Beachte</em>, dass wenn Du <code>\"</code> Zeichen (Anführungszeichen)  innerhalb bestimmter Tags verwendest (z.B. <code>\"before\"</code>), sollten diese escaped oder durch HTML Entitäten ersetzt werden."
+msgstr "Benutze die folgenden Tags in Deinen benutzerdefinierten Formaten. <em>Hinweis</em>: Wenn Du das Anführungszeichen <code>\"</code> innerhalb eines Attributes benutzt (z.B. in <code>\"before\"</code>), musst Du es selber mit dem Escape-Zeichen markieren oder HTML verwenden."
 
 #: admin/config.php:199
 msgid "Url of download (does not include hyperlink)"
-msgstr "URL des Downloads (ohne Hyperlink)"
+msgstr "URL des Downloads (beinhaltet nicht den Hyperlink)"
 
 #: admin/config.php:200
 msgid "ID of download"
@@ -935,110 +941,110 @@ msgstr "ID des Downloads"
 
 #: admin/config.php:201
 msgid "Username of whoever posted download"
-msgstr "Benutzername des Users, der die Datei hochgeladen hat"
+msgstr "Benutzername des Veröffentlichers"
 
 #: admin/config.php:202
 msgid "Version of download"
-msgstr "Dateiversion"
+msgstr "Version des Downloads"
 
 #: admin/config.php:203
 msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
-msgstr "Dateiversion. Wenn keine Version eingetragen wurde, wird auch nichts ausgegeben. Ersetze \"before\" mit vorhergehendem Text/HTML und \"after\" mit nachfolgendem Text/HTML."
+msgstr "Version des Downloads. Wird nicht angezeigt, wenn leer. Ersetze \"before\" und \"after\" ggf. mit vorstehendem bzw. nachfolgendem Text oder HTML."
 
 #: admin/config.php:204
 msgid "Title of download"
-msgstr "Titel"
+msgstr "Titel des Downloads"
 
 #: admin/config.php:205
 msgid "Filesize of download"
-msgstr "Dateigröße"
+msgstr "Dateigröße des Downloads"
 
 #: admin/config.php:206
 msgid "Outputs comma separated list of categories."
-msgstr "Ausgabe einer durch Kommata separierten Liste der Kategorien"
+msgstr "Gibt eine kommagetrennte Liste der Kategorien aus."
 
 #: admin/config.php:207
 msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
-msgstr "Gibt eine durch Kommata separierte Liste der Kategorien aus, deren Links frei definiert werden können. <code>%</code> wird mit der Kategorie-ID, <code>%2</code> mit dem Namen der Kategorie ersetzt. Kann auf der <code>[download_page]</code> benutzt werden."
+msgstr "Gibt eine kommagetrennte Liste der Kategorien verpackt in einem Link mit angegebenem href aus. <code>%</code> wird mit der Kategorie-ID ersetzt, <code>%2</code> mit dem Kategorie-Namen. Das kann zusammen mit<code>[download_page]</code> benutzt werden."
 
 #: admin/config.php:208
 #: admin/config.php:209
 #: admin/config.php:214
 #: admin/config.php:215
 msgid "or"
-msgstr "Oder"
+msgstr "oder"
 
 #: admin/config.php:208
 msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
-msgstr "(Top Level/Haupt) Download Kategorie. Ersetze \"before\" mit vorhergehendem Text/HTML und \"after\" mit nachfolgendem Text/HTML."
+msgstr "(Top-Level / Erste) Download Kategorie. Ersetze \"before\" und \"after\" ggf. mit vorstehendem bzw. nachfolgendem Text oder HTML."
 
 #: admin/config.php:209
 msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
-msgstr "(Top Level/Haupt) Download Kategorie (wenn keine gesetzt wird \"other\" ausgegeben). Ersetze \"before\" mit vorhergehendem Text/HTML und \"after\" mit nachfolgendem Text/HTML."
+msgstr "(Top-Level / Erste) Download Kategorie. Wenn keine Kategrie gesetzt, wird \"other\" ausgegeben. Ersetze \"before\" und \"after\" ggf. mit vorstehendem bzw. nachfolgendem Text oder HTML."
 
 #: admin/config.php:210
 msgid "(Top Level/First) Download Category ID."
-msgstr "ID der (Top Level/Haupt) Download Kategorie."
+msgstr "(Top-Level / Erste) Download Kategorie ID."
 
 #: admin/config.php:211
 msgid "Current hit count"
-msgstr "Aktuelle Anzahl der Klicks"
+msgstr "Aktueller Zählerstand"
 
 #: admin/config.php:212
 msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
-msgstr "Formatierter Klick-Zähler. <code>%</code> wird ersetzt mit der Anzahl der Klicks."
+msgstr "Formatierter Zählerstand. <code>%</code> wird durch den Zählerstand ersetzt."
 
 #: admin/config.php:213
 msgid "URL of the download image"
-msgstr "URL der Download-Grafik"
+msgstr "URL des Download-Bildes."
 
 #: admin/config.php:214
 msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
-msgstr "Beschreibung des Downloads. Wenn keine eingetragen wurde, wird nichts ausgegeben. Ersetze \"before\" mit vorhergehendem Text/HTML und \"after\" mit nachfolgendem Text/HTML."
+msgstr "Beschreibung zum Download. Wird nicht angezeigt, wenn leer. Ersetze \"before\" und \"after\" ggf. mit vorstehendem bzw. nachfolgendem Text oder HTML."
 
 #: admin/config.php:215
 msgid "Description formatted with autop (converts double line breaks to paragraphs)"
-msgstr "Beschreibung formatiert mit autop (doppelte Zeilenumbrüche werden zu Absätzen konvertiert)"
+msgstr "Beschreibung mit AutoP formatiert (konvertiert doppelte Zeilenumbrüche zu Absätzen)."
 
 #: admin/config.php:216
 msgid "Date posted. Second argument is for date format."
-msgstr "Datum der Veröffentlichung. Der zweite Parameter bestimmt das Datumsformat."
+msgstr "Datum der Veröffentlichung. Das zweite Argument gibt das Datums-Format an."
 
 #: admin/config.php:217
 msgid "Outputs comma separated list of tags."
-msgstr "Ausgabe einer durch Kommata separierten Liste der Tags"
+msgstr "Gibt eine kommagetrennte Liste der Schlagwörter aus."
 
 #: admin/config.php:218
 msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
-msgstr "Gibt eine durch Kommata separierte Liste der Tags aus, deren Links frei definiert werden können. % wird mit der Tag-ID, %2 mit dem Namen des Tags ersetzt."
+msgstr "Gibt eine kommagetrennte Liste der Schlagwörter verpackt in einem Link mit angegebenem href aus. <code>%</code> wird mit der Schlagwort-ID ersetzt, <code>%2</code> mit dem Schlagwort-Namen."
 
 #: admin/config.php:219
 msgid "Output thumbnail URL (or placeholder)"
-msgstr "Ausgabe der URL des Vorschaubildes (oder Platzhalter)"
+msgstr "Gibt die Thumbnail-URL (oder Platzhalter) aus."
 
 #: admin/config.php:220
 msgid "Custom field value"
-msgstr "Wert des benutzerdefinierten Feldes"
+msgstr "Benutzerfelder"
 
 #: admin/config.php:221
 msgid "Custom field value formatted with autop"
-msgstr "Wert des benutzerdefinierten Feldes (formatiert mit autop)"
+msgstr "Benutzerdefinierte Felder mit AutoP formatiert"
 
 #: admin/config.php:222
 msgid "File extension (e.g. \"zip\")"
-msgstr "Dateierweiterung (z.B. \"zip\")"
+msgstr "Datei-Erweiterung (z.B. \"zip\")"
 
 #: admin/config.php:224
 msgid "Example Format"
-msgstr "Beispiel Format"
+msgstr "Beispiel-Format"
 
 #: admin/config.php:224
 msgid "Link and description of download with hits in title:"
-msgstr "Link und Beschreibung inkl. Klicks im Titel:"
+msgstr "Link und Beschreibung des Downloads mit Zähler im Titel:"
 
 #: admin/config.php:241
 msgid "Custom Download URL"
-msgstr "Benutzerdefinierte Download URL"
+msgstr "Benutzerspezifische Download URL"
 
 #: admin/config.php:243
 msgid ""
@@ -1047,22 +1053,21 @@ msgid ""
 "                        <p>Leave this option blank to use the default download path (<code>/download-monitor/download.php?id=</code>)</p>\n"
 "                        <p>If you fill in this option ensure the custom directory does not exist on the server nor does it match a page or post's url as this can cause problems redirecting to download.php.</p>"
 msgstr ""
-"<p>Trage eine benutzerdefinierte URL für Deine Downloads ein, z.B. <code>download/</code>. Du kannst bestimmen, wie der Download verlinkt werden soll. Beispiel: \"filename\" erzeugt einen solchen Link <code>http://yoursite.com/download/filename.zip</code>. Diese Option funktioniert nur bei der Verwendung von WordPress Permalinks (nicht die Standardeinstellung).</p>\n"
-"            \t\n"
-"                        <p>Um den Standardpfad zu benutzen, dieses Feld leer lassen (<code>/download-monitor/download.php?id=</code>)</p>\n"
-"                        <p>Wenn Du von dieser Option Gebrauch machst, stelle bitte sicher, dass das eingetragene Verzeichnis nicht auf dem Server existiert, oder der URL eines Beitrags/einer Seite entspricht. Ansonsten kann dies zu Problemen mit der Weiterleitung zu download.php führen.</p>"
+"<p>Benutzerspezifische URL für Downloads z.B. <code>download/</code>. Sie können wählen, wie Sie zur Download-URL verlinken. Beispiel: Die Verwendung von \"meinname\" zeigt den Link im Format <code>http://deineseite.de/download/meinname.zip</code> an.</p>\n"
+"                        <p>Lassen Sie dieses Feld leer um den Standard Download Pfad zu verwenden (<code>wp-content/plugins/download-monitor/download.php?id=</code>)</p>\n"
+"                        <p>Wenn Sie einen Pfad eingeben, stellen Sie sicher, dass dieser bisher nicht existiert oder nicht den gleichen Namen wie eine Seiten oder Artikel verwendet. Dies könnte sonst zu Problemen bei der Umleitung zur download.php führen.</p>"
 
 #: admin/config.php:249
 msgid "Without Custom URL:"
-msgstr "Ohne benutzerdefinierte URL:"
+msgstr "Ohne benutzerspezifische URL:"
 
 #: admin/config.php:254
 msgid "With Custom URL (downloads/ID):"
-msgstr "Mit benutzerdefinierter URL (Downloads/ID):"
+msgstr "Mit bentuzerdefinierter URL (downloads/ID):"
 
 #: admin/config.php:260
 msgid "Custom URL"
-msgstr "Benutzerdefinierte URL"
+msgstr "Benutzerspezifische URL"
 
 #: admin/config.php:265
 msgid "Filename"
@@ -1074,32 +1079,32 @@ msgstr "Allgemeine Einstellungen"
 
 #: admin/config.php:280
 msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
-msgstr "Ich bin für dieses Plugin dankbar und habe am Erfolg mitgewirkt!"
+msgstr "Ich schätze dieses Plugin und will zu seinem Erfolg beitragen!"
 
 #: admin/config.php:290
 msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
-msgstr "Wenn Du Dich für das Download Monitor Plugin bedanken möchtest, gibt es verschiedene Wege dies zu tun: Entweder per Mund-zu-Mund Propaganda oder mit einer kleinen Spende. Wenn Du dies bereits getan hast, kannst Du das hier angeben (Danke dafür!). Für Mitwirkende und Sponsoren werden Mitteilungen ausgeblendet. Lies bitte die Readme Datei für weitere Details zum Thema Sponsoring und inwiefern Deine Privatsphäre geschützt wird."
+msgstr "Wenn Du Danke sagen möchtest, gibt es viele Möglichkeiten dies zu tun. Empfehle Download Monitor weiter oder spende etwas. Wenn Du das schon getan hast (Vielen Dank dafür), kannst Du das hier markieren. Für direkte Spender wird die Sponsoren-Meldung deaktiviert. (In der readme-Datei findest Du weitere Details über die Sponsoren-Meldung und den Schutz Deiner Privatsphäre.)"
 
 #: admin/config.php:294
 msgid "Disable the news/links/donate box on the Edit Download Page?"
-msgstr "Deaktivierung der News-, Links- & Spendenbox auf der <em>Datei bearbeiten</em> Seite?"
+msgstr "Die News/Links/Spenden-Box ausblenden?"
 
 #: admin/config.php:307
 msgid "\"Download not found\" redirect URL"
-msgstr "\"Download nicht gefunden\" Weiterleitungs-URL"
+msgstr "\"Download nicht gefunden\" Umleitung nach (URL)"
 
 #: admin/config.php:308
 #: admin/config.php:312
 msgid "Leave blank for no redirect."
-msgstr "Leer lassen wenn keine Weiterleitung erwünscht ist."
+msgstr "Leer lassen, falls keine Weiterleitung erfolgen soll."
 
 #: admin/config.php:311
 msgid "Member-only files non-member redirect"
-msgstr "Dateien nur für Mitarbeiter ohne Redirect"
+msgstr "Mitglieder-Download. Nicht-Mitglieder umleiten nach (URL)"
 
 #: admin/config.php:312
 msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
-msgstr "Beachte: <code>{referrer}</code> wird mit der aktuellen URL ersetzt. Nützlich wenn User zuerst zur Anmeldung und dann zurück zum Download geschickt werden. Beispiel: <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>"
+msgstr "Info: <code>{referrer}</code> wird durch aktuelle URL ersetzt. Praktisch, wenn der Benutzer zur Anmeldeseite und wieder zur&uuml;ck zum Download geleitet wird :) z.B. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
 
 #: admin/config.php:315
 msgid "Download image path"
@@ -1107,23 +1112,23 @@ msgstr "Pfad der Download-Grafik"
 
 #: admin/config.php:316
 msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
-msgstr "Dieses Bild wird bei der Verwendung des <code>#image</code> Download Tags und des <code>{image_url}</code> Tags benutzt. Bitte eine absolute URL verwenden. Beispiel: <code>http://yoursite.com/image.gif</code>"
+msgstr "Diese Grafik wird verwendet bei Benutzung des <code>#image</code> Download-Tag und dem <code>{image_url}</code> Tag. Bitte verwenden Sie absolute URL (z.B.. <code>http://deineseite.de/bild.gif</code>)."
 
 #: admin/config.php:319
 msgid "Default output format"
-msgstr "Standardausgabeformat"
+msgstr "Standard-Ausgabeformat"
 
 #: admin/config.php:338
 msgid "Log Downloads"
-msgstr "Downloads protokollieren"
+msgstr "Downloads loggen"
 
 #: admin/config.php:351
 msgid "File Browser Root"
-msgstr "Dateibrowser Hauptverzeichnis"
+msgstr "Datei-Browser Root"
 
 #: admin/config.php:352
 msgid "The root directory the file browser can display."
-msgstr "Das Hauptverzeichnis, dass der Dateibrowser anzeigen soll."
+msgstr "Das Wurzelverzeichnis, das der Datei-Browser anzeigen kann."
 
 #: admin/config.php:375
 msgid "Advanced Stuff"
@@ -1131,15 +1136,15 @@ msgstr "Erweiterte Einstellungen"
 
 #: admin/config.php:377
 msgid "Upgrade from 3.2.3"
-msgstr "Aktualisierung von 3.2.3"
+msgstr "Upgrade von 3.2.3"
 
 #: admin/config.php:378
 msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
-msgstr "<p>Die Datenbankstruktur von Download Monitor hat sich seit Version 3.3 geändert. Dies wurde durch das Hinzufügen von Kategorien notwendig.</p>"
+msgstr "<p>Download Monitor nutzt seit Version 3.3 eine neues Tabellen-Format, um einiges zu bereinigen und multiple Kategorien zu ermöglichen.</p>"
 
 #: admin/config.php:379
 msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
-msgstr "<p>Dieses Update sollte durchgeführt werden, sobald das Plugin aktiviert wurde. Wenn nicht (aus welchem Grund auch immer), können durch diese Funktion die neuen Datenbankeinträge angelegt und die Inhalte der alten Datenbankeinträge importiert werden.</p>"
+msgstr "<p>Dieses update sollte beim Aktivieren des Plugins durchgeführt worden sein. Wenn nicht, kannst Du diese Funktion nutzen, um die neuen Tabellen zu erzeugen und die Daten aus den alten Tabellen zu importieren.</p>"
 
 #: admin/config.php:381
 msgid "Upgrade Database"
@@ -1147,19 +1152,19 @@ msgstr "Datenbank aktualisieren"
 
 #: admin/config.php:384
 msgid "Upgraded Successfully? Cleanup!"
-msgstr "Erfolgreich aktualisiert? Dann noch bereinigen!"
+msgstr "Upgrade erfolgreich? Aufräumen bitte!"
 
 #: admin/config.php:385
 msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
-msgstr "<p>Wie oben erwähnt wurden einige Tabellen ab Version 3.3 umbenannt. Wenn das Update erfolgreich war, kann diese Funktion zum Löschen der veralteten Datenbankeinträge verwendet werden (bislang wurden diese als Backup behalten).</p>"
+msgstr "<p>Wie oben angegeben, werden die Tabellen ab Version 3.3 umbenannt. Wenn das Upgrade erfolgreich war, können mit dieser Funktion die alten Tabellen gelöscht werden. (Ich habe sie als Beckup belassen).</p>"
 
 #: admin/config.php:386
 msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
-msgstr "<p>WARNUNG: Dies könnte Datenbankeinträge der Downloads löschen - Erstelle zuerst ein Datenbankbackup!</p>"
+msgstr "<p><b>Warnung: Dieser Vorgang könnte Daten in der Datenbank löschen. Machen Sie zuerst ein Backup!</b></p>"
 
 #: admin/config.php:388
 msgid "Clean me up Scotty"
-msgstr "Jetzt bereinigen"
+msgstr "Clean me up Scotty"
 
 #: admin/dashboard.php:72
 msgid "D j M"
@@ -1187,11 +1192,11 @@ msgstr "Vorherige 6 Monate"
 
 #: admin/dashboard.php:100
 msgid "Last 6 months"
-msgstr "Letzte 6 Monate"
+msgstr "Letzten 6 Monate"
 
 #: admin/dashboard.php:101
 msgid "Next 6 months"
-msgstr "Nächste 6 Monate"
+msgstr "Nächsten 6 Monate"
 
 #: admin/dashboard.php:111
 msgid "Weekly"
@@ -1203,7 +1208,7 @@ msgstr "Monatlich"
 
 #: admin/dashboard.php:115
 msgid "Select a download"
-msgstr "Download wählen"
+msgstr "Download auswählen"
 
 #: admin/dashboard.php:123
 #: functions.inc.php:253
@@ -1230,16 +1235,16 @@ msgstr "Nichts gefunden"
 
 #: admin/dashboard.php:191
 msgid "Most Downloaded"
-msgstr "Häufigste Downloads"
+msgstr "Am meisten heruntergeladen"
 
 #: admin/dashboard.php:222
 msgid "No stats yet"
-msgstr "Keine Statistiken vorhanden"
+msgstr "Keine Statistik vorhanden"
 
 #: admin/dashboard.php:234
 #: admin/dashboard.php:255
 msgid "Download Stats"
-msgstr "Download Statistiken"
+msgstr "Download Statistik"
 
 #: admin/dashboard.php:235
 #: admin/dashboard.php:289
@@ -1248,11 +1253,11 @@ msgstr "Top 5 Downloads"
 
 #: admin/logs.php:45
 msgid "Download Logs"
-msgstr "Download Protokolle"
+msgstr "Download-Statistik"
 
 #: admin/logs.php:47
 msgid "Clear Log"
-msgstr "Protokolle löschen"
+msgstr "Log löschen"
 
 #: admin/logs.php:54
 msgid "User"
@@ -1276,7 +1281,7 @@ msgstr "jS M Y H:i:s"
 
 #: admin/logs.php:107
 msgid "No downloads logged."
-msgstr "Keine Downloads protokolliert."
+msgstr "Keine Statistik-Daten vorhanden"
 
 #: admin/logs.php:119
 #: admin/logs.php:120
@@ -1287,7 +1292,7 @@ msgstr "Keine Downloads protokolliert."
 #: page-addon/download-monitor-page-addon.php:545
 #: page-addon/download-monitor-page-addon.php:546
 msgid "Previous"
-msgstr "Zurück"
+msgstr "Vorherige"
 
 #: admin/logs.php:133
 #: admin/logs.php:134
@@ -1298,14 +1303,14 @@ msgstr "Zurück"
 #: page-addon/download-monitor-page-addon.php:558
 #: page-addon/download-monitor-page-addon.php:559
 msgid "Next"
-msgstr "Vor"
+msgstr "Nächste"
 
 #: classes/downloadable_file.class.php:235
 #: classes/downloadable_file.class.php:244
 #: classes/downloadable_file.class.php:266
 #: page-addon/download-monitor-page-addon.php:55
 msgid "Other"
-msgstr "Weitere"
+msgstr "Andere"
 
 #: classes/downloadable_file.class.php:253
 msgid "Uncategorized"
@@ -1313,23 +1318,23 @@ msgstr "Unkategorisiert"
 
 #: download.php:149
 msgid "You must be logged in to download this file."
-msgstr "Du musst angemeldet sein um diese Datei herunterzuladen."
+msgstr "Sie müssen angemeldet sein, um diese Datei herunterladen zu können."
 
 #: download.php:166
 msgid "You do not have permission to download this file."
-msgstr "Du bist nicht berechtigt diese Datei herunterzuladen."
+msgstr "Sie haben nicht die nötigen Rechte, um diese Datei herunterzuladen."
 
 #: download.php:510
 msgid "Forcing the download of externally hosted files is not supported by this server."
-msgstr "Das Erzwingen des Downloads von extern gespeicherten Dateien wird von diesem Server nicht unterstützt."
+msgstr "Der Download von externen Hosts wird von diesem Server nicht ünterstützt."
 
 #: download.php:516
 msgid "Download path is invalid!"
-msgstr "Downloadpfad ungültig!"
+msgstr "Dateipfad ist fehlerhaft!"
 
 #: download.php:549
 msgid "Download does not exist!"
-msgstr "Dieser Download existiert nicht!"
+msgstr "Download nicht vorhanden!"
 
 #: functions.inc.php:159
 #, php-format
@@ -1359,7 +1364,7 @@ msgstr "Downloads"
 #: init.php:30
 #: init.php:32
 msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
-msgstr "Download Monitor 3.3 (und höher) verwendet eine neue Datenbankstruktur. Dadurch müssen die Datenbankeinträge von früheren Versionen aktualisiert werden. <strong>Bitte zuerst ein Backup der Datenbank erstellen</strong> und erst dann"
+msgstr "Download Monitor 3.3 (und höher) verwendet eine andere Datenbankstruktur. Dies ist notwendig, um multiple Kategorien zu ermöglichen. Du musst Deine Datenbank updaten, damit diese Version funktioniert. <strong>Mache zuerst ein Backup Deiner Datenbank!</strong>"
 
 #: init.php:30
 #: init.php:32
@@ -1369,7 +1374,7 @@ msgstr "hier klicken"
 #: init.php:30
 #: init.php:32
 msgid "to run the update script"
-msgstr "um die Aktualisierung zu starten!"
+msgstr "um das Update-Script laufen zu lassen"
 
 #: legacy_shortcodes.php:51
 #: legacy_shortcodes.php:77
@@ -1384,7 +1389,7 @@ msgstr "um die Aktualisierung zu starten!"
 #: shortcodes.php:59
 #: shortcodes.php:134
 msgid "downloaded"
-msgstr "Heruntergeladen"
+msgstr "heruntergeladen"
 
 #: legacy_shortcodes.php:51
 #: legacy_shortcodes.php:77
@@ -1401,20 +1406,20 @@ msgstr "Heruntergeladen"
 #: shortcodes.php:59
 #: shortcodes.php:134
 msgid "times"
-msgstr "Mal"
+msgstr "mal"
 
 #: legacy_shortcodes.php:180
 #: page-addon/download-monitor-page-addon.php:66
 #: page-addon/download-monitor-page-addon.php:712
 msgid "Downloaded"
-msgstr "Heruntergeladen"
+msgstr "heruntergeladen"
 
 #: legacy_shortcodes.php:219
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
 msgid "jS M Y"
-msgstr "jS M Y"
+msgstr "jS M Y "
 
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
@@ -1423,43 +1428,43 @@ msgstr "Hinzugefügt"
 
 #: legacy_shortcodes.php:263
 msgid "Most Popular Downloads"
-msgstr "Beliebteste Downloads"
+msgstr "Die beliebtesten Downloads"
 
 #: legacy_shortcodes.php:283
 msgid "No Downloads Found"
-msgstr "Keine Downloads gefunden"
+msgstr "Keine Downloads vorhanden"
 
 #: page-addon/download-monitor-page-addon.php:53
 msgid "Popular Downloads"
-msgstr "Beliebte Downloads"
+msgstr "Beliebteste Downloads"
 
 #: page-addon/download-monitor-page-addon.php:57
 msgid "Go"
-msgstr "Los"
+msgstr "Start"
 
 #: page-addon/download-monitor-page-addon.php:58
 msgid "Results found for "
-msgstr "Ergebnisse für"
+msgstr "Suchergebnis für"
 
 #: page-addon/download-monitor-page-addon.php:59
 msgid "No downloads were found."
-msgstr "Es wurden keine Downloads gefunden"
+msgstr "Keine Downloads gefunden."
 
 #: page-addon/download-monitor-page-addon.php:60
 msgid "No download found matching given ID."
-msgstr "Es wurden keine Downloads gefunden, die dieser ID zugeordnet werden können."
+msgstr "Keine Downloads mit der gesuchten ID vorhanden."
 
 #: page-addon/download-monitor-page-addon.php:67
 msgid " time"
-msgstr " Mal"
+msgstr " mal"
 
 #: page-addon/download-monitor-page-addon.php:68
 msgid " times"
-msgstr " Mal"
+msgstr " mal"
 
 #: page-addon/download-monitor-page-addon.php:69
 msgid "Date posted"
-msgstr "Datum der Veröffentlichung"
+msgstr "Veröffentlichungsdatum"
 
 #: page-addon/download-monitor-page-addon.php:70
 msgid "F j, Y"
@@ -1467,7 +1472,7 @@ msgstr "F j, Y"
 
 #: page-addon/download-monitor-page-addon.php:72
 msgid "Read More"
-msgstr "Weiterlesen"
+msgstr "Lesen Sie mehr"
 
 #: page-addon/download-monitor-page-addon.php:73
 msgid "Sub-Categories:"
@@ -1479,7 +1484,7 @@ msgstr "Sortiert nach:"
 
 #: page-addon/download-monitor-page-addon.php:75
 msgid "Downloads tagged:"
-msgstr "Downloads getagged:"
+msgstr "Downloads markiert:"
 
 #: shortcodes.php:152
 msgid "No Downloads found"
@@ -1497,7 +1502,7 @@ msgstr "Grau"
 
 #: uploader.php:93
 msgid "You do not have permission to upload files/downloads."
-msgstr "Du bist nicht berechtigt Downloads hochzuladen/anzulegen."
+msgstr "Sie haben keine ausreichenden Rechte, um Dateien hochzuladen."
 
 #: uploader.php:101
 msgid "Uploads"
@@ -1509,27 +1514,27 @@ msgstr "WordPress"
 
 #: uploader.php:268
 msgid "View Downloads"
-msgstr "Downloads anzeigen"
+msgstr "Zeige Downloads"
 
 #: uploader.php:309
 msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
-msgstr "<div id=\"media-upload-error\">Erforderliches Feld: <strong>Titel</strong> vergessen</div>"
+msgstr "<div id=\"media-upload-error\">Pflichtfeld: <strong>Titel</strong> nicht ausgefüllt</div>"
 
 #: uploader.php:311
 msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
-msgstr "<div id=\"media-upload-error\">Ungültige <strong>Hits</strong> eingegeben</div>"
+msgstr "<div id=\"media-upload-error\">Ungültiger <strong>Zähler</strong> eingegeben</div>"
 
 #: uploader.php:451
 msgid "<div id=\"media-upload-error\">Error saving to database</div>"
-msgstr "<div id=\"media-upload-error\">Fehler beim Speichern in der Datenbank</div>"
+msgstr "<div class=\"media-upload-error\">Fehler beim Speichern in die Datenbank</div>"
 
 #: uploader.php:461
 msgid "Download Information"
-msgstr "Download Information"
+msgstr "Download Informationen"
 
 #: uploader.php:550
 msgid "Mirrors"
-msgstr "Mirrors"
+msgstr "Download-Mirrors"
 
 #: uploader.php:733
 msgid "Save new download"
@@ -1537,21 +1542,21 @@ msgstr "Neuen Download speichern"
 
 #: uploader.php:741
 msgid "Insert new download into post"
-msgstr "Neuen Download in Beitrag einfügen"
+msgstr "Neuen Download in Seite einfügen"
 
 #: uploader.php:743
 #: uploader.php:789
 msgid "Insert into post using format:"
-msgstr "Beim Einfügen folgendes Format verwenden:"
+msgstr "Formatiert in Seite einfügen:"
 
 #: uploader.php:744
 #: uploader.php:792
 msgid "Default"
-msgstr "Default"
+msgstr "Voreinstellung"
 
 #: uploader.php:757
 msgid "Insert into post"
-msgstr "In Beitrag einfügen"
+msgstr "In Seite einfügen"
 
 #: uploader.php:911
 msgid "Insert"
@@ -1559,17 +1564,205 @@ msgstr "Einfügen"
 
 #: wp-download_monitor.php:105
 msgid "Add New"
-msgstr "Datei hinzufügen"
+msgstr "Hinzufügen"
 
 #: wp-download_monitor.php:106
 msgid "Add Directory"
-msgstr "Aus Verzeichnis hinzufügen"
+msgstr "Verzeichnis hinzufügen"
 
 #: wp-download_monitor.php:110
 msgid "Configuration"
-msgstr "Konfiguration"
+msgstr "Einstellungen"
 
 #: wp-download_monitor.php:111
 msgid "Log"
-msgstr "Protokoll"
+msgstr "Statistik"
+
+#~ msgid "Search Downloads: "
+#~ msgstr "Suche Downloads:"
+#~ msgid "<div id=\"media-upload-error\">No file selected</div>"
+#~ msgstr "<div id=\"media-upload-error\">Keine Datei ausgewählt</div>"
+#~ msgid ""
+#~ "<div id=\"media-upload-error\">Error saving to database - check downloads "
+#~ "table exists.</div>"
+#~ msgstr ""
+#~ "<div id=\"media-upload-error\">Fehler beim Speichern in die Datenbank - "
+#~ "Überprüfen Sie, ob die Download-Tabelle besteht.</div>"
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise simular "
+#~ "downloads."
+#~ msgstr ""
+#~ "Kategorien können optional angelegt werden. Sie erleichtern die "
+#~ "Gruppierung und Verwaltung."
+#~ msgid ""
+#~ "Separate tags with commas. Tags can be displayed on the download page or "
+#~ "with {tags} in a custom format."
+#~ msgstr ""
+#~ "Mit Komma getrennte Tags. Tags lönnen auf der Downloadseite oder mit dem "
+#~ "Platzhalter {tags} in benutzerdefinierten Formaten angezeigt werden."
+#~ msgid "Upload/link to existing file"
+#~ msgstr "Hochladen/Link zu vorhandener Datei"
+#~ msgid "&mdash; OR &mdash;"
+#~ msgstr "&mdash; ODER &mdash;"
+#~ msgid "Add Existing"
+#~ msgstr "Vorhandenen hinzufügen"
+#~ msgid "Required field: <strong>File URL</strong> omitted"
+#~ msgstr "Pflichtfeld: <strong>Datei URL</strong> nicht ausgefüllt"
+#~ msgid ""
+#~ "Categories are optional and allow you to group and organise similar "
+#~ "downloads."
+#~ msgstr ""
+#~ "Kategorien sind optional, erleichtern jedoch die Gruppierung und "
+#~ "Verwaltung."
+#~ msgid "File URL (required)"
+#~ msgstr "Datei URL (benötigt)"
+#~ msgid ""
+#~ "Note: changes to the file url will only work if not uploading a new file "
+#~ "below."
+#~ msgstr ""
+#~ "Info: Änderungen an der Datei URL funktionieren nur, falls unterhalb "
+#~ "keine neue Datei hochgeladen wurde."
+#~ msgid "Here you can upload/re-upload the file from your computer."
+#~ msgstr "Hier können Sie eine Datei von Ihrem Computer hochladen."
+#~ msgid ""
+#~ "If chosen, the old file will be deleted from the server (if it exists) "
+#~ "before uploading the new file."
+#~ msgstr ""
+#~ "Wenn ausgewählt, die alte Datei wird auf dem Server gelöscht (falls "
+#~ "vorhanden) bevor die neue Datei hochgeladen wird."
+#~ msgid ""
+#~ "<p>Use the following tags in your custom formats: <em>note</em> if you "
+#~ "use <code>\"</code> (quote) characters within the special attributes e.g. "
+#~ "<code>\"before\"</code> you should either escape them or use html "
+#~ "entities.</p><ul style=\"margin-left:16px;margin-bottom:12px;\">\n"
+#~ "\t                \t<li><code>{url}</code> - Url of download (does not "
+#~ "include hyperlink)</li>\n"
+#~ "\t                \t<li><code>{id}</code> - ID of download</li>\n"
+#~ "\t                \t<li><code>{user}</code> - Username of whoever posted "
+#~ "download</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Version of download</"
+#~ "li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Version of download. Not outputted if none set. Replace \"before\" with "
+#~ "preceding text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Title of download</li>\n"
+#~ "\t                \t<li><code>{size}</code> - Filesize of download</li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> or "
+#~ "<code>{category}</code> - Download Category. Replace \"before\" with "
+#~ "preceding text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{category_other,\"before\",\"after\"}</"
+#~ "code> or <code>{category_other}</code> - Download Category (but if no "
+#~ "category is set \"other\" is returned. Replace \"before\" with preceding "
+#~ "text/html and \"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{category_ID}</code> - Download Category ID."
+#~ "</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Current hit count</li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Formatted hit count depending on hits. <code>%</code> replaced "
+#~ "with hit count.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - URL of the download "
+#~ "image</li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> "
+#~ "or <code>{description}</code> - Description you gave download. Not "
+#~ "outputted if none set. Replace \"before\" with preceding text/html and "
+#~ "\"after\" with succeeding text/html.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> or <code>{description-autop}</code> - Description formatted with "
+#~ "autop (converts double line breaks to paragraphs)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - Date posted. "
+#~ "Second argument is for date format.</li>\n"
+#~ "\t                \t<li><code>{tags}</code> - Output tags</li>\n"
+#~ "\t                \t<li><code>{thumbnail}</code> - Output thumbnail URL "
+#~ "(or placeholder)</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Custom field "
+#~ "value</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Custom "
+#~ "field value formatted with autop</li>\n"
+#~ "\t                </ul>\n"
+#~ "\t                \t<p><strong>Example Format -</strong> Link and "
+#~ "description of download with hits in title:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title=\"Downloaded "
+#~ "{hits} times\"&gt;{title}&lt;/a&gt; - {description}</code></p>\n"
+#~ "\t                "
+#~ msgstr ""
+#~ "<p>Benutzen Sie die nachfolgenden Begriffe in ihrem benutzerdefinierten "
+#~ "Format: <em>Info</em> Sollten Sie <code>\"</code> (quote) verwenden, z.B. "
+#~ "um <code>\"hier\"</code> als Befehl zu nutzen, setzen Sie davor das <code>"
+#~ "\\</code>, also <code>\\\"hier\\\"</code></p><ul style=\"margin-left:16px;"
+#~ "margin-bottom:12px;\">\n"
+#~ "\t                \t<li><code>{url}</code> - Url des Downloads (ohne "
+#~ "Hyperlink)</li>\n"
+#~ "\t                \t<li><code>{version}</code> - Version der Download-"
+#~ "Datei</li>\n"
+#~ "\t                \t<li><code>{version,\"before\",\"after\"}</code> - "
+#~ "Version der Download-Datei. (unterdrückt, wenn nicht vorhanden). Ersetzt "
+#~ "\"before\" mit vorangehenden text/html und \"after\" mit nachfolgendem "
+#~ "text/html.</li>\n"
+#~ "\t                \t<li><code>{title}</code> - Titel des Downloads</li>\n"
+#~ "\t                \t<li><code>{size}</code> - Dateigröße der Download-"
+#~ "Datei</li>\n"
+#~ "\t                \t<li><code>{category,\"before\",\"after\"}</code> oder "
+#~ "<code>{category}</code> - Download-Kategorie. Ersetzt \"before\" mit "
+#~ "vorangehenden text/html und \"after\" mit nachfolgendem text/html.</li>\n"
+#~ "\t                \t<li><code>{hits}</code> - Aktueller Zähler </li>\n"
+#~ "\t                \t<li><code>{hits,\"No hits\",\"1 Hit\",\"% hits\"}</"
+#~ "code> - Formatierter Zähler (je nach Hits). <code>%</code> wird ersetzt "
+#~ "durch Anzahl der Hits.</li>\n"
+#~ "\t                \t<li><code>{image_url}</code> - URL der Download-"
+#~ "Grafik (Icon)</li>\n"
+#~ "\t                \t<li><code>{description,\"before\",\"after\"}</code> "
+#~ "oder <code>{description}</code> - Beschreibung des Downloads "
+#~ "(unterdrückt, wenn nicht vorhanden). Ersetzt \"before\" mit vorangehenden "
+#~ "text/html und \"after\" mit nachfolgendem text/html.</li>\n"
+#~ "\t                \t<li><code>{description-autop,\"before\",\"after\"}</"
+#~ "code> oder <code>{description-autop}</code> - Beschreibung formatiert mit "
+#~ "autop (wandelt doppelte Zeilenumbrüche in Paragraphen)</li>\n"
+#~ "\t                \t<li><code>{date,\"Y-m-d\"}</code> - "
+#~ "Veröffentlichungsdatum. Das zweite Argument bezieht sich auf das "
+#~ "Datumsformat.</li>\n"
+#~ "\t                \t<li><code>{meta-<em>key</em>}</code> - Wert eines "
+#~ "benutzerdefinierten Feldes</li>\n"
+#~ "\t                \t<li><code>{meta-autop-<em>key</em>}</code> - Wert "
+#~ "eines benutzerdefinierten Feldes formatiert mit autop</li>\n"
+#~ "\t                </ul>\n"
+#~ "\t                \t<p><strong>Beispiel Format -</strong> Link und "
+#~ "Beschreibung eines Downloads mit Zählerstand im Titel:</p>\n"
+#~ "\t                \t<p><code>&lt;a href=\"{url}\" title="
+#~ "\"heruntergeladen: {hits} mal\"&gt;{title}&lt;/a&gt; - {description}</"
+#~ "code></p>\n"
+#~ "\t                "
+#~ msgid "Recreate Download Database"
+#~ msgstr "Wiederherstellung der Download-Datenbank"
+#~ msgid ""
+#~ "<p>This will delete the old download monitor tables and recreate them. "
+#~ "You should only do this as a last resort if experiencing database errors "
+#~ "after updating the plugin. Download monitor will attempt to re-add any "
+#~ "downloads currently in the database.</p>"
+#~ msgstr ""
+#~ "<p>Dies löscht ihre alte Download-Monitor-Tabelle und baut diese neu auf. "
+#~ "Sie sollten diesen Schritt nur als letzte Möglichkeit nutzen, falls es "
+#~ "nach einem Plugin-Update zu Datenbank-Problemen kommt. Der Download "
+#~ "Monitor wird versuchen, Ihre bisherigen Downloads in die neue Tabelle "
+#~ "wieder einzufügen.</p>"
+#~ msgid "Add Existing Download"
+#~ msgstr "Vorhandenen Download hinzufügen"
+#~ msgid "Url"
+#~ msgstr "Url"
+#~ msgid "Save"
+#~ msgstr "Speichern"
+#~ msgid ""
+#~ "<p>The plugin has recently been updated - You may need to <strong>re-save "
+#~ "your permalinks settings</strong> (Options/settings -> Permalinks) for "
+#~ "the changes to occur in your blog.</p><p>If you encounter any errors, "
+#~ "such as not being able to save a file to the database, try using the "
+#~ "Recreate Download Database option.</p></div>"
+#~ msgstr ""
+#~ "<p>Das Plugin wurde kürzlich aktualisiert - Sie müssen <strong>die "
+#~ "Permalinks neu speichern</strong> (Einstellungen -> Permalinks) damit die "
+#~ "Einstellung wirksam wird.</p><p>Sollten Sie einen Fehler feststellen, wie "
+#~ "z.B. dass das Speichern in der Datenbank  nicht möglich ist, versuchen "
+#~ "Sie die Wiederherstellung unter Download-Einstellungen-Wiederherstellung "
+#~ "Download Datenbank.</p></div>"
+#~ msgid "No downloads added yet."
+#~ msgstr "Bisher keine Downloads hinzugefügt."
 
