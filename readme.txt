@@ -107,8 +107,17 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 == Changelog ==
 
-= 3.3.3.8 = 
+= 3.3.3.9 = 
+*	Pre-loading meta and relationships again - less queries, better performance
+*	Improved download page loading time
+*	Using built in stripslashes_deep to fix magic_quotes stuff
+*	Made filesize save to custom fields so we don't need to look it up every pageload
+*	Fixed strstr bug on delete
+*	Added option in config to disable mirror selection
+*	wp_dlm_ins_button dropdown on post screen is history - use the media button instead. Dropdown was slow and not very usable (when you had shed loads of downloads).
+*	htmlspecialchars_decode in download.php for people with dodgy file names
 
+= 3.3.3.8 = 
 *	Updated German translation
 *	Fatal error: Unsupported operand types in /var/www/wp-content/plugins/download-monitor/classes/downloadable_file.class.php on line 226 glitch should be fixed
 

@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.3.8
+Version: 3.3.3.9
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -50,7 +50,7 @@ Author URI: http://blue-anvil.com
 		}
 	}
 	
-	$dlm_build="20100320";
+	$dlm_build="20100420";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
@@ -89,6 +89,8 @@ Author URI: http://blue-anvil.com
 	$download_formats_array = '';
 	$download_formats_names_array = '';
 	$meta_blank = '';
+	$download2taxonomy_array = '';
+	$download_meta_data_array = '';
 
 ################################################################################
 // Includes
@@ -96,20 +98,23 @@ Author URI: http://blue-anvil.com
 
 	include_once(WP_PLUGIN_DIR.'/download-monitor/functions.inc.php');				/* Various functions used throughout */
 	include_once(WP_PLUGIN_DIR.'/download-monitor/init.php');						/* Inits the DB/Handles updates */
-	include_once(WP_PLUGIN_DIR.'/download-monitor/legacy_shortcodes.php');			/* Old Style shortcodes */
-	include_once(WP_PLUGIN_DIR.'/download-monitor/shortcodes.php');					/* New Style shortcodes */
-	include_once(WP_PLUGIN_DIR.'/download-monitor/admin/admin.php');					/* Admin Interface */
 	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/downloadable_file.class.php');		/* Download Class */
 	include_once(WP_PLUGIN_DIR.'/download-monitor/classes/download_taxonomies.class.php');		/* Taxonomy Class */ 
+
+	if (is_admin()) :
+		include_once(WP_PLUGIN_DIR.'/download-monitor/admin/admin.php');					/* Admin Interface */
+	else :
+		include_once(WP_PLUGIN_DIR.'/download-monitor/legacy_shortcodes.php');			/* Old Style shortcodes */
+		include_once(WP_PLUGIN_DIR.'/download-monitor/shortcodes.php');					/* New Style shortcodes */
+		if (!function_exists('wp_dlmp_styles')) include(WP_PLUGIN_DIR.'/download-monitor/page-addon/download-monitor-page-addon.php');	/* Download Page */
+	endif;
 																					
 ################################################################################
 // Set up menus within the wordpress admin sections
 ################################################################################
 
 function wp_dlm_menu() { 
-	global $wp_dlm_root;	
-	
-	global $wp_roles;
+	global $wp_dlm_root, $wp_roles;
 	
 	if (class_exists('WP_Roles')) 	
 		if ( ! isset( $wp_roles ) )
@@ -170,17 +175,15 @@ if (!empty($dlm_url)) add_filter('mod_rewrite_rules', 'wp_dlm_rewrite');
 	
 function wp_dlm_init_hooks() {
 
-	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank;
+	global $wp_db_version, $wpdb, $table_prefix, $dlm_build, $wp_dlm_root, $wp_dlm_image_url, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_formats, $wp_dlm_db_stats, $wp_dlm_db_log, $wp_dlm_db_meta, $def_format, $dlm_url, $downloadtype, $downloadurl, $wp_dlm_db_exists, $download_taxonomies, $download_formats, $download_formats_array, $download_formats_names_array, $meta_blank, $download2taxonomy_array, $download_meta_data_array;
 	
 	$wp_dlm_build = get_option('wp_dlm_build');
 	
 	if (is_admin()) :
 		if (((isset($_GET['activate']) && $_GET['activate']==true)) || ($dlm_build != $wp_dlm_build)) {
 			wp_dlm_init_or_upgrade();
-		}
+		}		
 	endif;
-	
-	if (is_admin()) wp_enqueue_script('jquery-ui-sortable');
 	
 	if ($wp_dlm_db_exists==true) {
 
@@ -188,29 +191,51 @@ function wp_dlm_init_hooks() {
 		// Pre-fetch data before its needed to lessen queries later
 		################################################################################
 		
-		$download_taxonomies	= new download_taxonomies();
-		$download_formats 		= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_formats;" );
-		$download_formats_array = array();
-		$download_formats_names_array = array();
-		if ($download_formats) foreach ($download_formats as $format) {
-			$download_formats_array[$format->id] = $format;
-			$download_formats_names_array[] = $format->name;
-		}
-		$meta_blank = $wpdb->get_col( "SELECT meta_name FROM $wp_dlm_db_meta;" );
-	
-		add_filter('the_content', 'wp_dlm_parse_downloads',1); 
-		add_filter('the_excerpt', 'wp_dlm_parse_downloads',1);
-		add_filter('the_meta_key', 'wp_dlm_parse_downloads',1);
-		add_filter('widget_text', 'wp_dlm_parse_downloads',1);
-		add_filter('widget_title', 'wp_dlm_parse_downloads',1);
-		add_filter('the_content', 'wp_dlm_parse_downloads_all',1);
-		add_filter('admin_head', 'wp_dlm_ins_button');
-		add_action('media_buttons', 'wp_dlm_add_media_button', 20);
+		### Get taxonomies
+			$download_taxonomies	= new download_taxonomies();
 		
-		add_filter('the_excerpt', 'do_shortcode',11);
-		add_filter('the_meta_key', 'do_shortcode',11);
-		add_filter('widget_text', 'do_shortcode',11);
-		add_filter('widget_title', 'do_shortcode',11);
+		### Get formats		
+			$download_formats 		= $wpdb->get_results( "SELECT * FROM $wp_dlm_db_formats;" );
+			$download_formats_array = array();
+			$download_formats_names_array = array();
+			if ($download_formats) foreach ($download_formats as $format) {
+				$download_formats_array[$format->id] = $format;
+				$download_formats_names_array[] = $format->name;
+			}
+		
+		### Get names of meta fields
+			$meta_blank = $wpdb->get_col( "SELECT DISTINCT meta_name FROM $wp_dlm_db_meta;" );
+		
+		### Download 2 taxonomies
+			$download2taxonomy_data = $wpdb->get_results( "SELECT download_id, GROUP_CONCAT(DISTINCT taxonomy_id) AS taxonomies FROM $wp_dlm_db_relationships GROUP BY download_id;" );
+			$download2taxonomy_array = array();
+			if ($download2taxonomy_data) foreach ($download2taxonomy_data as $data) {
+				$download2taxonomy_array[$data->download_id] = explode(',',$data->taxonomies);
+			}
+			
+		### Meta Data
+			$download_meta_data = $wpdb->get_results( "SELECT download_id, meta_name, meta_value FROM $wp_dlm_db_meta;" );
+			$download_meta_data_array = array();
+			if ($download_meta_data) foreach ($download_meta_data as $data) {
+				$download_meta_data_array[$data->download_id][$data->meta_name] = stripslashes($data->meta_value);
+			}
+		
+		if (!is_admin()) :
+			add_filter('the_content', 'wp_dlm_parse_downloads',1); 
+			add_filter('the_excerpt', 'wp_dlm_parse_downloads',1);
+			add_filter('the_meta_key', 'wp_dlm_parse_downloads',1);
+			add_filter('widget_text', 'wp_dlm_parse_downloads',1);
+			add_filter('widget_title', 'wp_dlm_parse_downloads',1);
+			add_filter('the_content', 'wp_dlm_parse_downloads_all',1);			
+			
+			add_filter('the_excerpt', 'do_shortcode',11);
+			add_filter('the_meta_key', 'do_shortcode',11);
+			add_filter('widget_text', 'do_shortcode',11);
+			add_filter('widget_title', 'do_shortcode',11);
+		else :
+			wp_enqueue_script('jquery-ui-sortable');
+			add_action('media_buttons', 'wp_dlm_add_media_button', 20);
+		endif;
 	}
 }
 add_action('init','wp_dlm_init_hooks');
@@ -219,10 +244,4 @@ function wp_dlm_activate() {
 	wp_dlm_init_or_upgrade();		
 }
 register_activation_hook( __FILE__, 'wp_dlm_activate' );
-
-################################################################################
-// Addons
-################################################################################
-
-if (!function_exists('wp_dlmp_styles')) include(WP_PLUGIN_DIR.'/download-monitor/page-addon/download-monitor-page-addon.php');
 ?>

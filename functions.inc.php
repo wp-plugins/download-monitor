@@ -25,16 +25,10 @@
 
 if (!function_exists('wp_dlm_magic')) {
 function wp_dlm_magic() { 
-	if (!function_exists('stripit')) {
-	function stripit($in) {
-		if (!is_array($in)) $out = stripslashes($in); else $out = $in;
-		return $out;
-	}
-	}
 	//if (get_magic_quotes_gpc() || get_magic_quotes_runtime() ){ 
-		$_GET = array_map('stripit', $_GET); 
-		$_POST = array_map('stripit', $_POST);
-		$_REQUEST = array_map('stripit', $_REQUEST); 
+		$_GET = array_map('stripslashes_deep', $_GET); 
+		$_POST = array_map('stripslashes_deep', $_POST);
+		$_REQUEST = array_map('stripslashes_deep', $_REQUEST); 
 	//}
 	return;
 }
@@ -184,85 +178,6 @@ function wp_dlm_add_media_button() {
 	if (is_ssl()) $url = preg_replace( '/^http:\/\//', 'https://',  $url );
 	echo '<a href="'.$url.'" class="thickbox" title="'.__('Add Download','wp-download_monitor').'"><img src="'.$wp_dlm_root.'/img/media-button-download.gif" alt="'.__('Add Download','wp-download_monitor').'"></a>';
 }
-
-################################################################################
-// INSERT BUTTON ON POST SCREEN
-################################################################################
-
-function wp_dlm_ins_button() {
-	//set globals
-	global $table_prefix,$wpdb,$wp_dlm_db,$wp_dlm_db_taxonomies;
-  	$js = '';
-  	
-  	if( isset($_SERVER['REQUEST_URI']) && (
-  		strpos($_SERVER['REQUEST_URI'], 'post.php')
-	|| strstr($_SERVER['PHP_SELF'], 'page-new.php')
-	|| strstr($_SERVER['PHP_SELF'], 'page.php')
-	|| strstr($_SERVER['PHP_SELF'], 'post-new.php') ))
-	{      	
-		// select all downloads
-		$query_select = sprintf("SELECT * FROM %s ORDER BY id;",
-		$wpdb->escape($wp_dlm_db));
-  	
-  		$downloads = $wpdb->get_results($query_select);
-		
-		$js .= '<optgroup label="'.__("Show","wp-download_monitor").'">';
-		$js .= '<option value=\"s\">'.__('All Downloads','wp-download_monitor').'</option>';
-		$js .= '<option value=\"a\">'.__('Downloads and categories','wp-download_monitor').'</option>';
-		$js .= '</optgroup>';
-  	
-  		if (!empty($downloads)) {
-  			
-			$js .= '<optgroup label="'.__("Downloads","wp-download_monitor").'">';
-			foreach( $downloads as $d )
-			{
-				$js .= '<option value=\"d'.$d->id.'\">'.$d->id.' - '.$d->title.'</option>';
-			}
-			$js .= '</optgroup>';
-			
-			// select all cats
-			$query_select_cats = sprintf("SELECT * FROM %s WHERE parent=0 ORDER BY id;",
-				$wpdb->escape( $wp_dlm_db_taxonomies ));	
-			$cats = $wpdb->get_results($query_select_cats);
-			
-			if (!empty($cats)) {
-				$js .= '<optgroup label="'.__("Categories","wp-download_monitor").'">';
-				foreach ( $cats as $c ) {
-					$js .= '<option value=\"'.$c->id.'\">'.$c->id.' - '.$c->name.'</option>';
-					$js .= addslashes(get_option_children_cats($c->id, "$c->name &mdash; ", 0));
-				}
-				$js .= '</optgroup>';
-			}
-      	
-			?>
-				<script type="text/javascript">
-                    <!--
-					jQuery(function() {
-						jQuery("#ed_toolbar,td.mceToolbar.first").append('<select style=\"width:120px;margin:3px 2px 2px;\" class=\"ed_button\" id=\"downloadMon\" size=\"1\" onChange=\"return wpdlmins(this);\"><option selected="selected" value=\"\"><?php _e('Downloads','wp-download_monitor'); ?></option><?php echo $js;?></select>');
-					});
-					function wpdlmins(ele) {
-						try{
-							if( ele != undefined && ele.value != '') {
-								if (ele.value.substring(0,1)=='d') {
-									edInsertContent(edCanvas, '[download id="'+ ele.value.substring(1) +'"]');
-								} else if (ele.value.substring(0,1)=='s') {
-									edInsertContent(edCanvas, '[#show_downloads]');
-								} else if (ele.value.substring(0,1)=='a') {
-									edInsertContent(edCanvas, '[#advanced_downloads]');
-								} else {
-									edInsertContent(edCanvas, '[download_cat#'+ ele.value +']');
-								}
-							}
-						}catch (excpt) { alert(excpt); }
-						ele.selectedIndex = 0; // reset menu
-						return false;
-					}
-                    //-->
-                </script>
-            <?php
-  		}
-	}
-}	
 
 ################################################################################
 // Category Functions

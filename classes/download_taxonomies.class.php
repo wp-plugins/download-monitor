@@ -13,25 +13,23 @@ class download_taxonomies {
 	function download_taxonomies() {
 		global $wpdb, $wp_dlm_db_relationships, $wp_dlm_db_taxonomies;
 		
-		$taxonomy_data = $wpdb->get_results( "SELECT $wp_dlm_db_taxonomies.*, COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
-		FROM $wp_dlm_db_taxonomies 
-		LEFT JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id
-		GROUP BY $wp_dlm_db_taxonomies.id 
-		ORDER BY $wp_dlm_db_taxonomies.`parent`,$wp_dlm_db_taxonomies.`order`, $wp_dlm_db_taxonomies.`id`;" );
-		
 		$this->categories = array();
 		$this->tags = array();
 		$this->used_tags = array();
+
+		$taxonomy_data = $wpdb->get_results( "SELECT $wp_dlm_db_taxonomies.*, COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
+		FROM $wp_dlm_db_taxonomies 
+		LEFT JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id 
+		WHERE $wp_dlm_db_taxonomies.`name` != '' 
+		AND $wp_dlm_db_taxonomies.`id` > 0 
+		GROUP BY $wp_dlm_db_taxonomies.id 
+		ORDER BY $wp_dlm_db_taxonomies.`parent`,$wp_dlm_db_taxonomies.`order`, $wp_dlm_db_taxonomies.`id`;" );
 		
 		foreach ($taxonomy_data as $taxonomy) {
-			if (!empty($taxonomy->name) && $taxonomy->id>0) {
-				if ($taxonomy->taxonomy=='tag') {
-					$this->tags[$taxonomy->id] = new download_tag($taxonomy->id, $taxonomy->name, $taxonomy->count);
-				} 
-				if ($taxonomy->taxonomy=='category') {
-					$this->categories[$taxonomy->id] = new download_category($taxonomy->id, $taxonomy->name, $taxonomy->parent, $taxonomy->count);
-				}
-			}
+			if ($taxonomy->taxonomy == 'tag')
+				$this->tags[$taxonomy->id] = new download_tag($taxonomy->id, $taxonomy->name, $taxonomy->count);
+			else 
+				$this->categories[$taxonomy->id] = new download_category($taxonomy->id, $taxonomy->name, $taxonomy->parent, $taxonomy->count);
 		}
 		
 		$this->find_category_family();

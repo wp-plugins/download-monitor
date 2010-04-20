@@ -130,7 +130,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
 		    }, function(file) {
-		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        var path = file;
 		        $('#filename, #dlfilename').val(path);
 		        $('#file_browser').slideToggle();
 		    });
@@ -148,7 +148,7 @@ load_plugin_textdomain('wp-download_monitor', '/');
 		      root: '<?php echo get_option('wp_dlm_file_browser_root'); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTreeDir.php',
 		    }, function(file) {
-		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
+		        var path = file;
 		        $('#filename, #dlfilename').val(path);
 		        $('#file_browser2').slideToggle();
 		    });

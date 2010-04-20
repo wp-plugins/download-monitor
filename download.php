@@ -9,6 +9,14 @@ if(file_exists($wp_root . 'wp-load.php')) {
 	exit;
 }
 
+if ( !function_exists('htmlspecialchars_decode') )
+{
+    function htmlspecialchars_decode($text)
+    {
+        return strtr($text, array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
+    }
+}
+
 if (!function_exists('readfile_chunked')) {
 	function readfile_chunked($filename, $size = '', $retbytes = TRUE) {
 		$chunk_size = 1024*1024;
@@ -187,7 +195,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				}
 				
 				
-				if ($level!=10) {
+				if ($level!==10) {
 					$hits = $d->hits;
 					$hits++;
 					// update download hits					
@@ -220,7 +228,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   
 			   // Select a mirror
 			   $mirrors = trim($d->mirrors);
-			   if (!empty($mirrors)) {			   
+			   if (!empty($mirrors) && get_option('wp_dlm_auto_mirror')!=='no') {			   
 			   
 			   		$mirrors = explode("\n",$mirrors);
 			   		array_push($mirrors,$d->filename);
@@ -256,6 +264,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   } else {
 			   		$thefile = $d->filename;
 			   };
+			   $thefile = htmlspecialchars_decode($thefile); // Fix for dodgy chars etc.
 			   
 			   /* Do action - should allow custom functions to allow/disallow the download */
 			   do_action('download_ready_to_start', $d);
@@ -478,7 +487,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						$willDownload = empty($thefile) ? false : !is_file($thefile) ? false : is_readable($thefile);
 						
 						if ( $willDownload ) {							
-						// END jidd.jimisaacs.com					
+						// END jidd.jimisaacs.com	
+							@ob_end_clean();
+											
 							header("Pragma: no-cache");
 							header("Expires: 0");
 							header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -499,7 +510,6 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							if (isset($size) && $size>0) {						
 								header("Content-Length: ".$size);
 							}
-							@ob_end_clean();
 							@readfile_chunked($thefile, $size);
 							exit;
 						}			
@@ -507,15 +517,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					// this is only for remote URI's
 					} elseif ( $isURI && ini_get('allow_url_fopen')  ) {
 					// END jidd.jimisaacs.com
-						// Remote File						
-						header("Pragma: no-cache");
-						header("Expires: 0");
-						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-						header("Robots: none");
-						header("Content-Type: ".$ctype."");
-						header("Content-Description: File Transfer");						
-						header("Content-Transfer-Encoding: binary");
-			
+						// Remote File
+						@ob_end_clean();
+									
 						// Get filesize
 						$filesize = 0;
 						$header_filename = '';
@@ -535,6 +539,15 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						if (isset($filesize) && $filesize > 0) {						
 							header("Content-Length: ".$filesize);
 						}
+						
+						header("Pragma: no-cache");
+						header("Expires: 0");
+						header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+						header("Robots: none");
+						header("Content-Type: ".$ctype."");
+						header("Content-Description: File Transfer");						
+						header("Content-Transfer-Encoding: binary");
+						
 						if (isset($header_filename) && !empty($header_filename)) {							
 							header("Content-Disposition: ".$header_filename.";");
 						} else {
@@ -544,8 +557,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							} else {
 							    header("Content-Disposition: attachment; filename=\"".$filename."\";");
 							}							
-						}
-						@ob_end_clean();
+						}						
 						@readfile_chunked($thefile, $filesize);
 						exit;
 					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
@@ -565,7 +577,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				
 					$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 				
-					if ($_SERVER["SERVER_PORT"] != "80") {
+					if ($_SERVER["SERVER_PORT"] !== "80") {
 						$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
 					} else {
 						$pageURL .= $_SERVER["SERVER_NAME"];

@@ -85,6 +85,7 @@ function wp_dlm_config() {
 					update_option('wp_dlm_member_only', $_POST['wp_dlm_member_only']);
 					update_option('wp_dlm_log_downloads', $_POST['wp_dlm_log_downloads']);					
 					update_option('wp_dlm_enable_file_browser', $_POST['wp_dlm_enable_file_browser']);
+					update_option('wp_dlm_auto_mirror', $_POST['wp_dlm_auto_mirror']);
 					
 					if ($_POST['wp_dlm_file_browser_root'])
 						update_option('wp_dlm_file_browser_root', $_POST['wp_dlm_file_browser_root']);	
@@ -350,6 +351,19 @@ function wp_dlm_config() {
 							?>                            	
                             </select></td>
                         </tr>
+                        <tr>
+	                        <th scope="col"><?php _e('Auto-select mirror',"wp-download_monitor"); ?>:</th>
+	                        <td>
+	                        	<select name="wp_dlm_auto_mirror" id="wp_dlm_auto_mirror">
+	                        		<option value="yes" <?php
+	                        			if (get_option('wp_dlm_auto_mirror')=='yes') echo 'selected="selected" ';
+	                        		?>><?php _e('Yes',"wp-download_monitor"); ?></option>
+	                        		<option value="no" <?php
+	                        			if (get_option('wp_dlm_auto_mirror')=='no') echo 'selected="selected" ';
+	                        		?>><?php _e('No',"wp-download_monitor"); ?></option>                           	
+	                        	</select> <span class="setting-description"><?php _e('If a download has "mirrors" set should download.php automatically pick one?',"wp-download_monitor"); ?></span>
+	                        </td>
+	                    </tr>
                         <tr>
                             <th scope="col"><?php _e('Log Downloads',"wp-download_monitor"); ?>:</th>
                             <td>

@@ -87,7 +87,7 @@ function wp_dlm_shortcode_download( $atts ) {
 			$output = $cached_code;
 		}
 		
-		if ($autop && $autop != "false") return wpautop(do_shortcode($output));
+		if ($autop && $autop !== "false") return wpautop(do_shortcode($output));
 	
 	} else $output = '[Download id not defined]';
 	
@@ -140,7 +140,7 @@ function wp_dlm_shortcode_download_data( $atts, $content ) {
 			$output = str_replace( $fpatts , $fsubs , $format );
 		} else $output = '[Download not found]';
 		
-		if ($autop && $autop != "false") return wpautop(do_shortcode($output));
+		if ($autop && $autop !== "false") return wpautop(do_shortcode($output));
 	
 	} else $output = '[Download id not defined]';
 	
@@ -203,7 +203,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			$fsubs	= $d->subs;
 	
 			$output .= html_entity_decode($before).str_replace( $fpatts , $fsubs , $format ).html_entity_decode($after);
-
+			
    		} 
 	
 	} else $output = '['.__("No Downloads found","wp-download_monitor").']';	
@@ -243,9 +243,11 @@ function get_downloads($args = null) {
 
 	$r = wp_parse_args( $args, $defaults );
 	
-	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype, $download_taxonomies;
+	global $wpdb,$wp_dlm_root, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype, $download_taxonomies, $download2taxonomy_array;
 	
 	$where = array();
+	$in_ids = array();
+	$not_in_ids = array();
 	$join = '';
 	$select = '';
 	$limitandoffset = '';
@@ -253,38 +255,25 @@ function get_downloads($args = null) {
 	// Handle $exclude
 	$exclude_array = array();
 	if ( $r['exclude'] ) {
-		$exclude_unclean = explode(',',$r['exclude']);		
-		foreach ($exclude_unclean as $e) {
-			$e = trim($e);
-			if (is_numeric($e)) $exclude_array[] = $e;
-		}
+		$exclude_unclean = array_map('intval', explode(',',$r['exclude']));		
+		$not_in_ids = array_merge($not_in_ids, $exclude_unclean);
 	}
-	if (sizeof($exclude_array) > 0) {
-		$where[] = ' '.$wp_dlm_db.'.id NOT IN ('.implode(',',$exclude_array).') ';
-	}	
 	
 	// Handle $include
 	$include_array = array();
 	if ( $r['include'] ) {
-		$include_unclean = explode(',',$r['include']);		
-		foreach ($include_unclean as $e) {
-			$e = trim($e);
-			if (is_numeric($e)) $include_array[] = $e;
-		}
+		$include_unclean = array_map('intval', explode(',',$r['include']));
+		$in_ids = array_merge($in_ids, $include_unclean);
 	}
-	if (sizeof($include_array) > 0) {
-		$where[] = ' '.$wp_dlm_db.'.id IN ('.implode(',',$include_array).') ';
-	}	
 		
-	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) )
-		$r['limit'] = '';
+	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) ) $r['limit'] = '';
 		
 	if ( !empty( $r['limit'] ) && (empty($r['offset']) || !is_numeric($r['offset'])) ) $r['offset'] = 0;
 	elseif ( empty( $r['limit'] )) $r['offset'] = '';
 	
 	if ( !empty( $r['limit'] ) ) $limitandoffset = ' LIMIT '.$r['offset'].', '.$r['limit'].' ';
 	
-	if ( ! empty($r['category']) && $r['category']!='none' ) {
+	if ( ! empty($r['category']) && $r['category']!=='none' ) {
 		$categories = explode(',',$r['category']);
 		$the_cats = array();
 		// Traverse through categories to get sub-cats
@@ -294,30 +283,38 @@ function get_downloads($args = null) {
 				$the_cats[] = $cat;
 			}
 		}
-		$categories = implode(',',$the_cats);	
-
-		$where[] = ' '.$wp_dlm_db.'.id IN ( SELECT download_id FROM '.$wp_dlm_db_relationships.' WHERE taxonomy_id IN ('.$categories.') ) ';
 		
+		foreach ($download2taxonomy_array as $tid=>$tax_array) {
+			if (sizeof(array_intersect($tax_array, $the_cats))>0) $in_ids[] = $tid;
+		}		
 	} elseif ($r['category']=='none') {
-		
-		$where[] = ' '.$wp_dlm_db.'.id NOT IN ( 
-				SELECT download_id FROM '.$wp_dlm_db_relationships.'
-				LEFT JOIN '.$wp_dlm_db_taxonomies.' ON '.$wp_dlm_db_relationships.'.taxonomy_id = '.$wp_dlm_db_taxonomies.'.id
-				WHERE '.$wp_dlm_db_taxonomies.'.taxonomy = "category"
-			) ';
 	
+		$the_cats = array_keys($download_taxonomies->categories);
+		
+		foreach ($download2taxonomy_array as $tid=>$tax_array) {
+			if (sizeof(array_intersect($tax_array, $the_cats))==0) $in_ids[] = $tid;
+		}		
+		
 	} else $category = '';
 	
 	if ( ! empty($r['tags']) ) {
 		$tags = explode(',', $r['tags']);
-		$tags = array_map('wrap_tags', $tags);	
 		
-		$where[] = ' '.$wp_dlm_db.'.id IN ( 		
-			SELECT download_id FROM '.$wp_dlm_db_relationships.' 
-			LEFT JOIN '.$wp_dlm_db_taxonomies.' ON '.$wp_dlm_db_relationships.'.taxonomy_id = '.$wp_dlm_db_taxonomies.'.id
-			WHERE '.$wp_dlm_db_taxonomies.'.name IN ('.implode(',',$tags).') 
-		) ';
+		$tag_ids = array();
 		
+		if ($download_taxonomies->tags && sizeof($download_taxonomies->tags) >0) foreach ($download_taxonomies->tags as $tag) {
+			$tag->name;
+			if (in_array($tag->name, $tags)) {
+				// Include
+				$tag_ids[] = $tag->id;
+			}
+		} 
+		
+		if (sizeof($tag_ids)>0) {
+			foreach ($download2taxonomy_array as $tid=>$tax_array) {
+				if (sizeof(array_intersect($tax_array, $tag_ids))>0) $in_ids[] = $tid;
+			}
+		}		
 	} else $tags = '';
 	
 	// Handle Author
@@ -353,9 +350,9 @@ function get_downloads($args = null) {
 				$orderby = 'hits';
 			break;
 			case 'meta' : 
-				$orderby = 'meta';
+				$orderby = "$wp_dlm_db_meta.meta_value";
 				$join = " LEFT JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id ";
-				$select = ", $wp_dlm_db_meta.meta_value as meta";
+				$select = "";
 				$where[] = ' meta_name = "'.$r['meta_name'].'"';
 			break;
 			case 'rand' :
@@ -369,7 +366,17 @@ function get_downloads($args = null) {
 		}
 	}
 	
-	if (strtolower($r['order'])!='desc' && strtolower($r['order'])!='asc') $r['order']='desc';
+	if (strtolower($r['order'])!=='desc' && strtolower($r['order'])!=='asc') $r['order']='desc';
+	
+	if (sizeof($in_ids) > 0) {
+		$in_ids = array_unique($in_ids);
+		if (sizeof($not_in_ids) > 0) {
+			$in_ids = array_diff($in_ids, $not_in_ids);
+		}
+		if (sizeof($in_ids) > 0) {
+			$where[] = ' '.$wp_dlm_db.'.id IN ('.implode(',',$in_ids).') ';
+		}
+	}	
 	
 	// Process where clause
 	if (sizeof($where)>0) $where = ' WHERE '.implode(' AND ', $where);

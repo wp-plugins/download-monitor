@@ -150,8 +150,7 @@ function wp_dlm_head() {
 		      root: '<?php echo apply_filters( 'file_browser_root', get_option('wp_dlm_file_browser_root') ); ?>',
 		      script: '<?php echo $wp_dlm_root; ?>js/jqueryFileTree/connectors/jqueryFileTree.php',
 		    }, function(file) {
-		        //var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
-		        var path = file;
+		        var path = file.replace('<?php echo ABSPATH; ?>', '<?php bloginfo('wpurl'); ?>/');
 		        $('#thumbnail').val(path);
 		        $('#file_browser_thumbnail').slideToggle();
 		    });
@@ -547,6 +546,8 @@ function wp_dlm_admin()
 								$thumbnail = stripslashes($meta->meta_value);
 							} elseif ($meta->meta_name=='force') {
 								$forcedownload = stripslashes($meta->meta_value);
+							} elseif ($meta->meta_name=='filesize') {
+								// Nothing
 							} else {
 								$custom_fields[$index]['key'] = $meta->meta_name;
 								$custom_fields[$index]['value'] = stripslashes($meta->meta_value);
@@ -835,7 +836,7 @@ function wp_dlm_admin()
 					//load values
 					$d = $wpdb->get_row($query_select_1);
 					$file = $d->filename;
-					if ( strstr ( $d->filename, get_option('upload_path') ) ) {
+					if ( strstr ( get_option('upload_path'), $d->filename ) ) {
 													
 						$uploadpath 	= get_bloginfo('wpurl').'/'.get_option('upload_path').'/';
 						$absuploadpath 	= ABSPATH.get_option('upload_path').'/';
@@ -1476,7 +1477,7 @@ function wp_dlm_admin()
 						if ( $wpdb->get_var('SELECT meta_value FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name = "force" LIMIT 1') ) echo __('Yes',"wp-download_monitor"); else echo __('No',"wp-download_monitor");
 						echo '</td>
 						<td style="text-align:center">';
-						echo $wpdb->get_var('SELECT COUNT(id) FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name NOT IN ("tags","thumbnail","force")');
+						echo $wpdb->get_var('SELECT COUNT(id) FROM '.$wp_dlm_db_meta.' WHERE download_id = '.$d->id.' AND meta_name NOT IN ("tags","thumbnail","force","filesize")');
 						echo '</td>
 						<td style="text-align:center">'.$d->hits.'</td><td>'.$date.'<br/>'.__('by',"wp-download_monitor").' '.$d->user.'</td>';
 						

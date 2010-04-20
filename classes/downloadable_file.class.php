@@ -2,7 +2,6 @@
 /*  
 	WORDPRESS DOWNLOAD MONITOR - downloadable_file CLASS
 */
-
 class downloadable_file {
 	var $id;
 	var $filename;
@@ -23,12 +22,10 @@ class downloadable_file {
 	var $tags;
 	var $thumbnail;
 	var $meta;
-	var $image;
-	
+	var $image;	
 	var $categories;
 	var $category;
-	var $category_id;
-	
+	var $category_id;	
 	var $patts;
 	var $subs;
 	
@@ -70,49 +67,43 @@ class downloadable_file {
 			$this->postDate = $d->postDate;
 			$this->date = $d->postDate;
 			$this->members = $d->members;
-			$this->memberonly = $d->members;
-			$this->get_size();
+			$this->memberonly = $d->members;			
 			$this->get_taxonomy();
 			$this->get_meta();
+			if (empty($this->size)) $this->get_size();
 			$this->image = $wp_dlm_image_url;
 		}	
 	}
 	
 	function get_taxonomy() {
-		global $wp_dlm_db_relationships,$wpdb,$download_taxonomies;
+		global $download2taxonomy_array, $download_taxonomies;
 		
 		$download_cats = array();
 		$download_tags = array();
 		
-		$download2taxonomy_data = $wpdb->get_col( "SELECT taxonomy_id FROM $wp_dlm_db_relationships WHERE download_id = ".$wpdb->escape($this->id).";" );
-
-		if (sizeof($download_taxonomies->categories)>0) :
+		$this_download2taxonomy = $download2taxonomy_array[$this->id];
 		
-			foreach($download_taxonomies->categories as $tax) {
-			
-				if (isset($download2taxonomy_data) && is_array($download2taxonomy_data) && in_array($tax->id, $download2taxonomy_data)) {
+		if ($this_download2taxonomy && sizeof($this_download2taxonomy)>0) :
+			foreach ($this_download2taxonomy as $taxonomy_id) :
+				
+				if (isset($download_taxonomies->categories[$taxonomy_id])) {
 					$download_cats[] = array(
-						'name' => $tax->name,
-						'id' => $tax->id,
-						'parent' => $tax->parent,
-					);				
-				}
-			}
-		
-		endif;
-		if (sizeof($download_taxonomies->tags)>0) :
-	
-			foreach($download_taxonomies->tags as $tax) {
-				if (isset($download2taxonomy_data) && is_array($download2taxonomy_data) && in_array($tax->id, $download2taxonomy_data)) {
+						'name' => $download_taxonomies->categories[$taxonomy_id]->name,
+						'id' => $download_taxonomies->categories[$taxonomy_id]->id,
+						'parent' => $download_taxonomies->categories[$taxonomy_id]->parent,
+					);
+				} elseif (isset($download_taxonomies->tags[$taxonomy_id])) {
 					$download_tags[] = array(
-						'name' => $tax->name,
-						'id' => $tax->id,
-						'parent' => $tax->parent,
-					);					
+						'name' => $download_taxonomies->categories[$taxonomy_id]->name,
+						'id' => $download_taxonomies->categories[$taxonomy_id]->id,
+						'parent' => $download_taxonomies->categories[$taxonomy_id]->parent,
+					);
 				}
-			}
-		
+				
+				
+			endforeach;
 		endif;
+
 		$this->tags = $download_tags;
 		$this->categories = $download_cats;
 		$firstcat = current($download_cats);
@@ -121,29 +112,18 @@ class downloadable_file {
 	}
 	
 	function get_meta() {
-		global $wp_dlm_root, $wpdb, $wp_dlm_db_meta;
+		global $wp_dlm_root, $download_meta_data_array;
 		
-		$tags = '';
 		$this_meta = array();
-		$thumbnail = '';
 		
-		$meta_data = $wpdb->get_results( "SELECT meta_name,meta_value FROM $wp_dlm_db_meta WHERE download_id = ".$wpdb->escape($this->id).";" );
-		
-		if ($meta_data) :
-	
-			foreach($meta_data as $meta) {
-				if ($meta->meta_name == 'thumbnail') {
-					$thumbnail = stripslashes($meta->meta_value);
-				} else {
-					$this_meta[$meta->meta_name] = stripslashes($meta->meta_value);
-				}
-			}
-		
+		if (isset($download_meta_data_array[$this->id])) :
+
+			$this_meta = $download_meta_data_array[$this->id];
+
 		endif;
-		
-		if (!$thumbnail) $thumbnail = $wp_dlm_root.'page-addon/thumbnail.gif';	
-		
-		$this->thumbnail = $thumbnail;
+
+		if (isset($this_meta['thumbnail'])) $this->thumbnail = $this_meta['thumbnail']; else $this->thumbnail = $wp_dlm_root.'page-addon/thumbnail.gif';
+		if (isset($this_meta['filesize'])) $this->size = $this_meta['filesize'];
 		$this->meta = $this_meta;
 	}
 	
@@ -229,12 +209,15 @@ class downloadable_file {
 			   	}
 			}
 			$this->size = round($filesize, 2)." ".$val;
+			// Add to DB for quick loading in future
+			global $wpdb, $wp_dlm_db_meta;
+			$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('filesize', '".$wpdb->escape( $this->size )."', '".$this->id."')");
 		}
 	}
 	
 	function prep_download_data($format) {
 		
-		global $wp_dlm_image_url, $wp_dlm_db_meta, $download_taxonomies;
+		global $wp_dlm_image_url, $wp_dlm_db_meta, $download_taxonomies, $meta_blank;
 			
 		$fpatts = array(
 			'{url}', 
@@ -268,36 +251,44 @@ class downloadable_file {
 		if ($this->category_id>0) {			
 			$fsubs[]  = $this->category; /* category */
 			$fsubs[]  = $this->category; /* category_other */
-			preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-			if ($match) {
-				$fpatts[] = $match[0];
-				$fsubs[]  = $match[1].$this->category.$match[2];
-			}
-			preg_match("/{category_other,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-			if ($match) {
-				$fpatts[] = $match[0];
-				$fsubs[]  = $match[1].$this->category.$match[2];
-			}
 			$fpatts[] = '{category_ID}';
 			$fsubs[] = $this->category_id;
+			if (strpos($format, '{category,')) :
+				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+				if ($match) {
+					$fpatts[] = $match[0];
+					$fsubs[]  = $match[1].$this->category.$match[2];
+				}
+			endif;
+			if (strpos($format, '{category_other,')) :
+				preg_match("/{category_other,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+				if ($match) {
+					$fpatts[] = $match[0];
+					$fsubs[]  = $match[1].$this->category.$match[2];
+				}
+			endif;			
 		} else {
 			$fsubs[]  = "";
 			$fsubs[]  = __('Other','wp-download_monitor');
-			preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-			if ($match) {
-				$fpatts[] = $match[0];
-				$fsubs[]  = "";
-			}
-			preg_match("/{category_other,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-			if ($match) {
-				$fpatts[] = $match[0];
-				$fsubs[]  = $match[1].__('Other','wp-download_monitor').$match[2];
-			}
 			$fpatts[] = '{category_ID}';
 			$fsubs[] = "";
+			if (strpos($format, '{category,')) :
+				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+				if ($match) {
+					$fpatts[] = $match[0];
+					$fsubs[]  = "";
+				}
+			endif;
+			if (strpos($format, '{category_other,')) :
+				preg_match("/{category_other,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+				if ($match) {
+					$fpatts[] = $match[0];
+					$fsubs[]  = $match[1].__('Other','wp-download_monitor').$match[2];
+				}
+			endif;			
 		}
 		
-		// Categories (multiple)
+		// Categories (multiple)		
 		$fpatts[] = "{categories}";
 		$cats = array();
 		if (!$this->categories) $cats[] = __('Uncategorized',"wp-download_monitor");
@@ -309,33 +300,39 @@ class downloadable_file {
 		$fsubs[] = implode(', ', $cats);
 		
 		// Categories (linked)
-		preg_match("/{categories,\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			$cats = array();
-			if (!$this->categories) $cats[] = '<a href="'.str_replace('%',0,str_replace('%2',urlencode(strtolower(__('Other',"wp-download_monitor"))),$match[1])).'" class="cat-link">'.__('Other',"wp-download_monitor").'</a>';
-			else {
-				foreach ($this->categories as $cat) {
-					$cats[] = '<a href="'.str_replace('%',$cat['id'],str_replace('%2',urlencode(strtolower($cat['name'])),$match[1])).'" class="cat-link">'.$cat['name'].'</a>';
+		if (strpos($format, '{categories,')) :
+			preg_match("/{categories,\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				$cats = array();
+				if (!$this->categories) $cats[] = '<a href="'.str_replace('%',0,str_replace('%2',urlencode(strtolower(__('Other',"wp-download_monitor"))),$match[1])).'" class="cat-link">'.__('Other',"wp-download_monitor").'</a>';
+				else {
+					foreach ($this->categories as $cat) {
+						$cats[] = '<a href="'.str_replace('%',$cat['id'],str_replace('%2',urlencode(strtolower($cat['name'])),$match[1])).'" class="cat-link">'.$cat['name'].'</a>';
+					}
 				}
+				$fsubs[] = implode(', ', $cats);
 			}
-			$fsubs[] = implode(', ', $cats);
-		}
+		endif;
 		
 		// Mirrors
-		preg_match("/{mirror-([0-9]+)-url}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			$mirrors = trim($this->mirrors);
-			if (!empty($mirrors)) {			   
-				$mirrors = explode("\n",$mirrors);
-				if (isset($mirrors[($match[1]-1)])) { 
-					$fsubs[] = $mirrors[($match[1]-1)];
+		if (strpos($format, '{mirror-')) :
+			preg_match("/{mirror-([0-9]+)-url}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				$mirrors = trim($this->mirrors);
+				if (!empty($mirrors)) {			   
+					$mirrors = explode("\n",$mirrors);
+					if (isset($mirrors[($match[1]-1)])) { 
+						$fsubs[] = $mirrors[($match[1]-1)];
+					} else {
+						$fsubs[] = __('#Mirror-not-found',"wp-download_monitor");
+					}
 				} else {
 					$fsubs[] = __('#Mirror-not-found',"wp-download_monitor");
 				}
 			}
-		}
+		endif;
 		
 		// Filetype
 		$fpatts[] = "{filetype}";
@@ -465,52 +462,62 @@ class downloadable_file {
 		$fsubs[] = $icon;
 			
 		// Hits (special) {hits, none, one, many)
-		preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			if ( $this->hits == 1 ) 
-			{
-				$text = str_replace('%',$this->hits,$match[2]);
-				$fsubs[]  = $text; 
+		if (strpos($format, '{hits,')) :
+			preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				if ( $this->hits == 1 ) 
+				{
+					$text = str_replace('%',$this->hits,$match[2]);
+					$fsubs[]  = $text; 
+				}
+				elseif ( $this->hits > 1 ) 
+				{
+					$text = str_replace('%',$this->hits,$match[3]);
+					$fsubs[]  = $text; 
+				}
+				else 
+				{
+					$text = str_replace('%',$this->hits,$match[1]);
+					$fsubs[]  = $text; 
+				}
 			}
-			elseif ( $this->hits > 1 ) 
-			{
-				$text = str_replace('%',$this->hits,$match[3]);
-				$fsubs[]  = $text; 
-			}
-			else 
-			{
-				$text = str_replace('%',$this->hits,$match[1]);
-				$fsubs[]  = $text; 
-			}
-		}				
+		endif;			
 		
 		// Version
-		preg_match("/{version,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			if ($this->version) $fsubs[]  = $match[1].$this->version.$match[2]; else $fsubs[]  = "";
-		}
+		if (strpos($format, '{version,')) :
+			preg_match("/{version,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				if ($this->version) $fsubs[]  = $match[1].$this->version.$match[2]; else $fsubs[]  = "";
+			}
+		endif;
 		
 		// Date
-		preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			if ($this->postDate) $fsubs[] = date_i18n($match[1],strtotime($this->postDate)); else $fsubs[]  = "";
-		}				
+		if (strpos($format, '{date,')) :
+			preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				if ($this->postDate) $fsubs[] = date_i18n($match[1],strtotime($this->postDate)); else $fsubs[]  = "";
+			}
+		endif;				
 		
 		// Other
-		preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			if ($this->file_description) $fsubs[]  = $match[1].$this->file_description.$match[2]; else $fsubs[]  = "";
-		}
+		if (strpos($format, '{description,')) :
+			preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				if ($this->file_description) $fsubs[]  = $match[1].$this->file_description.$match[2]; else $fsubs[]  = "";
+			}
+		endif;	
 		
-		preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			if ($this->file_description) $fsubs[]  = $match[1].wpautop($this->file_description).$match[2]; else $fsubs[]  = "";
-		}
+		if (strpos($format, '{description-autop,')) :
+			preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				if ($this->file_description) $fsubs[]  = $match[1].wpautop($this->file_description).$match[2]; else $fsubs[]  = "";
+			}
+		endif;	
 						
 		// tags
 		$fpatts[] = "{tags}";
@@ -524,46 +531,48 @@ class downloadable_file {
 		$fsubs[] = implode(', ', $tags);
 		
 		// Tags (linked)
-		preg_match("/{tags,\s*\"([^\"]*?)\"}/", $format, $match);
-		if ($match) {
-			$fpatts[] = $match[0];
-			$tags = array();
-			if (!$this->tags) $tags[] = 'Untagged';
-			else {
-				foreach ($this->tags as $tag) {
-					$tags[] = '<a href="'.str_replace('%',$tag['id'],str_replace('%2',urlencode(strtolower($tag['name'])),$match[1])).'" class="tag-link">'.$tag['name'].'</a>';
+		if (strpos($format, '{tags,')) :
+			preg_match("/{tags,\s*\"([^\"]*?)\"}/", $format, $match);
+			if ($match) {
+				$fpatts[] = $match[0];
+				$tags = array();
+				if (!$this->tags) $tags[] = 'Untagged';
+				else {
+					foreach ($this->tags as $tag) {
+						$tags[] = '<a href="'.str_replace('%',$tag['id'],str_replace('%2',urlencode(strtolower($tag['name'])),$match[1])).'" class="tag-link">'.$tag['name'].'</a>';
+					}
 				}
+				$fsubs[] = implode(', ', $tags);
 			}
-			$fsubs[] = implode(', ', $tags);
-		}
+		endif;
 		
 		// Thumbnail
 		$fpatts[] = "{thumbnail}";
 		$fsubs[] = $this->thumbnail;
 		
 		// meta
-		if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {					
-			$meta_names = array();
-			$meta_names[] = "''";
-			foreach($this->meta as $meta_name=>$meta_value) {
-				//if ($meta->download_id==$d->id) {
+		if (strpos($format, '{meta-')) :
+			if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {					
+				$meta_names = array();
+				$meta_names[] = "''";
+				foreach($this->meta as $meta_name=>$meta_value) {
 					$fpatts[] = "{meta-".$meta_name."}";
 					$fsubs[] = stripslashes($meta_value);
 					$fpatts[] = "{meta-autop-".$meta_name."}";
 					$fsubs[] = wpautop(stripslashes($meta_value));
 					$meta_names[] = $meta_name;
-				//}
+				}
+				// Blank Meta
+				foreach($meta_blank as $meta_name) {
+					if (!in_array($meta_name, $meta_names)) {
+						$fpatts[] = "{meta-".$meta_name."}";
+						$fsubs[] = '';
+						$fpatts[] = "{meta-autop-".$meta_name."}";
+						$fsubs[] = '';
+					}
+				}
 			}
-			// Blank Meta
-			//$meta_blank = $wpdb->get_results( "SELECT meta_name FROM $wp_dlm_db_meta WHERE meta_name NOT IN ( ".	implode(',',$meta_names)	." );" );
-			global $meta_blank;
-			foreach($meta_blank as $meta_name) {
-				$fpatts[] = "{meta-".$meta_name."}";
-				$fsubs[] = '';
-				$fpatts[] = "{meta-autop-".$meta_name."}";
-				$fsubs[] = '';
-			}
-		}
+		endif;
 	
 		$this->patts = $fpatts;				
 		$this->subs = $fsubs;
