@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.9.2
-Stable tag: 3.3.3.8
+Stable tag: 3.3.3.9
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -75,6 +75,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
 *	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
 *	Finish translation (included) by Ari Kontiainen
+*	Polish (alt) translation (included) by Krzysztof Machocki aka Halibutt - http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/
 
 == Installation ==
 
