@@ -50,7 +50,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Danish translation - http://wordpress.blogos.dk/2009/03/18/download-monitor-v3/ (version 3) | http://wordpress.blogos.dk/2008/03/14/wpdm-2-0-1-dansk/ (version 2)
 *	Japanese translation - http://rp.exadge.com/2008/03/15/wp-download_monitor_v203_ja/
 *	Italian translation by Gianni Diurno - http://gidibao.net/index.php/2008/03/18/download-monitor-plugin-in-italiano/
-*	Portuguese translation - http://www.viz.com.br/plugin-wp-download-monitor.html
+*	Portuguese translation by Angelica Costa - http://portaldohost.com.br/downloads?did=9
 *	Hebrew translation - http://www.cynican.com/plugins-i-translated/wordpress-download-monitor/
 *	French translation - http://themes-du.net/download-monitor-pour-compter-les-telechargements-sur-wordpress/
 *	Turkish translation - http://ramerta.com/
@@ -76,6 +76,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
 *	Finish translation (included) by Ari Kontiainen
 *	Polish (alt) translation (included) by Krzysztof Machocki aka Halibutt - http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/
+*	Chinese Translation by 19ct - http://19ct.com/archives/29
 
 == Installation ==
 
@@ -107,6 +108,15 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.3.10 = 
+*	Added new translations
+*	Global member only option in configuration
+*	Should work with ftp:// downloads
+* 	Mirror fix
+*	Better error message for remote files
+*	Added hook: do_action('download_added', $download_insert_id);
+*	Added fix for all downloads being displayed when cat is empty.
 
 = 3.3.3.9 = 
 *	Pre-loading meta and relationships again - less queries, better performance

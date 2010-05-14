@@ -158,7 +158,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				}
 
 				// Check permissions
-				if ($d->members && !isset($user_ID)) {
+				if (($d->members || get_option('wp_dlm_global_member_only')=='yes') && !isset($user_ID)) {
 					$url = get_option('wp_dlm_member_only');
 					$url = str_replace('{referrer}',urlencode($_SERVER['REQUEST_URI']),$url);
 					if (!empty($url)) {
@@ -233,7 +233,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   		$mirrors = explode("\n",$mirrors);
 			   		array_push($mirrors,$d->filename);
 			   		$mirrorcount = sizeof($mirrors)-1;
-			   		$thefile = $mirrors[rand(0,$mirrorcount)];
+			   		$thefile = trim($mirrors[rand(0,$mirrorcount)]);
 
 			   		// Check random mirror is OK or choose another
 			   		$checking=true;
@@ -241,11 +241,12 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   		$linkValidator = new linkValidator();
 			   		while ($checking) { 						
 						$linkValidator->linkValidator($thefile, true, false);
+
 						if (!$linkValidator->status()) {
 						
 							// Failed - use another mirror
-							if ($mirrorcount<$loop) {
-								$thefile = $mirrors[$loop];
+							if ($loop<=$mirrorcount) {
+								$thefile = trim($mirrors[$loop]);
 								$loop++;
 							} else {
 								// All broken
@@ -519,6 +520,15 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					// END jidd.jimisaacs.com
 						// Remote File
 						@ob_end_clean();
+						
+						// Are we going to be able to load this beatch?
+						$handle = @fopen($thefile, 'rb');
+						if ($handle === false) {
+							// Cannot open the file
+							@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+							wp_die(__('Cannot open remote file ',"wp-download_monitor").'"'.trim(basename($thefile)).'"', __('Cannot open remote file ',"wp-download_monitor").'"'.trim(basename($thefile)).'"');
+						}
+						@fclose($handle);
 									
 						// Get filesize
 						$filesize = 0;
@@ -563,17 +573,19 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
 						
 						// O dear, we cannot force the remote file without allow_url_fopen
+						@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 						wp_die(__('Forcing the download of externally hosted files is not supported by this server.',"wp-download_monitor"), __('Forcing the download of externally hosted files is not supported by this server.',"wp-download_monitor"));
 						
 					}
 					
 					// If we have not exited by now, the only thing left to do is die.
 					// We cannot download something that is a local file system path on another system, and that's the only thing left it could be!
+					@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 					wp_die(__('Download path is invalid!',"wp-download_monitor"), __('Download path is invalid!',"wp-download_monitor"));
 							
 				}
 				
-				if( !strstr($thefile, 'http://') && !strstr($thefile,'https://') ) { 
+				if( !strstr($thefile, 'http://') && !strstr($thefile,'https://') && !strstr($thefile, 'ftp://') ) { 
 				
 					$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 				

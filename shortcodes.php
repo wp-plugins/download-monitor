@@ -251,6 +251,7 @@ function get_downloads($args = null) {
 	$join = '';
 	$select = '';
 	$limitandoffset = '';
+	$filtering_ids = false;
 	
 	// Handle $exclude
 	$exclude_array = array();
@@ -264,6 +265,7 @@ function get_downloads($args = null) {
 	if ( $r['include'] ) {
 		$include_unclean = array_map('intval', explode(',',$r['include']));
 		$in_ids = array_merge($in_ids, $include_unclean);
+		$filtering_ids = true;
 	}
 		
 	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) ) $r['limit'] = '';
@@ -274,6 +276,7 @@ function get_downloads($args = null) {
 	if ( !empty( $r['limit'] ) ) $limitandoffset = ' LIMIT '.$r['offset'].', '.$r['limit'].' ';
 	
 	if ( ! empty($r['category']) && $r['category']!=='none' ) {
+		$filtering_ids = true;
 		$categories = explode(',',$r['category']);
 		$the_cats = array();
 		// Traverse through categories to get sub-cats
@@ -288,7 +291,9 @@ function get_downloads($args = null) {
 			if (sizeof(array_intersect($tax_array, $the_cats))>0) $in_ids[] = $tid;
 		}		
 	} elseif ($r['category']=='none') {
-	
+		
+		$filtering_ids = true;
+		
 		$the_cats = array_keys($download_taxonomies->categories);
 		
 		foreach ($download2taxonomy_array as $tid=>$tax_array) {
@@ -298,6 +303,9 @@ function get_downloads($args = null) {
 	} else $category = '';
 	
 	if ( ! empty($r['tags']) ) {
+	
+		$filtering_ids = true;
+		
 		$tags = explode(',', $r['tags']);
 		
 		$tag_ids = array();
@@ -376,7 +384,12 @@ function get_downloads($args = null) {
 		if (sizeof($in_ids) > 0) {
 			$where[] = ' '.$wp_dlm_db.'.id IN ('.implode(',',$in_ids).') ';
 		}
-	}	
+	} else {
+		if ($filtering_ids==true) {
+			// We are filtering ids and there are none set so return no results.
+			$where[] = ' '.$wp_dlm_db.'.id IN (0) ';
+		}
+	}
 	
 	// Process where clause
 	if (sizeof($where)>0) $where = ' WHERE '.implode(' AND ', $where);

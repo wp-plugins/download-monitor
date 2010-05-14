@@ -446,6 +446,8 @@ load_plugin_textdomain('wp-download_monitor', '/');
 								}
 							}
 							if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
+							
+							do_action('download_added', $download_insert_id);
 					
 						}
 						else _e('<div id="media-upload-error">Error saving to database</div>',"wp-download_monitor");										

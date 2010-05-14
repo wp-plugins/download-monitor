@@ -230,7 +230,9 @@ function dlm_addnew() {
 				if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 				
 				if (empty($info)) echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").'</strong></p></div>';
-				else echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").' - '.$info.'</strong></p></div>';											
+				else echo '<div id="message" class="updated fade"><p><strong>'.__("Download added Successfully","wp-download_monitor").' - '.$info.'</strong></p></div>';				
+				do_action('download_added', $download_insert_id);
+							
 				// Redirect
 				echo '<meta http-equiv="refresh" content="3;url=admin.php?page=dlm_addnew"/>';
 				exit;

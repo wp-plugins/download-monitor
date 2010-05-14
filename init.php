@@ -75,6 +75,7 @@ function wp_dlm_init_or_upgrade() {
 	add_option('wp_dlm_file_browser_root', ABSPATH, 'no');
 	add_option('wp_dlm_enable_file_browser', 'yes', '', 'no');
 	add_option('wp_dlm_auto_mirror', 'yes', '', 'no');
+	add_option('wp_dlm_global_member_only', 'no', '', 'no');
 
 	global $dlm_build;
 	$wp_dlm_build = get_option('wp_dlm_build');

@@ -87,6 +87,9 @@ function wp_dlm_config() {
 					update_option('wp_dlm_enable_file_browser', $_POST['wp_dlm_enable_file_browser']);
 					update_option('wp_dlm_auto_mirror', $_POST['wp_dlm_auto_mirror']);
 					
+					update_option('wp_dlm_global_member_only', $_POST['wp_dlm_global_member_only']);
+					
+					
 					if ($_POST['wp_dlm_file_browser_root'])
 						update_option('wp_dlm_file_browser_root', $_POST['wp_dlm_file_browser_root']);	
 					else 
@@ -327,6 +330,19 @@ function wp_dlm_config() {
                         <tr>
                             <th scope="col"><?php _e('Member-only files non-member redirect',"wp-download_monitor"); ?>:</th>
                             <td><input type="text" value="<?php echo get_option('wp_dlm_member_only'); ?>" name="wp_dlm_member_only" /> <span class="setting-description"><?php _e('Leave blank for no redirect.',"wp-download_monitor"); ?> <?php _e('Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>.',"wp-download_monitor"); ?></span></td>
+                        </tr>
+                        <tr>
+                            <th scope="col"><?php _e('Global member only files',"wp-download_monitor"); ?>:</th>
+                            <td>
+                            	<select name="wp_dlm_global_member_only" id="wp_dlm_global_member_only">                            		
+                            		<option value="no" <?php
+                            			if (get_option('wp_dlm_global_member_only')=='no') echo 'selected="selected" ';
+                            		?>><?php _e('No',"wp-download_monitor"); ?></option>  
+                            		<option value="yes" <?php
+                            			if (get_option('wp_dlm_global_member_only')=='yes') echo 'selected="selected" ';
+                            		?>><?php _e('Yes',"wp-download_monitor"); ?></option>                         	
+                            	</select> <span class="setting-description"><?php _e('Makes all downloads member only, ignoring the individual download member only setting.',"wp-download_monitor"); ?></span>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="col"><?php _e('Download image path',"wp-download_monitor"); ?>:</th>

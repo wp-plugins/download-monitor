@@ -10,116 +10,109 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
 "X-Poedit-Basepath: ../\n"
-"X-Textdomain-Support: yes\n"
+"X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
 
-# @ wp-download_monitor
-#: download.php:162
+#: download.php:170
+#@ wp-download_monitor
 msgid "You must be logged in to download this file."
 msgstr "Vous devez être connecté pour télécharger ce fichier."
 
-# @ wp-download_monitor
-#: download.php:173
-#: download.php:183
+#: download.php:181
+#: download.php:191
+#@ wp-download_monitor
 msgid "You do not have permission to download this file."
 msgstr "Vous n'avez pas l'autorisation de télécharger ce fichier."
 
-# @ wp-download_monitor
-#: download.php:554
+#: download.php:566
+#@ wp-download_monitor
 msgid "Forcing the download of externally hosted files is not supported by this server."
 msgstr "Forcer le téléchargement de fichiers hébergés à l'extérieur de votre site n'est pas supporté par ce serveur."
 
-# @ wp-download_monitor
-#: download.php:560
+#: download.php:572
+#@ wp-download_monitor
 msgid "Download path is invalid!"
 msgstr "Le chemin de téléchargement n'est pas valide."
 
-# @ wp-download_monitor
-#: download.php:592
+#: download.php:604
+#@ wp-download_monitor
 msgid "Download does not exist!"
 msgstr "Le fichier à télécharger n'existe pas !"
 
-#: functions.inc.php:115
+#: functions.inc.php:109
 #, php-format
 msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
 msgstr ""
 
-# @ wp-download_monitor
-#: functions.inc.php:185
+#: functions.inc.php:179
+#@ wp-download_monitor
 msgid "Add Download"
 msgstr "Ajouter un téléchargement"
 
-# @ wp-download_monitor
-#: functions.inc.php:209
 #: admin/dashboard.php:123
 #: admin/dashboard.php:215
+#@ wp-download_monitor
 msgid "Show"
 msgstr "Montrer"
 
-# @ wp-download_monitor
-#: functions.inc.php:210
-msgid "All Downloads"
-msgstr "Tous les téléchargements"
-
-# @ wp-download_monitor
-#: functions.inc.php:211
-msgid "Downloads and categories"
-msgstr "Téléchargements et catégories"
-
-# @ wp-download_monitor
-#: functions.inc.php:216
-#: functions.inc.php:241
+#: page-addon/download-monitor-page-addon.php:61
 #: uploader.php:807
-#: wp-download_monitor.php:126
+#: wp-download_monitor.php:131
+#@ wp-download_monitor
 msgid "Downloads"
 msgstr "Téléchargements"
 
-# @ wp-download_monitor
-#: functions.inc.php:229
-#: legacy_shortcodes.php:264
-#: uploader.php:557
-#: uploader.php:815
-#: wp-download_monitor.php:131
 #: admin/add_directory.php:242
 #: admin/add_new.php:310
-#: admin/admin.php:645
-#: admin/admin.php:1117
-#: admin/admin.php:1355
+#: admin/admin.php:646
+#: admin/admin.php:1118
+#: admin/admin.php:1356
+#: legacy_shortcodes.php:264
+#: page-addon/download-monitor-page-addon.php:64
+#: uploader.php:557
+#: uploader.php:815
+#: wp-download_monitor.php:136
+#@ wp-download_monitor
 msgid "Categories"
 msgstr "Catégories"
 
-# @ wp-download_monitor
 #: init.php:29
 #: init.php:31
+#@ wp-download_monitor
 msgid "Download Monitor 3.3 (and above) use a different database structure than in previous versions - this was to support multiple categories. You must update your database in order for this version to work - <strong>backup your database first</strong> then"
 msgstr "Download Monitor 3.3 (et au dessus) utilise une structure de base de données différente que celle des versions antérieures et ceci afin de gérer les catégories multiples. Vous devez mettre à jour votre base de données afin que cette version fonctionne - <strong>faites en premier lieu une sauvegarde de votre base de données</strong> ensuite "
 
-# @ wp-download_monitor
 #: init.php:29
 #: init.php:31
+#@ wp-download_monitor
 msgid "click here"
 msgstr "cliquez ici "
 
-# @ wp-download_monitor
 #: init.php:29
 #: init.php:31
+#@ wp-download_monitor
 msgid "to run the update script"
 msgstr "afin d'exécuter le script de mise à jour "
 
-# @ wp-download_monitor
-#: init.php:233
+#: init.php:234
+#@ wp-download_monitor
 msgid "Database was NOT upgraded - the rename process failed. Ensure your mysql user has ALTER, DROP, CREATE and INSERT privileges."
 msgstr "La base de données N'A PAS été mise à jour - le processus de changement de nom a échoué. Vérifiez que votre utilisateur MySql a bien les privilèges ALTER, DROP, CREATE et INSERT."
 
-# @ wp-download_monitor
-#: init.php:331
+#: init.php:332
+#@ wp-download_monitor
 msgid "Database Upgraded"
 msgstr "Base de données mise à jour "
 
-# @ wp-download_monitor
+#: admin/add_new.php:266
+#: admin/admin.php:594
+#: admin/admin.php:1445
 #: legacy_shortcodes.php:51
 #: legacy_shortcodes.php:77
 #: legacy_shortcodes.php:82
@@ -129,16 +122,17 @@ msgstr "Base de données mise à jour "
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:63
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:585
+#: page-addon/download-monitor-page-addon.php:710
 #: shortcodes.php:62
 #: shortcodes.php:191
 #: uploader.php:478
-#: admin/add_new.php:266
-#: admin/admin.php:593
-#: admin/admin.php:1444
+#@ wp-download_monitor
 msgid "Version"
 msgstr "Version"
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:51
 #: legacy_shortcodes.php:77
 #: legacy_shortcodes.php:82
@@ -148,12 +142,13 @@ msgstr "Version"
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
 #: shortcodes.php:62
 #: shortcodes.php:191
+#@ wp-download_monitor
 msgid "downloaded"
 msgstr "téléchargé"
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:51
 #: legacy_shortcodes.php:77
 #: legacy_shortcodes.php:82
@@ -164,48 +159,54 @@ msgstr "téléchargé"
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
+#: page-addon/download-monitor-page-addon.php:149
+#: page-addon/download-monitor-page-addon.php:715
 #: shortcodes.php:62
 #: shortcodes.php:191
+#@ wp-download_monitor
 msgid "times"
 msgstr "fois"
 
-# @ wp-download_monitor
+#: admin/admin.php:1354
 #: legacy_shortcodes.php:77
-#: admin/admin.php:1353
+#: page-addon/download-monitor-page-addon.php:71
+#@ wp-download_monitor
 msgid "Download"
 msgstr "Téléchargement"
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:180
+#: page-addon/download-monitor-page-addon.php:66
+#: page-addon/download-monitor-page-addon.php:715
+#@ wp-download_monitor
 msgid "Downloaded"
 msgstr "Téléchargé"
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:219
 #: legacy_shortcodes.php:226
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
+#@ wp-download_monitor
 msgid "jS M Y"
 msgstr ""
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:243
 #: legacy_shortcodes.php:280
+#@ wp-download_monitor
 msgid "Added"
 msgstr "Ajouté"
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:263
+#@ wp-download_monitor
 msgid "Most Popular Downloads"
 msgstr "Téléchargements les plus populaires"
 
-# @ wp-download_monitor
 #: legacy_shortcodes.php:283
+#@ wp-download_monitor
 msgid "No Downloads Found"
 msgstr "Pas de téléchargement trouvé"
 
-# @ wp-download_monitor
 #: shortcodes.php:209
+#@ wp-download_monitor
 msgid "No Downloads found"
 msgstr "Aucun téléchargement de trouvé "
 
@@ -231,999 +232,1015 @@ msgstr "Chargements"
 msgid "WordPress"
 msgstr "WordPress"
 
-# @ wp-download_monitor
-#: uploader.php:246
-#: uploader.php:695
-#: uploader.php:707
 #: admin/add_directory.php:353
 #: admin/add_directory.php:364
 #: admin/add_new.php:445
 #: admin/add_new.php:456
-#: admin/admin.php:261
-#: admin/admin.php:788
-#: admin/admin.php:800
-#: admin/admin.php:1262
-#: admin/admin.php:1274
+#: admin/admin.php:260
+#: admin/admin.php:789
+#: admin/admin.php:801
+#: admin/admin.php:1263
+#: admin/admin.php:1275
+#: uploader.php:246
+#: uploader.php:695
+#: uploader.php:707
+#@ wp-download_monitor
 msgid "remove"
 msgstr "retirer "
 
-# @ wp-download_monitor
-#: uploader.php:267
 #: admin/add_new.php:66
+#: uploader.php:267
+#@ wp-download_monitor
 msgid "Add New Download"
 msgstr "Ajouter un téléchargement"
 
-# @ wp-download_monitor
 #: uploader.php:268
+#@ wp-download_monitor
 msgid "View Downloads"
 msgstr "Voir les téléchargements "
 
-# @ wp-download_monitor
 #: uploader.php:309
+#@ wp-download_monitor
 msgid "<div id=\"media-upload-error\">Required field: <strong>Title</strong> omitted</div>"
 msgstr "<div id=\"media-upload-error\">Champ obligatoire : <strong>Titre</strong> omis</div>"
 
-# @ wp-download_monitor
 #: uploader.php:311
+#@ wp-download_monitor
 msgid "<div id=\"media-upload-error\">Invalid <strong>hits</strong> entered</div>"
 msgstr "<div id=\"media-upload-error\">Nombre de <strong>hits</strong> invalide</div>"
 
-# @ wp-download_monitor
-#: uploader.php:353
 #: admin/add_new.php:135
+#: uploader.php:353
+#@ wp-download_monitor
 msgid "No file selected"
 msgstr "Aucun fichier de sélectionné "
 
-# @ wp-download_monitor
 #: uploader.php:451
+#@ wp-download_monitor
 msgid "<div id=\"media-upload-error\">Error saving to database</div>"
 msgstr "<div id=\"media-upload-error\">Erreur lors de la sauvegarde de la base de données.</div>"
 
-# @ wp-download_monitor
 #: uploader.php:461
+#@ wp-download_monitor
 msgid "Download Information"
 msgstr "Information téléchargement"
 
-# @ wp-download_monitor
+#: admin/add_new.php:260
+#: admin/config.php:281
+#: admin/logs.php:52
+#: page-addon/download-monitor-page-addon.php:231
+#: page-addon/download-monitor-page-addon.php:353
+#: page-addon/download-monitor-page-addon.php:438
+#: page-addon/download-monitor-page-addon.php:519
 #: uploader.php:467
 #: uploader.php:813
-#: admin/add_new.php:260
-#: admin/config.php:280
-#: admin/logs.php:52
+#@ wp-download_monitor
 msgid "Title"
 msgstr "Titre"
 
-# @ wp-download_monitor
-#: uploader.php:473
 #: admin/add_new.php:272
-#: admin/admin.php:599
+#: admin/admin.php:600
+#: page-addon/download-monitor-page-addon.php:62
+#: uploader.php:473
+#@ wp-download_monitor
 msgid "Description"
 msgstr "Description"
 
-# @ wp-download_monitor
-#: uploader.php:484
 #: admin/add_new.php:276
+#: uploader.php:484
+#@ wp-download_monitor
 msgid "Starting hits"
 msgstr "Nombre de hits de départ"
 
-# @ wp-download_monitor
-#: uploader.php:490
 #: admin/add_new.php:282
+#: uploader.php:490
+#@ wp-download_monitor
 msgid "Select a file..."
 msgstr "Sélectionnez un fichier..."
 
-# @ wp-download_monitor
-#: uploader.php:521
 #: admin/add_new.php:247
-#: admin/admin.php:569
+#: admin/admin.php:570
+#: uploader.php:521
+#@ wp-download_monitor
 msgid " (defined in php.ini)"
 msgstr "(défini dans php.ini)"
 
-# @ wp-download_monitor
-#: uploader.php:532
 #: admin/add_new.php:286
+#: uploader.php:532
+#@ wp-download_monitor
 msgid "Upload File"
 msgstr "Charger un fichier"
 
-# @ wp-download_monitor
-#: uploader.php:534
 #: admin/add_new.php:287
-#: admin/admin.php:623
+#: admin/admin.php:624
+#: uploader.php:534
+#@ wp-download_monitor
 msgid "Max. filesize"
 msgstr "Taille max."
 
-# @ wp-download_monitor
-#: uploader.php:534
 #: admin/add_new.php:287
-#: admin/admin.php:623
+#: admin/admin.php:624
+#: uploader.php:534
+#@ wp-download_monitor
 msgid "bytes"
 msgstr "bytes"
 
-# @ wp-download_monitor
-#: uploader.php:534
 #: admin/add_new.php:287
-#: admin/admin.php:623
+#: admin/admin.php:624
+#: uploader.php:534
+#@ wp-download_monitor
 msgid "If a file with the same name already exists in the upload directly, this file will be renamed."
 msgstr "Si un fichier avec le même nom existe déjà dans le répertoire de téléchargement, ce fichier sera renommé."
 
-# @ wp-download_monitor
-#: uploader.php:536
-#: uploader.php:652
 #: admin/add_new.php:290
 #: admin/add_new.php:401
-#: admin/admin.php:626
-#: admin/admin.php:736
+#: admin/admin.php:627
+#: admin/admin.php:737
+#: uploader.php:536
+#: uploader.php:652
+#@ wp-download_monitor
 msgid "OR"
 msgstr "OU "
 
-# @ wp-download_monitor
-#: uploader.php:537
 #: admin/add_new.php:293
+#: uploader.php:537
+#@ wp-download_monitor
 msgid "Enter file URL"
 msgstr "Entrer l'URL du fichier "
 
-# @ wp-download_monitor
-#: uploader.php:538
-#: uploader.php:654
 #: admin/add_new.php:297
 #: admin/add_new.php:407
-#: admin/admin.php:632
-#: admin/admin.php:742
-#: admin/admin.php:1217
+#: admin/admin.php:633
+#: admin/admin.php:743
+#: admin/admin.php:1218
+#: uploader.php:538
+#: uploader.php:654
+#@ wp-download_monitor
 msgid "Toggle File Browser"
 msgstr "Explorateur pour changer de fichier"
 
-# @ wp-download_monitor
-#: uploader.php:540
 #: admin/add_directory.php:393
 #: admin/add_new.php:485
+#: uploader.php:540
+#@ wp-download_monitor
 msgid "Y-m-d H:i:s"
 msgstr "Y-m-d H:i:s"
 
-# @ wp-download_monitor
 #: uploader.php:550
+#@ wp-download_monitor
 msgid "Mirrors"
 msgstr "Miroirs "
 
-# @ wp-download_monitor
-#: uploader.php:554
 #: admin/add_new.php:307
-#: admin/admin.php:642
+#: admin/admin.php:643
+#: uploader.php:554
+#@ wp-download_monitor
 msgid "Optionally list the url's of any mirrors here (1 per line). Download monitor will randomly pick one of these mirrors when serving the download."
 msgstr "Facultatif : indiquez la liste des URL des miroirs ici (1 par ligne). Download monitor en prendra un au hasard pour délivrer un téléchargement."
 
-# @ wp-download_monitor
-#: uploader.php:598
 #: admin/add_directory.php:282
 #: admin/add_new.php:350
-#: admin/admin.php:685
-#: admin/admin.php:1164
+#: admin/admin.php:686
+#: admin/admin.php:1165
+#: uploader.php:598
+#@ wp-download_monitor
 msgid "+ Add New Category"
 msgstr "+ Ajouter une nouvelle catégorie "
 
-# @ wp-download_monitor
-#: uploader.php:601
-#: uploader.php:680
 #: admin/add_directory.php:285
 #: admin/add_directory.php:338
 #: admin/add_new.php:353
 #: admin/add_new.php:430
-#: admin/admin.php:688
-#: admin/admin.php:774
-#: admin/admin.php:1167
-#: admin/admin.php:1248
+#: admin/admin.php:689
+#: admin/admin.php:775
+#: admin/admin.php:1168
+#: admin/admin.php:1249
 #: admin/categories.php:106
 #: admin/categories.php:152
 #: admin/categories.php:205
-#: admin/config.php:173
-#: admin/config.php:202
+#: admin/config.php:174
+#: admin/config.php:203
+#: uploader.php:601
+#: uploader.php:680
+#@ wp-download_monitor
 msgid "Name"
 msgstr "Nom"
 
-# @ wp-download_monitor
-#: uploader.php:605
 #: admin/add_directory.php:289
 #: admin/add_new.php:357
-#: admin/admin.php:692
-#: admin/admin.php:1171
+#: admin/admin.php:693
+#: admin/admin.php:1172
 #: admin/categories.php:156
 #: admin/categories.php:190
+#: uploader.php:605
+#@ wp-download_monitor
 msgid "Parent"
 msgstr "Mère"
 
-# @ wp-download_monitor
-#: uploader.php:607
 #: admin/add_directory.php:291
 #: admin/add_new.php:359
-#: admin/admin.php:694
-#: admin/admin.php:1173
+#: admin/admin.php:695
+#: admin/admin.php:1174
 #: admin/categories.php:158
 #: admin/categories.php:193
-#: admin/config.php:337
+#: admin/config.php:338
+#: uploader.php:607
+#@ wp-download_monitor
 msgid "None"
 msgstr "Aucune"
 
-# @ wp-download_monitor
-#: uploader.php:619
 #: admin/add_directory.php:303
 #: admin/add_new.php:371
-#: admin/admin.php:706
-#: admin/admin.php:1185
+#: admin/admin.php:707
+#: admin/admin.php:1186
 #: admin/categories.php:170
-#: admin/config.php:210
+#: admin/config.php:211
+#: uploader.php:619
+#@ wp-download_monitor
 msgid "Add"
 msgstr "Ajouter"
 
-# @ wp-download_monitor
-#: uploader.php:624
-#: uploader.php:816
 #: admin/add_directory.php:307
 #: admin/add_new.php:375
-#: admin/admin.php:710
-#: admin/admin.php:1189
-#: admin/admin.php:1356
+#: admin/admin.php:711
+#: admin/admin.php:1190
+#: admin/admin.php:1357
+#: page-addon/download-monitor-page-addon.php:54
+#: page-addon/download-monitor-page-addon.php:65
+#: uploader.php:624
+#: uploader.php:816
+#@ wp-download_monitor
 msgid "Tags"
 msgstr ""
 
-# @ wp-download_monitor
-#: uploader.php:630
 #: admin/add_directory.php:309
 #: admin/add_new.php:377
-#: admin/admin.php:712
-#: admin/admin.php:1194
+#: admin/admin.php:713
+#: admin/admin.php:1195
+#: uploader.php:630
+#@ wp-download_monitor
 msgid "Separate tags with commas."
 msgstr "Séparer les tags avec des virgules."
 
-# @ wp-download_monitor
-#: uploader.php:638
 #: admin/add_directory.php:318
 #: admin/add_new.php:386
-#: admin/admin.php:721
-#: admin/admin.php:1203
+#: admin/admin.php:722
+#: admin/admin.php:1204
+#: uploader.php:638
+#@ wp-download_monitor
 msgid "No Tags Found"
 msgstr "Aucun tag de trouvé."
 
-# @ wp-download_monitor
-#: uploader.php:644
 #: admin/add_new.php:393
-#: admin/admin.php:728
-#: admin/admin.php:1210
+#: admin/admin.php:729
+#: admin/admin.php:1211
+#: uploader.php:644
+#@ wp-download_monitor
 msgid "Thumbnail"
 msgstr "Miniature "
 
-# @ wp-download_monitor
-#: uploader.php:647
 #: admin/add_new.php:397
+#: uploader.php:647
+#@ wp-download_monitor
 msgid "Upload thumbnail"
 msgstr "Uploader la miniature "
 
-# @ wp-download_monitor
-#: uploader.php:650
 #: admin/add_new.php:398
-#: admin/admin.php:733
+#: admin/admin.php:734
+#: uploader.php:650
+#@ wp-download_monitor
 msgid "This will be displayed on the download page or with {thumbnail} in a custom format (a placeholder will be shown if not set)."
 msgstr "Ce sera visible sur la page de téléchargement ou avec {thumbnail} dans un format personnalisé (un emplacement sera affiché si ce n'est pas défini)."
 
-# @ wp-download_monitor
-#: uploader.php:653
 #: admin/add_new.php:404
+#: uploader.php:653
+#@ wp-download_monitor
 msgid "Enter thumbnail URL"
 msgstr "Enter l'URL de la miniature "
 
-# @ wp-download_monitor
-#: uploader.php:660
 #: admin/add_directory.php:325
 #: admin/add_new.php:416
-#: admin/admin.php:751
-#: admin/admin.php:1223
+#: admin/admin.php:752
+#: admin/admin.php:1224
+#: uploader.php:660
+#@ wp-download_monitor
 msgid "Member only file?"
 msgstr "Fichier réservé aux membres ?"
 
-# @ wp-download_monitor
-#: uploader.php:664
 #: admin/add_directory.php:326
 #: admin/add_new.php:417
-#: admin/admin.php:752
-#: admin/admin.php:1227
+#: admin/admin.php:753
+#: admin/admin.php:1228
+#: uploader.php:664
 #, fuzzy
+#@ wp-download_monitor
 msgid "If chosen, only logged in users will be able to access the file via a download link. You can also add a custom field called min-level or req-role to set the minimum user level needed to download the file."
 msgstr "Si sélectionné, seuls les utilisateurs connectés auront accès au fichier via le lien de téléchargement. Vous pouvez aussi ajouter un champs personnalisé appelé min-level pour définir le niveau minimum d'utilisateur nécessaire pour télécharger le fichier."
 
-# @ wp-download_monitor
-#: uploader.php:667
 #: admin/add_directory.php:329
 #: admin/add_new.php:420
-#: admin/admin.php:755
-#: admin/admin.php:1230
+#: admin/admin.php:756
+#: admin/admin.php:1231
+#: uploader.php:667
+#@ wp-download_monitor
 msgid "Force Download?"
 msgstr "Téléchargement forcé ?"
 
-# @ wp-download_monitor
-#: uploader.php:671
 #: admin/add_directory.php:330
 #: admin/add_new.php:421
-#: admin/admin.php:756
-#: admin/admin.php:1234
+#: admin/admin.php:757
+#: admin/admin.php:1235
+#: uploader.php:671
+#@ wp-download_monitor
 msgid "If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server."
 msgstr "Si sélectionné, Download Monitor tentera de forcer le téléchargement plutôt que de le rediriger. Ce réglage n'est pas compatible avec tous les serveurs (à tester) et dans la plupart des cas ne fonctionnera qu'avec des fichiers hébergés sur un serveur local."
 
-# @ wp-download_monitor
-#: uploader.php:676
 #: admin/add_directory.php:333
 #: admin/add_new.php:425
-#: admin/admin.php:769
-#: admin/admin.php:1238
-#: admin/admin.php:1359
+#: admin/admin.php:770
+#: admin/admin.php:1239
+#: admin/admin.php:1360
+#: uploader.php:676
+#@ wp-download_monitor
 msgid "Custom fields"
 msgstr "Champs personnalisés "
 
-# @ wp-download_monitor
-#: uploader.php:681
 #: admin/add_directory.php:339
 #: admin/add_new.php:431
-#: admin/admin.php:775
-#: admin/admin.php:1249
+#: admin/admin.php:776
+#: admin/admin.php:1250
+#: uploader.php:681
+#@ wp-download_monitor
 msgid "Value"
 msgstr "Valeur"
 
-# @ wp-download_monitor
-#: uploader.php:715
 #: admin/add_directory.php:372
 #: admin/add_new.php:464
-#: admin/admin.php:807
-#: admin/admin.php:1281
+#: admin/admin.php:808
+#: admin/admin.php:1282
+#: uploader.php:715
+#@ wp-download_monitor
 msgid "Add Custom Field"
 msgstr "Ajouter un champ personnalisé "
 
-# @ wp-download_monitor
-#: uploader.php:715
 #: admin/add_directory.php:372
 #: admin/add_new.php:464
-#: admin/admin.php:807
-#: admin/admin.php:1281
+#: admin/admin.php:808
+#: admin/admin.php:1282
+#: uploader.php:715
+#@ wp-download_monitor
 msgid "Toggle Existing Custom Fields"
 msgstr "Faire défiler les champs personnalisés existants "
 
-# @ wp-download_monitor
-#: uploader.php:726
 #: admin/add_directory.php:383
 #: admin/add_new.php:475
-#: admin/admin.php:818
-#: admin/admin.php:1292
+#: admin/admin.php:819
+#: admin/admin.php:1293
+#: uploader.php:726
+#@ wp-download_monitor
 msgid "None found."
 msgstr "Aucun de trouvé."
 
-# @ wp-download_monitor
 #: uploader.php:733
+#@ wp-download_monitor
 msgid "Save new download"
 msgstr "Sauvegarder un nouveau téléchargement"
 
-# @ wp-download_monitor
 #: uploader.php:741
+#@ wp-download_monitor
 msgid "Insert new download into post"
 msgstr "Insérer un nouveau téléchargement dans un article"
 
-# @ wp-download_monitor
 #: uploader.php:743
 #: uploader.php:789
+#@ wp-download_monitor
 msgid "Insert into post using format:"
 msgstr "Insérer dans un article en utilisant le format :"
 
-# @ wp-download_monitor
 #: uploader.php:744
 #: uploader.php:792
+#@ wp-download_monitor
 msgid "Default"
 msgstr "Par défaut "
 
-# @ wp-download_monitor
 #: uploader.php:757
+#@ wp-download_monitor
 msgid "Insert into post"
 msgstr "Insérer dans un article"
 
-# @ wp-download_monitor
+#: admin/admin.php:1342
+#: page-addon/download-monitor-page-addon.php:56
 #: uploader.php:779
-#: admin/admin.php:1341
+#@ wp-download_monitor
 msgid "Search Downloads:"
 msgstr "Rechercher des téléchargements: "
 
-# @ wp-download_monitor
+#: admin/admin.php:1344
 #: uploader.php:781
-#: admin/admin.php:1343
+#@ wp-download_monitor
 msgid "Search Downloads"
 msgstr "Chercher des téléchargements "
 
-# @ wp-download_monitor
-#: uploader.php:812
-#: admin/admin.php:1352
+#: admin/admin.php:1353
 #: admin/categories.php:105
-#: admin/config.php:172
-#: admin/config.php:279
+#: admin/config.php:173
+#: admin/config.php:280
 #: admin/logs.php:51
+#: uploader.php:812
+#@ wp-download_monitor
 msgid "ID"
 msgstr "ID"
 
-# @ wp-download_monitor
-#: uploader.php:814
-#: admin/admin.php:1354
+#: admin/admin.php:1355
 #: admin/logs.php:53
+#: classes/downloadable_file.class.php:345
+#: uploader.php:814
+#@ wp-download_monitor
 msgid "File"
 msgstr "Fichier"
 
-# @ wp-download_monitor
+#: admin/admin.php:1358
 #: uploader.php:817
-#: admin/admin.php:1357
+#@ wp-download_monitor
 msgid "Member only"
 msgstr "Réservé aux membres"
 
-# @ wp-download_monitor
+#: admin/admin.php:1359
 #: uploader.php:818
-#: admin/admin.php:1358
+#@ wp-download_monitor
 msgid "Force Download"
 msgstr "Forcer le téléchargement "
 
-# @ wp-download_monitor
-#: uploader.php:819
 #: admin/categories.php:107
-#: admin/config.php:175
+#: admin/config.php:176
+#: uploader.php:819
+#@ wp-download_monitor
 msgid "Action"
 msgstr "Action"
 
-# @ wp-download_monitor
+#: admin/admin.php:1456
+#: admin/admin.php:1467
+#: classes/downloadable_file.class.php:344
 #: uploader.php:887
 #: uploader.php:898
-#: admin/admin.php:1455
-#: admin/admin.php:1466
+#@ wp-download_monitor
 msgid "N/A"
 msgstr ""
 
-# @ wp-download_monitor
+#: admin/admin.php:1474
+#: admin/admin.php:1477
+#: admin/config.php:302
+#: admin/config.php:316
+#: admin/config.php:360
+#: admin/config.php:373
+#: admin/config.php:386
 #: uploader.php:906
 #: uploader.php:909
-#: admin/admin.php:1473
-#: admin/admin.php:1476
-#: admin/config.php:301
-#: admin/config.php:315
-#: admin/config.php:359
-#: admin/config.php:372
+#@ wp-download_monitor
 msgid "Yes"
 msgstr "Oui"
 
-# @ wp-download_monitor
+#: admin/admin.php:1474
+#: admin/admin.php:1477
+#: admin/config.php:305
+#: admin/config.php:319
+#: admin/config.php:363
+#: admin/config.php:376
+#: admin/config.php:389
 #: uploader.php:906
 #: uploader.php:909
-#: admin/admin.php:1473
-#: admin/admin.php:1476
-#: admin/config.php:304
-#: admin/config.php:318
-#: admin/config.php:362
-#: admin/config.php:375
+#@ wp-download_monitor
 msgid "No"
 msgstr "Non"
 
-# @ wp-download_monitor
 #: uploader.php:911
+#@ wp-download_monitor
 msgid "Insert"
 msgstr "Insérer "
 
+#: admin/admin.php:1521
 #: uploader.php:935
-#: admin/admin.php:1520
 msgid "&laquo; Previous"
 msgstr ""
 
+#: admin/admin.php:1522
 #: uploader.php:936
-#: admin/admin.php:1521
 msgid "Next &raquo;"
 msgstr ""
 
-# @ wp-download_monitor
-#: wp-download_monitor.php:127
-#: admin/admin.php:1334
-#: admin/admin.php:1493
+#: admin/admin.php:1335
+#: admin/admin.php:1494
 #: admin/categories.php:209
+#: wp-download_monitor.php:132
+#@ wp-download_monitor
 msgid "Edit"
 msgstr "Éditer "
 
-# @ wp-download_monitor
-#: wp-download_monitor.php:128
+#: wp-download_monitor.php:133
+#@ wp-download_monitor
 msgid "Add New"
 msgstr "Ajouter un nouveau "
 
-# @ wp-download_monitor
-#: wp-download_monitor.php:129
+#: wp-download_monitor.php:134
+#@ wp-download_monitor
 msgid "Add Directory"
 msgstr "Ajouter un répertoire "
 
-# @ wp-download_monitor
-#: wp-download_monitor.php:133
+#: wp-download_monitor.php:138
+#@ wp-download_monitor
 msgid "Configuration"
 msgstr ""
 
-# @ wp-download_monitor
-#: wp-download_monitor.php:134
+#: wp-download_monitor.php:139
+#@ wp-download_monitor
 msgid "Log"
 msgstr "Stats log"
 
-# @ wp-download_monitor
 #: admin/add_directory.php:43
+#@ wp-download_monitor
 msgid "Add From Directory"
 msgstr "Ajouter à partir du répertoire "
 
-# @ wp-download_monitor
 #: admin/add_directory.php:45
+#@ wp-download_monitor
 msgid "This feature lets you add downloads in bulk from a directory <strong>on your server</strong>. It will attempt to read sub-directories too. It will do its best to choose relevant titles for each download - if you need to change titles or add extra information you will have to edit the downloads afterwards."
 msgstr "Cette fonction vous permet d'ajouter des téléchargements en masse à partir d'un répertoire <strong>situé sur votre serveur</strong>. Elle tentera de lire aussi les sous-répertoires. Elle fera de son mieux pour choisir des titres pour chaque téléchargement - si vous désirez changer les titres ou ajouter des informations supplémentaires, vous devrez éditer les téléchargements après coup."
 
-# @ wp-download_monitor
 #: admin/add_directory.php:59
+#@ wp-download_monitor
 msgid "<div class=\"error\">No folder selected</div>"
 msgstr "<div class=\"error\">Aucun répertoire de sélectionné</div>"
 
-# @ wp-download_monitor
 #: admin/add_directory.php:215
+#@ wp-download_monitor
 msgid "Downloads added Successfully"
 msgstr "Téléchargements ajoutés avec succès "
 
-# @ wp-download_monitor
 #: admin/add_directory.php:217
+#@ wp-download_monitor
 msgid "No files found"
 msgstr "Aucun fichier de trouvé "
 
-# @ wp-download_monitor
 #: admin/add_directory.php:226
+#@ wp-download_monitor
 msgid "Directory (relative paths only)"
 msgstr "Répertoire (chemin relatif uniquement)"
 
-# @ wp-download_monitor
 #: admin/add_directory.php:230
+#@ wp-download_monitor
 msgid "Toggle Folder Browser"
 msgstr "Basculer l'explorateur de répertoire "
 
-# @ wp-download_monitor
 #: admin/add_directory.php:236
+#@ wp-download_monitor
 msgid "Extensions"
 msgstr ""
 
-# @ wp-download_monitor
 #: admin/add_directory.php:238
+#@ wp-download_monitor
 msgid "List extensions to look for separated by commas, or leave blank to import all. Example: zip,gif,jpg"
 msgstr "Lister les extensions à prendre en compte en les séparant avec des virgules ou laisser en blanc pour tout importer. Exemple: zip,gif,jpg"
 
-# @ wp-download_monitor
 #: admin/add_directory.php:334
 #: admin/add_new.php:426
-#: admin/admin.php:770
-#: admin/admin.php:1239
+#: admin/admin.php:771
+#: admin/admin.php:1240
+#@ wp-download_monitor
 msgid "Custom fields can be used to add extra metadata to a download. Leave blank to add none. Name should be lower case with no spaces (changed automatically, e.g. <code>Some Name</code> will become <code>some-name</code>."
 msgstr "Les champs personnalisés peuvent être utilisés pour ajouter des metadata supplémentaires à un téléchargement. Laisser en blanc pour n'en ajouter aucun. Les noms doivent être en majuscules sans espace (traduit automatiquement, c'à d <code>Some Name</code> sera transformé en <code>some-name</code>)."
 
-# @ wp-download_monitor
 #: admin/add_directory.php:392
+#@ wp-download_monitor
 msgid "Scan &amp; Add"
 msgstr "Scanner &amp; ajouter"
 
-# @ wp-download_monitor
 #: admin/add_new.php:88
+#@ wp-download_monitor
 msgid "<div class=\"error\">Required field: <strong>Title</strong> omitted</div>"
 msgstr "<div class=\"error\">Champ obligatoire : <strong>Titre</strong> omis</div>"
 
-# @ wp-download_monitor
 #: admin/add_new.php:90
+#@ wp-download_monitor
 msgid "<div class=\"error\">Invalid <strong>hits</strong> entered</div>"
 msgstr "<div class=\"error\">Nombre de <strong>hits</strong> invalide</div>"
 
-# @ wp-download_monitor
 #: admin/add_new.php:232
 #: admin/add_new.php:233
+#@ wp-download_monitor
 msgid "Download added Successfully"
 msgstr "Téléchargement ajouté avec succès"
 
-# @ wp-download_monitor
 #: admin/add_new.php:238
+#@ wp-download_monitor
 msgid "<div class=\"error\">Error saving to database</div>"
 msgstr "<div class=\"error\">Erreur lors de la sauvegarde dans la base de données</div>"
 
-# @ wp-download_monitor
 #: admin/add_new.php:260
 #: admin/add_new.php:282
-#: admin/admin.php:616
+#: admin/admin.php:617
+#@ wp-download_monitor
 msgid "(required)"
 msgstr "(obligatoire) "
 
-# @ wp-download_monitor
 #: admin/add_new.php:306
-#: admin/admin.php:641
+#: admin/admin.php:642
+#@ wp-download_monitor
 msgid "Download Mirrors"
 msgstr "Miroirs de téléchargement"
 
-# @ wp-download_monitor
 #: admin/add_new.php:484
+#@ wp-download_monitor
 msgid "Upload &amp; save"
 msgstr "Charger &amp; sauvegarder"
 
-# @ wp-download_monitor
 #: admin/admin.php:102
-#: admin/admin.php:321
+#: admin/admin.php:320
+#@ wp-download_monitor
 msgid "Are you sure you want to delete"
 msgstr "Etes-vous certain de vouloir supprimer"
 
-# @ wp-download_monitor
-#: admin/admin.php:320
+#: admin/admin.php:319
+#@ wp-download_monitor
 msgid "Sure?"
 msgstr "Certain ?"
 
-# @ wp-download_monitor
-#: admin/admin.php:321
+#: admin/admin.php:320
+#@ wp-download_monitor
 msgid "? (If originally uploaded by this plugin, this will also remove the file from the server)"
 msgstr " ? (S'il a été initialement chargé avec cette extension, le fichier sera également supprimé du serveur)"
 
-# @ wp-download_monitor
-#: admin/admin.php:321
+#: admin/admin.php:320
+#@ wp-download_monitor
 msgid "[yes]"
 msgstr "[oui]"
 
-# @ wp-download_monitor
-#: admin/admin.php:321
+#: admin/admin.php:320
+#@ wp-download_monitor
 msgid "[no]"
 msgstr "[non]"
 
-# @ wp-download_monitor
-#: admin/admin.php:366
+#: admin/admin.php:365
+#@ wp-download_monitor
 msgid "Required field: <strong>Title</strong> omitted"
 msgstr "Champ obligatoire : <strong>Titre</strong> omis"
 
-# @ wp-download_monitor
-#: admin/admin.php:367
+#: admin/admin.php:366
+#@ wp-download_monitor
 msgid "Required field: <strong>THE FILE</strong> omitted"
 msgstr "Champ requis: <strong>LE FICHIER</stron> est manquant  "
 
-# @ wp-download_monitor
-#: admin/admin.php:369
+#: admin/admin.php:368
+#@ wp-download_monitor
 msgid "Invalid <strong>hits</strong> entered"
 msgstr "Nombre de <strong>hits</strong> invalide"
 
-# @ wp-download_monitor
-#: admin/admin.php:451
+#: admin/admin.php:450
+#@ wp-download_monitor
 msgid "<div class=\"error\">No file selected</div>"
 msgstr "<div class=\"error\">Pas de fichier sélectionné</div>"
 
-# @ wp-download_monitor
-#: admin/admin.php:509
+#: admin/admin.php:508
+#@ wp-download_monitor
 msgid "Download edited Successfully"
 msgstr "Téléchargement modifié avec succès"
 
-# @ wp-download_monitor
-#: admin/admin.php:580
+#: admin/admin.php:581
+#@ wp-download_monitor
 msgid "Edit Download Information"
 msgstr "Modifier les informations du téléchargement"
 
-# @ wp-download_monitor
-#: admin/admin.php:587
+#: admin/admin.php:588
+#@ wp-download_monitor
 msgid "Title (required)"
 msgstr "Titre (obligatoire)"
 
-# @ wp-download_monitor
-#: admin/admin.php:603
+#: admin/admin.php:604
+#@ wp-download_monitor
 msgid "Change hit count"
 msgstr "Changer le nombre de hits"
 
-# @ wp-download_monitor
-#: admin/admin.php:609
+#: admin/admin.php:610
+#@ wp-download_monitor
 msgid "Change post date"
 msgstr "Changer la date de publication "
 
-# @ wp-download_monitor
-#: admin/admin.php:612
+#: admin/admin.php:613
+#@ wp-download_monitor
 msgid "Change the post date of the download. Was set to:"
 msgstr "Changer la date de publication du téléchargement. Pour l'instant: "
 
-# @ wp-download_monitor
-#: admin/admin.php:612
+#: admin/admin.php:613
+#@ wp-download_monitor
 msgid "M jS Y @ H:i"
 msgstr "jS M Y @ H:i"
 
-# @ wp-download_monitor
-#: admin/admin.php:616
+#: admin/admin.php:617
+#@ wp-download_monitor
 msgid "The File"
 msgstr "Le fichier "
 
-# @ wp-download_monitor
-#: admin/admin.php:620
+#: admin/admin.php:621
+#@ wp-download_monitor
 msgid "Upload New File"
 msgstr "Uploader un nouveau fichier "
 
-# @ wp-download_monitor
-#: admin/admin.php:622
+#: admin/admin.php:623
+#@ wp-download_monitor
 msgid "Remove old file?"
 msgstr "Supprimer l'ancien fichier ?"
 
-# @ wp-download_monitor
-#: admin/admin.php:629
+#: admin/admin.php:630
+#@ wp-download_monitor
 msgid "Edit File URL"
 msgstr "Éditer l'URL du fichier "
 
-# @ wp-download_monitor
-#: admin/admin.php:732
+#: admin/admin.php:733
+#@ wp-download_monitor
 msgid "Upload new thumbnail"
 msgstr "Uploader une nouvelle miniature "
 
-# @ wp-download_monitor
-#: admin/admin.php:739
+#: admin/admin.php:740
+#@ wp-download_monitor
 msgid "Edit thumbnail URL"
 msgstr "Éditer l'URL de la miniature "
 
-# @ wp-download_monitor
-#: admin/admin.php:826
-#: admin/admin.php:1300
-#: admin/config.php:196
-#: admin/config.php:285
-#: admin/config.php:399
+#: admin/admin.php:827
+#: admin/admin.php:1301
+#: admin/config.php:197
+#: admin/config.php:286
+#: admin/config.php:413
+#@ wp-download_monitor
 msgid "Save Changes"
 msgstr "Sauvegarder les modifications"
 
-# @ wp-download_monitor
-#: admin/admin.php:864
+#: admin/admin.php:865
+#@ wp-download_monitor
 msgid "Download deleted Successfully"
 msgstr "Téléchargement supprimé avec succès"
 
-# @ wp-download_monitor
-#: admin/admin.php:902
+#: admin/admin.php:903
+#@ wp-download_monitor
 msgid "Stats successfully reset for selected downloads"
 msgstr "Les stats ont été remises à zéro avec succès pour les téléchargements sélectionnés "
 
-# @ wp-download_monitor
-#: admin/admin.php:944
+#: admin/admin.php:945
+#@ wp-download_monitor
 msgid "Selected Downloads deleted Successfully"
 msgstr "Les téléchargements sélectionnés ont été supprimés avec succès "
 
-# @ wp-download_monitor
-#: admin/admin.php:1099
+#: admin/admin.php:1100
+#@ wp-download_monitor
 msgid "Downloads edited successfully"
 msgstr "Les téléchargements ont été édités avec succès "
 
-# @ wp-download_monitor
-#: admin/admin.php:1109
+#: admin/admin.php:1110
+#@ wp-download_monitor
 msgid "Bulk Edit Downloads"
 msgstr "Éditer en masse les téléchargements "
 
-# @ wp-download_monitor
-#: admin/admin.php:1110
+#: admin/admin.php:1111
+#@ wp-download_monitor
 msgid "Editing downloads with id's:"
 msgstr "Édition des téléchargements avec les ID: "
 
-# @ wp-download_monitor
-#: admin/admin.php:1110
+#: admin/admin.php:1111
+#@ wp-download_monitor
 msgid "Adding options here will overwrite the options in ALL of the selected downloads."
 msgstr "Rajouter des options ici écrasera les options de TOUS les téléchargements sélectionnés."
 
-# @ wp-download_monitor
-#: admin/admin.php:1120
-#: admin/admin.php:1192
-#: admin/admin.php:1213
-#: admin/admin.php:1225
-#: admin/admin.php:1232
-#: admin/admin.php:1241
-#: admin/categories.php:192
-msgid "No Change"
-msgstr "Aucune modification "
-
-# @ wp-download_monitor
 #: admin/admin.php:1121
-msgid "Change to &darr;"
-msgstr "Changer en &darr; "
-
-# @ wp-download_monitor
 #: admin/admin.php:1193
 #: admin/admin.php:1214
 #: admin/admin.php:1226
 #: admin/admin.php:1233
+#: admin/admin.php:1242
+#: admin/categories.php:192
+#@ wp-download_monitor
+msgid "No Change"
+msgstr "Aucune modification "
+
+#: admin/admin.php:1122
+#@ wp-download_monitor
+msgid "Change to &darr;"
+msgstr "Changer en &darr; "
+
+#: admin/admin.php:1194
+#: admin/admin.php:1215
+#: admin/admin.php:1227
+#: admin/admin.php:1234
+#@ wp-download_monitor
 msgid "Change to &rarr;"
 msgstr "Changer en &rarr;"
 
-# @ wp-download_monitor
-#: admin/admin.php:1242
+#: admin/admin.php:1243
+#@ wp-download_monitor
 msgid "Replace with:"
 msgstr "Remplacer avec: "
 
-# @ wp-download_monitor
-#: admin/admin.php:1243
+#: admin/admin.php:1244
+#@ wp-download_monitor
 msgid "Add/Update only (keep existing fields):"
 msgstr "Ajouter/mettre à jour (conserver les champs existants):"
 
-# @ wp-download_monitor
-#: admin/admin.php:1323
+#: admin/admin.php:1324
+#@ wp-download_monitor
 msgid "Edit Downloads"
 msgstr "Éditer les téléchargements "
 
-# @ wp-download_monitor
-#: admin/admin.php:1331
-#: admin/admin.php:1490
+#: admin/admin.php:1332
+#: admin/admin.php:1491
+#@ wp-download_monitor
 msgid "Actions:"
 msgstr ""
 
-# @ wp-download_monitor
-#: admin/admin.php:1333
-#: admin/admin.php:1492
+#: admin/admin.php:1334
+#: admin/admin.php:1493
+#@ wp-download_monitor
 msgid "Bulk Actions"
 msgstr "Actions de masse "
 
-# @ wp-download_monitor
-#: admin/admin.php:1335
-#: admin/admin.php:1494
+#: admin/admin.php:1336
+#: admin/admin.php:1495
+#@ wp-download_monitor
 msgid "Delete"
 msgstr "Effacer "
 
-# @ wp-download_monitor
-#: admin/admin.php:1336
-#: admin/admin.php:1495
+#: admin/admin.php:1337
+#: admin/admin.php:1496
+#@ wp-download_monitor
 msgid "Reset Stats"
 msgstr "Remette à zéro les stats "
 
-# @ wp-download_monitor
-#: admin/admin.php:1338
-#: admin/admin.php:1497
+#: admin/admin.php:1339
+#: admin/admin.php:1498
+#@ wp-download_monitor
 msgid "Apply"
 msgstr "Appliquer "
 
-# @ wp-download_monitor
-#: admin/admin.php:1360
+#: admin/admin.php:1361
+#: page-addon/download-monitor-page-addon.php:231
+#: page-addon/download-monitor-page-addon.php:353
+#: page-addon/download-monitor-page-addon.php:438
+#: page-addon/download-monitor-page-addon.php:519
+#@ wp-download_monitor
 msgid "Hits"
 msgstr "Hits"
 
-# @ wp-download_monitor
-#: admin/admin.php:1361
+#: admin/admin.php:1362
+#@ wp-download_monitor
 msgid "Posted"
 msgstr "Envoyé"
 
-# @ wp-download_monitor
-#: admin/admin.php:1424
+#: admin/admin.php:1425
+#@ wp-download_monitor
 msgid "Y/m/d"
 msgstr "d/m/Y"
 
-# @ wp-download_monitor
-#: admin/admin.php:1481
+#: admin/admin.php:1482
+#@ wp-download_monitor
 msgid "by"
 msgstr "par "
 
-# @ wp-download_monitor
-#: admin/admin.php:1485
+#: admin/admin.php:1486
+#@ wp-download_monitor
 msgid "No downloads found."
 msgstr "Aucun téléchargement trouvé."
 
-#: admin/admin.php:1544
+#: admin/admin.php:1545
 msgid ""
 "You are about to delete the selected items.\n"
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-# @ wp-download_monitor
-#: admin/admin.php:1559
+#: admin/admin.php:1560
+#@ wp-download_monitor
 msgid "Download Monitor News"
 msgstr "Nouvelles de Download Monitor "
 
-# @ wp-download_monitor
-#: admin/admin.php:1583
+#: admin/admin.php:1584
 #, php-format
+#@ wp-download_monitor
 msgid "%s ago"
 msgstr "Il y a %s"
 
-# @ wp-download_monitor
-#: admin/admin.php:1585
+#: admin/admin.php:1586
+#@ wp-download_monitor
 msgid "F jS Y"
 msgstr ""
 
-# @ wp-download_monitor
-#: admin/admin.php:1594
+#: admin/admin.php:1595
+#@ wp-download_monitor
 msgid "No items found."
 msgstr "Aucun objet de trouvé."
 
-# @ wp-download_monitor
-#: admin/admin.php:1602
+#: admin/admin.php:1603
+#@ wp-download_monitor
 msgid "Links, Help &amp; Support"
 msgstr "Liens, aide &amp; support"
 
-# @ wp-download_monitor
-#: admin/admin.php:1604
+#: admin/admin.php:1605
+#@ wp-download_monitor
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
 msgstr "<p>Besoin d'aide ? La FAQ, les instructions d'utilisation et d'autres notes peuvent être trouvés sur la page du plugin de Wordpress.org <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">ici</a>.</p>"
 
-# @ wp-download_monitor
-#: admin/admin.php:1605
+#: admin/admin.php:1606
+#@ wp-download_monitor
 msgid "<p>You can also find documentation and support at the following locations:</p>"
 msgstr "<p>Vous pouvez aussi trouver de la documentation et du support aux adresses suivantes:</p>"
 
-# @ wp-download_monitor
-#: admin/admin.php:1607
+#: admin/admin.php:1608
+#@ wp-download_monitor
 msgid "Download Monitor on Blue-Anvil"
 msgstr "Download Monitor sur Blue-Anvil "
 
-# @ wp-download_monitor
-#: admin/admin.php:1608
+#: admin/admin.php:1609
+#@ wp-download_monitor
 msgid "Download Monitor Documentation"
 msgstr "Documentation de Download Monitor "
 
-# @ wp-download_monitor
-#: admin/admin.php:1609
+#: admin/admin.php:1610
+#@ wp-download_monitor
 msgid "Support Forum"
 msgstr "Forum de support "
 
-# @ wp-download_monitor
-#: admin/admin.php:1614
+#: admin/admin.php:1615
+#@ wp-download_monitor
 msgid "Support Download Monitor"
 msgstr "Soutenez Download Monitor "
 
-# @ wp-download_monitor
-#: admin/admin.php:1616
+#: admin/admin.php:1617
+#@ wp-download_monitor
 msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
 msgstr "Le plugin WP Download Monitor a été créé par <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Le développement de ce plugin a demandé beaucop de temps et d'efforts aussi n'oubliez pas de faire un don si vous avez trouvé ce plugin utile svp."
 
-# @ wp-download_monitor
-#: admin/admin.php:1618
+#: admin/admin.php:1619
+#@ wp-download_monitor
 msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
 msgstr "Il y a aussi de multiples façons de supporter Download Monitor et de l'aider à être maintenu et bien suivi dans le futur ! En laissant les messages de sponsor activés, en notant le plugin sur Wordpress.org -si vous l'appréciez), en faisant un lien/passer le mot et en proposant du code, vous apporterez votre aide.  "
 
-# @ wp-download_monitor
 #: admin/categories.php:38
+#@ wp-download_monitor
 msgid "Download Categories"
 msgstr "Catégories de téléchargements"
 
-# @ wp-download_monitor
 #: admin/categories.php:40
+#@ wp-download_monitor
 msgid "<p>You can categorise downloads using these categories. You can then show groups of downloads using the category tags or a dedicated download page (see documentation). Please note, deleting a category also deletes it's child categories.</p>"
 msgstr "<p>Vous pouvez ranger les téléchargements en utilisant ces catégories. Vous pourrez alors montrer les groupes de téléchargements en utilisant les tags des catégories ou une page dédiée (voir documentation). Merci de noter que la suppression d'une catégorie supprime également ses catégories filles.</p>"
 
-# @ wp-download_monitor
 #: admin/categories.php:62
+#@ wp-download_monitor
 msgid "Category updated"
 msgstr "Catégorie mise à jour "
 
-# @ wp-download_monitor
 #: admin/categories.php:75
+#@ wp-download_monitor
 msgid "Category added"
 msgstr "Catégorie ajoutée"
 
-# @ wp-download_monitor
 #: admin/categories.php:76
+#@ wp-download_monitor
 msgid "Category was not added. Try Recreating the download database from the configuration page."
 msgstr "La catégorie n'a pas été ajoutée. Essayer de recréer la base de données de téléchargement à partir de la page de configuration."
 
-# @ wp-download_monitor
 #: admin/categories.php:97
+#@ wp-download_monitor
 msgid "Category deleted Successfully"
 msgstr "Catégorie supprimée avec succès"
 
-# @ wp-download_monitor
 #: admin/categories.php:143
+#@ wp-download_monitor
 msgid "No categories exist"
 msgstr "Aucune catégorie existante"
 
-# @ wp-download_monitor
 #: admin/categories.php:149
+#@ wp-download_monitor
 msgid "Add category"
 msgstr "Ajouter une catégorie"
 
-# @ wp-download_monitor
 #: admin/categories.php:173
+#@ wp-download_monitor
 msgid "Edit category"
 msgstr "Éditer la catégorie "
 
-# @ wp-download_monitor
 #: admin/categories.php:176
+#@ wp-download_monitor
 msgid "Category"
 msgstr "Catégorie"
 
-# @ wp-download_monitor
 #: admin/categories.php:178
 #: admin/dashboard.php:205
+#@ wp-download_monitor
 msgid "Select a category"
 msgstr "Sélectionner une catégorie "
 
-# @ wp-download_monitor
 #: admin/config.php:41
+#@ wp-download_monitor
 msgid "Download Monitor Configuration"
 msgstr "Configuration de  Download Monitor "
 
-# @ wp-download_monitor
 #: admin/config.php:54
+#@ wp-download_monitor
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
 "\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
@@ -1243,8 +1260,8 @@ msgstr ""
 "\\\t\\\t\\\t\\\t\\\t\\\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\\\t\\\t\\\t\\\t\\\t\\\t<p> en remplaçant \"download/\" votre propre URL personnalisé et \"*your wp-content dir*\" votre répertoire wp-content.</p>"
 
-# @ wp-download_monitor
 #: admin/config.php:65
+#@ wp-download_monitor
 msgid ""
 "<p>Download URL updated - You need to <strong>re-save your permalinks settings</strong> (Options/settings -> Permalinks) for \n"
 "\t\t\t\t\t\tthe changes to occur in your blog.</p>\n"
@@ -1264,233 +1281,240 @@ msgstr ""
 "\\\t\\\t\\\t\\\t\\\t\\\tRewriteRule ^download/([^/]+)$ *your wp-content dir*/plugins/download-monitor/download.php?id=$1 [L]</p>\n"
 "\\\t\\\t\\\t\\\t\\\t\\\t<p> en remplaçant \"download/\" votre propre URL personnalisé et \"*your wp-content dir*\" votre répertoire wp-content.</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:96
+#: admin/config.php:97
+#@ wp-download_monitor
 msgid "<p>Options updated</p>"
 msgstr "<p>Options mises à jour</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:106
+#: admin/config.php:107
+#@ wp-download_monitor
 msgid "Database Cleaned"
 msgstr "Base de données nettoyée "
 
-# @ wp-download_monitor
-#: admin/config.php:125
+#: admin/config.php:126
+#@ wp-download_monitor
 msgid "Formats updated"
 msgstr "Formats mis à jour"
 
-# @ wp-download_monitor
-#: admin/config.php:136
+#: admin/config.php:137
+#@ wp-download_monitor
 msgid "Format added"
 msgstr "Format ajouté"
 
-# @ wp-download_monitor
-#: admin/config.php:150
+#: admin/config.php:151
+#@ wp-download_monitor
 msgid "Format deleted Successfully"
 msgstr "Format supprimé avec succès"
 
-# @ wp-download_monitor
-#: admin/config.php:165
+#: admin/config.php:166
+#@ wp-download_monitor
 msgid "Custom Output Formats"
 msgstr "Formats de sortie personnalisés"
 
-# @ wp-download_monitor
-#: admin/config.php:167
+#: admin/config.php:168
+#@ wp-download_monitor
 msgid "<p>This allows you to define formats in which to output your downloads however you want.</p>"
 msgstr "<p>Ceci vous permet de définir les formats de sortie de vos téléchargements.</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:174
-#: admin/config.php:206
+#: admin/config.php:175
+#: admin/config.php:207
+#@ wp-download_monitor
 msgid "Format"
 msgstr "Format"
 
-# @ wp-download_monitor
-#: admin/config.php:191
+#: admin/config.php:192
+#@ wp-download_monitor
 msgid "No formats exist"
 msgstr "Aucun format existant"
 
-# @ wp-download_monitor
-#: admin/config.php:198
+#: admin/config.php:199
+#@ wp-download_monitor
 msgid "Add format"
 msgstr "Ajouter un format"
 
-#: admin/config.php:212
+#: admin/config.php:213
+#@ wp-download_monitor
 msgid "Available Tags"
-msgstr ""
+msgstr "Tags disponibles"
 
-# @ wp-download_monitor
-#: admin/config.php:214
+#: admin/config.php:215
+#@ wp-download_monitor
 msgid "Use the following tags in your custom formats: <em>note</em> if you use <code>\"</code> (quote) characters within the special attributes e.g. <code>\"before\"</code> you should either escape them or use html entities."
 msgstr "Utilisez les tags suivants dans vos formats personnalisés: <em>note</em> si vous utilisez les caractères <code>\"</code> (citation) à l'intérieur des attributs spéciaux c'à d <code>\"before\"</code> vous devez soit les échapper soit utiliser des entités html."
 
-# @ wp-download_monitor
-#: admin/config.php:216
+#: admin/config.php:217
+#@ wp-download_monitor
 msgid "Url of download (does not include hyperlink)"
 msgstr "URL de téléchargement (ne contient pas l'hyperlien) "
 
-# @ wp-download_monitor
-#: admin/config.php:217
+#: admin/config.php:218
+#@ wp-download_monitor
 msgid "ID of download"
 msgstr "ID du téléchargement "
 
-# @ wp-download_monitor
-#: admin/config.php:218
+#: admin/config.php:219
+#@ wp-download_monitor
 msgid "Username of whoever posted download"
 msgstr "Nom d'utilisateur de la personne qui a posté le téléchargement "
 
-# @ wp-download_monitor
-#: admin/config.php:219
+#: admin/config.php:220
+#@ wp-download_monitor
 msgid "Version of download"
 msgstr "Version de téléchargement "
 
-# @ wp-download_monitor
-#: admin/config.php:220
+#: admin/config.php:221
+#@ wp-download_monitor
 msgid "Version of download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr "Version de téléchargement. N'est pas affichée si non définie. Remplacer \"before\" avec du texte/html qui précède et \"after\" avec du texte/html qui suit."
 
-# @ wp-download_monitor
-#: admin/config.php:221
+#: admin/config.php:222
+#@ wp-download_monitor
 msgid "Title of download"
 msgstr "Titre du téléchargement "
 
-# @ wp-download_monitor
-#: admin/config.php:222
+#: admin/config.php:223
+#@ wp-download_monitor
 msgid "Filesize of download"
 msgstr "Taille du téléchargement "
 
-# @ wp-download_monitor
-#: admin/config.php:223
+#: admin/config.php:224
+#@ wp-download_monitor
 msgid "Outputs comma separated list of categories."
 msgstr "Sors une liste des catégorie séparées par une virgule."
 
-# @ wp-download_monitor
-#: admin/config.php:224
+#: admin/config.php:225
+#, php-format
+#@ wp-download_monitor
 msgid "Outputs comma separated list of categories contained in a link with the href you define. <code>%</code> replaced with category id. <code>%2</code> replaced with category name. This can be used with the <code>[download_page]</code>."
 msgstr "Sors une liste de catégories séparées par une virgule contenue dans un lien avec la cible que vous définissez. <code>%</code> affiche l'id de catégorie. <code>%2</code> affiche le nom de catégorie. Vous pouvez l'utiliser avec <code>[download_page]</code>."
 
-# @ wp-download_monitor
-#: admin/config.php:225
 #: admin/config.php:226
-#: admin/config.php:231
+#: admin/config.php:227
 #: admin/config.php:232
+#: admin/config.php:233
+#@ wp-download_monitor
 msgid "or"
 msgstr "ou "
 
-# @ wp-download_monitor
-#: admin/config.php:225
+#: admin/config.php:226
+#@ wp-download_monitor
 msgid "(Top Level/First) Download Category. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr "(Niveau supérieur/première) catégorie de téléchargement. Remplacer \"before\" avec le texte/html qui précède et \"after\" avec le texte/html qui succède."
 
-# @ wp-download_monitor
-#: admin/config.php:226
+#: admin/config.php:227
+#@ wp-download_monitor
 msgid "(Top Level/First) Download Category (but if no category is set \"other\" is returned. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr "(Niveau supérieur/première) catégorie de téléchargement (mais si aucune catégorie n'est définie, \"other\" est retourné) . Remplacer \"before\" avec le texte/html qui précède et \"after\" avec le texte/html qui succède."
 
-# @ wp-download_monitor
-#: admin/config.php:227
+#: admin/config.php:228
+#@ wp-download_monitor
 msgid "(Top Level/First) Download Category ID."
 msgstr "(Niveau supérieur/première) catégorie de téléchargement: ID."
 
-# @ wp-download_monitor
-#: admin/config.php:228
+#: admin/config.php:229
+#@ wp-download_monitor
 msgid "Current hit count"
 msgstr "Nombre de hits actuel "
 
-# @ wp-download_monitor
-#: admin/config.php:229
+#: admin/config.php:230
+#@ wp-download_monitor
 msgid "Formatted hit count depending on hits. <code>%</code> replaced with hit count."
 msgstr "Nombre de hits personnalisé en fonction des hits. <code>%</code> à remplacer avec le nombre de hits."
 
-# @ wp-download_monitor
-#: admin/config.php:230
+#: admin/config.php:231
+#@ wp-download_monitor
 msgid "URL of the download image"
 msgstr "URL de l'image de téléchargement "
 
-# @ wp-download_monitor
-#: admin/config.php:231
+#: admin/config.php:232
+#@ wp-download_monitor
 msgid "Description you gave download. Not outputted if none set. Replace \"before\" with preceding text/html and \"after\" with succeeding text/html."
 msgstr "La description que vous avez donné au téléchargement. N'est pas affichée si laissée vide. Remplacer  \"before\" avec le texte/html qui précède et \"after\" le texte/html qui succède."
 
-# @ wp-download_monitor
-#: admin/config.php:232
+#: admin/config.php:233
+#@ wp-download_monitor
 msgid "Description formatted with autop (converts double line breaks to paragraphs)"
 msgstr "Description formatée mise au top automatiquement (traduit les doubles sauts de ligne en paragraphes)."
 
-# @ wp-download_monitor
-#: admin/config.php:233
+#: admin/config.php:234
+#@ wp-download_monitor
 msgid "Date posted. Second argument is for date format."
 msgstr "Date de poste. Le second argument correspond au format de la date."
 
-# @ wp-download_monitor
-#: admin/config.php:234
+#: admin/config.php:235
+#@ wp-download_monitor
 msgid "Outputs comma separated list of tags."
 msgstr "Sors une liste de tags séparés par une virgule."
 
-# @ wp-download_monitor
-#: admin/config.php:235
+#: admin/config.php:236
+#, php-format
+#@ wp-download_monitor
 msgid "Outputs comma separated list of tags contained in a link with the href you define. <code>%</code> replaced with tag id. <code>%2</code> replaced with tag name."
 msgstr "Sors une liste de tags séparés par une virgule contenue dans un lien avec la cible que vous avez définie. <code>%</code> affiche ID du tag. <code>%2</code> affiche le nom du tag."
 
-# @ wp-download_monitor
-#: admin/config.php:236
+#: admin/config.php:237
+#@ wp-download_monitor
 msgid "Output thumbnail URL (or placeholder)"
 msgstr "Sors l'URL de la miniature (ou un espace réservé) "
 
-# @ wp-download_monitor
-#: admin/config.php:237
+#: admin/config.php:238
+#@ wp-download_monitor
 msgid "Custom field value"
 msgstr "Valeur du champs personnalisé "
 
-# @ wp-download_monitor
-#: admin/config.php:238
+#: admin/config.php:239
+#@ wp-download_monitor
 msgid "Custom field value formatted with autop"
 msgstr "Valeur du champ personnalisé formaté avec autop "
 
-# @ wp-download_monitor
-#: admin/config.php:239
+#: admin/config.php:240
+#@ wp-download_monitor
 msgid "File extension (e.g. \"zip\")"
 msgstr "Extension de fichier (c'à d \"zip\")"
 
-# @ wp-download_monitor
-#: admin/config.php:240
+#: admin/config.php:241
+#@ wp-download_monitor
 msgid "File extension icon (16x16)"
 msgstr "Icon d'extension de fichier (16x16)"
 
-#: admin/config.php:241
+#: admin/config.php:242
+#@ wp-download_monitor
 msgid "Output a Mirror's url"
-msgstr ""
+msgstr "Affiche l'adresse url d'un site miroir "
 
-# @ wp-download_monitor
-#: admin/config.php:244
+#: admin/config.php:245
 #, fuzzy
+#@ wp-download_monitor
 msgid "Example Formats"
 msgstr "Exemple de format"
 
-#: admin/config.php:246
+#: admin/config.php:247
+#@ wp-download_monitor
 msgid "Here are some example custom formats you can use or modify."
-msgstr ""
+msgstr "Voici quelques exemples de formats personnalisés que vous pouvez utiliser ou modifier."
 
-# @ wp-download_monitor
-#: admin/config.php:248
+#: admin/config.php:249
+#@ wp-download_monitor
 msgid "Link and description of download with hits in title:"
 msgstr "Lien et description du téléchargement avec le nombre de hits dans le titre: "
 
-#: admin/config.php:249
-msgid "Standard link with no hits:"
-msgstr ""
-
 #: admin/config.php:250
-msgid "Image link:"
-msgstr ""
+#@ wp-download_monitor
+msgid "Standard link with no hits:"
+msgstr "Liens standards sans hit: "
 
-# @ wp-download_monitor
-#: admin/config.php:257
+#: admin/config.php:251
+#@ wp-download_monitor
+msgid "Image link:"
+msgstr "Lien vers l'image: "
+
+#: admin/config.php:258
+#@ wp-download_monitor
 msgid "Custom Download URL"
 msgstr "URL de téléchargement personnalisée"
 
-# @ wp-download_monitor
-#: admin/config.php:259
+#: admin/config.php:260
+#@ wp-download_monitor
 msgid ""
 "<p>Set a custom url for your downloads, e.g. <code>download/</code>. You can also choose how to link to the download in it's url, e.g. selecting \"filename\" would make the link appear as <code>http://yoursite.com/download/filename.zip</code>. This option will only work if using wordpress permalinks (other than default).</p>\n"
 "            \t\n"
@@ -1502,380 +1526,408 @@ msgstr ""
 "                        <p>Laisser cette option en blanc pour utiliser le chemin de téléchargement par défaut (<code>/download-monitor/download.php?id=</code>)</p>\n"
 "                        <p>Si vous remplissez cette option, assurez vous que le répertoire personnalisé n'existe pas sur votre serveur ou ne correspond pas à l'url d'une page ou d'un billet au risque de causer des problèmes lors de la redirection vers download.php.</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:265
+#: admin/config.php:266
+#@ wp-download_monitor
 msgid "Without Custom URL:"
 msgstr "Sans URL personnalisé: "
 
-# @ wp-download_monitor
-#: admin/config.php:270
+#: admin/config.php:271
+#@ wp-download_monitor
 msgid "With Custom URL (downloads/ID):"
 msgstr "Avec un URL personnalisé (téléchargements/ID): "
 
-# @ wp-download_monitor
-#: admin/config.php:276
+#: admin/config.php:277
+#@ wp-download_monitor
 msgid "Custom URL"
 msgstr "URL personnalisée"
 
-# @ wp-download_monitor
-#: admin/config.php:281
+#: admin/config.php:282
+#@ wp-download_monitor
 msgid "Filename"
 msgstr "Nom de fichier"
 
-# @ wp-download_monitor
-#: admin/config.php:290
+#: admin/config.php:291
+#@ wp-download_monitor
 msgid "General Options"
 msgstr "Options générales "
 
-# @ wp-download_monitor
-#: admin/config.php:296
+#: admin/config.php:297
+#@ wp-download_monitor
 msgid "I Appreciate This Plugin, And I've Contributed to the Effort!"
 msgstr "J'apprécie ce plugin et j'ai contribué à l'effort !"
 
-# @ wp-download_monitor
-#: admin/config.php:306
+#: admin/config.php:307
+#@ wp-download_monitor
 msgid "If you would like to say thanks for Download Monitor there are many ways to do so, for example: spreading the word or making a donation. If you have already done so you can indicate that here (thanks by the way). For direct contributors, sponsorship messages will be disabled. (Please see the readme file for full details about sponsorship messages and how your privacy is protected)."
 msgstr "Si vous désirez dire merci pour Download Monitor il y a plusieurs façons de le faire. Par exemple: faire passer le mot ou faire un don. Si vous l'avez déjà fait vous pouvez l'indiquer ici (au passage merci). Pour les contributeurs directs, les messages des sponsors seront désactivés (veuillez vous référencer au fichier readme pour tous détails relatifs aux messages de sponsors et la protection de votre vie privée)."
 
-# @ wp-download_monitor
-#: admin/config.php:310
+#: admin/config.php:311
+#@ wp-download_monitor
 msgid "Disable the news/links/donate box on the Edit Download Page?"
 msgstr "Désactiver la boîte nouvelles/liens/dons de la page d'édition des téléchargements ?"
 
-# @ wp-download_monitor
-#: admin/config.php:323
+#: admin/config.php:324
+#@ wp-download_monitor
 msgid "\"Download not found\" redirect URL"
 msgstr "URL de redirection pour \"Téléchargement non trouvé\" "
 
-# @ wp-download_monitor
-#: admin/config.php:324
-#: admin/config.php:328
+#: admin/config.php:325
+#: admin/config.php:329
+#@ wp-download_monitor
 msgid "Leave blank for no redirect."
 msgstr "Laisser vide pour éviter une redirection."
 
-# @ wp-download_monitor
-#: admin/config.php:327
+#: admin/config.php:328
+#@ wp-download_monitor
 msgid "Member-only files non-member redirect"
 msgstr "Redirection des non membres pour les fichiers réservés aux membres"
 
-# @ wp-download_monitor
-#: admin/config.php:328
+#: admin/config.php:329
+#@ wp-download_monitor
 msgid "Note: <code>{referrer}</code> will be replaced with current url. Useful if sending user to the login page and then back to the download :) e.g. <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
 msgstr "Note: <code>{referrer}</code> sera remplacé par l'url actuelle. Utile si vous envoyez l'utilisateur vers la page de connexion et ensuite vers le téléchargement :), par exemple <code>http://yourdomain.com/wp-login.php?redirect_to={referrer}</code>."
 
-# @ wp-download_monitor
-#: admin/config.php:331
+#: admin/config.php:332
+#@ wp-download_monitor
 msgid "Download image path"
 msgstr "Chemin de l'image du téléchargement"
 
-# @ wp-download_monitor
-#: admin/config.php:332
+#: admin/config.php:333
+#@ wp-download_monitor
 msgid "This image is used when using the <code>#image</code> download tag and the <code>{image_url}</code> tag on this page. Please use an absolute url (e.g. <code>http://yoursite.com/image.gif</code>)."
 msgstr "Cette image est utilisée lorsque les tags <code>#image</code> et <code>{image_url}</code> sont utilisés sur cette page. Merci d'utiliser une url absolue (i.e. <code>http://yoursite.com/image.gif</code>)."
 
-# @ wp-download_monitor
-#: admin/config.php:335
+#: admin/config.php:336
+#@ wp-download_monitor
 msgid "Default output format"
 msgstr "Format de sortie par défaut"
 
-# @ wp-download_monitor
-#: admin/config.php:354
+#: admin/config.php:368
+#@ wp-download_monitor
 msgid "Log Downloads"
 msgstr "Stats de téléchargements "
 
-# @ wp-download_monitor
-#: admin/config.php:367
+#: admin/config.php:381
 #, fuzzy
+#@ wp-download_monitor
 msgid "Enable File Browser"
 msgstr "Explorateur pour changer de fichier"
 
-# @ wp-download_monitor
-#: admin/config.php:380
+#: admin/config.php:394
+#@ wp-download_monitor
 msgid "File Browser Root"
 msgstr "Racine de l'explorateur de fichiers "
 
-# @ wp-download_monitor
-#: admin/config.php:381
+#: admin/config.php:395
+#@ wp-download_monitor
 msgid "The root directory the file browser can display."
 msgstr "Le répertoire racine que peut afficher l'explorateur de fichiers."
 
-# @ wp-download_monitor
-#: admin/config.php:404
+#: admin/config.php:418
+#@ wp-download_monitor
 msgid "Advanced Stuff"
 msgstr "Réglages avancés "
 
-# @ wp-download_monitor
-#: admin/config.php:406
+#: admin/config.php:420
+#@ wp-download_monitor
 msgid "Upgrade from 3.2.3"
 msgstr "Mise à jour à partir de la v. 3.2.3"
 
-# @ wp-download_monitor
-#: admin/config.php:407
+#: admin/config.php:421
+#@ wp-download_monitor
 msgid "<p>Download monitor uses new tables from version 3.3 onwards; this was to clean things up and add multiple category support.</p>"
 msgstr "<p>Download Monitor utilise de nouvelles tables à partir de la version 3.3, ceci afin de rendre les choses plus claires et ajouter le support pour des catégories multiples.</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:408
+#: admin/config.php:422
+#@ wp-download_monitor
 msgid "<p>This update should have been done when you activated the plugin, but if it didn't, use this function to create the new tables and import from the old ones.</p>"
 msgstr "<p>Cette mise à jour aurait dû être effective quand vous avez activé le plugin mais si ce n'est pas le cas utilisez cette fonction pour créer les nouvelles tables et réaliser l'import des anciennes.</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:410
+#: admin/config.php:424
+#@ wp-download_monitor
 msgid "Upgrade Database"
 msgstr "Mise à jour de la base de données "
 
-# @ wp-download_monitor
-#: admin/config.php:413
+#: admin/config.php:427
+#@ wp-download_monitor
 msgid "Upgraded Successfully? Cleanup!"
 msgstr "Mise à jour réussie ? Nettoyage !"
 
-# @ wp-download_monitor
-#: admin/config.php:414
+#: admin/config.php:428
+#@ wp-download_monitor
 msgid "<p>As stated above, tables were renamed from 3.3 onwards - if the upgrade has been successful (woo) you may use this function to delete the old tables (I left them there as a backup).</p>"
 msgstr "<p>Comme expliqué plus haut, les tables ont été renommées à partir de la v.3.3 - si la mise à jour est réussie (youpi) vous pouvez utiliser cette fonction pour supprimer les anciennes tables (je les laisse en place en tant que sauvegarde).</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:415
+#: admin/config.php:429
+#@ wp-download_monitor
 msgid "<p>WARNING: THIS MAY DELETE DOWNLOAD DATA IN THE DATABASE; BACKUP YOUR DATABASE FIRST!</p>"
 msgstr "<p>ATTENTION : CECI PEUT SUPPRIMER LES DONNEES DE TELECHARGEMENTS DANS LA BASE DE DONNEES ; SAUVEGARDER VOTRE BASE DE DONNEES AU PREALABLE !</p>"
 
-# @ wp-download_monitor
-#: admin/config.php:417
+#: admin/config.php:431
+#@ wp-download_monitor
 msgid "Clean me up Scotty"
 msgstr "Nettoie moi, Scotty"
 
-# @ wp-download_monitor
 #: admin/dashboard.php:72
+#@ wp-download_monitor
 msgid "D j M"
 msgstr ""
 
-# @ wp-download_monitor
 #: admin/dashboard.php:74
+#@ wp-download_monitor
 msgid "Previous Week"
 msgstr "Semaine précédente "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:75
+#@ wp-download_monitor
 msgid "This Week"
 msgstr "Cette semaine "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:76
+#@ wp-download_monitor
 msgid "Next Week"
 msgstr "Semaine prochaine "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:97
+#@ wp-download_monitor
 msgid "F Y"
 msgstr ""
 
-# @ wp-download_monitor
 #: admin/dashboard.php:99
+#@ wp-download_monitor
 msgid "Previous 6 months"
 msgstr "6 mois précédents "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:100
+#@ wp-download_monitor
 msgid "Last 6 months"
 msgstr "Derniers 6 mois "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:101
+#@ wp-download_monitor
 msgid "Next 6 months"
 msgstr "Prochains 6 mois "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:111
+#@ wp-download_monitor
 msgid "Weekly"
 msgstr "Hebdomadaire "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:114
+#@ wp-download_monitor
 msgid "Monthly"
 msgstr "Mensuel "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:115
+#@ wp-download_monitor
 msgid "Select a download"
 msgstr "Sélectionner un téléchargement"
 
-# @ wp-download_monitor
 #: admin/dashboard.php:143
+#@ wp-download_monitor
 msgid "Downloads per day for"
 msgstr "Téléchargements quotidiens pour "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:146
 #: admin/dashboard.php:221
+#@ wp-download_monitor
 msgid "Day"
 msgstr "Jour "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:147
 #: admin/dashboard.php:222
+#@ wp-download_monitor
 msgid "Number of downloads"
 msgstr "Nombre de téléchargements "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:182
+#@ wp-download_monitor
 msgid "None Found"
 msgstr "Aucun de trouvé "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:218
+#@ wp-download_monitor
 msgid "Most Downloaded"
 msgstr "Les plus téléchargés "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:249
+#@ wp-download_monitor
 msgid "No stats yet"
 msgstr "Aucune stat pour le moment "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:261
 #: admin/dashboard.php:282
+#@ wp-download_monitor
 msgid "Download Stats"
 msgstr "Télécharger les stats "
 
-# @ wp-download_monitor
 #: admin/dashboard.php:262
 #: admin/dashboard.php:316
+#@ wp-download_monitor
 msgid "Top 5 Downloads"
 msgstr "Top 5 des téléchargements "
 
-# @ wp-download_monitor
 #: admin/log_to_csv.php:41
 #: admin/logs.php:85
+#@ wp-download_monitor
 msgid "jS M Y H:i:s"
 msgstr ""
 
-# @ wp-download_monitor
 #: admin/logs.php:45
+#@ wp-download_monitor
 msgid "Download Logs"
 msgstr "Stats de téléchargements "
 
-# @ wp-download_monitor
 #: admin/logs.php:47
 #, fuzzy
+#@ wp-download_monitor
 msgid "Download CSV"
 msgstr "Téléchargement"
 
-# @ wp-download_monitor
 #: admin/logs.php:47
+#@ wp-download_monitor
 msgid "Clear Log"
 msgstr "Nettoyer les stats "
 
-# @ wp-download_monitor
 #: admin/logs.php:54
+#@ wp-download_monitor
 msgid "User"
 msgstr "Utilisateur "
 
-# @ wp-download_monitor
 #: admin/logs.php:55
+#@ wp-download_monitor
 msgid "IP Address"
 msgstr "Adresse IP "
 
-# @ wp-download_monitor
 #: admin/logs.php:56
+#: page-addon/download-monitor-page-addon.php:231
+#: page-addon/download-monitor-page-addon.php:353
+#: page-addon/download-monitor-page-addon.php:438
+#: page-addon/download-monitor-page-addon.php:519
+#@ wp-download_monitor
 msgid "Date"
 msgstr ""
 
-# @ wp-download_monitor
 #: admin/logs.php:107
+#@ wp-download_monitor
 msgid "No downloads logged."
 msgstr "Aucun téléchargement enregistré."
 
-# @ wp-download_monitor
 #: admin/logs.php:119
 #: admin/logs.php:120
+#: page-addon/download-monitor-page-addon.php:284
+#: page-addon/download-monitor-page-addon.php:285
+#: page-addon/download-monitor-page-addon.php:460
+#: page-addon/download-monitor-page-addon.php:461
+#: page-addon/download-monitor-page-addon.php:548
+#: page-addon/download-monitor-page-addon.php:549
+#@ wp-download_monitor
 msgid "Previous"
 msgstr "Précédent"
 
-# @ wp-download_monitor
 #: admin/logs.php:133
 #: admin/logs.php:134
+#: page-addon/download-monitor-page-addon.php:297
+#: page-addon/download-monitor-page-addon.php:298
+#: page-addon/download-monitor-page-addon.php:473
+#: page-addon/download-monitor-page-addon.php:474
+#: page-addon/download-monitor-page-addon.php:561
+#: page-addon/download-monitor-page-addon.php:562
+#@ wp-download_monitor
 msgid "Next"
 msgstr "Suivant"
 
-# @ wp-download_monitor
-#: classes/downloadable_file.class.php:285
-#: classes/downloadable_file.class.php:294
-#: classes/downloadable_file.class.php:316
+#: classes/downloadable_file.class.php:272
+#: classes/downloadable_file.class.php:286
+#: classes/downloadable_file.class.php:308
 #: page-addon/download-monitor-page-addon.php:55
+#@ wp-download_monitor
 msgid "Other"
 msgstr "Autres"
 
-# @ wp-download_monitor
-#: classes/downloadable_file.class.php:303
+#: classes/downloadable_file.class.php:294
+#@ wp-download_monitor
 msgid "Uncategorized"
 msgstr "Sans catégorie "
 
-#: classes/downloadable_file.class.php:335
+#: classes/downloadable_file.class.php:329
+#: classes/downloadable_file.class.php:332
+#@ wp-download_monitor
 msgid "#Mirror-not-found"
-msgstr ""
+msgstr "#Site-miroir-non-trouve"
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:53
+#@ wp-download_monitor
 msgid "Popular Downloads"
 msgstr "Téléchargements les plus populaires"
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:57
+#@ wp-download_monitor
 msgid "Go"
 msgstr "Allez "
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:58
+#@ wp-download_monitor
 msgid "Results found for "
 msgstr "Résultats obtenus pour "
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:59
+#@ wp-download_monitor
 msgid "No downloads were found."
 msgstr "Aucun téléchargement n'a été trouvé."
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:60
+#@ wp-download_monitor
 msgid "No download found matching given ID."
 msgstr "Aucun téléchargement ne correspond à l'ID donné."
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:67
+#@ wp-download_monitor
 msgid " time"
 msgstr " durée "
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:68
+#@ wp-download_monitor
 msgid " times"
 msgstr " durées "
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:69
+#@ wp-download_monitor
 msgid "Date posted"
 msgstr "Date de publication "
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:70
+#@ wp-download_monitor
 msgid "F j, Y"
 msgstr ""
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:72
+#@ wp-download_monitor
 msgid "Read More"
 msgstr "En lire plus "
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:73
+#@ wp-download_monitor
 msgid "Sub-Categories:"
 msgstr "Sous-catégories:"
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:74
+#@ wp-download_monitor
 msgid "Sort by:"
 msgstr "Trier par:"
 
-# @ wp-download_monitor
 #: page-addon/download-monitor-page-addon.php:75
+#@ wp-download_monitor
 msgid "Downloads tagged:"
 msgstr "Téléchargement taggés avec: "
+
+#: admin/config.php:355
+#@ wp-download_monitor
+msgid "Auto-select mirror"
+msgstr "Autosélection d'un site miroir"
+
+#: admin/config.php:364
+#@ wp-download_monitor
+msgid "If a download has \"mirrors\" set should download.php automatically pick one?"
+msgstr "Si un téléchargement a l'option \"mirrors\" précisée, est-ce que download.php doit choisir un site miroir automatiquement ?"
 
