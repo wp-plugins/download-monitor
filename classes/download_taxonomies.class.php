@@ -154,7 +154,7 @@ class download_tag {
 	
 	function download_tag($id, $name, $size) {
 		$this->id = $id;
-		$this->name = $name;
+		$this->name = strtolower($name);
 		$this->size = $size; 
 	}
 }

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
 Tested up to: 2.9.2
-Stable tag: 3.3.3.9
+Stable tag: 3.3.3.10
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -70,8 +70,8 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Spanish translation by David Bravo - Dimensi—n Multimedia (included)
 *	Albanian translation by Romeo - http://www.romeolab.com/download-monitor-plugin-shqip
 *	Hebrew translation by David Tayar - http://davidt.net/
-*	German translation (included) by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
-*	German translation (2, included) by Michael Fitzen - http://www.be-infected.de/
+*	German translation by Frank Weichbrodt - http://wir-machen-keine-fehler.de/wordpress-sprachdateien/
+*	German translation (included) by Michael Fitzen - http://www.be-infected.de/
 *	French translation by Li-An - http://www.li-an.fr/blog/plugins-wordpress-mes-traductions-en-francais/
 *	French translation by The Alien - http://ramenetascience.com/wordpress/traduction-wordpress-download-monitor/
 *	Finish translation (included) by Ari Kontiainen
@@ -117,6 +117,9 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 *	Better error message for remote files
 *	Added hook: do_action('download_added', $download_insert_id);
 *	Added fix for all downloads being displayed when cat is empty.
+*	Other get_downloads bits and pieces, for example, no point checking tags and cats if the 'include' option is used because that should take prority.
+* 	Shortcode handling patch by chilano
+*	Forced all tags lowercase since the download page could not handle a mixture
 
 = 3.3.3.9 = 
 *	Pre-loading meta and relationships again - less queries, better performance

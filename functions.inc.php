@@ -192,7 +192,8 @@ function get_download_taxonomy($id, $taxonomy = 'category') {
 	$download_taxonomies = $wpdb->get_results("SELECT DISTINCT * FROM $wp_dlm_db_taxonomies WHERE id IN ( SELECT taxonomy_id FROM $wp_dlm_db_relationships WHERE download_id = ".$wpdb->escape($id)." ) AND taxonomy='".$wpdb->escape($taxonomy)."' ORDER BY id;");	
 	foreach ($download_taxonomies as $c) {
 		$taxonomy_ids[] = $c->id;
-		$taxonomy_names[] = $c->name;
+		if ($taxonomy=='tag') $taxonomy_names[] = strtolower($c->name);
+		else $taxonomy_names[] = $c->name;
 		$taxonomy_list[] = $c->id.'&nbsp;&ndash;&nbsp;'.$c->name;
 		$taxonomies[] = $c; // Add to array
 	}

@@ -191,6 +191,7 @@ function dlm_addnew() {
 					// Break 'em up
 					$thetags = explode(',', $tags);
 					$thetags = array_map('trim', $thetags);
+					$thetags = array_map('strtolower', $thetags);
 					if (sizeof($thetags)>0) {
 						foreach ($thetags as $tag) {
 							if ($tag) {

@@ -395,6 +395,7 @@ function wp_dlm_admin()
 									// Break 'em up
 									$thetags = explode(',', $download_tags);
 									$thetags = array_map('trim', $thetags);
+									$thetags = array_map('strtolower', $thetags);
 									if (sizeof($thetags)>0) {
 										foreach ($thetags as $tag) {
 											if ($tag) {
@@ -1026,6 +1027,7 @@ function wp_dlm_admin()
 						// Break 'em up
 						$thetags = explode(',', $tags);
 						$thetags = array_map('trim', $thetags);
+						$thetags = array_map('strtolower', $thetags);
 						if (sizeof($thetags)>0) {
 							foreach ($thetags as $tag) {
 								if ($tag) {
