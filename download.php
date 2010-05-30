@@ -194,8 +194,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					}
 				}
 				
-				
-				if ($level!==10) {
+				if ($level!=10) {
 					$hits = $d->hits;
 					$hits++;
 					// update download hits					
@@ -285,7 +284,18 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				
 				if (isset($force)) {} else {
 					if ($d->members) $force=1; else $force=0;
-				}				
+				}		
+				
+				// Ensure relative urls are forced if outside of the wordpress installation!!!!
+				if ($force==0) {
+					$urlparsed = parse_url($thefile);
+					$isURI = array_key_exists('scheme', $urlparsed);
+					$localToWordPress = (bool) strstr($thefile, ABSPATH);
+					if (!$isURI && !$localToWordPress) {
+						// This download is outside of wordpress and is not a URL, it’s a file path => force it
+						$force = 1;
+					}
+				}
 				
 				if ($force==1) {				
 
@@ -425,6 +435,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						case "ice":		$ctype="x-conference-xcooltalk" ;		break;						
 						case "jad":		$ctype="text/vnd.sun.j2me.app-descriptor" ;		break;
 						case "cod":		$ctype="application/vnd.rim.cod" ;		break;
+						case "mp4":		$ctype="video/mp4" ;					break;
 						//The following are for extensions that shouldn't be downloaded (sensitive stuff, like php files) - if you want to serve these types of files just zip then or give them another extension! This is mainly to protect users who don't know what they are doing :)
 						case "php":
 						case "htm":
@@ -458,7 +469,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						BloginfoWPURL:	".get_bloginfo('wpurl')."\n
 						ABSPATH: ".ABSPATH." 
 					";
-					exit; */
+					exit; */	
+					
 					
 					// Deal with remote file or local file					
 					if( $isURI && $localURI || !$isURI && !$localURI ) {
@@ -483,7 +495,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						}
 						// If the path wasn't a URI and not absolute, then it made it all the way to here without manipulation, so now we do this...
 						// By the way, realpath() returns NOTHING if is does not exist.
-						$thefile = realpath( $thefile );
+						$thefile = realpath( $thefile );						
+						
 						// now do a long condition check, it should not be emtpy, a directory, and should be readable.
 						$willDownload = empty($thefile) ? false : !is_file($thefile) ? false : is_readable($thefile);
 						

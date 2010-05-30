@@ -94,9 +94,9 @@ class downloadable_file {
 					);
 				} elseif (isset($download_taxonomies->tags[$taxonomy_id])) {
 					$download_tags[] = array(
-						'name' => $download_taxonomies->categories[$taxonomy_id]->name,
-						'id' => $download_taxonomies->categories[$taxonomy_id]->id,
-						'parent' => $download_taxonomies->categories[$taxonomy_id]->parent,
+						'name' => $download_taxonomies->tags[$taxonomy_id]->name,
+						'id' => $download_taxonomies->tags[$taxonomy_id]->id,
+						'parent' => $download_taxonomies->tags[$taxonomy_id]->parent,
 					);
 				}
 				
@@ -253,14 +253,14 @@ class downloadable_file {
 			$fsubs[]  = $this->category; /* category_other */
 			$fpatts[] = '{category_ID}';
 			$fsubs[] = $this->category_id;
-			if (strpos($format, '{category,')) :
+			if (strpos($format, '{category,')!==false) :
 				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				if ($match) {
 					$fpatts[] = $match[0];
 					$fsubs[]  = $match[1].$this->category.$match[2];
 				}
 			endif;
-			if (strpos($format, '{category_other,')) :
+			if (strpos($format, '{category_other,')!==false) :
 				preg_match("/{category_other,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				if ($match) {
 					$fpatts[] = $match[0];
@@ -272,14 +272,14 @@ class downloadable_file {
 			$fsubs[]  = __('Other','wp-download_monitor');
 			$fpatts[] = '{category_ID}';
 			$fsubs[] = "";
-			if (strpos($format, '{category,')) :
+			if (strpos($format, '{category,')!==false) :
 				preg_match("/{category,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				if ($match) {
 					$fpatts[] = $match[0];
 					$fsubs[]  = "";
 				}
 			endif;
-			if (strpos($format, '{category_other,')) :
+			if (strpos($format, '{category_other,')!==false) :
 				preg_match("/{category_other,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 				if ($match) {
 					$fpatts[] = $match[0];
@@ -300,7 +300,7 @@ class downloadable_file {
 		$fsubs[] = implode(', ', $cats);
 		
 		// Categories (linked)
-		if (strpos($format, '{categories,')) :
+		if (strpos($format, '{categories,')!==false) :
 			preg_match("/{categories,\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -316,7 +316,7 @@ class downloadable_file {
 		endif;
 		
 		// Mirrors
-		if (strpos($format, '{mirror-')) :
+		if (strpos($format, '{mirror-')!==false) :
 			preg_match("/{mirror-([0-9]+)-url}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -381,7 +381,8 @@ class downloadable_file {
 			case "mov":
 			case "mxu":
 			case "avi":
-			case "movie":			
+			case "movie":	
+			case "mp4":		
 				$icon .= 'document-film';
 			break;
 			case "zip":
@@ -462,7 +463,7 @@ class downloadable_file {
 		$fsubs[] = $icon;
 			
 		// Hits (special) {hits, none, one, many)
-		if (strpos($format, '{hits,')) :
+		if (strpos($format, '{hits,')!==false) :
 			preg_match("/{hits,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -485,7 +486,7 @@ class downloadable_file {
 		endif;			
 		
 		// Version
-		if (strpos($format, '{version,')) :
+		if (strpos($format, '{version,')!==false) :
 			preg_match("/{version,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -494,7 +495,7 @@ class downloadable_file {
 		endif;
 		
 		// Date
-		if (strpos($format, '{date,')) :
+		if (strpos($format, '{date,')!==false) :
 			preg_match("/{date,\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -503,7 +504,7 @@ class downloadable_file {
 		endif;				
 		
 		// Other
-		if (strpos($format, '{description,')) :
+		if (strpos($format, '{description,')!==false) :
 			preg_match("/{description,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -511,7 +512,7 @@ class downloadable_file {
 			}
 		endif;	
 		
-		if (strpos($format, '{description-autop,')) :
+		if (strpos($format, '{description-autop,')!==false) :
 			preg_match("/{description-autop,\s*\"([^\"]*?)\",\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -531,7 +532,7 @@ class downloadable_file {
 		$fsubs[] = implode(', ', $tags);
 		
 		// Tags (linked)
-		if (strpos($format, '{tags,')) :
+		if (strpos($format, '{tags,')!==false) :
 			preg_match("/{tags,\s*\"([^\"]*?)\"}/", $format, $match);
 			if ($match) {
 				$fpatts[] = $match[0];
@@ -551,7 +552,7 @@ class downloadable_file {
 		$fsubs[] = $this->thumbnail;
 		
 		// meta
-		if (strpos($format, '{meta-')) :
+		if (strpos($format, '{meta-')!==false) :
 			if (preg_match("/{meta-([^,]*?)}/", $format, $match)) {					
 				$meta_names = array();
 				$meta_names[] = "''";

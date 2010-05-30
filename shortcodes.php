@@ -207,7 +207,7 @@ function wp_dlm_shortcode_downloads( $atts ) {
 			
    		} 
 	
-	} else $output = '['.__("No Downloads found","wp-download_monitor").']';	
+	} else $output = html_entity_decode($before).'['.__("No Downloads found","wp-download_monitor").']'.html_entity_decode($after);	
 	
 	if ($wrap=='ul') {
 		$output = '<ul class="dlm_download_list">'.$output.'</ul>';

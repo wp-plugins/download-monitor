@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.3.10
+Version: 3.3.4
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -50,7 +50,7 @@ Author URI: http://blue-anvil.com
 		}
 	}
 	
-	$dlm_build="20100514";
+	$dlm_build="20100530";
 	$wp_dlm_root = WP_PLUGIN_URL."/download-monitor/";
 	$wp_dlm_image_url 	= get_option('wp_dlm_image_url');
 	
@@ -128,7 +128,7 @@ function wp_dlm_menu() {
 		$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
 	endif;
 		
-    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'img/menu_icon.png');
+    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), array('user_can_edit_downloads', 'user_can_add_new_download') , __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'img/menu_icon.png');
 	add_submenu_page(__FILE__, __('Edit','wp-download_monitor'),  __('Edit','wp-download_monitor') , 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin');
 	add_submenu_page(__FILE__, __('Add New','wp-download_monitor') , __('Add New','wp-download_monitor') , 'user_can_add_new_download', 'dlm_addnew', 'dlm_addnew');
 	add_submenu_page(__FILE__, __('Add Directory','wp-download_monitor') , __('Add Directory','wp-download_monitor') , 'user_can_add_exist_download', 'dlm_adddir', 'dlm_adddir');

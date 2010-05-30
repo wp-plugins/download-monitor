@@ -3,8 +3,8 @@ Contributors: jolley_small
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.5
-Tested up to: 2.9.2
-Stable tag: 3.3.3.10
+Tested up to: 3.0
+Stable tag: 3.3.4
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
@@ -108,6 +108,18 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.4 =
+*	WordPress 3.0 compatibility checked
+*	strpos bug fix (thanks toemon)
+*	do_shortcode added to download page custom meta
+*	apply_filters('the_content') on descriptions so third party plugins work (like audio player)
+*	Changed styles of download page to make it fill the width, and work better with wp 3.0's default theme
+*	Modified capibilities so edit and add are both not required
+*	Downloads outside of wordpress (file paths) are now forced to download regardless of your settings.
+
+= 3.3.3.11 =
+*	Fixed tags issue in downloadable_file.class.php
 
 = 3.3.3.10 = 
 *	Added new translations

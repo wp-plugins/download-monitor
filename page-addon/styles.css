@@ -20,12 +20,23 @@ form#download-page-search {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	margin: 8px 0 16px !important;
+	padding: 12px !important;
+}
+form#download-page-search p, form#download-page-search input, form#download-page-search label {
+	margin: 0 !important;
+	padding: 0 !important;
+	line-height: 1 !important;
+	vertical-align: middle !important;
+}
+form#download-page-search input {
+	margin-left: 8px !important;
 }
 form#download-page-search br {
 	display: none;
 }
 div.download-info.single {
 	overflow:hidden;
+	padding-left: 140px;
 }
 .download-info-heading {
 	margin: 8px 0 12px !important;
@@ -52,11 +63,13 @@ div.side-section {
 	float:left;
 	width:120px;
 	text-align: center;
+	margin-left: -140px;
+	position: relative;
 }
 div.main-section {
 	float: right;
 	position: relative;
-	width:316px;
+	width:100%;
 }
 div.download-info p {
 	margin: 8px 0 12px !important;
@@ -66,6 +79,7 @@ img.download-image {
 	padding: 3px;
 	background:#fff;
 	border:1px solid #ddd;
+	margin-bottom: 0 !important;
 }
 table.download-meta {
 	margin: 0 0 12px !important;
@@ -125,7 +139,7 @@ div#download-page-featured img {
 	background:#fff;
 	border:1px solid #ddd;
 	vertical-align: middle;
-	margin-right: 8px;
+	margin: 0 8px 0 0;
 	display: table-cell;
 }
 div#download-page-featured span {

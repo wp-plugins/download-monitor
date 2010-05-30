@@ -584,7 +584,7 @@ if (function_exists('get_downloads')) {
 	        $date = date("jS M Y", strtotime($download->date));
 	        if ($download->dlversion) $version = __('Version',"wp-download_monitor").' '.$download->dlversion; 
 	        	else $version = '';
-	        if ($download->file_description) $desc = do_shortcode(wptexturize(wpautop($download->file_description))); 
+	        if ($download->file_description) $desc = apply_filters('the_content', $download->file_description); 
 	        	else $desc = "";
 	        $thumbnail_url = $download->thumbnail;
 	        
@@ -669,7 +669,7 @@ if (function_exists('get_downloads')) {
 	        	// Output
 	        	 $page .= '<table class="download-meta" cellspacing="0" style="width:100%"><thead><tr><th scope="col">Attribute</th><th style="text-align:right" scope="col">Value</th></tr></thead><tbody>';
 	        	 	foreach($custom_field_data as $field) {
-	        	 		 $page .= '<tr><th scope="row">'.$field[0].'</th><td style="text-align:right">'.$field[1].'</td></tr>';
+	        	 		 $page .= '<tr><th scope="row">'.$field[0].'</th><td style="text-align:right">'.do_shortcode($field[1]).'</td></tr>';
 	        	 	}
 	        	 $page .= '</tbody></table>';
 	        }
