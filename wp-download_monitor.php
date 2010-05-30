@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.4
+Version: 3.3.4.1
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -124,18 +124,41 @@ function wp_dlm_menu() {
 		$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
 		$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
 		$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
-		$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
 		$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
 	endif;
-		
-    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), array('user_can_edit_downloads', 'user_can_add_new_download') , __FILE__ , 'wp_dlm_admin', $wp_dlm_root.'img/menu_icon.png');
-	add_submenu_page(__FILE__, __('Edit','wp-download_monitor'),  __('Edit','wp-download_monitor') , 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin');
-	add_submenu_page(__FILE__, __('Add New','wp-download_monitor') , __('Add New','wp-download_monitor') , 'user_can_add_new_download', 'dlm_addnew', 'dlm_addnew');
-	add_submenu_page(__FILE__, __('Add Directory','wp-download_monitor') , __('Add Directory','wp-download_monitor') , 'user_can_add_exist_download', 'dlm_adddir', 'dlm_adddir');
 	
-	add_submenu_page(__FILE__, __('Categories','wp-download_monitor') , __('Categories','wp-download_monitor') , 'user_can_config_downloads', 'dlm_categories', 'wp_dlm_categories');
+	$user_can_edit = current_user_can('user_can_edit_downloads');
+	$user_can_add_new = current_user_can('user_can_add_new_download');
+	$user_can_config = current_user_can('user_can_config_downloads');
+	$user_can_view_log = current_user_can('user_can_view_downloads_log');
+	
+	if ( !$user_can_edit && $user_can_add_new ) {
+		$cap = 'user_can_add_new_download';
+		$function = 'dlm_addnew';
+		$slug = 'dlm_addnew';
+	} elseif ( !$user_can_edit && $user_can_config ) {
+		$cap = 'user_can_config_downloads';
+		$function = 'wp_dlm_config';
+		$slug = 'dlm_config';
+	} elseif ( !$user_can_edit && $user_can_view_log ) {
+		$cap = 'user_can_view_downloads_log';
+		$function = 'wp_dlm_log';
+		$slug = 'dlm_log';
+	} else {
+		$cap = 'user_can_edit_downloads';
+		$function = 'wp_dlm_admin';
+		$slug = __FILE__;
+	}
+		
+    add_menu_page(__('Downloads','wp-download_monitor'), __('Downloads','wp-download_monitor'), $cap , $slug , $function, $wp_dlm_root.'img/menu_icon.png');
+	add_submenu_page($slug, __('Edit','wp-download_monitor'),  __('Edit','wp-download_monitor') , 'user_can_edit_downloads', __FILE__ , 'wp_dlm_admin');
+	add_submenu_page($slug, __('Add New','wp-download_monitor') , __('Add New','wp-download_monitor') , 'user_can_add_new_download', 'dlm_addnew', 'dlm_addnew');
+	add_submenu_page($slug, __('Add Directory','wp-download_monitor') , __('Add Directory','wp-download_monitor') , 'user_can_add_new_download', 'dlm_adddir', 'dlm_adddir');
+	
+	add_submenu_page($slug, __('Configuration','wp-download_monitor') , __('Configuration','wp-download_monitor') , 'user_can_config_downloads', 'dlm_config', 'wp_dlm_config');
+	add_submenu_page($slug, __('Categories','wp-download_monitor') , __('Categories','wp-download_monitor') , 'user_can_config_downloads', 'dlm_categories', 'wp_dlm_categories');
     
-    add_submenu_page(__FILE__, __('Configuration','wp-download_monitor') , __('Configuration','wp-download_monitor') , 'user_can_config_downloads', 'dlm_config', 'wp_dlm_config');
+    
     if (get_option('wp_dlm_log_downloads')=='yes') add_submenu_page(__FILE__, __('Log','wp-download_monitor') , __('Log','wp-download_monitor') , 'user_can_view_downloads_log', 'dlm_log', 'wp_dlm_log');
 }
 add_action('admin_menu', 'wp_dlm_menu');

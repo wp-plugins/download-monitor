@@ -61,7 +61,6 @@ function wp_dlm_init_or_upgrade() {
 		$wp_roles->add_cap( 'administrator', 'user_can_config_downloads' );
 		$wp_roles->add_cap( 'administrator', 'user_can_edit_downloads' );
 		$wp_roles->add_cap( 'administrator', 'user_can_add_new_download' );
-		$wp_roles->add_cap( 'administrator', 'user_can_add_exist_download' );
 		$wp_roles->add_cap( 'administrator', 'user_can_view_downloads_log' );
 	endif;
 	
