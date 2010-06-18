@@ -200,7 +200,7 @@ class downloadable_file {
 						
 		
 		if ($filesize && is_numeric($filesize)) {
-			$bytes = array('bytes','KB','MB','GB','TB');
+			$bytes = array('bytes','kB','MB','GB','TB');
 			foreach($bytes as $val) {
 				if($filesize > 1024){
 					$filesize = $filesize / 1024;

@@ -89,7 +89,7 @@ wp_enqueue_script( 'jquery-color' );
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
-if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_download') || !current_user_can('user_can_add_exist_download'))
+if (!current_user_can('upload_files') || !current_user_can('user_can_add_new_download'))
 	wp_die(__('You do not have permission to upload files/downloads.'));
 	
 load_plugin_textdomain('wp-download_monitor', '/');

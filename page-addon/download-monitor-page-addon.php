@@ -712,7 +712,7 @@ if (function_exists('get_downloads')) {
 					        $thumbnail_url = $d->thumbnail;
 					        if (!$thumbnail_url) $thumbnail_url = $wp_dlmp_root.'thumbnail.gif';
 					        
-					        $page .= '<li class="'.$alttext.'"><a href="'.wp_dlmp_append_url('did='.$d->id).'" title="'.$version.' '.__('Downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" ><img src="'.$thumbnail_url.'" class="download-thumbnail" alt="'.strip_tags($d->title).'" title="'.strip_tags($d->title).'"  /> <span>'.$d->title.'</span></a></li>';
+					        $page .= '<li class="'.$alttext.'"><a href="'.wp_dlmp_append_url('did='.$d->id).'" title="'.$version.' '.__('Downloaded',"wp-download_monitor").' '.$d->hits.' '.__('times',"wp-download_monitor").'" ><span><img src="'.$thumbnail_url.'" class="download-thumbnail" alt="'.strip_tags($d->title).'" title="'.strip_tags($d->title).'"  /></span> <span>'.$d->title.'</span></a></li>';
 					        
 					        $alt = $alt*-1;
 					    }

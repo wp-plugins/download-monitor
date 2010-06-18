@@ -517,11 +517,11 @@ function get_downloads($args = null) {
 	endwhile;
 
 	// VIP Mode
-	if ( isset($vip) && $vip==1 ) {	
-		global $user_ID;		
-		if (!isset($user_ID)) {
-			$where[] = ' members = 0 ';
-		}		
+	if ( isset($r['vip']) && $r['vip']==1 ) {	
+		global $user_ID;	
+		if (!isset($user_ID) || $user_ID==0) {
+			$where[] = ' members=0 ';
+		}	
 	}
 	
 	// Handle Author
@@ -553,6 +553,9 @@ function get_downloads($args = null) {
 				$orderby = "$wp_dlm_db_meta.meta_value";
 				$join = " LEFT JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id ";
 				$where[] = ' meta_name = "'.$r['meta_name'].'"';
+			break;
+			case 'version' : 
+			   $orderby = 'dlversion';
 			break;
 			case 'rand' :
 			case 'random' :

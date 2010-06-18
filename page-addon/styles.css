@@ -140,7 +140,6 @@ div#download-page-featured img {
 	border:1px solid #ddd;
 	vertical-align: middle;
 	margin: 0 8px 0 0;
-	display: table-cell;
 }
 div#download-page-featured span {
 	display: table-cell;

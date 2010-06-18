@@ -45,7 +45,7 @@ if (!function_exists('readfile_chunked')) {
 		}	
 
 		while (!feof($handle) && connection_status()==0) {
-			set_time_limit(0);
+			@set_time_limit(0);
 			$buffer = fread($handle, $chunk_size);
 			echo $buffer;
 			ob_flush();
@@ -99,6 +99,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 	include_once('classes/linkValidator.class.php');
 		
 	global $table_prefix,$wpdb,$user_ID;	
+	
 	// set table name	
 	$wp_dlm_db = $table_prefix."download_monitor_files";
 	$wp_dlm_db_stats = $table_prefix."download_monitor_stats";
@@ -144,7 +145,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 		$d = $wpdb->get_row($query_select_1);
 		if (!empty($d) && is_numeric($d->id) ) {
 					
-				if (isset($user_ID)) {
+				if (isset($user_ID) && $user_ID > 0) {
 				
 					$theroles = array();
 				
@@ -158,7 +159,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				}
 
 				// Check permissions
-				if (($d->members || get_option('wp_dlm_global_member_only')=='yes') && !isset($user_ID)) {
+				if (($d->members || get_option('wp_dlm_global_member_only')=='yes') && (!isset($user_ID) || $user_ID == 0) ) {
 					$url = get_option('wp_dlm_member_only');
 					$url = str_replace('{referrer}',urlencode($_SERVER['REQUEST_URI']),$url);
 					if (!empty($url)) {
@@ -173,7 +174,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				}
 								
 				// Min-level/req-role addon
-				if ($d->members && isset($user_ID)) {
+				if ($d->members && isset($user_ID) && $user_ID > 0) {
 					$minLevel = $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM $wp_dlm_db_meta WHERE download_id = %s AND meta_name='min-level' LIMIT 1" , $d->id ) );
 					if ($minLevel) {
 						if ($level < $minLevel) {
@@ -450,7 +451,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					}						
 
 					@ini_set('zlib.output_compression', 'Off');
-					set_time_limit(0);
+					@set_time_limit(0);
 					session_start();					
 					session_cache_limiter('none');		
 					@set_magic_quotes_runtime(0);			
