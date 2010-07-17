@@ -9,6 +9,11 @@ if(file_exists($wp_root . 'wp-load.php')) {
 	exit;
 }
 
+if (headers_sent()) :
+	@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+	wp_die(__('Headers Sent',"wp-download_monitor"), __('The headers have been sent by another plugin - there may be a plugin conflict.',"wp-download_monitor"));
+endif;
+
 if ( !function_exists('htmlspecialchars_decode') )
 {
     function htmlspecialchars_decode($text)
@@ -95,8 +100,6 @@ if ($wp_db_version < 8201) {
 }
 
 load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/languages/', 'download-monitor/languages/');
-
-	include_once('classes/linkValidator.class.php');
 		
 	global $table_prefix,$wpdb,$user_ID;	
 	
@@ -168,7 +171,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						exit();
    					} else {
    						@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
-   						wp_die(__('You must be logged in to download this file.',"wp-download_monitor"), __('You must be logged in to download this file.',"wp-download_monitor"));
+   						wp_die(__('You must be logged in to download this file.<br/><br/><a href="'.get_bloginfo('url').'"><strong>&larr; Back to '.get_bloginfo('name').'</strong></a>',"wp-download_monitor"), __('You must be logged in to download this file.',"wp-download_monitor"));
    					}
 					exit();
 				}
@@ -195,7 +198,23 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					}
 				}
 				
-				if ($level!=10) {
+				$log_timeout = (int) get_option('wp_dlm_log_timeout');
+				$dupe = false;
+				
+				if (get_option('wp_dlm_log_downloads')=='yes' && $log_timeout>0) {					
+					$ipAddress = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
+					$old_date = $wpdb->get_var( $wpdb->prepare( "SELECT date FROM $wp_dlm_db_log WHERE ip_address = '$ipAddress' AND download_id = ".$d->id." ORDER BY date DESC limit 1;") );
+					if ($old_date) {
+						$old_date = strtotime($old_date);
+						$old_date = strtotime('+'.$log_timeout.' MIN', $old_date);
+						$timestamp = current_time('timestamp', 1);						
+						if ($timestamp < $old_date) {
+							$dupe = true;
+						}
+					}
+				}
+				
+				if ($dupe==false && $level!=10) {
 					$hits = $d->hits;
 					$hits++;
 					// update download hits					
@@ -218,11 +237,11 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   }
 			   
 		   		// Log download details
-		   		if (get_option('wp_dlm_log_downloads')=='yes') {
+		   		if ($dupe==false && get_option('wp_dlm_log_downloads')=='yes') {
 					$timestamp = current_time('timestamp', 1);					
 					$ipAddress = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
 					$user = $user_ID;
-					if (empty($user)) $user = '0';				
+					if (empty($user)) $user = '0';			
 					$wpdb->query( $wpdb->prepare( "INSERT INTO $wp_dlm_db_log (download_id, user_id, date, ip_address) VALUES (%s, %s, %s, %s);", $d->id, $user, date("Y-m-d H:i:s" ,$timestamp), $ipAddress ) );
 				}
 			   
@@ -238,6 +257,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   		// Check random mirror is OK or choose another
 			   		$checking=true;
 			   		$loop = 0;
+			   		include_once('classes/linkValidator.class.php');
 			   		$linkValidator = new linkValidator();
 			   		while ($checking) { 						
 						$linkValidator->linkValidator($thefile, true, false);
@@ -452,8 +472,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 
 					@ini_set('zlib.output_compression', 'Off');
 					@set_time_limit(0);
-					session_start();					
-					session_cache_limiter('none');		
+					@session_start();					
+					@session_cache_limiter('none');		
 					@set_magic_quotes_runtime(0);			
 					
 					// START jidd.jimisaacs.com
@@ -496,10 +516,18 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						}
 						// If the path wasn't a URI and not absolute, then it made it all the way to here without manipulation, so now we do this...
 						// By the way, realpath() returns NOTHING if is does not exist.
-						$thefile = realpath( $thefile );						
+						$testfile = realpath( $thefile );
 						
 						// now do a long condition check, it should not be emtpy, a directory, and should be readable.
-						$willDownload = empty($thefile) ? false : !is_file($thefile) ? false : is_readable($thefile);
+						$willDownload = empty($testfile) ? false : !is_file($testfile) ? false : is_readable($testfile);
+
+						if ( !$willDownload ) {	
+							// Prefix with abspath and try again, just in case this is from an old version of download monitor
+							$thefile = realpath( ABSPATH . $thefile );
+							$willDownload = empty($thefile) ? false : !is_file($thefile) ? false : is_readable($thefile);
+						} else {
+							$thefile = realpath( $thefile );
+						}
 						
 						if ( $willDownload ) {							
 						// END jidd.jimisaacs.com	

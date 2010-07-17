@@ -160,11 +160,11 @@ class linkValidator {
 			$url = substr($url,7);
 
 		//disect the url...
-		$p = explode('/',$url);
-		list($arr['host'],$arr['port']) = explode(':',$p[0]);
+		$p = explode('/',$url);		
+		if (strstr($p[0], ':')) list($arr['host'],$arr['port']) = explode(':',$p[0]);
+		else list($arr['host'],$arr['port']) = array($p[0], '');
 		unset($p[0]);
 		$arr['get'] = '/'.implode('/',$p);
-
 		return $arr;
 	}
 
@@ -202,6 +202,7 @@ class linkValidator {
 
 				//check output
 				unset($i); //some lame servers with no EOF protection.
+				$i = 0;
 				while(!feof($fp) && $i<50){
 					$output = fgets($fp,1024);
 					if(!$output)

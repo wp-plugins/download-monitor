@@ -3,7 +3,7 @@
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
 Description: Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.4.2
+Version: 3.3.4.3
 Author: Mike Jolley
 Author URI: http://blue-anvil.com
 */
@@ -255,6 +255,12 @@ function wp_dlm_init_hooks() {
 			add_filter('the_meta_key', 'do_shortcode',11);
 			add_filter('widget_text', 'do_shortcode',11);
 			add_filter('widget_title', 'do_shortcode',11);
+			
+			add_filter( 'download_description', 'wptexturize'        );
+			add_filter( 'download_description', 'convert_smilies'    );
+			add_filter( 'download_description', 'convert_chars'      );
+			add_filter( 'download_description', 'wpautop'            );
+			add_filter( 'download_description', 'shortcode_unautop'  );
 		else :
 			wp_enqueue_script('jquery-ui-sortable');
 			add_action('media_buttons', 'wp_dlm_add_media_button', 20);

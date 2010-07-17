@@ -102,7 +102,7 @@ if (function_exists('get_downloads')) {
 		}
 	}
 	$category_array = array();
-	if (sizeof($download_taxonomies->categories)>0) {
+	if (is_object($download_taxonomies) && sizeof($download_taxonomies->categories)>0) {
 		foreach ($download_taxonomies->categories as $category) {
 			if (!in_array($category->id, $exclude_cat_array)) {
 				$category_array[$category->id] = $category;
@@ -183,6 +183,7 @@ if (function_exists('get_downloads')) {
 	
 	// START PAGE OUTPUT
 	$page = '';
+	$fields = '';
 	
 	// Ensure it works with default permalinks
 	global $post;
@@ -584,7 +585,7 @@ if (function_exists('get_downloads')) {
 	        $date = date("jS M Y", strtotime($download->date));
 	        if ($download->dlversion) $version = __('Version',"wp-download_monitor").' '.$download->dlversion; 
 	        	else $version = '';
-	        if ($download->file_description) $desc = apply_filters('the_content', $download->file_description); 
+	        if ($download->file_description) $desc = apply_filters('download_description', $download->file_description); 
 	        	else $desc = "";
 	        $thumbnail_url = $download->thumbnail;
 	        

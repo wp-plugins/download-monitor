@@ -89,6 +89,8 @@ function wp_dlm_config() {
 					
 					update_option('wp_dlm_global_member_only', $_POST['wp_dlm_global_member_only']);
 					
+					update_option('wp_dlm_log_timeout', $_POST['wp_dlm_log_timeout']);
+					
 					
 					if ($_POST['wp_dlm_file_browser_root'])
 						update_option('wp_dlm_file_browser_root', $_POST['wp_dlm_file_browser_root']);	
@@ -390,7 +392,13 @@ function wp_dlm_config() {
 	                        		<option value="no" <?php
 	                            		if (get_option('wp_dlm_log_downloads')=='no') echo 'selected="selected" ';
 	                            	?>><?php _e('No',"wp-download_monitor"); ?></option>                           	
-	                            </select>                            
+	                            </select>               
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col"><?php _e('Log Timeout',"wp-download_monitor"); ?>:</th>
+                            <td>
+                            	<input type="text" value="<?php echo get_option('wp_dlm_log_timeout'); ?>" name="wp_dlm_log_timeout" /> <span class="setting-description"><?php _e('0 means all downloads are logged. Increase to set the timeout in minutes so that downloads by the same person are not logged multiple times.',"wp-download_monitor"); ?></span>
                             </td>
                         </tr>
                         <tr>

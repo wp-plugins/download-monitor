@@ -65,16 +65,17 @@ function wp_dlm_init_or_upgrade() {
 	endif;
 	
 	// Add default options
-	add_option('wp_dlm_url', '', 'URL for download', 'no');	
-	add_option('wp_dlm_type', 'ID', 'wp_dlm_type', 'no');
-	add_option('wp_dlm_default_format', '0', 'wp_dlm_default_format', 'no');
+	add_option('wp_dlm_url', '');	
+	add_option('wp_dlm_type', 'ID');
+	add_option('wp_dlm_default_format', '0');
 	add_option('wp_dlm_does_not_exist','','no');
 	add_option('wp_dlm_image_url',WP_PLUGIN_URL."/download-monitor/img/download.gif",'no');
-	add_option('wp_dlm_log_downloads', 'yes', '', 'no');
+	add_option('wp_dlm_log_downloads', 'yes');
 	add_option('wp_dlm_file_browser_root', ABSPATH, 'no');
-	add_option('wp_dlm_enable_file_browser', 'yes', '', 'no');
-	add_option('wp_dlm_auto_mirror', 'yes', '', 'no');
-	add_option('wp_dlm_global_member_only', 'no', '', 'no');
+	add_option('wp_dlm_enable_file_browser', 'yes');
+	add_option('wp_dlm_auto_mirror', 'yes');
+	add_option('wp_dlm_global_member_only', 'no');
+	add_option('wp_dlm_log_timeout', '0');
 
 	global $dlm_build;
 	$wp_dlm_build = get_option('wp_dlm_build');
@@ -90,7 +91,7 @@ function wp_dlm_update() {
 
 	global $dlm_build;
 
-	add_option('wp_dlm_build', $dlm_build, 'Version of DLM plugin', 'no');
+	add_option('wp_dlm_build', $dlm_build);
 	
 	if ( get_option('wp_dlm_build') != $dlm_build ) {
 		update_option('wp_dlm_build', $dlm_build);

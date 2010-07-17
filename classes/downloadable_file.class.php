@@ -80,8 +80,9 @@ class downloadable_file {
 		
 		$download_cats = array();
 		$download_tags = array();
+		$this_download2taxonomy = '';
 		
-		$this_download2taxonomy = $download2taxonomy_array[$this->id];
+		if (isset($download2taxonomy_array[$this->id])) $this_download2taxonomy = $download2taxonomy_array[$this->id];
 		
 		if ($this_download2taxonomy && sizeof($this_download2taxonomy)>0) :
 			foreach ($this_download2taxonomy as $taxonomy_id) :

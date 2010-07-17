@@ -51,6 +51,7 @@ function dlm_adddir() {
 		$postDate = $_POST['postDate'];
 		$user = $_POST['user'];
 		$members = (isset($_POST['memberonly'])) ? 1 : 0;
+		$forcedownload = (isset($_POST['forcedownload'])) ? 1 : 0;
 		if (isset( $_POST['download_cat'] )) $download_cat = $_POST['download_cat']; else $download_cat = '';
     }
 	if ( isset($_POST['save']) ) {

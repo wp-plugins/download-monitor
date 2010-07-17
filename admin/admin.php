@@ -422,7 +422,7 @@ function wp_dlm_admin()
 								if ($removefile){		
 									$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id=%s;",$_GET['id'] ) );
 									$file = $d->filename;
-									if ( strstr ( $d->filename, get_option('upload_path') ) ) {
+									if ( get_option('upload_path') && strstr ( $d->filename, get_option('upload_path') ) ) {
 					
 										$uploadpath 	= get_bloginfo('wpurl').'/'.get_option('upload_path').'/';
 										$absuploadpath 	= ABSPATH.get_option('upload_path').'/';
@@ -1562,36 +1562,44 @@ function wp_dlm_admin()
     		<h3><?php _e('Download Monitor News',"wp-download_monitor"); ?></h3>
     		<div class="inside">
     		<?php
-    			if (file_exists(ABSPATH.WPINC.'/rss.php')) {
+    			if (file_exists(ABSPATH.WPINC.'/class-simplepie.php')) {
 	    			
-	    			include_once(ABSPATH.WPINC.'/rss.php');
+	    			include_once(ABSPATH.WPINC.'/class-simplepie.php');
 	    			
-					$rss = fetch_rss('http://blue-anvil.com/tag/download-monitor/feed/');
+					$rss = fetch_feed('http://blue-anvil.com/tag/download-monitor/feed/');
 					
-					if ( $rss && $rss->items && sizeof($rss->items) > 0 ) :
+					if (!is_wp_error( $rss ) ) :
 					
-						$rss->items = array_slice($rss->items, 0, 5);
+						$maxitems = $rss->get_item_quantity(5); 
+						$rss_items = $rss->get_items(0, $maxitems); 					
+					
+						if ( $maxitems > 0 ) :
 						
-						echo '<ul>';
+							echo '<ul>';
 						
-						foreach ( (array) $rss->items as $item ) :
-						
-							$title = htmlentities($item['title'], ENT_QUOTES, "UTF-8");
+								foreach ( $rss_items as $item ) :
 							
-							$link = $item['link'];
-										
-		  					$date = strtotime($item['pubdate']);
-		  
-							if ( ( abs( time() - $date) ) < 86400 ) : // 1 Day
-								$human_date = sprintf(__('%s ago','wp-download_monitor'), human_time_diff($date));
-							else :
-								$human_date = date(__('F jS Y','wp-download_monitor'), $date);
-							endif;
-		
-							echo '<li><a href="'.$link.'">'.$title.'</a> &ndash; <span class="rss-date">'.$human_date.'</span></li>';
-						endforeach;
+								$title = wptexturize($item->get_title(), ENT_QUOTES, "UTF-8");
+
+								$link = $item->get_permalink();
+											
+			  					$date = $item->get_date('U');
+			  
+								if ( ( abs( time() - $date) ) < 86400 ) : // 1 Day
+									$human_date = sprintf(__('%s ago','wp-download_monitor'), human_time_diff($date));
+								else :
+									$human_date = date(__('F jS Y','wp-download_monitor'), $date);
+								endif;
+			
+								echo '<li><a href="'.$link.'">'.$title.'</a> &ndash; <span class="rss-date">'.$human_date.'</span></li>';
 						
-						echo '</ul>';
+							endforeach;
+						
+							echo '</ul>';
+							
+						else :
+							echo '<ul><li>'.__('No items found.','wp-download_monitor').'</li></ul>';
+						endif;
 					
 					else :
 						echo '<ul><li>'.__('No items found.','wp-download_monitor').'</li></ul>';

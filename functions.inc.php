@@ -39,7 +39,7 @@ function wp_dlm_magic() {
 ################################################################################
 function wp_dlm_get_custom_format($id) {
 	global $download_formats_array;
-
+	$format = '';
 	$format = $download_formats_array[$id];
 	return $format->format;	
 }
