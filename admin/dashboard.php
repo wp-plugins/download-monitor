@@ -258,8 +258,10 @@ if ($wp_db_version > 6124) {
 	if ($wp_db_version > 8644) {
 		
 		function dlm_download_stats_widget_setup() {
-			wp_add_dashboard_widget( 'dlm_download_stats_widget', __( 'Download Stats' ), 'dlm_download_stats_widget' );
-			wp_add_dashboard_widget( 'dlm_download_top_widget', __( 'Top 5 Downloads' ), 'dlm_download_top_widget' );
+			if (current_user_can( 'manage_options' )) {
+				wp_add_dashboard_widget( 'dlm_download_stats_widget', __( 'Download Stats' ), 'dlm_download_stats_widget' );
+				wp_add_dashboard_widget( 'dlm_download_top_widget', __( 'Top 5 Downloads' ), 'dlm_download_top_widget' );
+			}
 		}
 		add_action('wp_dashboard_setup', 'dlm_download_stats_widget_setup');
 		

@@ -70,7 +70,7 @@ class downloadable_file {
 			$this->memberonly = $d->members;			
 			$this->get_taxonomy();
 			$this->get_meta();
-			if (empty($this->size)) $this->get_size();
+			if (!isset($this->size)) $this->get_size();
 			$this->image = $wp_dlm_image_url;
 		}	
 	}
@@ -213,6 +213,9 @@ class downloadable_file {
 			// Add to DB for quick loading in future
 			global $wpdb, $wp_dlm_db_meta;
 			$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('filesize', '".$wpdb->escape( $this->size )."', '".$this->id."')");
+		} else {
+			// Could not get size, but insert anyway to prevent slow page loads
+			$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('filesize', '', '".$this->id."')");
 		}
 	}
 	

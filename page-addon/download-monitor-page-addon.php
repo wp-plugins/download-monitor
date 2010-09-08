@@ -763,7 +763,6 @@ if (function_exists('get_downloads')) {
 		
 		// Begin cats
 		$page .= '<div id="download-page-categories">';
-			
 		// Show categories
 		if (sizeof($category_array)>0) {
 			$alt = -1;

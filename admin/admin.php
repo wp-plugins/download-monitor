@@ -1529,6 +1529,7 @@ function wp_dlm_admin()
 						));
 					}
 				?>	
+				<div class="clear"></div>
             </div> 
 			<div class="clear"></div>
 		</div>

@@ -171,7 +171,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						exit();
    					} else {
    						@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
-   						wp_die(__('You must be logged in to download this file.<br/><br/><a href="'.get_bloginfo('url').'"><strong>&larr; Back to '.get_bloginfo('name').'</strong></a>',"wp-download_monitor"), __('You must be logged in to download this file.',"wp-download_monitor"));
+   						wp_die( sprintf(__('You must be logged in to download this file. <br/><br/><a href="%1$s"><strong>← Back to %2$s</strong></a>', "wp-download_monitor"), get_bloginfo('url'), get_bloginfo('name')), __('You must be logged in to download this file.',"wp-download_monitor"));
    					}
 					exit();
 				}
@@ -639,9 +639,14 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					
 					if (!strstr(get_bloginfo('url'),'www.')) $pageURL = str_replace('www.','', $pageURL );
 					
-					if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
-					$dir_path = $_SERVER['DOCUMENT_ROOT'];
-					$thefile = str_replace( $dir_path, $pageURL, $thefile );
+					$thefile = str_replace( ABSPATH, trailingslashit($pageURL), $thefile );
+					// If that didn't work then the file is obviously outside wordpress so we have no choice but to use DOCUMENT ROOT
+					if( !strstr($thefile, 'http://') && !strstr($thefile,'https://') && !strstr($thefile, 'ftp://') ) { 
+						if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) 
+							$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
+						$dir_path = $_SERVER['DOCUMENT_ROOT'];
+						$thefile = str_replace( $dir_path, $pageURL, $thefile );
+					}
 				}
 				$location= 'Location: '.$thefile;
 				header($location);
