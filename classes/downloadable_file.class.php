@@ -129,6 +129,8 @@ class downloadable_file {
 	}
 	
 	function get_size() {
+		global $wpdb, $wp_dlm_db_meta;
+	
 		$thefile = $this->filename;
 		$urlparsed = parse_url($thefile);
 		$isURI = array_key_exists('scheme', $urlparsed);
@@ -211,7 +213,6 @@ class downloadable_file {
 			}
 			$this->size = round($filesize, 2)." ".$val;
 			// Add to DB for quick loading in future
-			global $wpdb, $wp_dlm_db_meta;
 			$wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ('filesize', '".$wpdb->escape( $this->size )."', '".$this->id."')");
 		} else {
 			// Could not get size, but insert anyway to prevent slow page loads
