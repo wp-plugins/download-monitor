@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-Language: \n"
 "X-Poedit-Country: \n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: .\n"
@@ -40,13 +40,14 @@ msgstr "Forcer le téléchargement de fichiers hébergés à l'extérieur de vot
 msgid "Download path is invalid!"
 msgstr "Le chemin de téléchargement n'est pas valide."
 
-#: download.php:658
+#: download.php:663
 #@ wp-download_monitor
 msgid "Download does not exist!"
 msgstr "Le fichier à télécharger n'existe pas !"
 
 #: functions.inc.php:109
 #, php-format
+#@ default
 msgid "%1$s%2$s, %3$s @ %4$s : %5$s"
 msgstr ""
 
@@ -65,6 +66,7 @@ msgstr "Montrer"
 #: uploader.php:810
 #: wp-download_monitor.php:153
 #@ wp-download_monitor
+#@ default
 msgid "Downloads"
 msgstr "Téléchargements"
 
@@ -212,23 +214,28 @@ msgstr "Aucun téléchargement de trouvé "
 
 #: uploader.php:80
 #: uploader.php:83
+#@ default
 msgid "Blue"
 msgstr "Bleu"
 
 #: uploader.php:81
 #: uploader.php:84
+#@ default
 msgid "Gray"
 msgstr "Gris"
 
 #: uploader.php:93
+#@ default
 msgid "You do not have permission to upload files/downloads."
 msgstr ""
 
 #: uploader.php:101
+#@ default
 msgid "Uploads"
 msgstr "Chargements"
 
 #: uploader.php:101
+#@ default
 msgid "WordPress"
 msgstr "WordPress"
 
@@ -653,7 +660,7 @@ msgstr "ID"
 
 #: admin/admin.php:1357
 #: admin/logs.php:53
-#: classes/downloadable_file.class.php:346
+#: classes/downloadable_file.class.php:350
 #: uploader.php:817
 #@ wp-download_monitor
 msgid "File"
@@ -680,7 +687,7 @@ msgstr "Action"
 
 #: admin/admin.php:1458
 #: admin/admin.php:1469
-#: classes/downloadable_file.class.php:345
+#: classes/downloadable_file.class.php:349
 #: uploader.php:890
 #: uploader.php:901
 #@ wp-download_monitor
@@ -722,11 +729,13 @@ msgstr "Insérer "
 
 #: admin/admin.php:1523
 #: uploader.php:938
+#@ default
 msgid "&laquo; Previous"
 msgstr ""
 
 #: admin/admin.php:1524
 #: uploader.php:939
+#@ default
 msgid "Next &raquo;"
 msgstr ""
 
@@ -1108,75 +1117,76 @@ msgstr "par "
 msgid "No downloads found."
 msgstr "Aucun téléchargement trouvé."
 
-#: admin/admin.php:1547
+#: admin/admin.php:1548
+#@ default
 msgid ""
 "You are about to delete the selected items.\n"
 "  'Cancel' to stop, 'OK' to delete."
 msgstr ""
 
-#: admin/admin.php:1562
+#: admin/admin.php:1563
 #@ wp-download_monitor
 msgid "Download Monitor News"
 msgstr "Nouvelles de Download Monitor "
 
-#: admin/admin.php:1589
+#: admin/admin.php:1590
 #, php-format
 #@ wp-download_monitor
 msgid "%s ago"
 msgstr "Il y a %s"
 
-#: admin/admin.php:1591
+#: admin/admin.php:1592
 #@ wp-download_monitor
 msgid "F jS Y"
 msgstr ""
 
-#: admin/admin.php:1601
-#: admin/admin.php:1605
+#: admin/admin.php:1602
+#: admin/admin.php:1606
 #@ wp-download_monitor
 msgid "No items found."
 msgstr "Aucun objet de trouvé."
 
-#: admin/admin.php:1613
+#: admin/admin.php:1614
 #@ wp-download_monitor
 msgid "Links, Help &amp; Support"
 msgstr "Liens, aide &amp; support"
 
-#: admin/admin.php:1615
+#: admin/admin.php:1616
 #@ wp-download_monitor
 msgid "<p>Need help? FAQ, Usage instructions and other notes can be found on the WordPress.org plugin page <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">here</a>.</p>"
 msgstr "<p>Besoin d'aide ? La FAQ, les instructions d'utilisation et d'autres notes peuvent être trouvées sur la page du plugin de Wordpress.org <a href=\"http://wordpress.org/extend/plugins/download-monitor/\">ici</a>.</p>"
 
-#: admin/admin.php:1616
+#: admin/admin.php:1617
 #@ wp-download_monitor
 msgid "<p>You can also find documentation and support at the following locations:</p>"
 msgstr "<p>Vous pouvez aussi trouver de la documentation et du support aux adresses suivantes:</p>"
 
-#: admin/admin.php:1618
+#: admin/admin.php:1619
 #@ wp-download_monitor
 msgid "Download Monitor on Blue-Anvil"
 msgstr "Download Monitor sur Blue-Anvil "
 
-#: admin/admin.php:1619
+#: admin/admin.php:1620
 #@ wp-download_monitor
 msgid "Download Monitor Documentation"
 msgstr "Documentation de Download Monitor "
 
-#: admin/admin.php:1620
+#: admin/admin.php:1621
 #@ wp-download_monitor
 msgid "Support Forum"
 msgstr "Forum de support "
 
-#: admin/admin.php:1625
+#: admin/admin.php:1626
 #@ wp-download_monitor
 msgid "Support Download Monitor"
 msgstr "Soutenez Download Monitor "
 
-#: admin/admin.php:1627
+#: admin/admin.php:1628
 #@ wp-download_monitor
 msgid "The Wordpress Download monitor plugin was created by <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. The development of this plugin took a lot of time and effort, so please don't forget to donate if you found this plugin useful."
 msgstr "Le plugin WP Download Monitor a été créé par <a href=\"http://blue-anvil.com/\">Mike Jolley</a>. Le développement de ce plugin a demandé beaucoup de temps et d'efforts aussi n'oubliez pas de faire un don si vous avez trouvé ce plugin utile svp."
 
-#: admin/admin.php:1629
+#: admin/admin.php:1630
 #@ wp-download_monitor
 msgid "There are also other ways of supporting download monitor to ensure it is maintained and well supported in the future! Leaving the sponsor messages enabled, rating the plugin on wordpress.org (if you like it), linking/spreading the word, and submitting code contributions will all help."
 msgstr "Il y a aussi de multiples façons de supporter Download Monitor et de l'aider à être maintenu et bien suivi dans le futur ! En laissant les messages de sponsor activés, en notant le plugin sur Wordpress.org -si vous l'appréciez, en faisant un lien/passer le mot et en proposant du code, vous apporterez votre aide.  "
@@ -1758,14 +1768,16 @@ msgstr "Les plus téléchargés "
 msgid "No stats yet"
 msgstr "Aucune stat pour le moment "
 
-#: admin/dashboard.php:261
-#: admin/dashboard.php:282
+#: admin/dashboard.php:262
+#: admin/dashboard.php:284
+#@ default
 #@ wp-download_monitor
 msgid "Download Stats"
 msgstr "Télécharger les stats "
 
-#: admin/dashboard.php:262
-#: admin/dashboard.php:316
+#: admin/dashboard.php:263
+#: admin/dashboard.php:318
+#@ default
 #@ wp-download_monitor
 msgid "Top 5 Downloads"
 msgstr "Top 5 des téléchargements "
@@ -1840,21 +1852,21 @@ msgstr "Précédent"
 msgid "Next"
 msgstr "Suivant"
 
-#: classes/downloadable_file.class.php:273
-#: classes/downloadable_file.class.php:287
-#: classes/downloadable_file.class.php:309
+#: classes/downloadable_file.class.php:277
+#: classes/downloadable_file.class.php:291
+#: classes/downloadable_file.class.php:313
 #: page-addon/download-monitor-page-addon.php:55
 #@ wp-download_monitor
 msgid "Other"
 msgstr "Autres"
 
-#: classes/downloadable_file.class.php:295
+#: classes/downloadable_file.class.php:299
 #@ wp-download_monitor
 msgid "Uncategorized"
 msgstr "Sans catégorie "
 
-#: classes/downloadable_file.class.php:330
-#: classes/downloadable_file.class.php:333
+#: classes/downloadable_file.class.php:334
+#: classes/downloadable_file.class.php:337
 #@ wp-download_monitor
 msgid "#Mirror-not-found"
 msgstr "#Site-miroir-non-trouve"
@@ -1968,4 +1980,10 @@ msgstr "Les en-têtes ont été envoyés par un autre plugin - il peut y avoir u
 #@ wp-download_monitor
 msgid "Cannot open remote file "
 msgstr "Impossible d'ouvrir le fichier distant"
+
+#: download.php:174
+#, php-format
+#@ wp-download_monitor
+msgid "You must be logged in to download this file. <br/><br/><a href=\"%1$s\"><strong>← Back to %2$s</strong></a>"
+msgstr "Vous devez être connecté pour télécharger ce fichier. <br/><br/><a href=\"%1$s\"><strong>← Retour vers %2$s</strong></a>"
 
