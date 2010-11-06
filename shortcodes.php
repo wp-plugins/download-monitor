@@ -20,6 +20,22 @@
 */
 
 ################################################################################
+// Global counts
+################################################################################
+
+function wp_dlm_get_total_downloads() {
+	global $wpdb, $wp_dlm_db;
+	return $wpdb->get_var('SELECT SUM(hits) FROM '.$wp_dlm_db.';');
+}
+add_shortcode('total_downloads', 'wp_dlm_get_total_downloads');
+
+function wp_dlm_get_total_files() {
+	global $wpdb, $wp_dlm_db;
+	return $wpdb->get_var('SELECT COUNT(*) FROM '.$wp_dlm_db.';');
+}
+add_shortcode('total_files', 'wp_dlm_get_total_files');
+
+################################################################################
 // MAIN SINGLE SHORTCODE
 ################################################################################
 
@@ -246,167 +262,6 @@ function get_downloads($args = null) {
 	
 	global $wpdb, $wp_dlm_root, $wp_dlm_db, $wp_dlm_db_taxonomies, $wp_dlm_db_relationships, $wp_dlm_db_meta, $dlm_url, $downloadurl, $downloadtype, $download_taxonomies, $download2taxonomy_array;
 	
-	// Commented out until I know new queries are flawless
-	/*
-	$where = array();
-	$in_ids = array();
-	$not_in_ids = array();
-	$join = '';
-	$select = '';
-	$limitandoffset = '';
-	$filtering_ids = false;
-	
-	// Handle $exclude
-	$exclude_array = array();
-	if ( $r['exclude'] ) {
-		$exclude_unclean = array_map('intval', explode(',',$r['exclude']));		
-		$not_in_ids = array_merge($not_in_ids, $exclude_unclean);
-	}
-	
-	// Handle $include
-	$include_array = array();
-	if ( $r['include'] ) {
-		$include_unclean = array_map('intval', explode(',',$r['include']));
-		$in_ids = array_merge($in_ids, $include_unclean);
-		$filtering_ids = true;
-	}
-		
-	if ( empty( $r['limit'] ) || !is_numeric($r['limit']) ) $r['limit'] = '';
-		
-	if ( !empty( $r['limit'] ) && (empty($r['offset']) || !is_numeric($r['offset'])) ) $r['offset'] = 0;
-	elseif ( empty( $r['limit'] )) $r['offset'] = '';
-	
-	if ( !empty( $r['limit'] ) ) $limitandoffset = ' LIMIT '.$r['offset'].', '.$r['limit'].' ';
-	
-	if ( ! empty($r['category']) && $r['category']!=='none' ) {
-		$filtering_ids = true;
-		$categories = explode(',',$r['category']);
-		$the_cats = array();
-		// Traverse through categories to get sub-cats
-		foreach ($categories as $cat) {
-			if (isset($download_taxonomies->categories[$cat])) {	
-				if ($r['digforcats']) $the_cats = array_merge($the_cats, $download_taxonomies->categories[$cat]->get_decendents());
-				$the_cats[] = $cat;
-			}
-		}
-		
-		foreach ($download2taxonomy_array as $tid=>$tax_array) {
-			if (sizeof(array_intersect($tax_array, $the_cats))>0) $in_ids[] = $tid;
-		}		
-	} elseif ($r['category']=='none') {
-		
-		$filtering_ids = true;
-		
-		$the_cats = array_keys($download_taxonomies->categories);
-		
-		foreach ($download2taxonomy_array as $tid=>$tax_array) {
-			if (sizeof(array_intersect($tax_array, $the_cats))==0) $in_ids[] = $tid;
-		}		
-		
-	} else $category = '';
-	
-	if ( ! empty($r['tags']) ) {
-	
-		$filtering_ids = true;
-		
-		$tags = explode(',', $r['tags']);
-		
-		$tag_ids = array();
-		
-		if ($download_taxonomies->tags && sizeof($download_taxonomies->tags) >0) foreach ($download_taxonomies->tags as $tag) {
-			$tag->name;
-			if (in_array($tag->name, $tags)) {
-				// Include
-				$tag_ids[] = $tag->id;
-			}
-		} 
-		
-		if (sizeof($tag_ids)>0) {
-			foreach ($download2taxonomy_array as $tid=>$tax_array) {
-				if (sizeof(array_intersect($tax_array, $tag_ids))>0) $in_ids[] = $tid;
-			}
-		}		
-	} else $tags = '';
-	
-	// Handle Author
-	if ( ! empty($r['author']) ) {
-		$where[] = ' user = "'.$wpdb->escape($r['author']).'" ';
-	}
-	
-	if ( isset($vip) && $vip==1 ) {
-	
-		global $user_ID;
-		// If not logged in dont show member only files
-		if (!isset($user_ID)) {
-			$where[] = ' members = 0 ';
-		}
-		
-	}
-
-	if ( ! empty($r['orderby']) ) {
-		// Can order by date/postDate, filename, title, id, hits, random
-		$r['orderby'] = strtolower($r['orderby']);
-		switch ($r['orderby']) {
-			case 'postdate' : 
-			case 'date' : 
-				$orderby = 'postDate';
-			break;
-			case 'filename' : 
-				$orderby = 'filename';
-			break;
-			case 'title' : 
-				$orderby = 'title';
-			break;
-			case 'hits' : 
-				$orderby = 'hits';
-			break;
-			case 'meta' : 
-				$orderby = "$wp_dlm_db_meta.meta_value";
-				$join = " LEFT JOIN $wp_dlm_db_meta ON $wp_dlm_db.id = $wp_dlm_db_meta.download_id ";
-				$select = "";
-				$where[] = ' meta_name = "'.$r['meta_name'].'"';
-			break;
-			case 'rand' :
-			case 'random' :
-				$orderby = 'RAND()';
-			break;
-			case 'id' : 
-			default :
-				$orderby = $wp_dlm_db.'.id';
-			break;
-		}
-	}
-	
-	if (strtolower($r['order'])!=='desc' && strtolower($r['order'])!=='asc') $r['order']='desc';
-	
-	if (sizeof($in_ids) > 0) {
-		$in_ids = array_unique($in_ids);
-		if (sizeof($not_in_ids) > 0) {
-			$in_ids = array_diff($in_ids, $not_in_ids);
-		}
-		if (sizeof($in_ids) > 0) {
-			$where[] = ' '.$wp_dlm_db.'.id IN ('.implode(',',$in_ids).') ';
-		}
-	} else {
-		if ($filtering_ids==true) {
-			// We are filtering ids and there are none set so return no results.
-			$where[] = ' '.$wp_dlm_db.'.id IN (0) ';
-		}
-	}
-	
-	// Process where clause
-	if (sizeof($where)>0) $where = ' WHERE '.implode(' AND ', $where);
-	else $where = '';
-		
-	$downloads = $wpdb->get_results( "SELECT $wp_dlm_db.*  
-		".$select."
-		FROM $wp_dlm_db  
-		".$join."
-		".$where."
-		ORDER BY $orderby ".$r['order']."
-		".$limitandoffset.";" );
-	*/
-	
 	// New Query etc
 	$where = array();
 	$in_ids = array();
@@ -430,11 +285,26 @@ function get_downloads($args = null) {
 		if ( ! empty($r['category']) && $r['category']!=='none' ) {
 			$categories = explode(',',$r['category']);
 			$the_cats = array();
+			$the_excluded_cats = array();
 			// Traverse through categories to get sub-cats
 			foreach ($categories as $cat) {
-				if (isset($download_taxonomies->categories[$cat])) {	
-					if ($r['digforcats']) $the_cats = array_merge($the_cats, $download_taxonomies->categories[$cat]->get_decendents());
-					$the_cats[] = $cat;
+				if ($cat<0) {
+					// Support for -cat
+					$scat = $cat*-1;
+					if (isset($download_taxonomies->categories[$scat])) {	
+						if ($r['digforcats']) $the_excluded_cats = array_merge($the_excluded_cats, $download_taxonomies->categories[$scat]->get_decendents());
+						$the_excluded_cats[] = $scat;
+					}
+				} else {
+					if (isset($download_taxonomies->categories[$cat])) {	
+						if ($r['digforcats']) $the_cats = array_merge($the_cats, $download_taxonomies->categories[$cat]->get_decendents());
+						$the_cats[] = $cat;
+					}
+				}
+			}
+			if (sizeof($the_excluded_cats)>0) {
+				foreach ($download2taxonomy_array as $tid=>$tax_array) {
+					if (sizeof(array_intersect($tax_array, $the_excluded_cats))>0) $not_in_ids[] = $tid;
 				}
 			}
 			if (sizeof($the_cats)>0) {
@@ -445,7 +315,8 @@ function get_downloads($args = null) {
 					// No results found, show no results
 					return false;
 				endif;
-			} else {
+			} 
+			if (sizeof($the_cats)==0 && sizeof($the_excluded_cats)==0) {
 				// Category argument was set, but the cat probably does not exist; we should still respect it and show no results
 				return false;
 			}			

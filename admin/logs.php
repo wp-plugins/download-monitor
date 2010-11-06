@@ -99,7 +99,7 @@ function wp_dlm_log()
 				    		echo '<a href="./user-edit.php?user_id='.$user_info->ID.'">'.$user_info->user_login . '</a> (#'.$user_info->ID.')';
 				    	}			
 						echo '</td>
-						<td><a href="http://ws.arin.net/whois/?queryinput='.$log->ip_address.'" target="_blank">'.$log->ip_address.'</a></td>
+						<td><a href="http://whois.arin.net/rest/net/NET-'.$log->ip_address.'" target="_blank">'.$log->ip_address.'</a></td>
 						<td>'.$date.'</td>';
 						
 					}

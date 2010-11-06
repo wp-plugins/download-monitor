@@ -91,6 +91,8 @@ function wp_dlm_config() {
 					
 					update_option('wp_dlm_log_timeout', $_POST['wp_dlm_log_timeout']);
 					
+					update_option('wp_dlm_ip_blacklist', $_POST['wp_dlm_ip_blacklist']);
+					
 					
 					if ($_POST['wp_dlm_file_browser_root'])
 						update_option('wp_dlm_file_browser_root', $_POST['wp_dlm_file_browser_root']);	
@@ -191,7 +193,7 @@ function wp_dlm_config() {
 									foreach ( $formats as $f ) {
 										echo '<tr><td style="vertical-align:middle;">'.$f->id.'</td><td style="vertical-align:middle;">'.$f->name.'</td>
 										<td style="vertical-align:middle;"><input type="hidden" value="'.$f->id.'" name="formatfieldid[]" /><textarea name="formatfield[]" style="width:100%;" rows="2">'.htmlspecialchars($f->format).'</textarea></td>
-										<td style="text-align:center;vertical-align:middle;"><a href="'.admin_url('admin.php?page=dlm_config&amp;action=deleteformat&amp;id='.$f->id).'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="Delete" title="Delete" /></a></td></tr>';
+										<td style="text-align:center;vertical-align:middle;"><a href="'.admin_url('admin.php?page=dlm_config&amp;action=deleteformat&amp;id='.$f->id).'"><img src="'.WP_CONTENT_URL.'/plugins/download-monitor/img/cross.png" alt="'.__('Delete',"wp-download_monitor").'" title="'.__('Delete',"wp-download_monitor").'" /></a></td></tr>';
 									}
 								} else {
 									echo '<tr><td colspan="3">'.__('No formats exist',"wp-download_monitor").'</td></tr>';
@@ -402,6 +404,12 @@ function wp_dlm_config() {
                             </td>
                         </tr>
                         <tr>
+                            <th scope="col"><?php _e('Log/Count Blacklist',"wp-download_monitor"); ?>:</th>
+                            <td>
+                            	<textarea cols="15" rows="5" name="wp_dlm_ip_blacklist"><?php echo get_option('wp_dlm_ip_blacklist'); ?></textarea> <span class="setting-description"><?php _e('List IP addresses here that you wish to exclude from the logs/counts - 1 per line.',"wp-download_monitor"); ?></span>
+                            </td>
+                        </tr>
+                        <tr>
                             <th scope="col"><?php _e('Enable File Browser',"wp-download_monitor"); ?>:</th>
                             <td>
 	                            <select name="wp_dlm_enable_file_browser" id="wp_dlm_enable_file_browser">
@@ -462,7 +470,7 @@ function wp_dlm_config() {
 		<?php
 			global $wp_db_version;
 			if ($wp_db_version >= 9872) {
-				echo "jQuery('.postbox h3').before('<div class=\"handlediv\" title=\"Click to toggle\"><br /></div>');";
+				echo "jQuery('.postbox h3').before('<div class=\"handlediv\" title=\"".__('Click to toggle',"wp-download_monitor")."\"><br /></div>');";
 			} else {
 				echo "jQuery('.postbox h3').prepend('<a class=\"togbox\">+</a> ');";
 			}

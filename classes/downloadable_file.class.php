@@ -54,6 +54,7 @@ class downloadable_file {
 				break;
 			}
 			$this->url =  $downloadurl.$downloadlink;
+			$this->rawurl = $d->filename; 
 			$this->id = $d->id;
 			$this->filename = $d->filename;
 			$this->title = $d->title;
@@ -226,6 +227,7 @@ class downloadable_file {
 			
 		$fpatts = array(
 			'{url}', 
+			'{raw_url}', 
 			'{id}', 
 			'{user}', 
 			'{version}', 
@@ -241,6 +243,7 @@ class downloadable_file {
 		
 		$fsubs = array( 
 			$this->url, 
+			$this->rawurl,
 			$this->id,
 			$this->user, 
 			$this->version, 

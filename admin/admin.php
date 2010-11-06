@@ -420,12 +420,12 @@ function wp_dlm_admin()
 								
 								// Remove old file
 								if ($removefile){		
-									$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id=%s;",$_GET['id'] ) );
+									$d = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wp_dlm_db WHERE id=%s;", $_GET['id'] ) );
 									$file = $d->filename;
-									if ( get_option('upload_path') && strstr ( $d->filename, get_option('upload_path') ) ) {
-					
-										$uploadpath 	= get_bloginfo('wpurl').'/'.get_option('upload_path').'/';
-										$absuploadpath 	= ABSPATH.get_option('upload_path').'/';
+									$dirs = wp_upload_dir();
+									$uploadpath 	= trailingslashit( $dirs['baseurl'] );  
+									$absuploadpath 	= trailingslashit( $dirs['basedir'] );
+									if ( $uploadpath && ( strstr ( $d->filename, $uploadpath ) || strstr ( $d->filename, $absuploadpath )) ) {
 					
 										$file = str_replace( $uploadpath , "" , $d->filename);
 										if(is_file($absuploadpath.$file)){
@@ -837,10 +837,10 @@ function wp_dlm_admin()
 					//load values
 					$d = $wpdb->get_row($query_select_1);
 					$file = $d->filename;
-					if ( strstr ( get_option('upload_path'), $d->filename ) ) {
-													
-						$uploadpath 	= get_bloginfo('wpurl').'/'.get_option('upload_path').'/';
-						$absuploadpath 	= ABSPATH.get_option('upload_path').'/';
+					$dirs = wp_upload_dir();
+					$uploadpath 	= trailingslashit( $dirs['baseurl'] );  
+					$absuploadpath 	= trailingslashit( $dirs['basedir'] );
+					if ( $uploadpath && ( strstr ( $d->filename, $uploadpath ) || strstr ( $d->filename, $absuploadpath )) ) {
 	
 						$file = str_replace( $uploadpath , "" , $d->filename);
 						if(is_file($absuploadpath.$file)){
@@ -914,10 +914,10 @@ function wp_dlm_admin()
 				
 					$d = $wpdb->get_row( "SELECT * FROM $wp_dlm_db WHERE id=$bid;" );
 					$file = $d->filename;
-					if ( get_option('upload_path') && strstr ( $d->filename, get_option('upload_path') ) ) {
-													
-						$uploadpath 	= get_bloginfo('wpurl').'/'.get_option('upload_path').'/';
-						$absuploadpath 	= ABSPATH.get_option('upload_path').'/';
+					$dirs = wp_upload_dir();
+					$uploadpath 	= trailingslashit( $dirs['baseurl'] );  
+					$absuploadpath 	= trailingslashit( $dirs['basedir'] );
+					if ( $uploadpath && ( strstr ( $d->filename, $uploadpath ) || strstr ( $d->filename, $absuploadpath )) ) {
 	
 						$file = str_replace( $uploadpath , "" , $d->filename);
 						if(is_file($absuploadpath.$file)){
@@ -1348,20 +1348,30 @@ function wp_dlm_admin()
 			<div class="clear"></div>
 		</div>
 		<div class="clear"></div>
+		<?php
+			$sort 	= "title";
+			$dir	= 'asc';
+			if (isset($_REQUEST['sort']) && ($_REQUEST['sort']=="id" || $_REQUEST['sort']=="filename" || $_REQUEST['sort']=="postDate")) $sort = $_REQUEST['sort'];
+			
+			if ($sort=='postDate') $dir = 'desc';
+			
+			if (isset($_REQUEST['dir']) && $_REQUEST['dir']=="desc") $dir ='desc';
+			if (isset($_REQUEST['dir']) && $_REQUEST['dir']=="asc") $dir ='asc';
+		?>
         <table class="widefat" style="margin-top:4px"> 
 			<thead>
 				<tr>
 				<th scope="col" class="check-column"><input type="checkbox" name="check_all" id="check_all" class="checkbox" /></th>
-				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=id"><?php _e('ID',"wp-download_monitor"); ?></a></th>
-				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=title"><?php _e('Download',"wp-download_monitor"); ?></a></th>
-				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=filename"><?php _e('File',"wp-download_monitor"); ?></a></th>
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=id<?php if ($sort=='id' && $dir!='desc') echo '&amp;dir=desc'; ?>"><?php _e('ID',"wp-download_monitor"); ?></a></th>
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=title<?php if ($sort=='title' && $dir!='desc') echo '&amp;dir=desc'; ?>"><?php _e('Download',"wp-download_monitor"); ?></a></th>
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=filename<?php if ($sort=='filename'  && $dir!='desc') echo '&amp;dir=desc'; ?>"><?php _e('File',"wp-download_monitor"); ?></a></th>
                 <th scope="col"><?php _e('Categories',"wp-download_monitor"); ?></th>
 				<th scope="col" style="text-align:left;width:150px;"><?php _e('Tags',"wp-download_monitor"); ?></th>
                 <th scope="col" style="text-align:center"><?php _e('Member only',"wp-download_monitor"); ?></th>
                 <th scope="col" style="text-align:center"><?php _e('Force Download',"wp-download_monitor"); ?></th>
                 <th scope="col" style="text-align:center"><?php _e('Custom fields',"wp-download_monitor"); ?></th>
                 <th scope="col" style="text-align:center"><img src="<?php echo WP_CONTENT_URL; ?>/plugins/download-monitor/img/grey_arrow.gif" style="vertical-align:middle" alt="<?php _e('Hits',"wp-download_monitor"); ?>" title="<?php _e('Hits',"wp-download_monitor"); ?>" /></th>
-				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=postDate"><?php _e('Posted',"wp-download_monitor"); ?></a></th>					
+				<th scope="col"><a href="?page=download-monitor/wp-download_monitor.php&amp;sort=postDate<?php if ($sort=='postDate' && $dir!='asc') echo '&amp;dir=asc'; ?>"><?php _e('Posted',"wp-download_monitor"); ?></a></th>					
 				<?php /*<th scope="col"><?php _e('Action',"wp-download_monitor"); ?></th> */ ?>
 				</tr>
 			</thead>						
@@ -1380,13 +1390,6 @@ function wp_dlm_admin()
 					$search = " WHERE (title LIKE '%".$wpdb->escape($_REQUEST['search_downloads'])."%' OR filename LIKE '%".$wpdb->escape($_REQUEST['search_downloads'])."%' OR ID = '".$wpdb->escape($_REQUEST['search_downloads'])."' ) ";
 				}
 				
-				// Sort column
-				$sort = "title";
-				$sort_ex = '';
-				if (isset($_REQUEST['sort']) && ($_REQUEST['sort']=="id" || $_REQUEST['sort']=="filename" || $_REQUEST['sort']=="postDate")) $sort = $_REQUEST['sort'];
-				
-				if (isset($_REQUEST['sort']) && $_REQUEST['sort']=="id") $sort_ex =' ASC';
-				
 				$total_results = sprintf("SELECT COUNT(id) FROM %s %s;",
 					$wpdb->escape($wp_dlm_db), $search );
 					
@@ -1396,7 +1399,7 @@ function wp_dlm_admin()
 				$paged_select = sprintf("SELECT $wp_dlm_db.* FROM $wp_dlm_db %s
 				ORDER BY %s LIMIT %s,20;",
 					$search,
-					$wpdb->escape( $sort.$sort_ex ),
+					$wpdb->escape( $sort.' '.$dir ),
 					$wpdb->escape( $from ));
 					
 				$download = $wpdb->get_results($paged_select);
@@ -1447,7 +1450,7 @@ function wp_dlm_admin()
 						if ($d->dlversion) echo ' ('.__('Version',"wp-download_monitor").' '.$d->dlversion.')';
 						echo '</strong>
 						<div class="row-actions">
-							<span class="edit"><a title="Edit this Download" href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'">Edit</a> | </span><span class="delete"><a class="submitdelete" href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'" title="Delete this post">Delete</a></span>
+							<span class="edit"><a title="'.__('Edit this Download', 'wp-download_monitor').'" href="?page=download-monitor/wp-download_monitor.php&amp;action=edit&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'">'.__('Edit',"wp-download_monitor").'</a> | </span><span class="delete"><a class="submitdelete" href="?page=download-monitor/wp-download_monitor.php&amp;action=delete&amp;id='.$d->id.'&amp;sort='.$sort.'&amp;p='.$page.'" title="'.__('Delete this download',"wp-download_monitor").'">'.__('Delete',"wp-download_monitor").'</a></span>
 						</div>						
 						</td>
 						<td><a href="'.$downloadurl.$downloadlink.'">'.$file.'</a></td>
@@ -1618,7 +1621,6 @@ function wp_dlm_admin()
     			<ul>
     				<li><a href="http://blue-anvil.com/archives/wordpress-download-monitor-3/"><?php _e('Download Monitor on Blue-Anvil',"wp-download_monitor"); ?></a></li>
     				<li><a href="http://blue-anvil.com/archives/wordpress-download-monitor-3-documentation/"><?php _e('Download Monitor Documentation',"wp-download_monitor"); ?></a></li>
-    				<li><a href="http://blue-anvil.com/forum/?wpforumaction=viewforum&f=2.0"><?php _e('Support Forum',"wp-download_monitor"); ?></a></li>
     			</ul>
     		</div>
     	</div> 

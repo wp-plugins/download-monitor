@@ -199,10 +199,19 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				}
 				
 				$log_timeout = (int) get_option('wp_dlm_log_timeout');
+				$blacklist = array_map("trim", explode("\n", get_option('wp_dlm_ip_blacklist')));
 				$dupe = false;
+				$blocked = false;
+				
+				if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) && strtolower($_SERVER['HTTP_X_FORWARDED_FOR'])!='unknown') {
+					$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+				} elseif(isset($_SERVER['HTTP_X_REAL_IP']) && strtolower($_SERVER['HTTP_X_REAL_IP'])!='unknown') {
+					$_SERVER['REMOTE_ADDR']=$_SERVER['HTTP_X_REAL_IP'];
+				}
+				$ipAddress = $_SERVER['REMOTE_ADDR'];
+				if (in_array($ipAddress, $blacklist)) $blocked = true;
 				
 				if (get_option('wp_dlm_log_downloads')=='yes' && $log_timeout>0) {					
-					$ipAddress = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
 					$old_date = $wpdb->get_var( $wpdb->prepare( "SELECT date FROM $wp_dlm_db_log WHERE ip_address = '$ipAddress' AND download_id = ".$d->id." ORDER BY date DESC limit 1;") );
 					if ($old_date) {
 						$old_date = strtotime($old_date);
@@ -214,7 +223,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					}
 				}
 				
-				if ($dupe==false && $level!=10) {
+				if ($dupe==false && $blocked==false && $level!=10) {
 					$hits = $d->hits;
 					$hits++;
 					// update download hits					
@@ -237,9 +246,8 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 			   }
 			   
 		   		// Log download details
-		   		if ($dupe==false && get_option('wp_dlm_log_downloads')=='yes') {
+		   		if ($dupe==false && $blocked==false && get_option('wp_dlm_log_downloads')=='yes') {
 					$timestamp = current_time('timestamp', 1);					
-					$ipAddress = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR'];
 					$user = $user_ID;
 					if (empty($user)) $user = '0';			
 					$wpdb->query( $wpdb->prepare( "INSERT INTO $wp_dlm_db_log (download_id, user_id, date, ip_address) VALUES (%s, %s, %s, %s);", $d->id, $user, date("Y-m-d H:i:s" ,$timestamp), $ipAddress ) );
@@ -463,6 +471,9 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						case "htaccess":
 						case "sql":
 						case "html":
+							$thefile = str_replace(ABSPATH, get_bloginfo('wpurl'));
+							$thefile = str_replace($_SERVER['DOCUMENT_ROOT'], get_bloginfo('url'));
+						
 							$location= 'Location: '.$thefile;
 							header($location);
 							exit;
@@ -490,12 +501,12 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						BloginfoWPURL:	".get_bloginfo('wpurl')."\n
 						ABSPATH: ".ABSPATH." 
 					";
-					exit; */	
+					exit; */
 					
 					
 					// Deal with remote file or local file					
 					if( $isURI && $localURI || !$isURI && !$localURI ) {
-					
+						
 						/* Had some problems with strange wordpress setups/files on server but on within wordpress installation SO lets try this:
 							Does the download contain the wpurl or url? */
 						if( $localURI ) {
@@ -503,16 +514,19 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							//$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|', '|^'. get_bloginfo('url') . '/' . '|');
 							$patterns = array( '|^'. get_bloginfo('wpurl') . '/' . '|');
 							$path = preg_replace( $patterns, '', $thefile );
+							
 							// this is joining the ABSPATH constant, changing any slashes to local filesystem slashes, and then finally getting the real path.
-							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );							
+							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( ABSPATH, $path ) );
+													
 						// Local File System path
 						} else if( !path_is_absolute( $thefile ) ) { 
 							//$thefile = path_join( ABSPATH, $thefile );
 							// Get the absolute path
 							if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
-							$dir_path = $_SERVER['DOCUMENT_ROOT'];
+							
 							// Now substitute the domain for the absolute path in the file url
-							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join($dir_path, $thefile ));
+							$thefile = str_replace( '/', DIRECTORY_SEPARATOR, path_join( $_SERVER['DOCUMENT_ROOT'], $thefile ));
+							
 						}
 						// If the path wasn't a URI and not absolute, then it made it all the way to here without manipulation, so now we do this...
 						// By the way, realpath() returns NOTHING if is does not exist.
@@ -626,20 +640,14 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					wp_die(__('Download path is invalid!',"wp-download_monitor"), __('Download path is invalid!',"wp-download_monitor"));
 							
 				}
-				
+
 				if( !strstr($thefile, 'http://') && !strstr($thefile,'https://') && !strstr($thefile, 'ftp://') ) { 
 				
-					$pageURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
-				
-					if ($_SERVER["SERVER_PORT"] !== "80") {
-						$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
-					} else {
-						$pageURL .= $_SERVER["SERVER_NAME"];
-					}		
-					
-					if (!strstr(get_bloginfo('url'),'www.')) $pageURL = str_replace('www.','', $pageURL );
-					
+					// Non forced, absolute path within wordpress install directory
+					$pageURL = get_bloginfo('wpurl');
+
 					$thefile = str_replace( ABSPATH, trailingslashit($pageURL), $thefile );
+					
 					// If that didn't work then the file is obviously outside wordpress so we have no choice but to use DOCUMENT ROOT
 					if( !strstr($thefile, 'http://') && !strstr($thefile,'https://') && !strstr($thefile, 'ftp://') ) { 
 						if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) ) 

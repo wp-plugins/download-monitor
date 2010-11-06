@@ -77,6 +77,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Finish translation (included) by Ari Kontiainen
 *	Polish (alt) translation (included) by Krzysztof Machocki aka Halibutt - http://halibutt.pl/en/2010/04/16/download-monitor-polish-localisation/
 *	Chinese Translation by 19ct - http://19ct.com/archives/29
+*	Japanese Translation (included) by Chestnut (http://staff.blog.bng.net/)
 
 == Installation ==
 
@@ -108,6 +109,17 @@ You can now view the FAQ in the documentation: http://blue-anvil.com/archives/wo
 
 
 == Changelog ==
+
+= 3.3.5 =
+*	Sort Asc/Desc on admin page
+*	Updated URL for IP lookup (log page)
+*	Changed IP Address detection code to deal with proxies
+*	Added Japanese translation
+*	Fixed download of a file with a relative path, inside the wordpress directory
+*	Fixed delete/replace download code
+*	IP Blacklist option added (for preventing hits/logs)
+*	get_downloads/downloads shortcode can exclude a category using a minus symbol
+*	'total_downloads' and 'total_files' shortcodes for showing global info
 
 = 3.3.4.4.1 =
 *	Quick wpdb fix

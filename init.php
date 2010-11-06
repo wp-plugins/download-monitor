@@ -68,10 +68,10 @@ function wp_dlm_init_or_upgrade() {
 	add_option('wp_dlm_url', '');	
 	add_option('wp_dlm_type', 'ID');
 	add_option('wp_dlm_default_format', '0');
-	add_option('wp_dlm_does_not_exist','','no');
-	add_option('wp_dlm_image_url',WP_PLUGIN_URL."/download-monitor/img/download.gif",'no');
+	add_option('wp_dlm_does_not_exist','');
+	add_option('wp_dlm_image_url',WP_PLUGIN_URL."/download-monitor/img/download.gif");
 	add_option('wp_dlm_log_downloads', 'yes');
-	add_option('wp_dlm_file_browser_root', ABSPATH, 'no');
+	add_option('wp_dlm_file_browser_root', ABSPATH);
 	add_option('wp_dlm_enable_file_browser', 'yes');
 	add_option('wp_dlm_auto_mirror', 'yes');
 	add_option('wp_dlm_global_member_only', 'no');
