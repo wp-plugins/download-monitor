@@ -19,6 +19,15 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+function wp_dlm_clear_cached_stuff() { 
+	wp_cache_flush();
+	delete_transient( 'dlm_categories' );
+	delete_transient( 'dlm_tags' );
+	delete_transient( 'dlm_used_tags' );
+}
+
+add_action('download_added', 'wp_dlm_clear_cached_stuff');
+
 ################################################################################
 // MAGIC QUOTES - WORDPRESS DOES THIS BUT ADDS THE SLASHES BACK - I DONT WANT THEM!
 ################################################################################

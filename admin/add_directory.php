@@ -212,6 +212,8 @@ function dlm_adddir() {
 				}
 				if (sizeof($values)>0) $wpdb->query("INSERT INTO $wp_dlm_db_meta (meta_name, meta_value, download_id) VALUES ".implode(',', $values)."");
 				
+				wp_dlm_clear_cached_stuff();
+				
 				// Message
 				echo '<div id="message" class="updated fade"><p><strong>'.$count.' '.__("Downloads added Successfully","wp-download_monitor").'</strong></p></div>';
 				exit;

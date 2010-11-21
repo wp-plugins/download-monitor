@@ -72,6 +72,7 @@ function wp_dlm_categories() {
 				$wpdb->escape( $name ),
 				$wpdb->escape( $parent ));
 			$wpdb->query($query_ins);
+			wp_dlm_clear_cached_stuff();
 			if ($wpdb->insert_id>0)	echo '<div id="message" class="updated fade"><p><strong>'.__('Category added',"wp-download_monitor").'</strong></p></div>';
 			else echo '<div id="message" class="updated fade"><p><strong>'.__('Category was not added. Try Recreating the download database from the configuration page.',"wp-download_monitor").'</strong></p></div>';							
 		}
@@ -94,6 +95,9 @@ function wp_dlm_categories() {
 			$wpdb->escape( $wp_dlm_db_relationships ),
 			$wpdb->escape( implode(",",$delete_cats) ));
 		$wpdb->query($query_delete);
+		
+		wp_dlm_clear_cached_stuff();
+		
 		echo '<div id="message" class="updated fade"><p><strong>'.__('Category deleted Successfully',"wp-download_monitor").'</strong></p></div>';
 	}
 	$download_taxonomies->download_taxonomies();

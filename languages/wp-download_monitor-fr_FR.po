@@ -1141,7 +1141,7 @@ msgstr "Il y a %s"
 #: admin/admin.php:1595
 #@ wp-download_monitor
 msgid "F jS Y"
-msgstr ""
+msgstr "jS  F Y"
 
 #: admin/admin.php:1605
 #: admin/admin.php:1609
@@ -1897,12 +1897,12 @@ msgstr "Aucun téléchargement ne correspond à l'ID donné."
 #: page-addon/download-monitor-page-addon.php:67
 #@ wp-download_monitor
 msgid " time"
-msgstr " durée "
+msgstr " fois"
 
 #: page-addon/download-monitor-page-addon.php:68
 #@ wp-download_monitor
 msgid " times"
-msgstr " durées "
+msgstr " fois"
 
 #: page-addon/download-monitor-page-addon.php:69
 #@ wp-download_monitor
@@ -1912,7 +1912,7 @@ msgstr "Date de publication "
 #: page-addon/download-monitor-page-addon.php:70
 #@ wp-download_monitor
 msgid "F j, Y"
-msgstr ""
+msgstr "j F Y"
 
 #: page-addon/download-monitor-page-addon.php:72
 #@ wp-download_monitor

@@ -1,5 +1,4 @@
 <?php
-
 $wp_root = dirname(__FILE__) .'/../../../';
 if(file_exists($wp_root . 'wp-load.php')) {
 	require_once($wp_root . "wp-load.php");
@@ -8,6 +7,8 @@ if(file_exists($wp_root . 'wp-load.php')) {
 } else {
 	exit;
 }
+
+@error_reporting(0);
 
 if (headers_sent()) :
 	@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
@@ -78,7 +79,7 @@ if (!function_exists('remote_filesize')) {
 		$ok = curl_exec($ch);
 		curl_close($ch);
 		$head = ob_get_contents();
-		ob_end_clean();
+		@ob_end_clean();
 	 
 		$regex = '/Content-Length:\s([0-9].+?)\s/';
 		$count = preg_match($regex, $head, $matches);
@@ -202,13 +203,15 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 				$blacklist = array_map("trim", explode("\n", get_option('wp_dlm_ip_blacklist')));
 				$dupe = false;
 				$blocked = false;
+				$ipAddress = '';
 				
 				if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) && strtolower($_SERVER['HTTP_X_FORWARDED_FOR'])!='unknown') {
-					$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+					$ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
 				} elseif(isset($_SERVER['HTTP_X_REAL_IP']) && strtolower($_SERVER['HTTP_X_REAL_IP'])!='unknown') {
-					$_SERVER['REMOTE_ADDR']=$_SERVER['HTTP_X_REAL_IP'];
+					$ipAddress = $_SERVER['HTTP_X_REAL_IP'];
+				} else {
+					$ipAddress = $_SERVER['REMOTE_ADDR'];
 				}
-				$ipAddress = $_SERVER['REMOTE_ADDR'];
 				if (in_array($ipAddress, $blacklist)) $blocked = true;
 				
 				if (get_option('wp_dlm_log_downloads')=='yes' && $log_timeout>0) {					
@@ -546,6 +549,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 						if ( $willDownload ) {							
 						// END jidd.jimisaacs.com	
 							@ob_end_clean();
+							@session_write_close();
 											
 							header("Pragma: no-cache");
 							header("Expires: 0");
@@ -566,8 +570,10 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							$size = @filesize($thefile);
 							if (isset($size) && $size>0) {						
 								header("Content-Length: ".$size);
+								@readfile_chunked($thefile, $size);
+							} else {
+								readfile($thefile);
 							}
-							@readfile_chunked($thefile, $size);
 							exit;
 						}			
 					// START jidd.jimisaacs.com
@@ -576,6 +582,7 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 					// END jidd.jimisaacs.com
 						// Remote File
 						@ob_end_clean();
+						@session_write_close();
 						
 						// Are we going to be able to load this beatch?
 						$handle = @fopen($thefile, 'rb');
@@ -623,8 +630,12 @@ load_plugin_textdomain('wp-download_monitor', WP_PLUGIN_URL.'/download-monitor/l
 							} else {
 							    header("Content-Disposition: attachment; filename=\"".$filename."\";");
 							}							
-						}						
-						@readfile_chunked($thefile, $filesize);
+						}	
+						if (isset($filesize) && $filesize > 0) {					
+							@readfile_chunked($thefile, $filesize);
+						} else {
+							readfile($thefile);
+						}
 						exit;
 					} elseif ( $isURI && !ini_get('allow_url_fopen')) {
 						

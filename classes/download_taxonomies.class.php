@@ -16,36 +16,53 @@ class download_taxonomies {
 		$this->categories = array();
 		$this->tags = array();
 		$this->used_tags = array();
+		
+		$categories = get_transient( 'dlm_categories' );
+		$tags = get_transient( 'dlm_tags' );
+		$used_tags = get_transient( 'dlm_used_tags' );
 
-		$taxonomy_data = $wpdb->get_results( "SELECT $wp_dlm_db_taxonomies.*, COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
-		FROM $wp_dlm_db_taxonomies 
-		LEFT JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id 
-		WHERE $wp_dlm_db_taxonomies.`name` != '' 
-		AND $wp_dlm_db_taxonomies.`id` > 0 
-		GROUP BY $wp_dlm_db_taxonomies.id 
-		ORDER BY $wp_dlm_db_taxonomies.`parent`,$wp_dlm_db_taxonomies.`order`, $wp_dlm_db_taxonomies.`id`;" );
+		if ($categories && $tags && $used_tags) :
+			$this->categories = $categories;
+			$this->tags = $tags;
+			$this->used_tags = $used_tags;
+		else :
+
+			$taxonomy_data = $wpdb->get_results( "SELECT DISTINCT $wp_dlm_db_taxonomies.id, $wp_dlm_db_taxonomies.name, $wp_dlm_db_taxonomies.taxonomy, $wp_dlm_db_taxonomies.parent , COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
+			FROM $wp_dlm_db_taxonomies 
+			INNER JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id 
+			WHERE $wp_dlm_db_taxonomies.`name` != '' 
+			AND $wp_dlm_db_taxonomies.`id` > 0 
+			GROUP BY $wp_dlm_db_taxonomies.id 
+			ORDER BY $wp_dlm_db_taxonomies.`parent`, $wp_dlm_db_taxonomies.`order`, $wp_dlm_db_taxonomies.`id`;" );
+			
+			foreach ($taxonomy_data as $taxonomy) {
+				if ($taxonomy->taxonomy == 'tag')
+					$this->tags[$taxonomy->id] = new download_tag($taxonomy->id, $taxonomy->name, $taxonomy->count);
+				else 
+					$this->categories[$taxonomy->id] = new download_category($taxonomy->id, $taxonomy->name, $taxonomy->parent, $taxonomy->count);
+			}
+			
+			$this->find_category_family();
+			$this->filter_unused_tags();
 		
-		foreach ($taxonomy_data as $taxonomy) {
-			if ($taxonomy->taxonomy == 'tag')
-				$this->tags[$taxonomy->id] = new download_tag($taxonomy->id, $taxonomy->name, $taxonomy->count);
-			else 
-				$this->categories[$taxonomy->id] = new download_category($taxonomy->id, $taxonomy->name, $taxonomy->parent, $taxonomy->count);
-		}
-		
-		$this->find_category_family();
-		$this->filter_unused_tags();
+			set_transient( 'dlm_categories', $this->categories, 60*60*24*7 );
+			set_transient( 'dlm_tags', $this->tags, 60*60*24*7 );
+			set_transient( 'dlm_used_tags', $this->used_tags, 60*60*24*7 );
+		endif;
 	}
 	
 	function find_category_family() {
 		foreach ($this->categories as $cat) {
-			if ($cat->parent>0) $this->categories[$cat->parent]->direct_decendents[] = $cat->id;
-			
 			$parent = $cat->parent;
-			
-			while (	$parent > 0	) {
-				$this->categories[$parent]->decendents[] = $cat->id;
+			if ($parent > 0) :
+				$this->categories[$parent]->direct_decendents[] = $cat->id; 
+				$this->categories[$parent]->decendents[] = $cat->id; 
 				$parent = $this->categories[$parent]->parent;
-			}
+				while (	$parent > 0	) :
+					$this->categories[$parent]->decendents[] = $cat->id;
+					$parent = $this->categories[$parent]->parent;
+				endwhile;
+			endif;
 		}
 	}
 	

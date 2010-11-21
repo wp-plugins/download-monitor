@@ -309,7 +309,7 @@ function wp_dlm_admin()
 	if (!empty($action)) {
 		switch ($action) {
 				case "delete" :
-					wp_cache_flush();
+					wp_dlm_clear_cached_stuff();
 					$d = $wpdb->get_row($query_select_1);
 					global $wp_db_version;
 					$adminpage = 'admin.php';
@@ -322,7 +322,7 @@ function wp_dlm_admin()
 					<?php					
 				break;
 				case "edit" :
-					wp_cache_flush();
+					wp_dlm_clear_cached_stuff();
 					if ( isset($_POST['sub']) ) {
 						$title = $_POST['title'];
 						$dlversion = $_POST['dlversion'];
@@ -833,7 +833,7 @@ function wp_dlm_admin()
 				
 				break;
 				case "confirmed" :
-					wp_cache_flush();
+					wp_dlm_clear_cached_stuff();
 					//load values
 					$d = $wpdb->get_row($query_select_1);
 					$file = $d->filename;
@@ -894,7 +894,7 @@ function wp_dlm_admin()
 			$show=true;
 		} elseif ($action=='reset') {
 			// Reset Stats of selected downloads
-			wp_cache_flush();
+			wp_dlm_clear_cached_stuff();
 			foreach ($bulk_ids as $bid) {
 				if (is_numeric($bid) && $bid>0) {
 					$wpdb->query( $wpdb->prepare( "UPDATE $wp_dlm_db SET hits=0 WHERE id=%s;", $bid ) );
@@ -907,7 +907,7 @@ function wp_dlm_admin()
 			
 		} elseif ($action=='delete') {
 			// Delete selected downloads
-			wp_cache_flush();
+			wp_dlm_clear_cached_stuff();
 			foreach ($bulk_ids as $bid) {
 				
 				if (is_numeric($bid) && $bid>0) {

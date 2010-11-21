@@ -51,6 +51,8 @@
 				$wpdb->escape( $parent ));
 			$wpdb->query($query_ins);
 			
+			wp_dlm_clear_cached_stuff();
+			
 			// Echo Form with checked inputs
 			if ($wpdb->insert_id>0)	{			
 				$download_taxonomies->download_taxonomies();
