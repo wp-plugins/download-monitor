@@ -65,7 +65,7 @@
 			                foreach ( $cats as $c ) {
 			                    echo '<li><label for="category_'.$c->id.'"><input type="checkbox" name="category_'.$c->id.'" id="category_'.$c->id.'" ';
 								
-								if ($_REQUEST['category_'.$c->id]=='on') echo 'checked="checked"';
+								if (isset($_REQUEST['category_'.$c->id]) && $_REQUEST['category_'.$c->id]=='on') echo 'checked="checked"';
 								
 								echo ' /> '.$c->id.' - '.$c->name.'</label>';
 								// Do Children
@@ -74,7 +74,7 @@
 										global $download_taxonomies;
 										if ($child) {
 											echo '<li><label for="category_'.$child->id.'"><input type="checkbox" name="category_'.$child->id.'" id="category_'.$child->id.'" ';
-											if ($_REQUEST['category_'.$child->id]=='on') echo 'checked="checked"';
+											if (isset($_REQUEST['category_'.$child->id]) && $_REQUEST['category_'.$child->id]=='on') echo 'checked="checked"';
 											echo ' /> '.$child->id.' - '.$child->name.'</label>';
 											
 											echo '<ul class="children">';

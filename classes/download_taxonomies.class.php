@@ -17,6 +17,8 @@ class download_taxonomies {
 		$this->tags = array();
 		$this->used_tags = array();
 		
+		wp_dlm_clear_cached_stuff();
+		
 		$categories = get_transient( 'dlm_categories' );
 		$tags = get_transient( 'dlm_tags' );
 		$used_tags = get_transient( 'dlm_used_tags' );
@@ -26,10 +28,9 @@ class download_taxonomies {
 			$this->tags = $tags;
 			$this->used_tags = $used_tags;
 		else :
-
-			$taxonomy_data = $wpdb->get_results( "SELECT DISTINCT $wp_dlm_db_taxonomies.id, $wp_dlm_db_taxonomies.name, $wp_dlm_db_taxonomies.taxonomy, $wp_dlm_db_taxonomies.parent , COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
+			$taxonomy_data = $wpdb->get_results( "SELECT DISTINCT $wp_dlm_db_taxonomies.id, $wp_dlm_db_taxonomies.name, $wp_dlm_db_taxonomies.order, $wp_dlm_db_taxonomies.taxonomy, $wp_dlm_db_taxonomies.parent , COUNT($wp_dlm_db_relationships.taxonomy_id) as count 
 			FROM $wp_dlm_db_taxonomies 
-			INNER JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id 
+			LEFT JOIN $wp_dlm_db_relationships ON $wp_dlm_db_taxonomies.id = $wp_dlm_db_relationships.taxonomy_id 
 			WHERE $wp_dlm_db_taxonomies.`name` != '' 
 			AND $wp_dlm_db_taxonomies.`id` > 0 
 			GROUP BY $wp_dlm_db_taxonomies.id 

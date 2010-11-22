@@ -20,10 +20,10 @@
 */
 
 function wp_dlm_clear_cached_stuff() { 
-	wp_cache_flush();
 	delete_transient( 'dlm_categories' );
 	delete_transient( 'dlm_tags' );
 	delete_transient( 'dlm_used_tags' );
+	wp_cache_flush();
 }
 
 add_action('download_added', 'wp_dlm_clear_cached_stuff');
