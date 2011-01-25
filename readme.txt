@@ -60,7 +60,7 @@ Need it in a different language? Some users have been kind enough to provide som
 *	Korean Translation - http://incommunity.codex.kr/wordpress/?p=7 - Jong-In Kim
 *	Lithuanian Translation - http://wordpresstvs.lt/wordpress-download-monitor-2/
 *	German Translation - http://www.outsourcetoasia.de/download-monitor-3
-*	Dutch Translation - http://www.marcovanveelen.nl/wp-content/plugins/download-monitor/download.php?id=57
+*	Dutch Translation - http://www.nostromo.nl/nederlandse-vertaling-wordpress-download-monitor
 *	Croatian Translation - http://www.eugen-bozic.net/download-monitor-plugin-prijevod/
 *	Norwegian Translation - http://www.aanvik.net/2009/01/wordpress-download-monitor-pa-norsk/
 *	Russian Translation - http://www.wpbloging.com/plugins/russkij-download-monitor-i-ego-opisanie.html
