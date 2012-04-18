@@ -62,7 +62,7 @@ add_action('wp_print_styles', 'wp_dlmp_styles');
 // DOWNLOAD PAGE OUTPUT FUNCTION
 ################################################################################
 
-function wp_dlmp_output( $base_heading_level = '3', $pop_count = 4, $pop_cat_count = 4, $show_uncategorized = true, $per_page = 20, $format = '', $exclude = '', $exclude_cat = '', $show_tags = 0, $default_order = 'title' )
+function wp_dlmp_output( $base_heading_level = '3', $pop_count = 4, $pop_cat_count = 4, $show_uncategorized = true, $per_page = 20, $format = '', $exclude = '', $exclude_cat = '', $show_tags = 0, $default_order = 'title' , $front_order = 'hits')
 {
 if (function_exists('get_downloads')) {
 
@@ -418,11 +418,12 @@ if (function_exists('get_downloads')) {
 								AND $wp_dlm_db_relationships.download_id NOT IN (".implode(',',$exclude_array).")
 								AND $wp_dlm_db_taxonomies.taxonomy = 'category';
 							");	
-							if ($scount>0) $subcats[] = '<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($category_array[$child_cat]->id))).'">'.wptexturize($category_array[$child_cat]->name).' ('.$scount.')</a>';
+							if ($scount>0) $subcats[] = wptexturize($category_array[$child_cat]->name).' '.'<a href="'.wp_dlmp_append_url('category='.urlencode(strtolower($category_array[$child_cat]->id))).'">('.$scount.')</a>';
 						}					
 					}
 					if (sizeof($subcats)>0) :
 						$page .= '<p class="subcats"><strong>'.$subcat_text.'</strong> ';
+						sort($subcats);
 						$page .= implode(' | ', $subcats).'</p>';
 					endif;
 				}
@@ -622,14 +623,25 @@ if (function_exists('get_downloads')) {
 		        		
 		    if (!isset($download->meta['hide_download_button'])) $page .= '<p><a href="'.do_shortcode('[download id="'.$download->id.'" format="{url}"]').'" class="download-button">'.$dbutton_text.'</a></p>';
 		       
-		    if (isset($download->meta['post_id']) && is_numeric($download->meta['post_id']))		      		
-		    	$page .= '<p><a href="'.get_permalink($download->meta['post_id']).'" class="more-button">'.$readmore_text.'</a></p>';
-		        		
-		        		// Special additional content meta field
-		        		if (isset($download->meta['side_content'])) {
-		        			$extra = $download->meta['side_content'];
-		        			if ($extra) $page .= '<div class="extra">'.$extra.'</div>';
-		        		}
+			// Handle post_id field
+			if (isset($download->meta['post_id']) && is_numeric($download->meta['post_id'])) {            
+				$page .= '<p><a href="'.get_permalink($download->meta['post_id']).'" class="more-button">'.$readmore_text.'</a></p>';
+			} else {
+				$page .= '<div class="related-projects">'."\n";
+				// multiple ids
+    		    $page .= '<h3>'.__('Related', 'wp-download_monitor').':</h3><ul>';
+    		    $post_ids = explode(',', $download->meta['post_id']); // split into array
+    		    foreach($post_ids as $dl) { // print link for each array entry
+					$page .= '<li><a href="'.get_permalink(trim($dl)).'">'.get_the_title(trim($dl)).'</a></li>';
+    		    }
+    		    $page .= '</ul></div> <!-- /.related-projects -->'."\n";
+			}
+
+    		// Special additional content meta field
+    		if (isset($download->meta['side_content'])) {
+    			$extra = $download->meta['side_content'];
+    			if ($extra) $page .= '<div class="extra">'.$extra.'</div>';
+    		}
 		  
 		    $page .= '
 		        	</div>
@@ -807,8 +819,7 @@ if (function_exists('get_downloads')) {
 				if ($pop_cat_count>0) {
 					$page .= '<ol>';
 					
-					$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby=hits&order=desc&category='.$cat->id.'" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');
-					
+					$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby='.$front_order.'&order=desc&category='.$cat->id.'" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}',$format)).'"]');
 					$page .= '</ol>';
 				}
 				$page .= '</div></div>';
@@ -837,7 +848,7 @@ if (function_exists('get_downloads')) {
 					
 					if ($pop_cat_count>0) {
 						$page .= '<ol>';
-						$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby=hits&order=desc&category=none" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}', $format)).'"]');
+						$page .= do_shortcode('[downloads query="exclude='.implode(',',$exclude_array).'&limit='.$pop_cat_count.'&orderby='.$front_order.'&order=desc&category=none" wrap="" format="'.htmlspecialchars(str_replace('{url}',wp_dlmp_append_url('did=').'{id}', $format)).'"]');
 						$page .= '</ol>';
 					}
 					$page .= '</div></div>';
@@ -875,10 +886,11 @@ function wp_dlmp_shortcode_download_page( $atts ) {
 		'exclude' => '',
 		'exclude_cat' => '',
 		'show_tags' => '0',
-		'default_order' => 'title'
+		'default_order' => 'title',
+		'front_order' => 'hits'
 	), $atts));
 	
-	$output = wp_dlmp_output($base_heading_level, $pop_count, $pop_cat_count, $show_uncategorized, $per_page, $format, $exclude, $exclude_cat, $show_tags, $default_order);
+	$output = wp_dlmp_output($base_heading_level, $pop_count, $pop_cat_count, $show_uncategorized, $per_page, $format, $exclude, $exclude_cat, $show_tags, $default_order, $front_order);
 	return $output;
 
 }
