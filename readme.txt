@@ -1,22 +1,20 @@
-=== Plugin Name ===
+=== Download Monitor ===
 Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10691945
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files
 Requires at least: 2.8
 Tested up to: 3.5
-Stable tag: 3.3.6.1
+Stable tag: 3.3.6.2
 
 Plugin with interface for uploading and managing download files, inserting download links in posts, and monitoring download hits.
 
 == Description ==
 
-__Note: This plugin is no longer actively developed nor maintained!__
+__Note: This plugin is no longer actively developed nor maintained! However, a rewrite is planned - see more here: [http://mikejolley.com/2013/04/the-new-download-monitor-plugin/](http://mikejolley.com/2013/04/the-new-download-monitor-plugin/)__
 
 Download Monitor is a plugin for uploading and managing downloads, tracking download hits, and displaying links.
 
 You can contribute code to this plugin via GitHub: https://github.com/mikejolley/download-monitor
-
-Note, my work on this plugin is on hold due to other projects.
 
 For older versions of wordpress use the older Download Monitor version 2.2.3 which is available from http://wordpress.org/extend/plugins/download-monitor/download/ (tested and working in Wordpress 2.0 and 2.3).
 
@@ -86,6 +84,9 @@ You can now view the FAQ in the documentation: http://mikejolley.com/projects/do
 4. More download page listings
 
 == Changelog ==
+
+= 3.3.6.2 =
+*	sanitize_text_field to prevent XSS in admin
 
 = 3.3.6.1 =
 *	Improve nonce security checks

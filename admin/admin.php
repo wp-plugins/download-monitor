@@ -782,8 +782,8 @@ function wp_dlm_admin()
 						                    <td><input type="checkbox" name="forcedownload" style="vertical-align:top" <?php if ($forcedownload==1) echo "checked='checked'"; ?> /> <span class="setting-description"><?php _e('If chosen, Download Monitor will attempt to force the download rather than redirect. This setting is not compatible with all servers (so test it), and in most cases will only work on files hosted on the local server.',"wp-download_monitor"); ?></span></td>
 						                </tr>
 									</table>
-									<input type="hidden" name="sort" value="<?php echo $_REQUEST['sort']; ?>" />
-									<input type="hidden" name="p" value="<?php echo $_REQUEST['p']; ?>" />
+									<input type="hidden" name="sort" value="<?php echo sanitize_text_field( $_REQUEST['sort'] ); ?>" />
+									<input type="hidden" name="p" value="<?php echo sanitize_text_field( $_REQUEST['p'] ); ?>" />
 									<input type="hidden" name="sub" value="1" />
 									<input type="hidden" name="postDate" value="<?php echo $postDate; ?>" />
 									<?php
@@ -1376,7 +1376,7 @@ function wp_dlm_admin()
 			</div>
 			<div class="alignright">
 				<label class="hidden" for="post-search-input"><?php _e('Search Downloads:',"wp-download_monitor"); ?></label>
-				<input class="search-input" id="post-search-input" name="search_downloads" value="<?php if (isset($_REQUEST['search_downloads'])) echo $_REQUEST['search_downloads']; ?>" type="text" />
+				<input class="search-input" id="post-search-input" name="search_downloads" value="<?php if (isset($_REQUEST['search_downloads'])) echo sanitize_text_field( $_REQUEST['search_downloads'] ); ?>" type="text" />
 				<input value="<?php _e('Search Downloads',"wp-download_monitor"); ?>" class="button" type="submit" />
 			</div>
 			<div class="clear"></div>

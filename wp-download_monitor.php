@@ -2,8 +2,8 @@
 /*
 Plugin Name: Wordpress Download Monitor
 Plugin URI: http://wordpress.org/extend/plugins/download-monitor/
-Description: <strong style="color:red">Note: This plugin is no longer actively developed nor maintained!</strong> Manage downloads on your site, view and show hits, and output in posts. If you are upgrading Download Monitor it is a good idea to <strong>back-up your database</strong> first just in case. You may need to re-save your permalink settings after upgrading if your downloads stop working.
-Version: 3.3.6.1
+Description: <strong style="color:red">Note: This plugin is no longer actively developed nor maintained! However, a rewrite is planned - http://mikejolley.com/2013/04/the-new-download-monitor-plugin/</strong> Manage downloads on your site, view and show hits, and output in posts.
+Version: 3.3.6.2
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 */
