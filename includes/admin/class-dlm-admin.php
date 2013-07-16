@@ -183,8 +183,28 @@ class DLM_Admin {
 	 * @access public
 	 * @return void
 	 */
-	public function admin_enqueue_scripts() {
-		global $download_monitor;
+	public function admin_enqueue_scripts( $hook ) {
+		global $download_monitor, $post;
+
+		wp_enqueue_style( 'download_monitor_menu_css', $download_monitor->plugin_url() . '/assets/css/menu.css' );
+
+		if ( $hook == 'index.php' )
+			wp_enqueue_style( 'download_monitor_dashboard_css', $download_monitor->plugin_url() . '/assets/css/dashboard.css' );
+
+		$enqueue = false;
+
+		if ( $hook == 'post-new.php' || $hook == 'post.php' || $hook == 'edit.php' )
+			if ( 'dlm_download' === $post->post_type )
+				$enqueue = true;
+
+		if ( strstr( $hook, 'dlm_download_page' ) )
+			$enqueue = true;
+
+		if ( $hook == 'edit-tags.php' && strstr( $_GET['taxonomy'], 'dlm_download' ) )
+			$enqueue = true;
+
+        if ( ! $enqueue )
+        	return;
 
 		wp_enqueue_script( 'jquery-blockui', $download_monitor->plugin_url() . '/assets/js/blockui.min.js', '2.61', array( 'jquery' ) );
 		wp_enqueue_script( 'jquery-ui-sortable' );
@@ -225,8 +245,8 @@ class DLM_Admin {
 
 			    <h2 class="nav-tab-wrapper">
 			    	<?php
-			    		foreach ( $this->settings as $section ) {
-			    			echo '<a href="#settings-' . sanitize_title( $section[0] ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
+			    		foreach ( $this->settings as $key => $section ) {
+			    			echo '<a href="#settings-' . sanitize_title( $key ) . '" class="nav-tab">' . esc_html( $section[0] ) . '</a>';
 			    		}
 			    	?>
 			    </h2><br/>
@@ -237,9 +257,9 @@ class DLM_Admin {
 						echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download_monitor' ) . '</p></div>';
 					}
 
-					foreach ( $this->settings as $section ) {
+					foreach ( $this->settings as $key => $section ) {
 
-						echo '<div id="settings-' . sanitize_title( $section[0] ) . '" class="settings_panel">';
+						echo '<div id="settings-' . sanitize_title( $key ) . '" class="settings_panel">';
 
 						echo '<table class="form-table">';
 
