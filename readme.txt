@@ -108,6 +108,10 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.0.6 =
+* Hide taxonomies from nav menus
+* Fix categories in download_data method.
+
 = 1.0.5 =
 * When do_not_force is enabled, still replace abspath with home_url
 * Exclude dlm_download from search and disable query var
