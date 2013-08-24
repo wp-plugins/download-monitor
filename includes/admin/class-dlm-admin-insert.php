@@ -26,9 +26,6 @@ class DLM_Admin_Insert {
 	public function media_buttons( $editor_id = 'content' ) {
 		global $download_monitor, $post;
 
-		if ( ! isset( $post->post_type ) || in_array( $post->post_type, array( 'dlm_download' ) ) )
-			return;
-
 		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download_monitor' ) . '">' . __( 'Insert Download', 'download_monitor' ) . '</a>';
 
 		ob_start();
