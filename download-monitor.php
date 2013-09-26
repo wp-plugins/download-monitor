@@ -3,7 +3,7 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.1.1
+Version: 1.2.0
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.5
@@ -39,7 +39,7 @@ class WP_DLM {
 		global $wpdb;
 
 		// Define constants
-		define( 'DLM_VERSION', '1.1.1' );
+		define( 'DLM_VERSION', '1.2.0' );
 
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
@@ -181,7 +181,6 @@ class WP_DLM {
 
 	    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	    // WooCommerce Tables
 	    $dlm_tables = "
 	CREATE TABLE {$wpdb->download_log} (
 	  ID bigint(20) NOT NULL auto_increment,
