@@ -3,8 +3,8 @@ Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.5
-Tested up to: 3.6
-Stable tag: 1.3.0
+Tested up to: 3.7
+Stable tag: 1.3.1
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -108,11 +108,15 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.3.1 =
+* Added some new hooks
+* FR and SR_RS updates
+
 = 1.3.0 =
 * Fix 0kb downloads in some hosting enviroments
 * Added button to delete logs
 * Fixed log page when no logs are present
-* FR and HU upates
+* FR and HU updates
 * Added dropdown for the default template option to make available templates more obvious
 * Added version-list and title templates
 
