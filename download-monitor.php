@@ -3,23 +3,21 @@
 Plugin Name: Download Monitor
 Plugin URI: http://mikejolley.com/projects/download-monitor/
 Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-Version: 1.3.2
+Version: 1.4.0
 Author: Mike Jolley
 Author URI: http://mikejolley.com
-Requires at least: 3.5
-Tested up to: 3.6
+Requires at least: 3.8
+Tested up to: 3.8
 
-	Copyright: © 2013 Mike Jolley.
+	Copyright: Â© 2013 Mike Jolley.
 	License: GNU General Public License v3.0
 	License URI: http://www.gnu.org/licenses/gpl-3.0.html
-
-	Filetype icons from the Fugue Icon Pack by Yusuke Kamiyamane.
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
- * WP_Download_Monitor class.
+ * WP_DLM class.
  *
  * Main Class which inits the CPT and plugin
  */
@@ -39,7 +37,7 @@ class WP_DLM {
 		global $wpdb;
 
 		// Define constants
-		define( 'DLM_VERSION', '1.3.2' );
+		define( 'DLM_VERSION', '1.4.0' );
 
 		// Table for logs
 		$wpdb->download_log = $wpdb->prefix . 'download_log';
@@ -61,12 +59,12 @@ class WP_DLM {
 		include_once( 'includes/class-dlm-shortcodes.php' );
 
 		// Activation
-		register_activation_hook( __FILE__, array( $this, 'init_user_roles' ), 10 );
-		register_activation_hook( __FILE__, array( $this, 'init_taxonomy' ), 10 );
-		register_activation_hook( __FILE__, array( $this, 'install_tables' ), 10 );
-		register_activation_hook( __FILE__, array( $this, 'directory_protection' ), 10 );
-		register_activation_hook( __FILE__, array( $GLOBALS['DLM_Download_Handler'], 'add_endpoint' ), 10 );
-		register_activation_hook( __FILE__, 'flush_rewrite_rules', 11 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'init_user_roles' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'init_taxonomy' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'install_tables' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'directory_protection' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $GLOBALS['DLM_Download_Handler'], 'add_endpoint' ), 10 );
+		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), 'flush_rewrite_rules', 11 );
 
 		// Actions
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_links' ) );
@@ -532,6 +530,57 @@ class WP_DLM {
 	}
 
 	/**
+	 * Parse a file path and return the new path and whether or not it's remote
+	 * @param  string $file_path
+	 * @return array
+	 */
+	public function parse_file_path( $file_path ) {
+		$remote_file      = true;
+		$parsed_file_path = parse_url( $file_path );
+		
+		if ( ( ! isset( $parsed_file_path['scheme'] ) || ! in_array( $parsed_file_path['scheme'], array( 'http', 'https', 'ftp' ) ) ) && isset( $parsed_file_path['path'] ) && file_exists( $parsed_file_path ) ) {
+
+			/** This is an absolute path */
+			$remote_file  = false;
+
+		} elseif( strpos( $file_path, WP_CONTENT_URL ) !== false ) {
+
+			/** This is a local file given by URL so we need to figure out the path */
+			$remote_file  = false;
+			$file_path    = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $file_path );
+			$file_path    = realpath( $file_path );
+
+		} elseif( strpos( $file_path, ABSPATH ) !== false ) {
+
+			/** This is a local file outside of wp-content so figure out the path */
+			$remote_file = false;
+
+			if ( ! is_multisite() ) {
+				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
+				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
+            } else {
+                // Try to replace network url
+                $file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
+                $file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
+                // Try to replace upload URL
+                $upload_dir  = wp_upload_dir();
+                $file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
+            }
+
+           $file_path   = realpath( $file_path );
+		
+		} elseif ( file_exists( ABSPATH . $file_path ) ) {
+			
+			/** Path needs an abspath to work */
+			$remote_file = false;
+			$file_path   = ABSPATH . $file_path;
+			$file_path   = realpath( $file_path );
+		}
+
+		return array( $file_path, $remote_file );
+	}
+
+	/**
 	 * Gets the filesize of a path or URL.
 	 *
 	 * @access public
@@ -539,36 +588,7 @@ class WP_DLM {
 	 */
 	public function get_filesize( $file_path ) {
 		if ( $file_path ) {
-			if ( ! is_multisite() ) {
-
-				$file_path   = str_replace( site_url( '/', 'https' ), ABSPATH, $file_path );
-				$file_path   = str_replace( site_url( '/', 'http' ), ABSPATH, $file_path );
-
-			} else {
-
-				// Try to replace network url
-				$file_path   = str_replace( network_admin_url( '/', 'https' ), ABSPATH, $file_path );
-				$file_path   = str_replace( network_admin_url( '/', 'http' ), ABSPATH, $file_path );
-
-				// Try to replace upload URL
-				$upload_dir  = wp_upload_dir();
-				$file_path   = str_replace( $upload_dir['baseurl'], $upload_dir['basedir'], $file_path );
-			}
-
-			// See if its local or remote
-			if ( strstr( $file_path, 'http:' ) || strstr( $file_path, 'https:' ) || strstr( $file_path, 'ftp:' ) ) {
-				$remote_file = true;
-			} else {
-				$remote_file    = false;
-				$real_file_path = realpath( current( explode( '?', $file_path ) ) );
-
-				if ( ! empty( $real_file_path ) )
-					$file_path = $real_file_path;
-
-				// See if we need to add abspath if this is a relative URL
-				if ( ! file_exists( $file_path ) && file_exists( ABSPATH . $file_path ) )
-					$file_path = ABSPATH . $file_path;
-			}
+			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
 
 			if ( $remote_file ) {
 				$file = wp_remote_head( $file_path );
@@ -584,6 +604,28 @@ class WP_DLM {
 
 		return -1;
 	}
+
+	/**
+	 * Gets md5, sha1 and crc32 hashes for a file
+	 *
+	 * @access public
+	 * @return array of sizes
+	 */
+	public function get_file_hashes( $file_path ) {
+		$md5   = '';
+		$sha1  = '';
+		$crc32 = '';
+
+		if ( $file_path ) {
+			list( $file_path, $remote_file ) = $this->parse_file_path( $file_path );
+
+			$md5   = hash_file( 'md5', $file_path );
+			$sha1  = hash_file( 'sha1', $file_path );
+			$crc32 = hash_file( 'crc32b', $file_path );
+		}
+
+		return array( 'md5' => $md5, 'sha1' => $sha1, 'crc32' => $crc32 );
+	}	
 }
 
 /**

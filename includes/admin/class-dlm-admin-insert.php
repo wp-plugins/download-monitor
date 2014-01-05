@@ -26,6 +26,9 @@ class DLM_Admin_Insert {
 	public function media_buttons( $editor_id = 'content' ) {
 		global $download_monitor, $post;
 
+		if ( $post->post_type == 'dlm_download' )
+			return;
+
 		echo '<a href="#" class="button insert-download add_download" data-editor="' . esc_attr( $editor_id ) . '" title="' . esc_attr__( 'Insert Download', 'download_monitor' ) . '">' . __( 'Insert Download', 'download_monitor' ) . '</a>';
 
 		ob_start();
@@ -57,13 +60,12 @@ class DLM_Admin_Insert {
 		// Enqueue scripts and styles for panel
 		wp_enqueue_script( 'chosen', $download_monitor->plugin_url() . '/assets/js/chosen/chosen.jquery.min.js' );
 		wp_enqueue_style( 'chosen', $download_monitor->plugin_url() . '/assets/js/chosen/chosen.css' );
-		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css' );
-
+		wp_enqueue_style( 'download_monitor_admin_css', $download_monitor->plugin_url() . '/assets/css/admin.css', array( 'dashicons' ) );
 		wp_enqueue_script( 'common' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
 		wp_enqueue_style( 'colors' );
-		wp_enqueue_script('plupload-all');
+		wp_enqueue_script( 'plupload-all' );
 
 		echo '<!DOCTYPE html><html lang="en"><head><title>' . __( 'Insert Download', 'download_monitor' ) . '</title><meta charset="utf-8" />';
 
@@ -125,6 +127,12 @@ class DLM_Admin_Insert {
 					update_post_meta( $file_id, '_version', $version );
 					update_post_meta( $file_id, '_files', array( $url ) );
 					update_post_meta( $file_id, '_filesize', $download_monitor->get_filesize( $url ) );
+
+					$hashes = $download_monitor->get_file_hashes( $url );
+
+					update_post_meta( $file_id, '_md5', $hashes['md5'] );
+					update_post_meta( $file_id, '_sha1', $hashes['sha1'] );
+					update_post_meta( $file_id, '_crc32', $hashes['crc32'] );
 
 					echo '<div class="updated"><p>' . __( 'Download successfully created.', 'download_monitor' ) . '</p></div>';
 

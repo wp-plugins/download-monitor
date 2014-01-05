@@ -2,9 +2,9 @@
 Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
-Requires at least: 3.5
-Tested up to: 3.7
-Stable tag: 1.3.2
+Requires at least: 3.8
+Tested up to: 3.8
+Stable tag: 1.4.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -108,6 +108,18 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.4.0 =
+* MP6/3.8 admin styling. Requires 3.8.
+* Polish translation.
+* Turkish translation.
+* Change capability required to view dashboard widget.
+* Don't show "insert download" when editing a download.
+* Allow pagination for the [downloads] shortcode. Simply add paginate=true to the shortcode.
+* Reverted flush change in download handler to reduce memory usage on some hosting envrionments
+* changed download handlers and fixed corruption when resuming files
+* Calculate md5/sha1/crc32 hashes for files. Obtainable via methods or download_data, e.g. [download_data id="86" data="md5"]
+* Added file_date data
+
 = 1.3.2 =
 * Cleaned up log table queries
 * Tweaked download handler headers
@@ -185,8 +197,3 @@ Admin hits are not counted, log out and try!
 
 = 1.0.0 =
 * Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
-
-== Upgrade Notice ==
-
-= 1.0.0 =
-To update from legacy versions use the legacy importer](http://mikejolley.com/projects/download-monitor/add-ons/legacy-importer/).
