@@ -16,26 +16,28 @@ class DLM_Download_Version {
 		$this->download_id    = absint( $download_id );
 		
 		// Get Version Data
-		$this->mirrors        = array_filter( (array) get_post_meta( $this->id, '_files', true ) );
-		$this->url            = current( $this->mirrors );
-		$this->filename       = current( explode( '?', basename( $this->url ) ) );
-		$this->filetype       = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
 		$this->version        = strtolower( get_post_meta( $this->id, '_version', true ) );
 		$this->download_count = get_post_meta( $this->id, '_download_count', true );
 		$this->filesize       = get_post_meta( $this->id, '_filesize', true );
 		$this->md5            = get_post_meta( $this->id, '_md5', true );
 		$this->sha1           = get_post_meta( $this->id, '_sha1', true );
 		$this->crc32          = get_post_meta( $this->id, '_crc32', true );
+		$this->mirrors        = get_post_meta( $this->id, '_files', true );
 
-		// If any data is not set, set it
-		if ( $this->filesize == "" )
+		// Get URLS
+		if ( is_string( $this->mirrors ) ) {
+			$this->mirrors = array_filter( (array) json_decode( $this->mirrors ) );
+		} else {
+			$this->mirrors = array_filter( $this->mirrors );
+		}
+
+		$this->url            = current( $this->mirrors );
+		$this->filename       = current( explode( '?', basename( $this->url ) ) );
+		$this->filetype       = strtolower( substr( strrchr( $this->filename, "." ), 1 ) );
+
+		// If we don't have a filesize, lets get it now
+		if ( $this->filesize === "" ) {
 			$this->filesize = $this->get_filesize( $this->url );
-
-		if ( $this->md5 == "" || $this->sha1 == "" || $this->crc32 == "" ) {
-			$hashes      = $this->get_file_hashes( $this->url );
-			$this->md5   = $hashes['md5'];
-			$this->sha1  = $hashes['sha1'];
-			$this->crc32 = $hashes['crc32'];
 		}
 	}
 

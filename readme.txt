@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jol
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
 Tested up to: 3.8
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -107,6 +107,19 @@ Admin hits are not counted, log out and try!
 4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
+
+= 1.4.3 =
+* Add password form to download page when required
+* Run shortcodes in excerpt/short desc
+* Various hook additions
+* pr_br and zh_cn translation
+* Sort download count by meta_value_num
+* Store URLs in JSON format to allow easier search/replace
+* Fix dashboard sorting
+* Option for basic referer checking to prevent hotlinking.
+* Only get file hashes on save as they are resource heavy.
+* Disable remote file hash generation, but can be enabled with filter dlm_allow_remote_hash_file
+* Radio buttons instead of select (with pagination) in popup to improve performance.
 
 = 1.4.2 = 
 * Fix for site_url -> abspath
