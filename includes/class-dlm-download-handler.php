@@ -76,16 +76,27 @@ class DLM_Download_Handler {
 			$wp->query_vars[ $this->endpoint ] = $_GET[ $this->endpoint ];
 		}
 
-		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) ) {
+		if ( ! empty( $wp->query_vars[ $this->endpoint ] ) && strstr( $wp->request, $this->endpoint . '/' ) ) {
 
 			// Prevent caching when endpoint is set
 			define( 'DONOTCACHEPAGE', true );
 
 			// Prevent hotlinking
-			if ( get_option( 'dlm_hotlink_protection_enabled' ) && ! empty( $_SERVER['HTTP_REFERER'] ) ) {
-				if ( ! strstr( $_SERVER['HTTP_REFERER'], site_url() ) ) {
-					wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
-					exit;
+			if ( get_option( 'dlm_hotlink_protection_enabled' ) ) {
+				$referer = ! empty( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+				if ( $referer || apply_filters( 'dlm_hotlink_block_empty_referer', false ) ) {
+					$allowed_referers = apply_filters( 'dlm_hotlink_allowed_referers', array( home_url() ) );
+					$allowed          = false;
+					foreach ( $allowed_referers as $allowed_referer ) {
+						if ( strstr( $referer, $allowed_referer ) ) {
+							$allowed = true;
+							break;
+						}
+					}
+					if ( ! $allowed ) {
+						wp_redirect( apply_filters( 'dlm_hotlink_redirect', home_url() ) );
+						exit;
+					}
 				}
 			}
 
@@ -102,10 +113,11 @@ class DLM_Download_Handler {
 				break;
 			}
 
-			if ( $download_id > 0 )
+			if ( $download_id > 0 ) {
 				$download = new DLM_Download( $download_id );
-			else
+			} else {
 				$download = null;
+			}
 
 			// Handle version (if set)
 			$version_id = '';
@@ -125,16 +137,18 @@ class DLM_Download_Handler {
 			// Action on found download
 			if ( ! is_null( $download ) && $download->exists() ) {
 				if ( post_password_required( $download_id ) ) {
-					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download_monitor' ) );
+					wp_die( get_the_password_form( $download_id ), __( 'Password Required', 'download-monitor' ) );
 				}
 				$this->trigger( $download, $version_id );
 			}
 
-			elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) )
+			elseif ( $redirect = apply_filters( 'dlm_404_redirect', false ) ) {
 				wp_redirect( $redirect );
+			}
 
-			else
-				wp_die( __( 'Download does not exist.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
+			else {
+				wp_die( __( 'Download does not exist.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+			}
 
 			die('1');
 		}
@@ -163,12 +177,12 @@ class DLM_Download_Handler {
 		$file_paths = $version->mirrors;
 
 		if ( empty( $file_paths ) )
-			wp_die( __( 'No file paths defined.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 
 		$file_path  = $file_paths[ array_rand( $file_paths ) ];
 
 		if ( ! $file_path )
-			wp_die( __( 'No file paths defined.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ) );
+			wp_die( __( 'No file paths defined.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ) );
 
 		// Check Access
 		if ( ! apply_filters( 'dlm_can_download', true, $download, $version ) ) {
@@ -177,7 +191,7 @@ class DLM_Download_Handler {
 				wp_redirect( $redirect );
 
 			else
-				wp_die( __( 'You do not have permission to access this download.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 200 ) );
+				wp_die( __( 'You do not have permission to access this download.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 200 ) );
 
 			exit;
 		}
@@ -195,7 +209,7 @@ class DLM_Download_Handler {
 
 		// Redirect to the file...
 		if ( $download->redirect_only() || apply_filters( 'dlm_do_not_force', false, $download, $version ) ) {
-			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+			$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
 			// Ensure we have a valid URL, not a file path
 			$file_path = str_replace( ABSPATH, site_url( '/', 'http' ), $file_path );
@@ -211,21 +225,21 @@ class DLM_Download_Handler {
 		if ( get_option( 'dlm_xsendfile_enabled' ) ) {
             if ( function_exists( 'apache_get_modules' ) && in_array( 'mod_xsendfile', apache_get_modules() ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
             	header( "X-Sendfile: $file_path" );
             	exit;
 
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'lighttpd' ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
             	header( "X-LIGHTTPD-send-file: $file_path" );
             	exit;
 
             } elseif ( stristr( getenv( 'SERVER_SOFTWARE' ), 'nginx' ) || stristr( getenv( 'SERVER_SOFTWARE' ), 'cherokee' ) ) {
 
-            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download_monitor' ), $download, $version );
+            	$this->log( 'download', 'redirected', __( 'Redirected to file', 'download-monitor' ), $download, $version );
 
             	$file_path = str_ireplace( $_SERVER[ 'DOCUMENT_ROOT' ], '', $file_path );
 				header( "X-Accel-Redirect: /$file_path" );
@@ -264,14 +278,14 @@ class DLM_Download_Handler {
         } elseif ( $remote_file ) {
 
 	        // Redirect - we can't track if this completes or not
-	    	$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download_monitor' ), $download, $version );
+	    	$this->log( 'download', 'redirected', __( 'Redirected to remote file.', 'download-monitor' ), $download, $version );
 
 	        header( 'Location: ' . $file_path );
 
         } else {
-        	$this->log( 'download', 'failed', __( 'File not found', 'download_monitor' ), $download, $version );
+        	$this->log( 'download', 'failed', __( 'File not found', 'download-monitor' ), $download, $version );
 
-	        wp_die( __( 'File not found.', 'download_monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download_monitor' ) . '</a>', __( 'Download Error', 'download_monitor' ), array( 'response' => 404 ) );
+	        wp_die( __( 'File not found.', 'download-monitor' ) . ' <a href="' . home_url() . '">' . __( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', __( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
         }
 
         exit;
@@ -313,12 +327,12 @@ class DLM_Download_Handler {
 		@session_write_close();
 		@ini_set( 'zlib.output_compression', 'Off' );
 		@error_reporting(0);
-		
+
 		/**
 		 * Prevents errors, for example: transfer closed with 3 bytes remaining to read
 		 */
 		@ob_end_clean(); // Clear the output buffer
-		
+
 		if ( ob_get_level() ) {
 			@ob_end_clean(); // Zip corruption fix
 		}

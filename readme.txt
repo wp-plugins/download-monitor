@@ -3,8 +3,8 @@ Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
-Tested up to: 3.8
-Stable tag: 1.4.3
+Tested up to: 3.9
+Stable tag: 1.5.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -38,7 +38,9 @@ Add-ons, such as the __legacy importer__ and __page addon__ can be [found here](
 
 = Contributing and reporting bugs =
 
-You can contribute code and localizations to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+You can contribute code to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+
+You can contribute localizations via Transifex [https://www.transifex.com/projects/p/download-monitor/](https://www.transifex.com/projects/p/download-monitor/)
 
 = Support =
 
@@ -107,6 +109,22 @@ Admin hits are not counted, log out and try!
 4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
+
+= 1.5.0 =
+* JSON_UNESCAPED_UNICODE for files to fix unicode chars when json encoded. Fix needs PHP 5.4+ to work, but won't break lower versions.
+* Style filetype-docx
+* Update get_version_id to work with non-numeric versions.
+* Fix shortcode arg booleans.
+* Add transient cache for get_file_version_ids.
+* Moved all translations to Transifex - https://www.transifex.com/projects/p/download-monitor/
+* Changed text domain from download_monitor to download-monitor.
+* Added Grunt.
+* Added options to generate file hashes DISABLED BY DEFAULT as they can cause performance issues with large files.
+
+= 1.4.4 = 
+* Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)
+* Replace hardcoded WP_CONTENT_DIR and WP_CONTENT_URL with wp_upload_dir to work when UPLOADS and UPLOADS_URL constants are set.
+* Added some filters for hotlink protection customisation.
 
 = 1.4.3 =
 * Add password form to download page when required
