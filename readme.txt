@@ -1,10 +1,10 @@
 === Download Monitor ===
-Contributors: mikejolley
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&item_name=Donation+for+Download+Monitor
+Contributors: barrykooij, mikejolley
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging
 Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 1.5.1
+Tested up to: 4.1
+Stable tag: 1.6.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -26,25 +26,25 @@ Download Monitor provides an interface for uploading and managing downloadable f
 * Member only downloads.
 * Customisable endpoints for showing pretty download links.
 
-[Read more about Download Monitor](http://mikejolley.com/projects/download-monitor/).
+[Read more about Download Monitor](https://www.download-monitor.com).
 
 = Documentation =
 
-Documentation will be maintained on the [GitHub Wiki here](https://github.com/mikejolley/download-monitor/wiki).
+Documentation will be maintained on the [GitHub Wiki here](https://github.com/download-monitor/download-monitor/wiki).
 
-= Add-ons =
+= Extensions =
 
-Add-ons, such as the __legacy importer__ and __page addon__ can be [found here](http://mikejolley.com/projects/download-monitor/add-ons/). Take a look!
+Extensions, such as the __legacy importer__ and __page addon__ can be [found here](https://www.download-monitor.com/extensions/). Take a look!
 
 = Contributing and reporting bugs =
 
-You can contribute code to this plugin via GitHub: [https://github.com/mikejolley/download-monitor](https://github.com/mikejolley/download-monitor)
+You can contribute code to this plugin via GitHub: [https://github.com/download-monitor/download-monitor](https://github.com/download-monitor/download-monitor)
 
 You can contribute localizations via Transifex [https://www.transifex.com/projects/p/download-monitor/](https://www.transifex.com/projects/p/download-monitor/)
 
 = Support =
 
-Use the WordPress.org forums for community support - I cannot offer support directly for free. If you spot a bug, you can of course log it on [Github](https://github.com/mikejolley/download-monitor) instead where I can act upon it more efficiently.
+Use the WordPress.org forums for community support. If you spot a bug, you can of course log it on [Github](https://github.com/download-monitor/download-monitor) instead where we can act upon it more efficiently.
 
 If you want help with a customisation, hire a developer!
 
@@ -68,7 +68,7 @@ The manual installation method involves downloading the plugin and uploading it 
 
 = I used this before, so why is this version 1? =
 
-Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](http://mikejolley.com/projects/download-monitor/add-ons/legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
+Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
 
 Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
 
@@ -76,7 +76,7 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 The rewrite has trimmed the fat and only kept the best, most useful features. If something is missing, you can always code it yourself - the new system is very flexible and its easy to query files using [get_posts](http://codex.wordpress.org/Template_Tags/get_posts).
 
-If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](http://mikejolley.com/projects/download-monitor/add-ons/page-addon/).
+If you are missing the "Page Addon", this is now a separate plugin found here: [Download Monitor Page Addon](https://www.download-monitor.com/extensions/page-addon/).
 
 = Can I upload .xxx filetype using the uploader? =
 
@@ -110,6 +110,26 @@ Admin hits are not counted, log out and try!
 
 == Changelog ==
 
+= 1.6.0 =
+* Plugin is now initiated at plugins_loaded.
+* Implemented auto loader.
+* Classes are no longer initiated at bottom of class file but whenever an object is needed.
+* Code standards corrections.
+* Introduced Template_Handler. Loading of template parts should be done through this class.
+* Removed $GLOBALS['dlm_logging'] global.
+* Removed $GLOBALS['DLM_Download_Handler'] global.
+* Removed internal use of $download_monitor global.
+# Moved all inline JavaScript to separate JavaScript files.
+* Moved all install related code to installer class.
+* Moved main plugin class to it's own file.
+* Deprecated 'dlm_create_log' function.
+* Redone extensions page.
+* Fixed a bug in shortcode download where orderby=download_count wasn't working.
+* Fixed a bug where downloads didn't work with default WP permalink structure.
+* Delete dlm_file_version_ids_ transient on save.
+* Added dlm_download_headers filter.
+* Added dlm_get_template_part filter.
+
 = 1.5.1 =
 * Fallback for JSON_UNESCAPED_UNICODE to fix accented characters on < PHP 5.4.
 * Changed default orderby for downloads shortcode to date, desc.
@@ -125,7 +145,7 @@ Admin hits are not counted, log out and try!
 * Added Grunt.
 * Added options to generate file hashes DISABLED BY DEFAULT as they can cause performance issues with large files.
 
-= 1.4.4 = 
+= 1.4.4 =
 * Use home_dir instead of site_dir - fixes hot-linking protections against own site (when not in root dir)
 * Replace hardcoded WP_CONTENT_DIR and WP_CONTENT_URL with wp_upload_dir to work when UPLOADS and UPLOADS_URL constants are set.
 * Added some filters for hotlink protection customisation.
@@ -143,7 +163,7 @@ Admin hits are not counted, log out and try!
 * Disable remote file hash generation, but can be enabled with filter dlm_allow_remote_hash_file
 * Radio buttons instead of select (with pagination) in popup to improve performance.
 
-= 1.4.2 = 
+= 1.4.2 =
 * Fix for site_url -> abspath
 * Check if hash functions are supported before use.
 
@@ -239,3 +259,8 @@ Admin hits are not counted, log out and try!
 
 = 1.0.0 =
 * Complete rewrite of the plugin making use of custom post types and other best practices. Fresh start version '1' to prevent auto-updates (legacy importer needs to be used to migrate from old versions).
+
+== Upgrade Notice ==
+
+= 1.6.0 =
+If you're using the Page Addon or Amazon S3 extension you must update these extensions too. Visit https://www.download-monitor.com/ for more information.
