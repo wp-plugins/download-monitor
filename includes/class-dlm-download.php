@@ -58,7 +58,8 @@ class DLM_Download {
 		} elseif ( 'redirect_only' == $key ) {
 			$value = ( $value = get_post_meta( $this->id, '_redirect_only', true ) ) ? $value : 'no';
 		} else {
-			$value = get_post_meta( $this->id, '_' . $key, true );
+			$key   = ( ( strpos( $key, '_' ) !== 0 ) ? '_' . $key : $key );
+			$value = get_post_meta( $this->id, $key, true );
 		}
 
 		return $value;
@@ -488,7 +489,7 @@ class DLM_Download {
 	 * get_file_version_ids function.
 	 *
 	 * @access public
-	 * @return void
+	 * @return array
 	 */
 	function get_file_version_ids() {
 		if ( ! is_array( $this->file_version_ids ) ) {
