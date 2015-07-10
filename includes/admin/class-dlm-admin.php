@@ -144,14 +144,6 @@ class DLM_Admin {
 							'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 							'type'     => 'checkbox'
 						),
-						array(
-							'name'        => 'dlm_no_access_error',
-							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
-							'placeholder' => '',
-							'label'       => __( 'No access message', 'download-monitor' ),
-							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
-							'type'        => 'textarea'
-						),
 					),
 				),
 				'endpoints' => array(
@@ -218,10 +210,31 @@ class DLM_Admin {
 							'type'     => 'checkbox'
 						),
 						array(
+							'name'     => 'dlm_count_unique_ips',
+							'std'      => '',
+							'label'    => __( 'Count unique IPs only', 'download-monitor' ),
+							'cb_label' => __( 'Enable', 'download-monitor' ),
+							'desc'     => __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address.', 'download-monitor' ),
+							'type'     => 'checkbox'
+						),
+					)
+				),
+				'access' => array(
+					__( 'Access', 'download-monitor' ),
+					array(
+						array(
+							'name'        => 'dlm_no_access_error',
+							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
+							'placeholder' => '',
+							'label'       => __( 'No access message', 'download-monitor' ),
+							'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
+							'type'        => 'textarea'
+						),
+						array(
 							'name'        => 'dlm_ip_blacklist',
-							'std'         => '192.168.0.*',
+							'std'         => '192.168.0.0/24',
 							'label'       => __( 'Blacklist IPs', 'download-monitor' ),
-							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use <code>*</code> for a wildcard.', 'download-monitor' ),
+							'desc'        => __( 'List IP Addresses to blacklist, 1 per line. Use IP/CIDR netmask format for ranges. IPv4 examples: <code>198.51.100.1</code> or <code>198.51.100.0/24</code>. IPv6 examples: <code>2001:db8::1</code> or <code>2001:db8::/32</code>.', 'download-monitor' ),
 							'placeholder' => '',
 							'type'        => 'textarea'
 						),
@@ -347,13 +360,42 @@ class DLM_Admin {
 	}
 
 	/**
+	 * Print global notices
+	 */
+	private function print_global_notices() {
+		
+		// check for nginx
+		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
+
+			// get upload dir
+			$upload_dir = wp_upload_dir();
+
+			// replace document root because nginx uses path from document root
+			$upload_path = str_replace( $_SERVER['DOCUMENT_ROOT'], '', $upload_dir['basedir'] );
+
+			// form nginx rules
+			$nginx_rules = "location " . $upload_path . "/dlm_uploads {<br/>deny all;<br/>return 403;<br/>}";
+			echo '<div class="error notice is-dismissible dlm-notice" id="nginx_rules" data-nonce="' . wp_create_nonce( 'dlm_hide_notice-nginx_rules' ) . '">';
+			echo '<p>' . __( "Because your server is running on nginx, our .htaccess file can't protect your downloads.", 'download-monitor' );
+			echo '<br/>' . sprintf( __( "Please add the following rules to your nginx config to disable direct file access: %s", 'download-monitor' ), '<br/><br/><code>' . $nginx_rules . '</code>' ) . '</p>';
+			echo '</div>';
+		}
+
+	}
+
+	/**
 	 * settings_page function.
 	 *
 	 * @access public
 	 * @return void
 	 */
 	public function settings_page() {
+
+		// initialize settings
 		$this->init_settings();
+
+		// print global notices
+		$this->print_global_notices();
 		?>
 		<div class="wrap">
 			<form method="post" action="options.php">
@@ -370,9 +412,11 @@ class DLM_Admin {
 				</h2><br/>
 
 				<?php
+
 				if ( ! empty( $_GET['settings-updated'] ) ) {
+
 					flush_rewrite_rules();
-					echo '<div class="updated fade"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
+					echo '<div class="updated notice is-dismissible"><p>' . __( 'Settings successfully saved', 'download-monitor' ) . '</p></div>';
 				}
 
 				foreach ( $this->settings as $key => $section ) {
@@ -403,7 +447,7 @@ class DLM_Admin {
 								</label><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;
@@ -414,7 +458,7 @@ class DLM_Admin {
 								            name="<?php echo $option['name']; ?>" <?php echo $placeholder; ?>><?php echo esc_textarea( $value ); ?></textarea><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;
@@ -428,7 +472,7 @@ class DLM_Admin {
 								?></select><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;
@@ -439,7 +483,7 @@ class DLM_Admin {
 								         value="<?php esc_attr_e( $value ); ?>" <?php echo $placeholder; ?> /><?php
 
 								if ( $option['desc'] ) {
-									echo ' <p class="description">' . $option['desc'] . '</p>';
+									echo ' <p class="dlm-description">' . $option['desc'] . '</p>';
 								}
 
 								break;

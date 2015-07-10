@@ -1,10 +1,10 @@
 === Download Monitor ===
-Contributors: barrykooij, mikejolley
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=barry@cageworks.nl&item_name=Donation+for+Download+Monitor
+Contributors: never5, barrykooij, mikejolley
+Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.2.1
-Stable tag: 1.7.2
+Tested up to: 4.2.2
+Stable tag: 1.8.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -107,30 +107,54 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 
 == Changelog ==
 
+= 1.8.0: July 10, 2015 =
+* Feature: Added option to only count downloads and add logs from unique ip addresses, props [Matt Mower](https://github.com/mdmower).
+* Feature: It's now possible to display downloads with the downloads shortcode that are in all given categories (AND instead of OR) by using + (plus_ instead of , (comma).
+* Feature: Display nginx rules if server is running nginx.
+* Feature: Added Multisite / Network compatibility.
+* Feature: Redone blacklist IP feature, now available in the 'Access' tab.
+* Feature: Redone blacklist user agent feature, now available in the 'Access' tab.
+* Tweak: Added icon support for Office X Excel & PPT extensions.
+* Tweak: Run thumbnail compatibility method later to allowed themes to register first.
+* Tweak: Prefixed admin CSS classes to prevent plugin conflicts.
+* Tweak: Fix checking shortcodes for empty version strings, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Fixed a call of trigger() in DLM_Download_Handler, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Remove trailing space from downloads count, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Directory browser items are now always in alphabetical order, props [Matt Mower](https://github.com/mdmower).
+* Tweak: The 60 seconds download counter increment cool down is now set to version ID instead of download ID, props [Matt Mower](https://github.com/mdmower).
+* Tweak: Created and implemented local independent basename fixing issues with Cyrillic alphabets.
+* Tweak: Made user agents regexes filterable: dlm_ua_parser_regexes.
+* Tweak: Optimized log status icons, also fixes WP emoji conflict.
+* Tweak: Members Only check now only does check if requester can still download.
+* Tweak: Replaced PHP4 constructors in widget.
+* Tweak: Added Danish translation.
+* Tweak: Updated Dutch translation.
+* Tweak: Updated German translation.
+
 = 1.7.2: April 29, 2015 =
-* Fixed a bug that caused logs not to be displayed in WP 4.2.
+* Tweak: Fixed a bug that caused logs not to be displayed in WP 4.2.
 
 = 1.7.1: April 17, 2015 =
-* Pass third arg to add_query_arg to prevent XSS.
+* Tweak: Pass third arg to add_query_arg to prevent XSS.
 
 = 1.7.0: March 22, 2015 =
-* Feature - Added 'Download Information' meta box to edit download screen that displays useful download information.
-* Feature - Error message shown when visitor has no access to download is now an option.
-* Fix - Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
-* Tweak - Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
-* Tweak - Improved hotlink prevention check.
-* Tweak - Extension page tweaks.
-* Tweak - Added $download_id argument to dlm_hotlink_redirect filter.
-* Tweak - Moved hash settings to their own tab.
-* Tweak - Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
-* Tweak - Optimized the Insert Download button.
-* Tweak - Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
-* Tweak - Also set the post_date_gmt value for version dates.
-* Tweak - Updated French translation. Props Li-An.
-* Tweak - Updated German translation. Props maphy-psd.
-* Tweak - Updated Swedish translation. Props EyesX.
-* Tweak - Update Slovakian translation. Props attitude.
-* Tweak - Added Dutch translation.
+* Feature: Added 'Download Information' meta box to edit download screen that displays useful download information.
+* Feature: Error message shown when visitor has no access to download is now an option.
+* Tweak: Fixing a bug where versions with spaces did not work, versions now are checked on a sanitized title.
+* Tweak: Viewing logs now needs custom capability: dlm_manage_logs (automatically added to administrators).
+* Tweak: Improved hotlink prevention check.
+* Tweak: Extension page tweaks.
+* Tweak: Added $download_id argument to dlm_hotlink_redirect filter.
+* Tweak: Moved hash settings to their own tab.
+* Tweak: Moved 'X-Accel-Redirect / X-Sendfile' and 'Prevent hotlinking' settings to General tab.
+* Tweak: Optimized the Insert Download button.
+* Tweak: Introduced a multi-byte-safe pathinfo so we can handle 'special' filenames.
+* Tweak: Also set the post_date_gmt value for version dates.
+* Tweak: Updated French translation. Props Li-An.
+* Tweak: Updated German translation. Props maphy-psd.
+* Tweak: Updated Swedish translation. Props EyesX.
+* Tweak: Update Slovakian translation. Props attitude.
+* Tweak: Added Dutch translation.
 
 = 1.6.4: March 8, 2015 =
 * Removed unused library jqueryFileTree.
