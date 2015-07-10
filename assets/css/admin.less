@@ -35,26 +35,29 @@
       -moz-border-radius: 50%;
       -webkit-border-radius: 50%;
       border-radius: 50%;
-      height: 16px;
-      line-height: 16px;
-      width: 16px;
+      height: 18px;
+      line-height: 18px;
+      width: 18px;
       display: inline-block;
-    }
-    .failed {
-      background-color: #df9d1d;
-    }
-    .redirected {
-      background-color: #74a721;
+      background: url('../images/log-status-icons.png') top left no-repeat;
     }
     .completed {
+      background-color: #6cc644;
+    }
+    .failed {
+      background-color: #bd2c00;
+      background-position-y: -18px;
+    }
+    .redirected {
       background-color: #1c769b;
+      background-position-y: -36px;
     }
   }
   td.column-user_ip, td.column-user_agent {
     font-family: monospace;
     font-weight: normal;
   }
-  span.description {
+  span.dlm-description {
     font-weight: normal;
   }
   .column-download, .column-file, .column-user, .column-user_ua {
@@ -475,7 +478,7 @@ table.wp-list-table {
       width: auto;
       vertical-align: middle;
     }
-    .description {
+    .dlm-description {
       padding: 4px 0 0 0;
       display: block;
     }

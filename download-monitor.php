@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 1.7.2
-	Author: Barry Kooij & Mike Jolley
-	Author URI: https://www.download-monitor.com
+	Version: 1.8.0
+	Author: Never5
+	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.2.1
+	Tested up to: 4.2.2
 
 	License: GPL v3
 
@@ -23,6 +23,8 @@
 
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+	Original project created by Mike Jolley.
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -30,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '1.7.2' );
+define( 'DLM_VERSION', '1.8.0' );
 
 function __download_monitor_main() {
 
@@ -50,27 +52,23 @@ function __download_monitor_main() {
 // Init plugin
 add_action( 'plugins_loaded', '__download_monitor_main', 10 );
 
-if ( is_admin() && ! is_multisite() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
+if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX ) ) {
 
+	// set installer file constant
 	define( 'DLM_PLUGIN_FILE_INSTALLER', __FILE__ );
 
-	// Installer function
-	function __download_monitor_install() {
-
-		// Load installer functions
-		require_once plugin_dir_path( DLM_PLUGIN_FILE_INSTALLER ) . 'includes/class-dlm-installer.php';
-
-		// DLM Installer
-		$installer = new DLM_Installer();
-
-		// Install DLM
-		$installer->install();
-
-	}
+	// include installer functions
+	require_once( 'installer-functions.php' );
 
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
 
 	// Flush Rewrites on Activation
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, 'flush_rewrite_rules', 11 );
+
+	// Multisite new blog hook
+	add_action( 'wpmu_new_blog', '__download_monitor_mu_new_blog', 10, 6 );
+
+	// Multisite blog delete
+	add_filter( 'wpmu_drop_tables', '__download_monitor_mu_delete_blog' );
 }

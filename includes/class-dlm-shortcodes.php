@@ -82,7 +82,7 @@ class DLM_Shortcodes {
 		$hijacked_content = apply_filters( 'dlm_shortcode_download_content', '', $id, $atts );
 
 		// If there's hijacked content, return it and be done with it
-		if( '' !== $hijacked_content ) {
+		if ( '' !== $hijacked_content ) {
 			return $hijacked_content;
 		}
 
@@ -93,7 +93,7 @@ class DLM_Shortcodes {
 
 			if ( $download->exists() ) {
 
-				if ( isset( $version ) && 0 != $version ) {
+				if ( ! empty( $version ) ) {
 					$version_id = $dlm_download->get_version_id( $version );
 				}
 
@@ -124,7 +124,7 @@ class DLM_Shortcodes {
 				while ( $downloads->have_posts() ) {
 					$downloads->the_post();
 
-					if ( isset( $version ) && 0 != $version ) {
+					if ( ! empty( $version ) ) {
 						$version_id = $dlm_download->get_version_id( $version );
 					}
 
@@ -178,7 +178,7 @@ class DLM_Shortcodes {
 
 		$download = new DLM_Download( $id );
 
-		if ( isset( $version ) && 0 != $version ) {
+		if ( ! empty( $version ) ) {
 			$version_id = $download->get_version_id( $version );
 		}
 
@@ -315,16 +315,55 @@ class DLM_Shortcodes {
 		if ( $category || $tag ) {
 			$args['tax_query'] = array( 'relation' => 'AND' );
 
-			$categories = array_filter( explode( ',', $category ) );
-			$tags       = array_filter( explode( ',', $tag ) );
+			$tags = array_filter( explode( ',', $tag ) );
 
-			if ( ! empty( $categories ) ) {
-				$args['tax_query'][] = array(
-					'taxonomy'         => 'dlm_download_category',
-					'field'            => 'slug',
-					'terms'            => $categories,
-					'include_children' => ( $category_include_children === 'true' || $category_include_children === true )
-				);
+			// check if we include category children
+			$include_children = ( $category_include_children === 'true' || $category_include_children === true );
+
+			if ( ! empty( $category ) ) {
+
+				if ( preg_match( '/\+/', $category ) ) {
+
+					// categories with AND
+
+					// string to array
+					$categories = array_filter( explode( '+', $category ) );
+
+					// check if explode had results
+					if ( ! empty( $categories ) ) {
+
+						foreach($categories as $category) {
+							$args['tax_query'][] = array(
+								'taxonomy'         => 'dlm_download_category',
+								'field'            => 'slug',
+								'terms'            => $category,
+								'include_children' => $include_children
+							);
+						}
+
+					}
+
+				}else {
+
+					// categories with OR
+
+					// string to array
+					$categories = array_filter( explode( ',', $category ) );
+
+					// check if explode had results
+					if ( ! empty( $categories ) ) {
+
+						$args['tax_query'][] = array(
+							'taxonomy'         => 'dlm_download_category',
+							'field'            => 'slug',
+							'terms'            => $categories,
+							'include_children' => $include_children
+						);
+
+					}
+
+				}
+
 			}
 
 			if ( ! empty( $tags ) ) {
