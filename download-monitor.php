@@ -3,11 +3,11 @@
 	Plugin Name: Download Monitor
 	Plugin URI: https://www.download-monitor.com
 	Description: A full solution for managing downloadable files, monitoring downloads and outputting download links and file information on your WordPress powered site.
-	Version: 1.8.0
+	Version: 1.9.0
 	Author: Never5
 	Author URI: https://www.never5.com
 	Requires at least: 3.8
-	Tested up to: 4.2.2
+	Tested up to: 4.3
 
 	License: GPL v3
 
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 // Define DLM Version
-define( 'DLM_VERSION', '1.8.0' );
+define( 'DLM_VERSION', '1.9.0' );
 
 function __download_monitor_main() {
 
@@ -62,9 +62,6 @@ if ( is_admin() && ( false === defined( 'DOING_AJAX' ) || false === DOING_AJAX )
 
 	// Activation hook
 	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, '__download_monitor_install' );
-
-	// Flush Rewrites on Activation
-	register_activation_hook( DLM_PLUGIN_FILE_INSTALLER, 'flush_rewrite_rules', 11 );
 
 	// Multisite new blog hook
 	add_action( 'wpmu_new_blog', '__download_monitor_mu_new_blog', 10, 6 );

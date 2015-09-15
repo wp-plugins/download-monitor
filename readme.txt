@@ -3,8 +3,8 @@ Contributors: never5, barrykooij, mikejolley
 Donate link: http://www.barrykooij.com/donate/
 Tags: download, downloads, monitor, hits, download monitor, tracking, admin, count, counter, files, versions, download count, logging, AJAX, digital, documents, download category, download manager, download template, downloadmanager, file manager, file tree, grid, hits, ip-address, manager, media, monitor, password, protect downloads, tracker
 Requires at least: 3.8
-Tested up to: 4.2.2
-Stable tag: 1.8.0
+Tested up to: 4.3
+Stable tag: 1.9.0
 License: GPLv3
 
 Download Monitor is a plugin for uploading and managing downloads, tracking downloads, and displaying links.
@@ -96,7 +96,7 @@ Admin hits are not counted, log out and try!
 
 Version 1.0.0 is a fresh start/complete rewrite of the legacy 3.0 version using modern best-practices such as custom post types and endpoints. Because of this, data from the legacy plugin won't work without migration using [the legacy importer](https://www.download-monitor.com/extensions/dlm-legacy-importer/). Since this upgrade process isn't straightforward nor automated I've reverted the version to 1.0.0 to prevent automatic updates.
 
-Legacy versions can still be [found here](http://wordpress.org/plugins/download-monitor/developers/).
+More documentation can be found in our [Knowledge Base](https://www.download-monitor.com/kb/).
 
 == Screenshots ==
 
@@ -106,6 +106,25 @@ Legacy versions can still be [found here](http://wordpress.org/plugins/download-
 4. Display regular download links or fancy ones all using shortcodes and templates.
 
 == Changelog ==
+
+= 1.9.0: September 15, 2015 =
+* Feature: We added a separate 'No Access' page that includes the following features:
+* [No Access Page] : Added [dlm_no_access] shortcode that displays the no access content.
+* [No Access Page] : Added new option in Access settings tab to set No Access Page.
+* [No Access Page] : Added new template file for no access page.
+* [No Access Page] : We now redirect to set No Access page (if set) when user has no access to download.
+* Feature: Added ability to remove log entries.
+* Feature: Added browser detection for IE 11 and up.
+* Feature: Added OS detection for Windows 8.1
+* Feature: Added OS detection for Windows 10
+* Feature: Added Featured download, Members only and Redirect to file to bulk edit options.
+* Feature: Added Featured download, Members only and Redirect to file to quick edit options.
+
+= 1.8.1: August 21, 2015 =
+* Tweak: Small tweak to make download count fit better in box template.
+* Tweak: Fixed a zero file size bug.
+* Tweak: Fixed featured image disappears bug, props [Ricardo](https://wordpress.org/support/profile/ricardopires).
+* Tweak: Search template file in custom path before in plugin path.
 
 = 1.8.0: July 10, 2015 =
 * Feature: Added option to only count downloads and add logs from unique ip addresses, props [Matt Mower](https://github.com/mdmower).

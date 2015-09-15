@@ -18,6 +18,7 @@ class DLM_Shortcodes {
 		add_shortcode( 'download', array( $this, 'download' ) );
 		add_shortcode( 'download_data', array( $this, 'download_data' ) );
 		add_shortcode( 'downloads', array( $this, 'downloads' ) );
+		add_shortcode( 'dlm_no_access', array( $this, 'no_access_page' ) );
 	}
 
 	/**
@@ -135,7 +136,7 @@ class DLM_Shortcodes {
 					// Template handler
 					$template_handler = new DLM_Template_Handler();
 
-					$template_handler->get_template_part( 'content-download', $template );
+					$template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) );
 				}
 
 			} else {
@@ -332,7 +333,7 @@ class DLM_Shortcodes {
 					// check if explode had results
 					if ( ! empty( $categories ) ) {
 
-						foreach($categories as $category) {
+						foreach ( $categories as $category ) {
 							$args['tax_query'][] = array(
 								'taxonomy'         => 'dlm_download_category',
 								'field'            => 'slug',
@@ -343,7 +344,7 @@ class DLM_Shortcodes {
 
 					}
 
-				}else {
+				} else {
 
 					// categories with OR
 
@@ -408,7 +409,7 @@ class DLM_Shortcodes {
 
 				<?php echo html_entity_decode( $before ); ?>
 
-				<?php $template_handler->get_template_part( 'content-download', $template ); ?>
+				<?php $template_handler->get_template_part( 'content-download', $template, '', array( 'dlm_download' => new DLM_Download( get_the_ID() ) ) ); ?>
 
 				<?php echo html_entity_decode( $after ); ?>
 
@@ -425,5 +426,46 @@ class DLM_Shortcodes {
 		wp_reset_postdata();
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * The dlm_no_access shortcode callback
+	 *
+	 * @param array $atts
+	 *
+	 * @return string
+	 */
+	public function no_access_page( $atts ) {
+		global $wp;
+
+		// atts
+		$atts = shortcode_atts( array(
+			'show_message' => 'true',
+		), $atts );
+
+		// start buffer
+		ob_start();
+
+		// show_message must be a bool
+		$atts['show_message'] = ( 'true' === $atts['show_message'] );
+
+		// return empty string if download-id is not set
+		if ( ! isset( $wp->query_vars['download-id'] ) ) {
+			return '';
+		}
+
+		// template handler
+		$template_handler = new DLM_Template_Handler();
+
+		// load no access template
+		$template_handler->get_template_part( 'no-access', '', '', array(
+			'download'          => new DLM_Download( $wp->query_vars['download-id'] ),
+			'no_access_message' => ( ( $atts['show_message'] ) ? wp_kses_post( get_option( 'dlm_no_access_error', '' ) ) : '' )
+		) );
+
+		// set new content
+		$content = ob_get_clean();
+
+		return $content;
 	}
 }
