@@ -98,7 +98,7 @@ class WP_DLM {
 
 			// Upgrade Manager
 			$upgrade_manager = new DLM_Upgrade_Manager();
-			$upgrade_manager->check();
+			$upgrade_manager->setup();
 		}
 
 		// Setup AJAX handler if doing AJAX
@@ -115,6 +115,10 @@ class WP_DLM {
 		// Setup DLM Download Handler
 		$download_handler = new DLM_Download_Handler();
 		$download_handler->setup();
+
+		// setup no access page endpoints
+		$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
+		$no_access_page_endpoint->setup();
 
 		// Setup shortcodes
 		$dlm_shortcodes = new DLM_Shortcodes();
@@ -183,6 +187,11 @@ class WP_DLM {
 
 			// Get current supported
 			$current_support = get_theme_support( 'post-thumbnails' );
+
+			// fix current support for some themes
+			if ( is_array( $current_support[0] ) ) {
+				$current_support = $current_support[0];
+			}
 
 			// This can be a bool or array. If array we merge our post type in, if bool ignore because it's like a global theme setting.
 			if ( is_array( $current_support ) ) {

@@ -14,12 +14,15 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	/** @var UAParser */
 	private $uaparser = null;
 
+	/** @var bool $display_delete_message */
+	private $display_delete_message = false;
+
 	/**
 	 * __construct function.
 	 *
 	 * @access public
 	 */
-	function __construct() {
+	public function __construct() {
 		global $status, $page, $wpdb;
 
 		parent::__construct( array(
@@ -38,6 +41,32 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * The checkbox column
+	 *
+	 * @param object $item
+	 *
+	 * @return string
+	 */
+	public function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="log[]" value="%s" />', $item->ID
+		);
+	}
+
+	/**
+	 * Add bulk actions
+	 *
+	 * @return array
+	 */
+	protected function get_bulk_actions() {
+		$actions = array(
+			'delete' => __( 'Delete', 'download-monitor' )
+		);
+
+		return $actions;
+	}
+
+	/**
 	 * column_default function.
 	 *
 	 * @access public
@@ -47,7 +76,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 *
 	 * @return void
 	 */
-	function column_default( $log, $column_name ) {
+	public function column_default( $log, $column_name ) {
 		switch ( $column_name ) {
 			case 'status' :
 				switch ( $log->download_status ) {
@@ -133,6 +162,7 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
+			'cb'       => '',
 			'status'   => '',
 			'download' => __( 'Download', 'download-monitor' ),
 			'file'     => __( 'File', 'download-monitor' ),
@@ -149,10 +179,32 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 * Generate the table navigation above or below the table
 	 */
 	public function display_tablenav( $which ) {
+
+		// output nonce
+		if ( 'top' == $which ) {
+			wp_nonce_field( 'bulk-' . $this->_args['plural'] );
+		}
+
+		// display 'delete' success message
+		if ( 'top' == $which && true === $this->display_delete_message ) {
+			?>
+			<div id="message" class="updated notice notice-success">
+				<p><?php _e( 'Log entries deleted', 'download-monitor' ); ?></p>
+			</div>
+			<?php
+		}
+
 		?>
 	<div class="tablenav <?php echo esc_attr( $which ); ?>">
+
+		<div class="alignleft actions bulkactions">
+			<?php $this->bulk_actions( $which ); ?>
+		</div>
+
 		<?php if ( 'top' == $which ) : ?>
+
 			<div class="alignleft actions">
+
 				<select name="filter_status">
 					<option value=""><?php _e( 'Any status', 'download-monitor' ); ?></option>
 					<option
@@ -230,8 +282,11 @@ class DLM_Logging_List_Table extends WP_List_Table {
 	 * @access public
 	 * @return void
 	 */
-	function prepare_items() {
+	public function prepare_items() {
 		global $wpdb;
+
+		// process bulk action
+		$this->process_bulk_action();
 
 		$per_page      = absint( $this->logs_per_page );
 		$current_page  = absint( $this->get_pagenum() );
@@ -282,4 +337,42 @@ class DLM_Logging_List_Table extends WP_List_Table {
 
 		$this->uaparser = new UAParser();
 	}
+
+	/**
+	 * Process bulk actions
+	 */
+	public function process_bulk_action() {
+
+		if ( 'delete' === $this->current_action() ) {
+
+			// check nonce
+			if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'bulk-' . $this->_args['plural'] ) ) {
+				wp_die( 'process_bulk_action() nonce check failed' );
+			}
+
+			// check capability
+			if ( ! current_user_can( 'dlm_manage_logs' ) ) {
+				wp_die( "You're not allowed to delete logs!" );
+			}
+
+			// logging object
+			$logging = new DLM_Logging();
+
+			// check
+			if ( count( $_POST['log'] ) > 0 ) {
+
+				// delete the posted logs
+				foreach ( $_POST['log'] as $log_id ) {
+					$logging->delete_log( absint( $log_id ) );
+				}
+
+				// display delete message
+				$this->display_delete_message = true;
+
+			}
+
+		}
+
+	}
+
 }

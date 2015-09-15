@@ -7,6 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class DLM_Upgrade_Manager {
 
 	/**
+	 * Setup to run updater on wp_loaded
+	 */
+	public function setup() {
+		add_action( 'wp_loaded', array( $this, 'check' ) );
+	}
+
+	/**
 	 * Check if there's a plugin update
 	 */
 	public function check() {
@@ -15,7 +22,7 @@ class DLM_Upgrade_Manager {
 		$current_version = get_option( DLM_Constants::OPTION_CURRENT_VERSION, 0 );
 
 		// Check if update is required
-		if ( 1 || version_compare( DLM_VERSION, $current_version, '>' ) ) {
+		if ( version_compare( DLM_VERSION, $current_version, '>' ) ) {
 
 			// Do update
 			$this->do_upgrade( $current_version );
@@ -47,6 +54,21 @@ class DLM_Upgrade_Manager {
 				update_option( 'dlm_no_access_error', sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ) );
 			}
 
+		}
+
+		// Upgrade to version 1.9.0
+		if ( version_compare( $current_version, '1.9.0', '<' ) ) {
+
+			// Adding new capabilities
+			$installer = new DLM_Installer();
+			$installer->create_no_access_page();
+
+			// setup no access page endpoints
+			$no_access_page_endpoint = new DLM_Download_No_Access_Page_Endpoint();
+			$no_access_page_endpoint->setup();
+
+			// flush rules after page creation
+			flush_rewrite_rules();
 		}
 
 	}

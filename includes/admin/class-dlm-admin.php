@@ -95,12 +95,36 @@ class DLM_Admin {
 	}
 
 	/**
+	 * Return pages with ID => Page title format
+	 *
+	 * @return array
+	 */
+	private function get_pages() {
+		// pages
+		$pages = array( 0 => __( 'Select Page', 'download-monitor' ) );
+
+		// get pages from db
+		$db_pages = get_pages();
+
+		// check and loop
+		if ( count( $db_pages ) > 0 ) {
+			foreach ( $db_pages as $db_page ) {
+				$pages[ $db_page->ID ] = $db_page->post_title;
+			}
+		}
+
+		// return pages
+		return $pages;
+	}
+
+	/**
 	 * init_settings function.
 	 *
 	 * @access private
 	 * @return void
 	 */
 	private function init_settings() {
+
 		$this->settings = apply_filters( 'download_monitor_settings',
 			array(
 				'general'   => array(
@@ -219,9 +243,17 @@ class DLM_Admin {
 						),
 					)
 				),
-				'access' => array(
+				'access'    => array(
 					__( 'Access', 'download-monitor' ),
 					array(
+						array(
+							'name'    => 'dlm_no_access_page',
+							'std'     => '',
+							'label'   => __( 'No Access Page', 'download-monitor' ),
+							'desc'    => __( "Choose what page is displayed when the user has no access to a file. Don't forget to add the <code>[dlm_no_access]</code> shortcode to the page.", 'download-monitor' ),
+							'type'    => 'select',
+							'options' => $this->get_pages()
+						),
 						array(
 							'name'        => 'dlm_no_access_error',
 							'std'         => sprintf( __( 'You do not have permission to access this download. %sGo to homepage%s', 'download-monitor' ), '<a href="' . home_url() . '">', '</a>' ),
@@ -363,7 +395,7 @@ class DLM_Admin {
 	 * Print global notices
 	 */
 	private function print_global_notices() {
-		
+
 		// check for nginx
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) !== false && 1 != get_option( 'dlm_hide_notice-nginx_rules', 0 ) ) {
 
@@ -503,7 +535,7 @@ class DLM_Admin {
 				</p>
 			</form>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -531,11 +563,11 @@ class DLM_Admin {
 					href="<?php echo wp_nonce_url( add_query_arg( 'dlm_delete_logs', 'true', admin_url( 'edit.php?post_type=dlm_download&page=download-monitor-logs' ) ), 'delete_logs' ); ?>"
 					class="add-new-h2"><?php _e( 'Delete Logs', 'download-monitor' ); ?></a></h2><br/>
 
-			<form id="dlm_logs">
+			<form id="dlm_logs" method="post">
 				<?php $DLM_Logging_List_Table->display() ?>
 			</form>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -673,7 +705,7 @@ class DLM_Admin {
 			'dlm_download_page_dlm-extensions'
 		);
 
-		// Check to make sure we're on a WooCommerce admin page
+		// Check to make sure we're on a Download Monitor admin page
 		if ( isset( $current_screen->id ) && apply_filters( 'dlm_display_admin_footer_text', in_array( $current_screen->id, $dlm_page_ids ) ) ) {
 			// Change the footer text
 			$footer_text = sprintf( __( 'If you like %sDownload Monitor%s please leave us a %s★★★★★%s rating. A huge thank you from us in advance!', 'download-monitor' ), '<strong>', '</strong>', '<a href="https://wordpress.org/support/view/plugin-reviews/download-monitor?filter=5#postform" target="_blank">', '</a>' );

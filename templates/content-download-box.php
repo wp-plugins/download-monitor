@@ -3,7 +3,9 @@
  * Detailed download output
  */
 
-global $dlm_download;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+} // Exit if accessed directly
 ?>
 <aside class="download-box">
 
